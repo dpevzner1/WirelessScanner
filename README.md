@@ -37,24 +37,46 @@ To clone, build, and launch this application on a new system using Git in an Adm
    ./publish.bat
    ```
 
-#### Option B: Download and Run Pre-compiled Release Directly
-A pre-compiled, standalone, self-contained single-file executable is distributed as a **GitHub Release** and does not require the .NET SDK to be installed.
+#### Option B: Download and Run Pre-compiled Executable Directly
+A pre-compiled, standalone, self-contained single-file executable (`WirelessScannerCompiled.zip`) is included directly in this repository. No .NET SDK installation is required.
 
-1. **Go to the Releases page**:  
-   👉 [https://github.com/dpevzner1/WirelessScanner/releases](https://github.com/dpevzner1/WirelessScanner/releases)
-
-2. **Download** `WirelessScanner.Presentation.zip` from the latest release.
-
-3. **Extract the zip** in PowerShell:
+1. **Clone the repository**:
    ```powershell
-   Expand-Archive -Path .\WirelessScanner.Presentation.zip -DestinationPath .\WirelessScanner -Force
+   git clone https://github.com/dpevzner1/WirelessScanner.git
    cd WirelessScanner
    ```
 
-4. **Launch with Administrator privileges** (required to access raw Wi-Fi adapter hardware telemetry):
+2. **Extract the compiled executable**:
+   ```powershell
+   Expand-Archive -Path .\WirelessScannerCompiled.zip -DestinationPath .\WirelessScannerApp -Force
+   cd WirelessScannerApp
+   ```
+
+3. **Launch with Administrator privileges** (required to access raw Wi-Fi adapter hardware telemetry):
    ```powershell
    Start-Process .\WirelessScanner.Presentation.exe -Verb RunAs
    ```
+
+#### Option C: Guided Setup Wizard (Recommended for end users)
+A full Windows installer wizard is provided in the **`EXE INSTALLER/`** subfolder of this repository.
+It reassembles the split application payload, installs to `Program Files`, creates Desktop and Start Menu
+shortcuts, and registers the application in Windows Add/Remove Programs — with full uninstall support.
+
+1. **Clone the repository**:
+   ```powershell
+   git clone https://github.com/dpevzner1/WirelessScanner.git
+   cd WirelessScanner
+   ```
+
+2. **Navigate to the installer folder**:
+   ```powershell
+   cd "EXE INSTALLER"
+   ```
+
+3. **Right-click** `WirelessScanner.Setup.exe` → **Run as Administrator** and follow the wizard.
+
+> The wizard merges the split `.bin` files, extracts all application files, creates shortcuts,
+> and registers WirelessScanner in **Settings → Apps** for clean uninstall support.
 
 ---
 
@@ -141,7 +163,7 @@ The API server auto-starts on application launch if configured in the SQLite set
 * `ApiPort`: The port to listen on (defaults to `5005` if unspecified).
 * `ApiKey`: The static secret key used to authenticate requests.
 
-*Note: Your credentials and port mappings are saved in [publish/API/api_key.md](file:///C:/Users/demit/Documents/Antigrav/WirelessScanner/publish/API/api_key.md).*
+*Note: Your API key and port mappings are stored locally in the SQLite settings database (`wireless_scanner.db`) on first launch.*
 
 ### 2. Authentication
 All API requests must authenticate using one of the following methods:
