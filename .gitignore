@@ -1,0 +1,28 @@
+# Build output directories
+bin/
+obj/
+
+# Local SQLite databases
+*.db
+*.db3
+*.sqlite
+*.sqlite3
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Publish output (binaries distributed as GitHub Releases, not committed to source)
+publish/
+
+# Node modules
+node_modules/
+
+# Local API credentials (never commit these)
+API/
+api_key.md
+api_key.txt
+
+# Logs
+*.log

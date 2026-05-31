@@ -1,0 +1,62 @@
+<Window x:Class="WirelessScanner.Presentation.SessionCaptureDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Begin Session Capture" Height="450" Width="400"
+        WindowStartupLocation="CenterOwner" WindowStyle="None" ResizeMode="NoResize"
+        Background="#080200" BorderBrush="#FF6600" BorderThickness="1">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="BEGIN SESSION CAPTURE" FontSize="16" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,15"/>
+
+        <StackPanel Grid.Row="1">
+            <Grid Margin="0,0,0,10">
+                <TextBlock Text="Session Name:" Foreground="#883300" VerticalAlignment="Center" FontWeight="Bold"/>
+                <TextBox x:Name="TxtSessionName" Background="#110500" Foreground="#FF8800" BorderBrush="#883300" Padding="5" Margin="100,0,0,0"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,10">
+                <TextBlock Text="Facility:" Foreground="#883300" VerticalAlignment="Center" FontWeight="Bold"/>
+                <TextBox x:Name="TxtFacility" Background="#110500" Foreground="#FF8800" BorderBrush="#883300" Padding="5" Margin="100,0,0,0"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,10">
+                <TextBlock Text="Scope:" Foreground="#883300" VerticalAlignment="Center" FontWeight="Bold"/>
+                <TextBox x:Name="TxtScope" Background="#110500" Foreground="#FF8800" BorderBrush="#883300" Padding="5" Margin="100,0,0,0"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,10">
+                <TextBlock Text="Survey Point:" Foreground="#883300" VerticalAlignment="Center" FontWeight="Bold"/>
+                <TextBox x:Name="TxtSurveyPoint" Background="#110500" Foreground="#FF8800" BorderBrush="#883300" Padding="5" Margin="100,0,0,0"/>
+            </Grid>
+
+            <Grid Margin="0,0,0,15">
+                <TextBlock Text="Notes:" Foreground="#883300" VerticalAlignment="Top" FontWeight="Bold" Margin="0,5,0,0"/>
+                <TextBox x:Name="TxtNotes" Background="#110500" Foreground="#FF8800" BorderBrush="#883300" Padding="5" Margin="100,0,0,0" Height="60" TextWrapping="Wrap" AcceptsReturn="True"/>
+            </Grid>
+
+            <TextBlock Text="Capture Mode:" Foreground="#883300" FontWeight="Bold" Margin="0,0,0,5"/>
+            <Border Background="#110500" BorderBrush="#883300" BorderThickness="1" Padding="10" CornerRadius="4">
+                <StackPanel>
+                    <RadioButton x:Name="RbStationary" Content="Stationary Saturation (Identify performance jitter in a fixed spot)" Foreground="#FF8800" IsChecked="True" Margin="0,0,0,5"/>
+                    <RadioButton x:Name="RbRoaming" Content="Roaming Survey (Observe signal peaks/dips while walking)" Foreground="#FF8800"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="CANCEL" Click="BtnCancel_Click" Background="#331100" Foreground="#FFAA33" BorderBrush="#FFAA33" Padding="0,8"/>
+            <Button Grid.Column="2" Content="START CAPTURE" Click="BtnStart_Click" Background="#FF3300" Foreground="White" BorderBrush="#FF6600" FontWeight="Bold" Padding="0,8"/>
+        </Grid>
+    </Grid>
+</Window>

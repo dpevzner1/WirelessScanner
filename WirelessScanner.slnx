@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="WirelessScanner.Application/WirelessScanner.Application.csproj" />
+  <Project Path="WirelessScanner.Domain/WirelessScanner.Domain.csproj" />
+  <Project Path="WirelessScanner.Infrastructure/WirelessScanner.Infrastructure.csproj" />
+  <Project Path="WirelessScanner.Presentation/WirelessScanner.Presentation.csproj" />
+  <Project Path="WirelessScanner.Tests/WirelessScanner.Tests.csproj" />
+</Solution>

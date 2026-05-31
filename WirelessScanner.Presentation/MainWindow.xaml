@@ -1,0 +1,1189 @@
+<Window x:Class="WirelessScanner.Presentation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WirelessScanner.Presentation"
+        mc:Ignorable="d"
+        Title="Wireless Scanner &amp; Diagnostics" Height="680" Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background="#000000"
+        Foreground="#FF6600">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        <local:BindingProxy x:Key="proxy" Data="{Binding}" />
+        
+        <!-- Amber HUD Colors & Brushes -->
+        <SolidColorBrush x:Key="ObsidianBg" Color="#000000" />
+        <SolidColorBrush x:Key="PanelBg" Color="#000000" />
+        <SolidColorBrush x:Key="PanelBorder" Color="#883300" />
+        <SolidColorBrush x:Key="TextPrimary" Color="#FF8800" />
+        <SolidColorBrush x:Key="TextSecondary" Color="#AA4400" />
+        <SolidColorBrush x:Key="NeonCyan" Color="#FF6600" />
+        <SolidColorBrush x:Key="NeonPurple" Color="#FFaa33" />
+        <SolidColorBrush x:Key="SignalGreen" Color="#FF8800" />
+        
+        <!-- Header Gradient -->
+        <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#FF8800" Offset="0.0" />
+            <GradientStop Color="#883300" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <!-- ComboBox Styling -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="#FF6600"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton x:Name="ToggleButton" 
+                                          BorderBrush="{TemplateBinding BorderBrush}" 
+                                          BorderThickness="{TemplateBinding BorderThickness}" 
+                                          Background="{TemplateBinding Background}" 
+                                          ClickMode="Press" 
+                                          Focusable="false" 
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border CornerRadius="8" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="30"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Path Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="#FF6600" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                            </Grid>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="10,3,30,3" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                                <Border Name="DropDownBorder" Background="#000000" BorderBrush="#FF6600" BorderThickness="1" CornerRadius="8" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{TemplateBinding ActualWidth}">
+                                    <ScrollViewer Margin="4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="ToggleButton" Property="IsEnabled" Value="false"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" Value="#FF6600"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ComboBoxItem Styling -->
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FF6600"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="border" CornerRadius="4" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="#22FF6600"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" Value="#FF6600"/>
+                                <Setter Property="Foreground" Value="#000000"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Button Styling -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="#FF6600"/>
+            <Setter Property="BorderBrush" Value="#FF6600"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="8" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF6600"/>
+                    <Setter Property="Foreground" Value="#000000"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.4"/>
+                    <Setter Property="BorderBrush" Value="#883300"/>
+                    <Setter Property="Foreground" Value="#883300"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- TextBox Styling -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="#FF8800"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="CaretBrush" Value="#FF6600"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="border" CornerRadius="8" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Margin="2,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF6600"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FFAA33"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- CheckBox Styling -->
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#FF6600"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <!-- DataGrid Styling -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="#FF8800"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="RowBackground" Value="#000000"/>
+            <Setter Property="AlternatingRowBackground" Value="#110500"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="RowHeaderWidth" Value="0"/>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="#FF6600"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="10,8"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF6600"/>
+                    <Setter Property="Foreground" Value="#000000"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- GridViewColumnHeader for ListView -->
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="#FF6600"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="6,4"/>
+        </Style>
+
+        <!-- ListView Styling -->
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="Foreground" Value="#FF8800"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="#FF8800"/>
+                        <Setter Property="Padding" Value="6,4"/>
+                        <Setter Property="Margin" Value="1,1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border x:Name="border" CornerRadius="6" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" Value="#11FF6600"/>
+                                            <Setter Property="BorderBrush" Value="#883300"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="true">
+                                            <Setter Property="Background" Value="#22FF6600"/>
+                                            <Setter Property="BorderBrush" Value="#FF6600"/>
+                                            <Setter Property="Foreground" Value="#FFAA66"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- SSID/AP View Slide Switch Style -->
+        <Style x:Key="FuturisticSlideSwitchStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Width" Value="160"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <!-- Left Label -->
+                                <TextBlock Text="APs" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtAp"/>
+                                <!-- Right Label -->
+                                <TextBlock Text="SSIDs" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtSsid"/>
+                                
+                                <!-- Sliding Thumb -->
+                                <Border x:Name="Thumb" Width="70" Height="24" CornerRadius="12" BorderBrush="#FF6600" BorderThickness="1" HorizontalAlignment="Left" Margin="4,0,0,0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#22FF6600"/>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="TxtSsid" Property="Foreground" Value="#FF6600"/>
+                                <Setter TargetName="TxtAp" Property="Foreground" Value="#883300"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="TxtAp" Property="Foreground" Value="#FF6600"/>
+                                <Setter TargetName="TxtSsid" Property="Foreground" Value="#883300"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF6600"/>
+                            </Trigger>
+                            
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="Thumb" 
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="84,0,0,0" Duration="0:0:0.2">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseInOut"/>
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                        <ColorAnimation Storyboard.TargetName="Thumb"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="#FF6600" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="Thumb" 
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="4,0,0,0" Duration="0:0:0.2">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseInOut"/>
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                        <ColorAnimation Storyboard.TargetName="Thumb"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="#22FF6600" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Spectrum/Grid View Slide Switch Style -->
+        <Style x:Key="SpectrumGridSlideSwitchStyle" TargetType="ToggleButton">
+            <Setter Property="Background" Value="#000000"/>
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Width" Value="240"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border CornerRadius="16" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <!-- Left Label -->
+                                <TextBlock Text="SPECTRUM GRAPH" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtSpectrum"/>
+                                <!-- Right Label -->
+                                <TextBlock Text="TELEMETRY GRID" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtGrid"/>
+                                
+                                <!-- Sliding Thumb -->
+                                <Border x:Name="Thumb" Width="110" Height="24" CornerRadius="12" BorderBrush="#FF6600" BorderThickness="1" HorizontalAlignment="Left" Margin="4,0,0,0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#22FF6600"/>
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="TxtGrid" Property="Foreground" Value="#FF6600"/>
+                                <Setter TargetName="TxtSpectrum" Property="Foreground" Value="#883300"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="TxtSpectrum" Property="Foreground" Value="#FF6600"/>
+                                <Setter TargetName="TxtGrid" Property="Foreground" Value="#883300"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF6600"/>
+                            </Trigger>
+                            
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="Thumb" 
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="126,0,0,0" Duration="0:0:0.2">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseInOut"/>
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                        <ColorAnimation Storyboard.TargetName="Thumb"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="#FF6600" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetName="Thumb" 
+                                                            Storyboard.TargetProperty="Margin"
+                                                            To="4,0,0,0" Duration="0:0:0.2">
+                                            <ThicknessAnimation.EasingFunction>
+                                                <QuadraticEase EasingMode="EaseInOut"/>
+                                            </ThicknessAnimation.EasingFunction>
+                                        </ThicknessAnimation>
+                                        <ColorAnimation Storyboard.TargetName="Thumb"
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="#22FF6600" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65" /> <!-- Header -->
+            <RowDefinition Height="*" />    <!-- Main Workspace -->
+            <RowDefinition Height="30" />  <!-- Status Bar -->
+        </Grid.RowDefinitions>
+
+        <!-- HEADER BAR -->
+        <Border Grid.Row="0" BorderBrush="#883300" BorderThickness="0,0,0,1" Background="#000000" Padding="15,0">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="15" Height="15" Fill="{StaticResource HeaderGradient}" Margin="0,0,10,0"/>
+                    <TextBlock Text="WIRELESS SPECTRAL SCANNER" FontSize="18" FontWeight="Bold" Foreground="#FF6600" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <TextBlock Grid.Column="2" Text="NATIVE CLIENT v1.0" Foreground="#883300" FontSize="12" VerticalAlignment="Center" FontWeight="Bold" />
+            </Grid>
+        </Border>
+
+        <!-- MAIN WORKSPACE -->
+        <TabControl Grid.Row="1" Background="#000000" BorderThickness="0">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Background" Value="#000000"/>
+                    <Setter Property="Foreground" Value="#883300"/>
+                    <Setter Property="BorderBrush" Value="#883300"/>
+                    <Setter Property="BorderThickness" Value="1,1,1,0"/>
+                    <Setter Property="Padding" Value="20,10"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border x:Name="border" CornerRadius="8,8,0,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter ContentSource="Header"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#FF6600"/>
+                                        <Setter TargetName="border" Property="Background" Value="#000000"/>
+                                        <Setter Property="Foreground" Value="#FF6600"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="BorderBrush" Value="#FF6600"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+
+            <TabItem Header="LIVE SURVEY">
+                <Grid Margin="10,15,10,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400" /> <!-- Controls & List Sidebar -->
+                        <ColumnDefinition Width="*" />   <!-- Spectrum Graph or Telemetry Grid -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- LEFT CONTROL & SURVEY PANEL -->
+                    <Border Grid.Column="0" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15" Margin="0,0,15,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/> <!-- Capture Controls -->
+                                <RowDefinition Height="Auto"/> <!-- Title -->
+                                <RowDefinition Height="Auto"/> <!-- Dropdown -->
+                                <RowDefinition Height="Auto"/> <!-- Diagnostics Panel -->
+                                <RowDefinition Height="Auto"/> <!-- View Toggle -->
+                                <RowDefinition Height="*"/>    <!-- Condensed List -->
+                                <RowDefinition Height="Auto"/> <!-- Action Button -->
+                            </Grid.RowDefinitions>
+
+                            <!-- CAPTURE CONTROLS -->
+                            <Grid Grid.Row="0" Margin="0,0,0,15">
+                                <Button Content="● BEGIN SESSION CAPTURE" Command="{Binding StartSessionCommand}" Foreground="#FF0000" BorderBrush="#FF0000" FontWeight="Bold" Height="36" Margin="0" Padding="0">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSessionIdle}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <!-- Stop / Pause Buttons (visible when active) -->
+                                <Grid>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Content="■ STOP" Command="{Binding StopSessionCommand}" Foreground="#FF0000" BorderBrush="#FF0000" FontWeight="Bold" Height="36" Margin="0,0,4,0" Padding="0"/>
+                                    <Button Grid.Column="1" Content="⏸ PAUSE" Command="{Binding PauseSessionCommand}" Foreground="#FFAA33" BorderBrush="#FFAA33" FontWeight="Bold" Height="36" Margin="4,0,0,0" Padding="0"/>
+                                </Grid>
+                            </Grid>
+
+                            <TextBlock Grid.Row="1" Text="HARDWARE SELECTION" FontSize="12" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,8"/>
+
+                            <ComboBox Grid.Row="2" ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" Margin="0,0,0,12">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,4">
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="#FF6600" FontSize="13"/>
+                                            <TextBlock Text="{Binding Description}" Foreground="#FFAA33" FontSize="11" Margin="0,2,0,2"/>
+                                            <TextBlock Text="{Binding DetailsText}" Foreground="#AA4400" FontSize="10" FontFamily="Consolas"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <!-- METRIC DIAGNOSTICS -->
+                            <Border Grid.Row="3" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <Grid Margin="0,0,0,6">
+                                        <TextBlock Text="Adapter Class:" Foreground="#883300"/>
+                                        <TextBlock Text="{Binding SelectedAdapter.DeviceType}" HorizontalAlignment="Right" Foreground="#FF8800" FontWeight="SemiBold"/>
+                                    </Grid>
+                                    <Grid Margin="0,0,0,6">
+                                        <TextBlock Text="Link Status:" Foreground="#883300"/>
+                                        <TextBlock Text="Active" HorizontalAlignment="Right" Foreground="#FF6600" FontWeight="SemiBold"/>
+                                    </Grid>
+                                    <Grid>
+                                        <TextBlock Text="PNPID:" Foreground="#883300"/>
+                                        <TextBlock Text="{Binding SelectedAdapter.PnpDeviceId}" HorizontalAlignment="Right" MaxWidth="220" TextTrimming="CharacterEllipsis" Foreground="#FF8800"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- SSID / AP VIEW SWITCH -->
+                            <ToggleButton Grid.Row="4" IsChecked="{Binding IsSsidView, Mode=TwoWay}" Style="{StaticResource FuturisticSlideSwitchStyle}" Height="32" Margin="0,0,0,12"/>
+
+                             <!-- CONDENSED ACTIVE NETWORKS LIST -->
+                            <ListView Grid.Row="5" ItemsSource="{Binding DisplayAccessPoints}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="2,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/> <!-- Checkbox -->
+                                                <ColumnDefinition Width="*"/>    <!-- Content Stack -->
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                            
+                                            <StackPanel Grid.Column="1">
+                                                <!-- Header line -->
+                                                <Grid>
+                                                    <TextBlock Text="{Binding HeaderText}" FontWeight="Bold" Foreground="#FF6600" FontSize="13" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding DetailsText}" HorizontalAlignment="Right" Foreground="#FFAA33" FontSize="11" FontWeight="SemiBold"/>
+                                                </Grid>
+                                                <!-- Subheader line -->
+                                                <TextBlock Text="{Binding SubheaderText}" Foreground="#AA4400" FontSize="11" Margin="0,2,0,2" TextTrimming="CharacterEllipsis"/>
+                                                <!-- Telemetry details -->
+                                                <TextBlock Text="{Binding TelemetryText}" Foreground="#883300" FontSize="10" FontFamily="Consolas"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <Button Grid.Row="6" Content="FORCE SCAN TICK" Command="{Binding ScanCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="38"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- RIGHT TELEMETRY / GRAPH CONTAINER -->
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/> <!-- Swap View Header -->
+                            <RowDefinition Height="*"/>    <!-- Graph / Grid Content -->
+                        </Grid.RowDefinitions>
+
+                        <!-- HEADER & SWAP CONTROL -->
+                        <Grid Grid.Row="0" Margin="5,0,5,10">
+                            <TextBlock FontSize="14" FontWeight="Bold" Foreground="#FF6600" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="RF SPECTRUM SURVEY GRAPH"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
+                                                <Setter Property="Text" Value="ACTIVE SESSION DIAGNOSTICS &amp; TELEMETRY LOG"/>
+                                            </DataTrigger>
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding IsSessionActive}" Value="False"/>
+                                                    <Condition Binding="{Binding ShowSpectrumGraph}" Value="False"/>
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Text" Value="LIVE SPECTRUM SURVEY TELEMETRY"/>
+                                            </MultiDataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            
+                            <ToggleButton IsChecked="{Binding ShowTelemetryGrid, Mode=TwoWay}" HorizontalAlignment="Right" Height="32">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton" BasedOn="{StaticResource SpectrumGridSlideSwitchStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                        </Grid>
+
+                        <!-- SWITCHABLE CONTENT PANEL -->
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" /> <!-- Graphs (Canvas 2.4 and 5Ghz) -->
+                                <RowDefinition Height="Auto" /> <!-- Live Session Log Grid -->
+                            </Grid.RowDefinitions>
+
+                            <!-- GRAPHICAL SPECTRUM CANVAS -->
+                            <Grid Grid.Row="0" x:Name="SpectrumGraphContainer">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ShowSpectrumGraph}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" /> <!-- 2.4 GHz -->
+                                    <RowDefinition Height="*" /> <!-- 5 GHz -->
+                                </Grid.RowDefinitions>
+
+                                <!-- 2.4 GHz Band -->
+                                <Grid Grid.Row="0" Margin="0,0,0,8">
+                                    <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000">
+                                        <Canvas x:Name="Canvas24Ghz" SizeChanged="OnCanvasSizeChanged" Background="Transparent" ClipToBounds="True"/>
+                                    </Border>
+                                    <TextBlock Text="2.4 GHz BAND CHANNELS" FontSize="11" FontWeight="Bold" Foreground="#883300" Margin="10,10,0,0" IsHitTestVisible="False"/>
+                                </Grid>
+
+                                <!-- 5 GHz Band -->
+                                <Grid Grid.Row="1" Margin="0,8,0,0">
+                                    <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000">
+                                        <Canvas x:Name="Canvas5Ghz" SizeChanged="OnCanvasSizeChanged" Background="Transparent" ClipToBounds="True"/>
+                                    </Border>
+                                    <TextBlock Text="5 GHz BAND CHANNELS (5150 - 5850 MHz)" FontSize="11" FontWeight="Bold" Foreground="#883300" Margin="10,10,0,0" IsHitTestVisible="False"/>
+                                </Grid>
+                            </Grid>
+
+                            <!-- DETAILED TELEMETRY GRID -->
+                            <Grid Grid.Row="0" Grid.RowSpan="2" x:Name="TelemetryGridContainer">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ShowSpectrumGraph}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                
+                                <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="5" Background="#000000">
+                                    <DataGrid ItemsSource="{Binding FilteredAccessPoints}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="160" />
+                                            <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="140" />
+                                            <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="80" />
+                                            <DataGridTextColumn Header="CHANNEL" Binding="{Binding Channel}" Width="80" />
+                                            <DataGridTextColumn Header="RSSI (dBm)" Binding="{Binding RSSI}" Width="90" />
+                                            <DataGridTextColumn Header="SNR (dB)" Binding="{Binding SNR}" Width="80" />
+                                            <DataGridTextColumn Header="QUALITY" Binding="{Binding Quality, StringFormat={}{0}%}" Width="85" />
+                                            <DataGridTextColumn Header="SECURITY" Binding="{Binding SecurityType}" Width="120" />
+                                            <DataGridTextColumn Header="VENDOR" Binding="{Binding VendorOUI}" Width="120" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Border>
+                            </Grid>
+
+                            <!-- ACTIVE SESSION LOG PANEL (bottom of screen when session active) -->
+                            <Grid Grid.Row="1" x:Name="ActiveSessionLogContainer" Height="240" Margin="0,15,0,0">
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+
+                                        <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="10" Background="#000000">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Header indicators with active session details -->
+                                        <Grid Grid.Row="0" Margin="5,0,5,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Grid.Column="0" Text="LIVE CAPTURED TELEMETRY LOG" FontSize="11" FontWeight="Bold" Foreground="#FF6600" VerticalAlignment="Center"/>
+                                            
+                                            <TextBlock Grid.Column="1" Text="● RECORDING" FontSize="11" FontWeight="Bold" Foreground="#FF3300" VerticalAlignment="Center" x:Name="RecordingIndicator">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsSessionPaused}" Value="True">
+                                                                <Setter Property="Text" Value="⏸ PAUSED"/>
+                                                                <Setter Property="Foreground" Value="#FFAA33"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Grid>
+
+                                        <!-- Prominent Metadata Banner -->
+                                        <Border Grid.Row="1" Background="#110500" BorderBrush="#883300" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,5,0,8">
+                                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <TextBlock Text="SESSION: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding SessionName}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                
+                                                <TextBlock Text="FACILITY: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding FacilityName}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                
+                                                <TextBlock Text="SCOPE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding SessionScope}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                
+                                                <TextBlock Text="ZONE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding SurveyPoint}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                
+                                                <TextBlock Text="MODE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding SessionModeText}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                                
+                                                <TextBlock Text="NOTES: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Visibility="{Binding HasSessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                                <TextBlock Text="{Binding SessionNotes}" Foreground="#FF8800" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Visibility="{Binding HasSessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                            </WrapPanel>
+                                        </Border>
+
+                                        <!-- The scrolling telemetry data grid -->
+                                        <DataGrid Grid.Row="2" ItemsSource="{Binding FilteredActiveSessionLogs}" 
+                                                  HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0" 
+                                                  EnableRowVirtualization="True" EnableColumnVirtualization="True">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="TIMESTAMP" Binding="{Binding Timestamp, StringFormat=\{0:HH:mm:ss\}}" Width="100"/>
+                                                <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="150" />
+                                                <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="130" />
+                                                <DataGridTextColumn Header="CH" Binding="{Binding Channel}" Width="50" />
+                                                <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="70" />
+                                                <DataGridTextColumn Header="RSSI" Binding="{Binding RSSI, StringFormat=\{0\} dBm}" Width="70" />
+                                                
+                                                <!-- Fluctuation -->
+                                                <DataGridTemplateColumn Header="FLUCTUATION" Width="110">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding FluctuationText}" Foreground="{Binding FluctuationBrush}" FontWeight="Bold" FontFamily="Consolas"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+
+                                                <DataGridTextColumn Header="SNR" Binding="{Binding SNR, StringFormat=\{0\} dB}" Width="70" />
+                                                <DataGridTextColumn Header="QUAL" Binding="{Binding Quality, StringFormat=\{0\}%}" Width="70" />
+                                                <DataGridTextColumn Header="JITT" Binding="{Binding Jitter, StringFormat=\{0:F1\} ms}" Width="80" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="REST API CONFIG">
+                <Grid Margin="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="450" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- API CONFIG SIDEBAR -->
+                    <Border Grid.Column="0" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="20">
+                        <StackPanel>
+                            <TextBlock Text="REST API SERVICE SETTINGS" FontSize="16" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,20"/>
+
+                            <CheckBox Content="Enable REST API Server" IsChecked="{Binding ApiEnabled}" Foreground="#FF6600" FontSize="14" Margin="0,0,0,20" Cursor="Hand"/>
+
+                            <TextBlock Text="API SERVER PORT" FontSize="12" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,6"/>
+                            <TextBox Text="{Binding ApiPort, UpdateSourceTrigger=PropertyChanged}" Background="#000000" Foreground="#FF8800" BorderBrush="#883300" Padding="8,6" FontSize="14" Margin="0,0,0,20"/>
+
+                            <TextBlock Text="API KEY" FontSize="12" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,6"/>
+                            <TextBox Text="{Binding ApiKey, Mode=OneWay}" IsReadOnly="True" Background="#000000" Foreground="#FF8800" BorderBrush="#883300" Padding="8,6" FontSize="14" Margin="0,0,0,10"/>
+                            <Grid Margin="0,0,0,20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Content="GENERATE" Command="{Binding GenerateApiKeyCommand}" Margin="0,0,5,0" Padding="12,8"/>
+                                <Button Grid.Column="1" Content="EXPORT" Command="{Binding ExportApiKeyCommand}" Margin="5,0,5,0" Padding="12,8"/>
+                                <Button Grid.Column="2" Content="DELETE" Command="{Binding DeleteApiKeyCommand}" Margin="5,0,0,0" Padding="12,8"/>
+                            </Grid>
+
+                            <Button Content="APPLY &amp; SAVE CHANGES" Command="{Binding ApplyApiSettingsCommand}" HorizontalAlignment="Stretch" Padding="16,10" Margin="0,10,0,0" FontSize="14" BorderBrush="#FF6600"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- API DOCS & DETAILS CARD -->
+                    <Border Grid.Column="1" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="20" Margin="20,0,0,0">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="REST API ACCESS &amp; DOCUMENTATION" FontSize="16" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,15"/>
+                                
+                                <Border Background="#000000" BorderBrush="#883300" BorderThickness="1" Padding="12" CornerRadius="8" Margin="0,0,0,15">
+                                    <TextBlock Text="{Binding ApiServerStatusText}" FontSize="13" FontWeight="Bold" Foreground="#FF6600"/>
+                                </Border>
+
+                                <TextBlock Text="The REST API enables orchestration tools (e.g. scripts, automation) and AI agents running on this device to read Wi-Fi scanner data. All endpoints require the X-API-Key header or api_key query string parameter." TextWrapping="Wrap" Foreground="#AA4400" FontSize="13" Margin="0,0,0,15" LineHeight="18"/>
+
+                                <TextBlock Text="AVAILABLE ENDPOINTS" FontSize="12" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,10"/>
+
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="GET /api/status" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
+                                    <TextBlock Text="Returns basic health status of the REST API server." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="GET /api/live" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
+                                    <TextBlock Text="Returns the list of access points from the latest active scan tick." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="GET /api/sessions" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
+                                    <TextBlock Text="Lists all completed and active capture sessions saved in the SQLite database." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="GET /api/sessions/{id}" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
+                                    <TextBlock Text="Returns details of a specific session and all its collected telemetry samples." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="GET /api/stats" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
+                                    <TextBlock Text="Returns high-level statistics like total sessions, total samples, and DB file size." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="HISTORY / LOGS">
+                <Grid Margin="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="400" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- MASTER VIEW: Session List with Filters -->
+                    <Border Grid.Column="0" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>  <!-- Title -->
+                                <RowDefinition Height="Auto"/>  <!-- Search Fields -->
+                                <RowDefinition Height="Auto"/>  <!-- Search Buttons -->
+                                <RowDefinition Height="*"/>     <!-- Session List -->
+                                <RowDefinition Height="Auto"/>  <!-- Refresh -->
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Text="SAVED CAPTURE SESSIONS" FontSize="14" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,10"/>
+                            
+                            <!-- SEARCH FILTERS -->
+                            <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                                <!-- Session Name -->
+                                <TextBlock Text="SESSION NAME" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
+                                <TextBox Text="{Binding HistoryFilterName, UpdateSourceTrigger=PropertyChanged}" 
+                                         Background="#000000" Foreground="#FF8800" BorderBrush="#883300" 
+                                         Padding="8,6" FontSize="12" Margin="0,0,0,8"/>
+                                
+                                <!-- Date Range -->
+                                <Grid Margin="0,0,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="FROM DATE" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
+                                        <DatePicker SelectedDate="{Binding HistoryFilterFromDate, Mode=TwoWay}" 
+                                                    Background="#000000" Foreground="#FF8800" BorderBrush="#883300" 
+                                                    FontSize="12" Padding="4,4"/>
+                                    </StackPanel>
+
+                                    <TextBlock Grid.Column="1" Text="—" Foreground="#883300" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="TO DATE" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
+                                        <DatePicker SelectedDate="{Binding HistoryFilterToDate, Mode=TwoWay}" 
+                                                    Background="#000000" Foreground="#FF8800" BorderBrush="#883300"
+                                                    FontSize="12" Padding="4,4"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                            
+                            <!-- SEARCH / CLEAR BUTTONS -->
+                            <Grid Grid.Row="2" Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Content="🔍 SEARCH" Command="{Binding SearchHistoryCommand}" Margin="0,0,4,0" Padding="0,8" FontSize="12"/>
+                                <Button Grid.Column="1" Content="✕ CLEAR FILTERS" Command="{Binding ClearHistoryFilterCommand}" Margin="4,0,0,0" Padding="0,8" FontSize="12" Foreground="#883300" BorderBrush="#883300"/>
+                            </Grid>
+                            
+                            <!-- SESSION LIST (Multi-Select) -->
+                            <DataGrid Grid.Row="3" x:Name="HistorySessionGrid"
+                                      ItemsSource="{Binding FilteredHistoricalSessions}" 
+                                      SelectedItem="{Binding SelectedHistorySession, Mode=TwoWay}" 
+                                      AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended"
+                                      HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0"
+                                      SelectionChanged="OnHistoryGridSelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="DATE" Binding="{Binding StartTime, StringFormat=\{0:MM/dd HH:mm\}}" Width="100"/>
+                                    <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="*"/>
+                                    <DataGridTextColumn Header="MODE" Binding="{Binding Mode}" Width="70"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button Grid.Row="4" Content="REFRESH LIST" Command="{Binding RefreshSessionsCommand}" Margin="0,10,0,0"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- DETAIL VIEW -->
+                    <Border Grid.Column="1" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15" Margin="15,0,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="1.2*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                                <TextBlock Text="SESSION DETAILS" FontSize="16" FontWeight="Bold" Foreground="#FF6600"/>
+                                <TextBlock Text="{Binding SelectedHistorySession.Name, FallbackValue='No session selected'}" FontSize="20" FontWeight="Bold" Foreground="#FF8800" Margin="0,5,0,0"/>
+                                <WrapPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="Facility: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding SelectedHistorySession.FacilityName, FallbackValue='N/A'}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                                    
+                                    <TextBlock Text="Scope: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding SelectedHistorySessionScopeOnly}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                                    
+                                    <TextBlock Text="Mode: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding SelectedHistorySessionModeText}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
+                                    
+                                    <TextBlock Text="Notes: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Visibility="{Binding HasSelectedHistorySessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                    <TextBlock Text="{Binding SelectedHistorySessionNotesOnly}" Foreground="#FFAA33" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Visibility="{Binding HasSelectedHistorySessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+
+                            <!-- TELEMETRY TIMELINE GRAPH -->
+                            <Border Grid.Row="1" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000">
+                                <Grid>
+                                    <TextBlock Text="SELECT A SESSION TO VIEW TELEMETRY TIMELINE" Foreground="#883300" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    
+                                    <Grid>
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="220"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Canvas Grid.Column="0" x:Name="CanvasHistoryGraph" SizeChanged="OnHistoryCanvasSizeChanged" Background="Transparent" ClipToBounds="True"/>
+
+                                        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="10,10,10,10" BorderBrush="#441F00" BorderThickness="1,0,0,0" Padding="10,0,0,0">
+                                            <StackPanel x:Name="PanelHistoryLegend">
+                                                <!-- Legend items dynamically added in code behind -->
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <Border Grid.Row="2" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000" Margin="0,10,0,0" Padding="5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- DISPLAY FIELDS COLUMN SELECTOR WRAPPANEL -->
+                                    <WrapPanel Grid.Row="0" Margin="5,2,5,8" Orientation="Horizontal">
+                                        <WrapPanel.Style>
+                                            <Style TargetType="WrapPanel">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </WrapPanel.Style>
+                                        <TextBlock Text="DISPLAY FIELDS: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                        <CheckBox Content="Time" IsChecked="{Binding ShowColTime, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="SSID" IsChecked="{Binding ShowColSsid, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="BSSID" IsChecked="{Binding ShowColBssid, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="Channel" IsChecked="{Binding ShowColChannel, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="Band" IsChecked="{Binding ShowColBand, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="RSSI" IsChecked="{Binding ShowColRssi, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="SNR" IsChecked="{Binding ShowColSnr, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="Quality" IsChecked="{Binding ShowColQuality, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="Jitter" IsChecked="{Binding ShowColJitter, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                        <CheckBox Content="Zone" IsChecked="{Binding ShowColZone, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                    </WrapPanel>
+
+                                    <TextBlock Grid.Row="1" Text="HISTORICAL TELEMETRY SAMPLES" Foreground="#883300" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredSelectedSessionSamples}" 
+                                              CanUserSortColumns="True" CanUserReorderColumns="True"
+                                              AutoGenerateColumns="False" IsReadOnly="True"
+                                              HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0"
+                                              Background="Transparent" BorderBrush="Transparent" Foreground="#FF6600"
+                                              EnableRowVirtualization="True" EnableColumnVirtualization="True">
+                                        <DataGrid.Style>
+                                            <Style TargetType="DataGrid">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.Style>
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="TIMESTAMP" Binding="{Binding Timestamp, StringFormat=\{0:HH:mm:ss\}}" Width="85"
+                                                                Visibility="{Binding Data.ShowColTime, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="120"
+                                                                Visibility="{Binding Data.ShowColSsid, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="130"
+                                                                Visibility="{Binding Data.ShowColBssid, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="CH" Binding="{Binding Channel}" Width="40"
+                                                                Visibility="{Binding Data.ShowColChannel, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="65"
+                                                                Visibility="{Binding Data.ShowColBand, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="RSSI" Binding="{Binding RSSI, StringFormat=\{0\} dBm}" Width="65"
+                                                                Visibility="{Binding Data.ShowColRssi, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="SNR" Binding="{Binding SNR, StringFormat=\{0\} dB}" Width="50"
+                                                                Visibility="{Binding Data.ShowColSnr, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="QUAL" Binding="{Binding Quality, StringFormat=\{0\}%}" Width="50"
+                                                                Visibility="{Binding Data.ShowColQuality, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="JITT" Binding="{Binding Jitter, StringFormat=\{0:F1\} ms}" Width="60"
+                                                                Visibility="{Binding Data.ShowColJitter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                            <DataGridTextColumn Header="ZONE" Binding="{Binding SurveyPoint}" Width="*"
+                                                                Visibility="{Binding Data.ShowColZone, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Border>
+
+                            <!-- FOOTER: Sample count + Export + Delete -->
+                            <Grid Grid.Row="3" Margin="0,12,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Row 1: Sample count -->
+                                <TextBlock Grid.Row="0" Text="{Binding SelectedSessionSampleCount, StringFormat='\{0\} Samples Recorded'}" Foreground="#AA4400" FontWeight="Bold" Margin="0,0,0,8"/>
+
+                                <!-- Row 2: Export and Delete buttons -->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Content="EXPORT CSV" Command="{Binding ExportHistoryCsvCommand}" Padding="10,8" Margin="0,0,4,0" FontSize="11"/>
+                                    <Button Grid.Column="1" Content="EXPORT JSON" Command="{Binding ExportHistoryJsonCommand}" Padding="10,8" Margin="4,0,4,0" FontSize="11"/>
+                                    <Button Grid.Column="2" Content="EXPORT PDF" Command="{Binding ExportHistoryPdfCommand}" Padding="10,8" Margin="4,0,0,0" FontSize="11"/>
+                                    <Button Grid.Column="4" Content="DELETE SESSION" Command="{Binding DeleteSelectedSessionCommand}" Padding="15,8" Foreground="#FF0000" BorderBrush="#FF0000" FontSize="11"/>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <!-- STATUS BAR -->
+        <Border Grid.Row="2" Background="#000000" BorderBrush="#883300" BorderThickness="0,1,0,0" Padding="15,0">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding StatusText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Text="{Binding DatabaseSizeText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
