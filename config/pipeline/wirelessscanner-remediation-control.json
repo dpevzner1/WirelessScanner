@@ -1,7 +1,7 @@
 {
   "schema": "project_remediation_control.v2",
   "project_id": "WIRELESSSCANNER",
-  "updated_at": "2026-10-19T18:49:06.550173+00:00",
+  "updated_at": "2026-10-19T18:56:48.424572+00:00",
   "purpose": "WirelessScanner finding -> correction -> retest -> lesson trail (adopted from DevOpsAgent v2 control, DR-0001)",
   "scope": {
     "authorized": [
@@ -5091,6 +5091,17 @@
       ],
       "previous_sha256": "b0f45eaf6a70725207ebc685187dd564486e3dc9eb7353f27535580eaf0b53cb",
       "sha256": "86c2adcbec6277b452fd744c60909baf105c42531f6458fbd43b31e78f322bac"
+    },
+    {
+      "id": "EV-GITHUB-PUSH-2026-10-19",
+      "at": "2026-10-19T18:56:48.424406+00:00",
+      "kind": "release",
+      "details": "Owner-approved push to github.com/dpevzner1/WirelessScanner main: 4d47d25 (Windows 1.1-1.5.0, 1.5.0 installer, AndroidApp source, ANDROID APK 1.5.0, docs, governance) and 8e3584d (install guide test-scope correction). No GitHub Release created (gh CLI not installed). WirelessScannerCompiled.zip (31 May build) left untracked.",
+      "evidence_ids": [
+        "EV-ANDROID-RELEASE-1.5.0"
+      ],
+      "previous_sha256": "86c2adcbec6277b452fd744c60909baf105c42531f6458fbd43b31e78f322bac",
+      "sha256": "fe1bf59951fbd4867647b28e351ba7c8ba9042aa5409fd539386c5f1aaae3dc5"
     }
   ],
   "iterations": [
