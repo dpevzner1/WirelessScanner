@@ -5,7 +5,7 @@ WirelessScanner is a Wi‑Fi signal analysis, site-survey, **saturation test** a
 You need **no password, account or key** to install or use it.
 
 ## 1. Requirements
-- Android **8.0 or newer**. The app is designed for tablets: tested on a Samsung Galaxy Tab A8 (Android 14) in landscape and portrait. It also works on phones.
+- Android **8.0 or newer**. The app is designed for tablets and was tested on a Samsung Galaxy Tab A8 (Android 14) in landscape. Portrait and phone layouts are built in but not yet tested on a device.
 - **Wi‑Fi turned on.** The device does not need to be connected to a network to scan.
 - **Location turned on** for the whole device (quick settings → *Location*). Android hides Wi‑Fi scan results from every app while it is off.
 
