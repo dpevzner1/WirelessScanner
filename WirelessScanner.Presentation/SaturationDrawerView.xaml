@@ -1,0 +1,220 @@
+<UserControl x:Class="WirelessScanner.Presentation.SaturationDrawerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AutomationProperties.Name="Saturation test controls">
+    <!-- Saturation test drawer in Live Survey (DR-0011). DataContext = SaturationTestViewModel (attached mode).
+         WHAT comes from the shared network list; this drawer holds how long / where / controls. -->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/HudTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="Big" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="MinHeight" Value="40"/>
+                <Setter Property="Padding" Value="12,6"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Style="{StaticResource HudPanel}">
+        <Grid>
+            <!-- ===================== SETUP ===================== -->
+            <DockPanel Visibility="{Binding IsSetup, Converter={StaticResource HudVis}}">
+                <TextBlock DockPanel.Dock="Top" Text="SATURATION TEST" Style="{StaticResource HudTitle}" FontSize="14"/>
+                <!-- pinned: summary, validation, START (always visible) -->
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                    <TextBlock Text="{Binding SummaryLine}" Foreground="#FF8800" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                    <TextBlock Text="{Binding ValidationMessage}" Foreground="#FF5A4A" TextWrapping="Wrap" Margin="0,0,0,6"
+                               Visibility="{Binding HasValidationMessage, Converter={StaticResource HudVis}}"/>
+                    <Button Style="{StaticResource Big}" Content="▶  START SATURATION TEST" Command="{Binding StartCommand}" IsEnabled="{Binding CanStart}"
+                            AutomationProperties.Name="Start saturation test"/>
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="0,0,4,0">
+                        <TextBlock Text="1 · WHAT (from the network list)" Style="{StaticResource HudLabel}" FontWeight="Bold"/>
+                        <Border Background="#0F0600" BorderBrush="#331800" BorderThickness="1" CornerRadius="6" Padding="8,5">
+                            <StackPanel>
+                                <TextBlock Text="{Binding SelectionText}" Foreground="#FF8800" TextWrapping="Wrap" AutomationProperties.Name="Test targets"/>
+                                <TextBlock Style="{StaticResource HudHint}" Margin="0,3,0,0"
+                                           Text="Tick SSIDs (follows new APs) or single access points in the list. The selection is locked while the test runs."/>
+                                <TextBlock Foreground="#AA4400" FontSize="11" Margin="0,3,0,0">
+                                    <Run Text="Adapter: "/><Run Text="{Binding SelectedAdapter.Name, Mode=OneWay}" Foreground="#FF8800"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="2 · HOW LONG" Style="{StaticResource HudLabel}" FontWeight="Bold" Margin="0,12,0,2"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="6"/>
+                                <ColumnDefinition Width="110"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox ItemsSource="{Binding DurationOptions}" SelectedItem="{Binding SelectedDuration}" AutomationProperties.Name="Test duration"/>
+                            <ComboBox Grid.Column="2" ItemsSource="{Binding IntervalOptions}" SelectedItem="{Binding IntervalSeconds}" AutomationProperties.Name="Scan interval"
+                                      ToolTip="Seconds between recorded scans (Windows needs about 2–4 s per scan)" ItemStringFormat="every {0} s"/>
+                        </Grid>
+                        <StackPanel Visibility="{Binding IsCustomDuration, Converter={StaticResource HudVis}}">
+                            <TextBlock Style="{StaticResource HudLabel}" Text="Custom duration (minutes, 1–1440)"/>
+                            <TextBox Text="{Binding CustomMinutes, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Custom duration in minutes"/>
+                        </StackPanel>
+
+                        <TextBlock Text="3 · WHERE" Style="{StaticResource HudLabel}" FontWeight="Bold" Margin="0,12,0,2"/>
+                        <TextBlock Style="{StaticResource HudLabel}" Text="Test area / location (required)" Margin="0,2,0,2"/>
+                        <TextBox Text="{Binding Location, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Test location"/>
+                        <TextBlock Style="{StaticResource HudLabel}" Text="Latitude / longitude (decimal degrees) / accuracy m"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition Width="44"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding Latitude, UpdateSourceTrigger=PropertyChanged}" ToolTip="Latitude, e.g. 41.878113" AutomationProperties.Name="Latitude"/>
+                            <TextBox Grid.Column="2" Text="{Binding Longitude, UpdateSourceTrigger=PropertyChanged}" ToolTip="Longitude, e.g. -87.629799" AutomationProperties.Name="Longitude"/>
+                            <TextBox Grid.Column="4" Text="{Binding AccuracyMeters, UpdateSourceTrigger=PropertyChanged}" ToolTip="Accuracy in metres (optional)" AutomationProperties.Name="Location accuracy in metres"/>
+                            <Button Grid.Column="5" Content="DETECT" Command="{Binding DetectLocationCommand}" Margin="4,0,0,0" Padding="8,4"
+                                    ToolTip="Use the Windows Location service" AutomationProperties.Name="Detect location"/>
+                        </Grid>
+                        <TextBlock Style="{StaticResource HudHint}" Text="{Binding GeoStatus}" Margin="0,2,0,0"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition Width="56"/>
+                                <ColumnDefinition Width="4"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource HudLabel}" Text="Building"/>
+                                <TextBox Text="{Binding Building}" AutomationProperties.Name="Building"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Style="{StaticResource HudLabel}" Text="Floor"/>
+                                <TextBox Text="{Binding Floor}" AutomationProperties.Name="Floor"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4">
+                                <TextBlock Style="{StaticResource HudLabel}" Text="Zone / room"/>
+                                <TextBox Text="{Binding Zone}" AutomationProperties.Name="Zone"/>
+                            </StackPanel>
+                        </Grid>
+                        <Expander Header="Report details (name, facility, operator, client, notes)" Foreground="#AA4400" Margin="0,10,0,0">
+                            <StackPanel Margin="0,4,0,0">
+                                <TextBlock Style="{StaticResource HudLabel}" Text="Test name (optional)"/>
+                                <TextBox Text="{Binding TestName}" AutomationProperties.Name="Test name"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="6"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource HudLabel}" Text="Facility"/>
+                                        <TextBox Text="{Binding Facility}" AutomationProperties.Name="Facility"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Style="{StaticResource HudLabel}" Text="Operator"/>
+                                        <TextBox Text="{Binding Operator}" AutomationProperties.Name="Operator"/>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Style="{StaticResource HudLabel}" Text="Client (printed on the report)"/>
+                                <TextBox Text="{Binding Client}" AutomationProperties.Name="Client"/>
+                                <TextBlock Style="{StaticResource HudLabel}" Text="Notes"/>
+                                <TextBox Text="{Binding Notes}" Height="44" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" AutomationProperties.Name="Notes"/>
+                            </StackPanel>
+                        </Expander>
+                        <Expander Header="Advanced thresholds" Foreground="#AA4400" Margin="0,8,0,0">
+                            <Grid Margin="0,4,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="6"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource HudLabel}" Text="Drop threshold (dB)"/>
+                                    <TextBox Text="{Binding DropDb, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Drop threshold"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Style="{StaticResource HudLabel}" Text="Peak threshold (dB)"/>
+                                    <TextBox Text="{Binding PeakDb, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Peak threshold"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1">
+                                    <TextBlock Style="{StaticResource HudLabel}" Text="Dropout = missed scans"/>
+                                    <TextBox Text="{Binding DropoutCycles, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Dropout missed scans"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="2">
+                                    <TextBlock Style="{StaticResource HudLabel}" Text="Baseline window (samples)"/>
+                                    <TextBox Text="{Binding BaselineWindow, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Baseline window"/>
+                                </StackPanel>
+                            </Grid>
+                        </Expander>
+                        <CheckBox Content="Keep this PC awake while the test runs" IsChecked="{Binding KeepAwakeEnabled}" Foreground="#FF8800" Margin="0,10,0,4"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+
+            <!-- ===================== RUNNING ===================== -->
+            <DockPanel Visibility="{Binding IsRunningStep, Converter={StaticResource HudVis}}">
+                <StackPanel DockPanel.Dock="Top">
+                    <TextBlock Text="{Binding RunStatus}" FontSize="14" FontWeight="Bold" Foreground="#FF6600" TextWrapping="Wrap"/>
+                    <ProgressBar Value="{Binding ProgressPct, Mode=OneWay}" IsIndeterminate="{Binding IsIndeterminate}" Height="12" Margin="0,8,0,6"
+                                 Foreground="#FF6600" Background="#1A0A00" BorderBrush="#883300" AutomationProperties.Name="Test progress"/>
+                    <TextBlock Foreground="#AA4400">
+                        <Run Text="Elapsed "/><Run Text="{Binding ElapsedText, Mode=OneWay}" Foreground="#FF8800" FontWeight="Bold"/>
+                        <Run Text="   Remaining "/><Run Text="{Binding RemainingText, Mode=OneWay}" Foreground="#FF8800" FontWeight="Bold"/>
+                    </TextBlock>
+                    <TextBlock Text="{Binding CycleText}" Foreground="#FF8800" FontSize="11" Margin="0,2,0,0" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding WarningText}" Foreground="#FAB219" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,6,0,0"
+                               Visibility="{Binding HasWarning, Converter={StaticResource HudVis}}"/>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Style="{StaticResource Big}" Content="❚❚  PAUSE" Command="{Binding PauseCommand}" Visibility="{Binding IsNotPaused, Converter={StaticResource HudVis}}" AutomationProperties.Name="Pause test"/>
+                        <Button Style="{StaticResource Big}" Content="▶  RESUME" Command="{Binding ResumeCommand}" Visibility="{Binding IsPaused, Converter={StaticResource HudVis}}" AutomationProperties.Name="Resume test"/>
+                        <Button Grid.Column="2" Style="{StaticResource Big}" Content="■  STOP" Command="{Binding StopCommand}" AutomationProperties.Name="Stop test"/>
+                    </Grid>
+                    <TextBlock Text="ADD MARKER" Style="{StaticResource HudTitle}" Margin="0,14,0,4"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding MarkerText, UpdateSourceTrigger=PropertyChanged}" ToolTip="e.g. microwave on, door closed, people entered" AutomationProperties.Name="Marker text"/>
+                        <Button Grid.Column="1" Content="Add" Command="{Binding AddMarkerCommand}" Margin="6,0,0,0" Padding="12,4"/>
+                    </Grid>
+                    <TextBlock Text="EVENT FEED" Style="{StaticResource HudTitle}" Margin="0,14,0,4"/>
+                </StackPanel>
+                <ListBox ItemsSource="{Binding EventFeed}" Background="#000000" Foreground="#FF8800" BorderBrush="#883300" FontFamily="Consolas" FontSize="11"
+                         AutomationProperties.Name="Event feed" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+
+            <!-- ===================== RESULTS ===================== -->
+            <StackPanel Visibility="{Binding IsResults, Converter={StaticResource HudVis}}">
+                <TextBlock Text="RESULTS" Style="{StaticResource HudTitle}" FontSize="14"/>
+                <TextBlock Text="{Binding ResultTitle}" Foreground="#AA4400" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                <Button Style="{StaticResource Big}" Content="PDF REPORT" Command="{Binding ExportPdfCommand}" Margin="0,0,0,6" AutomationProperties.Name="Export PDF report"/>
+                <Button Style="{StaticResource Big}" Content="CSV BUNDLE" Command="{Binding ExportCsvCommand}" Margin="0,0,0,6" AutomationProperties.Name="Export CSV bundle"/>
+                <Button Style="{StaticResource Big}" Content="JSON" Command="{Binding ExportJsonCommand}" Margin="0,0,0,14" AutomationProperties.Name="Export JSON"/>
+                <Button Style="{StaticResource Big}" Content="NEW TEST" Command="{Binding NewTestCommand}" AutomationProperties.Name="New test"/>
+                <TextBlock Text="{Binding ExportStatus}" Foreground="#FF8800" TextWrapping="Wrap" Margin="0,10,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

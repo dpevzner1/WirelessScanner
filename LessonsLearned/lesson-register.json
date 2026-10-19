@@ -1,0 +1,264 @@
+{
+  "schema_version": "1.0",
+  "standard": "LessonsLearned/ITERATIVE_DOCUMENTATION_STANDARD.md",
+  "template": "LessonsLearned/templates/LESSON_RECORD_TEMPLATE.md",
+  "records": [
+    {
+      "lesson_id": "LL-2026-10-15-BASELINE-GOVERNANCE",
+      "title": "Baseline audit and adoption of full engine governance",
+      "task": "Audit WirelessScanner, adopt the DevOps engine's full governance model, design the saturation test",
+      "project": "WirelessScanner",
+      "components": [
+        "governance",
+        "documentation",
+        "engine consultation",
+        "saturation test design"
+      ],
+      "observed_from": "2026-10-15T20:30:00Z",
+      "observed_to": "2026-10-15T23:50:00Z",
+      "local_date": "2026-10-15",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-15T23:50:00Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-15-baseline-governance.md",
+      "related_run_ids": [
+        "BL-2026-10-15",
+        "RV-2026-10-15-BASELINE"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-15-CORE-SCAN-PERSISTENCE",
+      "title": "Fresh scan cycles, ordered persistence and honest measurement semantics",
+      "task": "Control tasks T03, T04, T05",
+      "project": "WirelessScanner",
+      "components": [
+        "WlanAdapter",
+        "OrderedPersistenceWriter",
+        "SessionManager",
+        "SchemaMigrator",
+        "MainWindowViewModel",
+        "ExportService",
+        "Tests"
+      ],
+      "observed_from": "2026-10-15T22:06:00Z",
+      "observed_to": "2026-10-15T22:20:00Z",
+      "local_date": "2026-10-15",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-15T22:25:00Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-15-core-scan-persistence.md",
+      "related_run_ids": [
+        "RV-2026-10-15-IMPL"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-15-SATURATION-RELEASE",
+      "title": "Saturation test, geolocation, data/API/installer hardening, documentation",
+      "task": "Control tasks T06-T12",
+      "project": "WirelessScanner",
+      "components": [
+        "saturation test",
+        "geolocation",
+        "AppPaths",
+        "RestApiServer",
+        "Setup",
+        "Setup.Core",
+        "build_release",
+        "documentation"
+      ],
+      "observed_from": "2026-10-15T22:25:00Z",
+      "observed_to": "2026-10-15T23:50:00Z",
+      "local_date": "2026-10-15",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-15T23:50:00Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-15-saturation-release.md",
+      "related_run_ids": [
+        "RV-2026-10-15-IMPL",
+        "HW-SAT-1",
+        "RELEASE-1"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-16-LIVE-SURVEY-REDESIGN",
+      "title": "Live Survey redesign without losing features (explorer, spectrum, saturation in Live Survey, shared scan scheduler)",
+      "task": "Control tasks T13-T17",
+      "project": "WirelessScanner",
+      "components": [
+        "ScanScheduler",
+        "WlanAdapter",
+        "SaturationTestRunner",
+        "NetworkSelection",
+        "NetworkExplorer",
+        "SpectrumView",
+        "MainWindow",
+        "documentation"
+      ],
+      "observed_from": "2026-10-16T14:38:02Z",
+      "observed_to": "2026-10-16T16:01:14Z",
+      "local_date": "2026-10-16",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-16T16:01:14Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-16-live-survey-redesign.md",
+      "related_run_ids": [
+        "RV-2026-10-16-REDESIGN-2",
+        "RV-2026-10-16-REDESIGN",
+        "HW-F18-2",
+        "MUT-F18-2"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-16-RELEASE-REPORTS",
+      "title": "Report precision, installer detection, icon and API screen (1.3.0 and 1.3.1)",
+      "task": "Control tasks T18-T22",
+      "project": "WirelessScanner",
+      "components": [
+        "NetworkSelection",
+        "InstallDetector",
+        "branding",
+        "WlanAdapter",
+        "SaturationAnalyzer",
+        "SaturationExportService",
+        "ExportService",
+        "SchemaMigrator",
+        "RestApiServer",
+        "MainWindowViewModel",
+        "documentation"
+      ],
+      "observed_from": "2026-10-16T20:06:57Z",
+      "observed_to": "2026-10-18T18:46:25Z",
+      "local_date": "2026-10-16",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-18T21:17:14Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-16-release-reports.md",
+      "related_run_ids": [
+        "RV-2026-10-16-RELEASE-1.3",
+        "RV-2026-10-18-RELEASE-1.3.1"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-18-PHYSICAL-UNITS",
+      "title": "Inferring physical access points from passive evidence (1.4.0)",
+      "task": "Control task T23",
+      "project": "WirelessScanner",
+      "components": [
+        "WlanAdapter",
+        "PhysicalUnitGrouper",
+        "NetworkSelection",
+        "SaturationAnalyzer",
+        "SaturationExportService",
+        "NetworkExplorer",
+        "documentation"
+      ],
+      "observed_from": "2026-10-18T18:46:25Z",
+      "observed_to": "2026-10-18T21:17:14Z",
+      "local_date": "2026-10-18",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-18T21:17:14Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-18-physical-units.md",
+      "related_run_ids": [
+        "RV-2026-10-18-RELEASE-1.4.0"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-18-CONNECTION-TEST",
+      "title": "Measuring connection quality over the current Wi-Fi connection (1.5.0)",
+      "task": "Control tasks T24-T26",
+      "project": "WirelessScanner",
+      "components": [
+        "ConnectionTestRunner",
+        "ConnectionAnalyzer",
+        "WindowsConnectionProber",
+        "WlanAdapter",
+        "WirelessScanner.Responder",
+        "ConnectionTestViewModel",
+        "documentation"
+      ],
+      "observed_from": "2026-10-18T21:33:47Z",
+      "observed_to": "2026-10-19T00:38:31Z",
+      "local_date": "2026-10-18",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-19T00:38:31Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-18-connection-test.md",
+      "related_run_ids": [
+        "RV-2026-10-18-RELEASE-1.5.0"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-19-ANDROID-DEVICE-AUTH",
+      "title": "A solved Android device-authorization failure was repeated because reference deployment lessons were not carried into the port",
+      "task": "Control task T27 (F30) and T29 (F32)",
+      "project": "WirelessScanner",
+      "components": [
+        "Android deployment",
+        "reference-lesson intake (DR-0015)",
+        "tools/android_deploy.ps1",
+        "AndroidApp/docs/DEPLOYMENT.md"
+      ],
+      "observed_from": "2026-10-19T02:42:03Z",
+      "observed_to": "2026-10-19T13:27:33Z",
+      "local_date": "2026-10-19",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-19T13:40:00Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-19-android-device-authorization.md",
+      "related_run_ids": [
+        "deploy-20261019T131727Z",
+        "deploy-20261019T132423Z",
+        "deploy-20261019T132733Z"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-19-ANDROID-PORT",
+      "title": "Porting WirelessScanner to an Android tablet (core, parity, first device builds)",
+      "task": "Control tasks T27-T29",
+      "project": "WirelessScanner",
+      "components": [
+        "AndroidApp/core",
+        "AndroidApp/app",
+        "WirelessScanner.Tests/AndroidParityFixtures.cs",
+        "tools/android_deploy.ps1"
+      ],
+      "observed_from": "2026-10-19T02:42:03Z",
+      "observed_to": "2026-10-19T13:27:33Z",
+      "local_date": "2026-10-19",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-19T13:40:00Z",
+      "status": "observed",
+      "document": "LessonsLearned/records/2026-10-19-android-port.md",
+      "related_run_ids": [
+        "deploy-20261019T131727Z",
+        "deploy-20261019T132423Z",
+        "deploy-20261019T132733Z"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-19-ANDROID-SCAN-THROTTLING",
+      "title": "Android throttles app Wi-Fi scans (4 per 2 min foreground); no permission or install option lifts it",
+      "task": "Control task T30 (finding F33)",
+      "project": "WirelessScanner",
+      "components": [
+        "AndroidApp/app/src/main/java/com/wirelessscanner/android/platform/Wifi.kt",
+        "AndroidApp/app/src/main/java/com/wirelessscanner/android/AppGraph.kt",
+        "AndroidApp/docs/WIFI_SCAN_THROTTLING.md"
+      ],
+      "observed_from": "2026-10-19T02:42:03Z",
+      "observed_to": "2026-10-19T18:15:20Z",
+      "local_date": "2026-10-19",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-19T18:30:00Z",
+      "status": "observed",
+      "document": "LessonsLearned/records/2026-10-19-android-wifi-scan-throttling.md",
+      "related_run_ids": [
+        "deploy-20261019T175335Z",
+        "deploy-20261019T180210Z",
+        "deploy-20261019T180550Z",
+        "scan-throttle-probe-20261019T181519Z"
+      ]
+    }
+  ]
+}

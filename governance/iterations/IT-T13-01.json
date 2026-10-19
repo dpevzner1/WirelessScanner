@@ -1,0 +1,131 @@
+{
+  "id": "IT-T13-01",
+  "task_ids": [
+    "T13"
+  ],
+  "finding_ids": [
+    "F18"
+  ],
+  "scope": "scan acquisition concurrency",
+  "state": "completed",
+  "started_at": "2026-10-16T14:39:00+00:00",
+  "finished_at": "2026-10-16T15:28:25+00:00",
+  "hypothesis": {
+    "claim": "One single-flight scheduler per adapter, adapter-level coalescing and runner decimation remove the F18 clash without slowing the live view or adding scans",
+    "disconfirming_result": "Concurrent requests issue more than one scan, a test sharing the live cadence records the wrong number of cycles, or real-adapter cycles fail/stale when live + test run together",
+    "prior_lessons": [
+      "LL-2026-10-15-CORE-SCAN-PERSISTENCE",
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Shared scheduler + decimation",
+      "Mutex around ScanAsync",
+      "Separate adapters per feature"
+    ],
+    "chosen": "Shared scheduler + decimation",
+    "why": "DR-0011: one owner of scanning; consumers reuse each scan; a mutex would serialise and double the scan rate",
+    "rejected": [
+      "Mutex (twice the scans, queueing latency)",
+      "Separate adapters (hardware-dependent)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-DESIGN-REDESIGN",
+      "EV-FINAL-TEST"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Application/ScanScheduler.cs",
+      "engine_sha256": "WirelessScanner.Infrastructure/WlanAdapter.cs",
+      "context_sha256": "docs/decisions/DR-0011-saturation-in-live-survey.md",
+      "test_sha256": "WirelessScanner.Tests/RedesignTests.cs"
+    }
+  },
+  "change": {
+    "summary": "IScanScheduler/ScanScheduler (cadence = min request, single flight, AutoScan flag), WlanAdapter in-flight coalescing, SaturationTestRunner on the scheduler with decimation (tolerance = half effective interval), shared scheduler in DI",
+    "artifact_evidence_ids": [
+      "EV-T13-T16-CHANGE"
+    ],
+    "scope_authority": "Owner approval 2026-10-16 (E-0008, Q5 'fix F18 first'); DR-0011"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj --no-build",
+      "dotnet test ... --filter FullyQualifiedName~ConcurrentConsumers_OnRealAdapter (HW-F18-1)",
+      "python tools/mutation_check.py ... (MUT-F18-1)"
+    ],
+    "positive": [
+      "SingleFlight_ConcurrentRequestsShareOneProviderScan",
+      "Runner_DecimatesSharedCadenceToItsOwnInterval_AndLiveViewKeepsItsPace",
+      "HW-F18-1: 3 -> 1 scan, 8/8 fresh"
+    ],
+    "negative": [
+      "Loop stops when cadences are released",
+      "ScanNow without adapter returns null",
+      "Mutant without single flight is killed"
+    ],
+    "regression": [
+      "Full suite 148/148"
+    ],
+    "result_evidence_ids": [
+      "EV-T13-T17-TEST",
+      "EV-T13-HW",
+      "EV-T13-MUT"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Mutation check proves the regression test",
+      "Hardware probe from the test project"
+    ],
+    "what_failed": [
+      "First design ran the first scan asynchronously in headless VMs (would race tests) -> AutoScan flag"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "One adapter model, 35 s probe"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [
+      "IT-T03-01"
+    ],
+    "reuse_applied": "Fresh-scan cycle semantics from IT-T03 unchanged",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-16-LIVE-SURVEY-REDESIGN"
+    ],
+    "transferable_rule": "Give a shared hardware resource exactly one owner loop; consumers subscribe and decimate",
+    "applicability_limits": "Windows WLAN client scanning"
+  },
+  "next_action": {
+    "action": "Owner trial with live view + capture + test together on real networks",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner availability"
+  }
+}

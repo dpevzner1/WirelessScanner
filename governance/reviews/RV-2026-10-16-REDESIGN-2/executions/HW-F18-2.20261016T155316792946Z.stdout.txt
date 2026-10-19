@@ -1,0 +1,19 @@
+Test run for C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll
+NUnit Adapter 5.0.0.0: Test execution started
+Running selected tests in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll
+   NUnit3TestExecutor discovered 1 of 1 NUnit test cases using Current Discovery mode, Explicit run
+HARDWARE_PROBE_JSON {"adapter":"Intel(R) Dual Band Wireless-AC 7265","burstStatuses":["Fresh","Fresh","Fresh"],"burstCoalesced":true,"schedulerCycles":7,"schedulerFailed":0,"schedulerStatusCounts":{"Fresh":7},"testCycles":7,"testFresh":7,"testStale":0,"testFailed":0}
+
+NUnit Adapter 5.0.0.0: Test execution complete
+  Passed ConcurrentConsumers_OnRealAdapter_ShareScans_WithoutFailures [40 s]
+  Standard Output Messages:
+ HARDWARE_PROBE_JSON {"adapter":"Intel(R) Dual Band Wireless-AC 7265","burstStatuses":["Fresh","Fresh","Fresh"],"burstCoalesced":true,"schedulerCycles":7,"schedulerFailed":0,"schedulerStatusCounts":{"Fresh":7},"testCycles":7,"testFresh":7,"testStale":0,"testFailed":0}
+
+
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 1.0489 Minutes

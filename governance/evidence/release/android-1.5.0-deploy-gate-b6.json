@@ -1,0 +1,41 @@
+﻿{
+    "utc":  "2026-10-19T18:05:50.1092992Z",
+    "tool":  "tools/android_deploy.ps1",
+    "lesson":  "LL-2026-10-19-ANDROID-DEVICE-AUTH",
+    "preflight":  {
+                      "adb":  true,
+                      "hostKeySha256":  "EA8421B2B2EF2B9F1FAEDFEA042A5BD840ED3BA433A2DEDF478DE81EA49D2CAE",
+                      "targets":  [
+                                      {
+                                          "serial":  "*******SHKH",
+                                          "state":  "device"
+                                      }
+                                  ],
+                      "state":  "device",
+                      "model":  "SM-X200",
+                      "api":  "34",
+                      "abi":  "arm64-v8a",
+                      "adbAuthTimeoutDisabled":  "null"
+                  },
+    "apk":  {
+                "path":  "AndroidApp\\artifacts\\deploy\\WirelessScanner-Android-1.5.0-b6.apk",
+                "sha256":  "45C75C53D55AC20832909F80160CB6D292F0A0428BA52C7060B06ED406B68AC7",
+                "bytes":  9088809
+            },
+    "deployCopy":  {
+                       "location":  "This PC\\Galaxy8NOMAD\\SD card\\DEPLOY",
+                       "readBackSha256":  "45C75C53D55AC20832909F80160CB6D292F0A0428BA52C7060B06ED406B68AC7",
+                       "verified":  true
+                   },
+    "install":  {
+                    "requested":  true,
+                    "status":  "passed",
+                    "launchPid":  "23686",
+                    "fatal":  false,
+                    "installedVersion":  "versionName=1.5.0",
+                    "foreground":  true,
+                    "screenshot":  "governance\\evidence\\local-only\\android-screens\\launch-20261019T180550Z.png",
+                    "screenshotSha256":  "19764D296A304DC311AE02DF5E891F2617916FE99A5E944EA328881566A22730",
+                    "visualReview":  "pending: open the screenshot; launch alone is not visual evidence"
+                }
+}

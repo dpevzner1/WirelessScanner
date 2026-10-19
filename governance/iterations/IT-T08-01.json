@@ -1,0 +1,114 @@
+{
+  "id": "IT-T08-01",
+  "task_ids": [
+    "T08"
+  ],
+  "finding_ids": [
+    "F05"
+  ],
+  "scope": "REST API security",
+  "state": "completed",
+  "started_at": "2026-10-15T23:05:00+00:00",
+  "finished_at": "2026-10-15T23:10:00+00:00",
+  "hypothesis": {
+    "claim": "Header-only constant-time auth, no wildcard CORS and actionable start errors close F05 without breaking header-based clients",
+    "disconfirming_result": "Query key accepted, wildcard CORS returned, or header clients fail",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [
+      "Header-only",
+      "Keep query key"
+    ],
+    "chosen": "Header-only",
+    "why": "Engine C-03 pushback on query-string secrets",
+    "rejected": [
+      "Query key (leaks to logs/history)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Infrastructure/RestApiServer.cs",
+      "engine_sha256": "WirelessScanner.Domain/IRestApiServer.cs",
+      "context_sha256": "docs/decisions/DR-0008-rest-api-security.md",
+      "test_sha256": "WirelessScanner.Tests/ApiTests.cs"
+    }
+  },
+  "change": {
+    "summary": "FixedTimeEquals, query key rejected, AllowedOrigin CORS, no-store, generic 500, LastError surfaced in UI, README key removed",
+    "artifact_evidence_ids": [
+      "EV-T06-T12-CHANGE"
+    ],
+    "scope_authority": "DR-0008"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests --no-build --filter ApiTests"
+    ],
+    "positive": [
+      "Header key 200"
+    ],
+    "negative": [
+      "Query key 401",
+      "Evil origin no CORS",
+      "Prefix key rejected"
+    ],
+    "regression": [
+      "Live/stats endpoints"
+    ],
+    "result_evidence_ids": [
+      "EV-T06T09-TEST"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Port-conflict test reproduces the logged 1.0 failure"
+    ],
+    "what_failed": [],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "1.0 key still valid until owner regenerates"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ],
+    "transferable_rule": "Never document real secrets; keys only in headers; compare in constant time",
+    "applicability_limits": "Local HTTP APIs"
+  },
+  "next_action": {
+    "action": "Owner regenerates API key",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner action"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "passed": true,
+  "registered_records": 1,
+  "record_files": 1,
+  "errors": []
+}

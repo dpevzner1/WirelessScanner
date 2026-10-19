@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WirelessScanner.Domain;
@@ -13,9 +15,9 @@ public class SessionRepository : ISessionRepository
     {
         _contextFactory = contextFactory;
         
-        // Ensure database exists and schema is initialized
+        // Ensure database exists and upgrade older schemas in place (DR-0003)
         using var context = _contextFactory.CreateDbContext();
-        context.Database.EnsureCreated();
+        SchemaMigrator.Upgrade(context);
 
         try
         {
@@ -70,6 +72,29 @@ public class SessionRepository : ISessionRepository
         context.Samples.Add(record);
         await context.SaveChangesAsync();
     }
+
+    public async Task SaveSamplesAsync(IReadOnlyList<TelemetrySample> samples, Guid sessionId)
+    {
+        if (samples.Count == 0) return;
+        using var context = await _contextFactory.CreateDbContextAsync();
+        context.Samples.AddRange(samples.Select(sample => ToRecord(sample, sessionId)));
+        await context.SaveChangesAsync(); // one transaction per scan cycle
+    }
+
+    private static DbSampleRecord ToRecord(TelemetrySample sample, Guid sessionId) => new()
+    {
+        SessionId = sessionId,
+        Timestamp = sample.Timestamp,
+        SurveyPoint = sample.SurveyPoint,
+        BSSID = sample.BSSID,
+        SSID = sample.SSID,
+        Band = sample.Band,
+        Channel = sample.Channel,
+        RSSI = sample.RSSI,
+        SNR = sample.SNR,
+        Quality = sample.Quality,
+        Jitter = sample.Jitter
+    };
 
     public async Task UpdateSessionStatusAsync(Guid sessionId, CaptureSessionStatus status, DateTime? endTime)
     {
@@ -186,7 +211,7 @@ public class SessionRepository : ISessionRepository
             SNR: r.SNR,
             Quality: r.Quality,
             Jitter: r.Jitter,
-            NoiseFloor: -95
+            NoiseFloor: null // not measured by the WLAN API (F09)
         );
     }
 }

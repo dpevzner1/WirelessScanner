@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Monochrome status-bar icon (Wi-Fi arcs) for the capture/test notification. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M12,18.5a1.8,1.8 0,1 1,0 3.6a1.8,1.8 0,1 1,0 -3.6zM12,13.5c2,0 3.8,0.8 5.1,2.1l-1.5,1.5C14.7,16.2 13.4,15.6 12,15.6s-2.7,0.6 -3.6,1.5L6.9,15.6C8.2,14.3 10,13.5 12,13.5zM12,8.5c3.4,0 6.4,1.4 8.6,3.6l-1.5,1.5C17.3,11.8 14.8,10.6 12,10.6s-5.3,1.2 -7.1,3L3.4,12.1C5.6,9.9 8.6,8.5 12,8.5zM12,3.5c4.8,0 9.1,1.9 12,5l-1.5,1.5C19.9,7.2 16.2,5.6 12,5.6S4.1,7.2 1.5,10L0,8.5C2.9,5.4 7.2,3.5 12,3.5z" />
+</vector>

@@ -1,0 +1,118 @@
+{
+  "id": "IT-T25-01",
+  "task_ids": [
+    "T25"
+  ],
+  "finding_ids": [
+    "F29"
+  ],
+  "scope": "connection test stage B (speed and responsiveness)",
+  "state": "completed",
+  "started_at": "2026-10-18T21:33:47+00:00",
+  "finished_at": "2026-10-19T00:38:31+00:00",
+  "hypothesis": {
+    "claim": "Multi-stream TCP with ramp exclusion plus latency sampling during load yields capacity and a bufferbloat grade without contaminating monitoring statistics",
+    "disconfirming_result": "Throughput computed from ramp-up, latency under load not sampled, or regular probes running during the test",
+    "prior_lessons": [
+      "LL-2026-10-18-CONNECTION-TEST"
+    ]
+  },
+  "decision": {
+    "options": [
+      "LAN responder + own HTTP server",
+      "Public provider preset"
+    ],
+    "chosen": "LAN responder + own HTTP server",
+    "why": "Public providers may publish results with the client IP; owner decision required (DR-0014)",
+    "rejected": [
+      "Preset public provider without consent"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-1.4-TEST-2"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Application/ConnectionTestRunner.cs",
+      "engine_sha256": "WirelessScanner.Infrastructure/CapacityClients.cs",
+      "context_sha256": "docs/CONNECTION_TEST_SPEC.md",
+      "test_sha256": "WirelessScanner.Tests/ConnectionTestTests.cs"
+    }
+  },
+  "change": {
+    "summary": "RunSpeedTestAsync (pause, idle/loaded latency, grade, RPM\u2248), SteadyCounter, HttpSpeedClient, responder throughput; schedule and on-demand with confirmation; settings page",
+    "artifact_evidence_ids": [
+      "EV-1.5-CHANGE"
+    ],
+    "scope_authority": "Owner: 'build it all' (DR-0014 stage B)"
+  },
+  "test": {
+    "commands": [
+      "dotnet test (TEST-1.5-FULL-3)"
+    ],
+    "positive": [
+      "SpeedTest_PausesRegularProbes_AndRecordsLatencyUnderLoad",
+      "Throughput_OverLoopback_MeasuresBothDirections",
+      "Bufferbloat_Grades"
+    ],
+    "negative": [
+      "Validation_ExplainsWhatBlocksStarting (speed without server)"
+    ],
+    "regression": [
+      "Full suite"
+    ],
+    "result_evidence_ids": [
+      "EV-1.5-TEST"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Capacity gate prevents overlapping runs"
+    ],
+    "what_failed": [],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Not run against a real server yet"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [
+      "IT-T24-01"
+    ],
+    "reuse_applied": "Prober latency probes reused for loaded latency",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-18-CONNECTION-TEST"
+    ],
+    "transferable_rule": "Exclude ramp-up from throughput and pause background probes during capacity tests",
+    "applicability_limits": "TCP throughput tests"
+  },
+  "next_action": {
+    "action": "Owner chooses a stage-B server (LAN responder or own HTTP)",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner decision"
+  }
+}

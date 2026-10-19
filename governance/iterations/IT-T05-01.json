@@ -1,0 +1,124 @@
+{
+  "id": "IT-T05-01",
+  "task_ids": [
+    "T05"
+  ],
+  "finding_ids": [
+    "F09",
+    "F14",
+    "F15",
+    "F16",
+    "F17"
+  ],
+  "scope": "measurement semantics and parsers",
+  "state": "completed",
+  "started_at": "2026-10-15T22:12:00+00:00",
+  "finished_at": "2026-10-15T22:20:00+00:00",
+  "hypothesis": {
+    "claim": "Removing assumed/sentinel values, relabelling units and parsing operation/AKM elements makes reported fields truthful",
+    "disconfirming_result": "Test vectors from IEEE 802.11 element layouts disagree with parser output, or 'ms' labels remain",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [
+      "Fix semantics now",
+      "Defer to saturation work"
+    ],
+    "chosen": "Fix semantics now",
+    "why": "Saturation analytics depend on correct channel/width/security and units",
+    "rejected": [
+      "Defer (would propagate wrong values into new reports)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Infrastructure/WlanAdapter.cs",
+      "engine_sha256": "WirelessScanner.Infrastructure/ExportService.cs",
+      "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0004-saturation-test-measurement-model.md",
+      "test_sha256": "WirelessScanner.Tests/CoreFixTests.cs"
+    }
+  },
+  "change": {
+    "summary": "NoiseFloor null; SNR estimated label; variation dB labels; 6 GHz base 5950; width from HT/VHT/HE operation; AKM-based security",
+    "artifact_evidence_ids": [
+      "EV-T03T05-CHANGE"
+    ],
+    "scope_authority": "DR-0004"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests --no-build"
+    ],
+    "positive": [
+      "ParserTests (channels, widths, security, rates, beacon age)"
+    ],
+    "negative": [
+      "Capability-only HT gives null width",
+      "No 6 GHz default width",
+      "UnitLabelTests: no 'ms' on variation"
+    ],
+    "regression": [
+      "Export tests"
+    ],
+    "result_evidence_ids": [
+      "EV-T03T05-TEST-1",
+      "EV-T03-HW-1"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Test vectors exposed F15-F17",
+      "Hardware probe saw Enterprise networks correctly labelled"
+    ],
+    "what_failed": [],
+    "new_finding_ids": [
+      "F15",
+      "F16",
+      "F17"
+    ],
+    "residual_risk": [
+      "CSV/JSON header rename breaks downstream consumers (documented)"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-CORE-SCAN-PERSISTENCE"
+    ],
+    "transferable_rule": "Write protocol test vectors before trusting any parser; unknown is null, not a default",
+    "applicability_limits": "802.11 element parsing"
+  },
+  "next_action": {
+    "action": "Implement saturation test T06",
+    "owner": "Claude Code (implementer)",
+    "resume_condition": "Suite green"
+  }
+}

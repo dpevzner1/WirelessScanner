@@ -1,0 +1,72 @@
+{
+  "id": "REPLACE_ITERATION_ID",
+  "task_ids": [],
+  "finding_ids": [],
+  "scope": "engine_or_control_or_other_explicit_scope",
+  "state": "planned",
+  "started_at": null,
+  "finished_at": null,
+  "hypothesis": {
+    "claim": "",
+    "disconfirming_result": "",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [],
+    "chosen": "",
+    "why": "",
+    "rejected": []
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [],
+    "environment": {},
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null
+  },
+  "change": {
+    "summary": "",
+    "artifact_evidence_ids": [],
+    "scope_authority": ""
+  },
+  "test": {
+    "commands": [],
+    "positive": [],
+    "negative": [],
+    "regression": [],
+    "result_evidence_ids": [],
+    "reviewer": null,
+    "independent": false
+  },
+  "outcome": {
+    "verdict": null,
+    "what_worked": [],
+    "what_failed": [],
+    "new_finding_ids": [],
+    "residual_risk": []
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [],
+    "transferable_rule": "",
+    "applicability_limits": ""
+  },
+  "next_action": {
+    "action": "",
+    "owner": null,
+    "resume_condition": ""
+  }
+}

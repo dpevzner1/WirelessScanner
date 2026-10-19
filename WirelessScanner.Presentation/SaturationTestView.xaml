@@ -1,0 +1,457 @@
+<UserControl x:Class="WirelessScanner.Presentation.SaturationTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WirelessScanner.Presentation"
+             Background="#000000" Foreground="#FF8800">
+    <!-- Signal Saturation Test (SPEC-SAT-001 §7, DR-0005). Three steps: Setup -> Running -> Results.
+         Colour is never the only signal: every status also has a text label (SAT-AC-09). -->
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Vis" />
+        <Style x:Key="Panel" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#883300"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="14"/>
+            <Setter Property="Background" Value="#000000"/>
+        </Style>
+        <Style x:Key="StepTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#FF6600"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+        <Style x:Key="Label" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#AA4400"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="0,6,0,2"/>
+        </Style>
+        <Style x:Key="Hint" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#AA4400"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+        </Style>
+        <Style x:Key="BigButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="22,10"/>
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#FF8800"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10,15,10,10">
+        <!-- ===================== STEP 1: SETUP ===================== -->
+        <Grid Visibility="{Binding IsSetup, Converter={StaticResource Vis}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.45*"/>
+                <ColumnDefinition Width="14"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="12"/>
+                <RowDefinition Height="170"/>
+            </Grid.RowDefinitions>
+
+            <!-- 1 · WHAT -->
+            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Panel}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Style="{StaticResource StepTitle}" Text="1 · WHAT TO TEST"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" DisplayMemberPath="DisplayName"
+                                  AutomationProperties.Name="Wi-Fi adapter" ToolTip="Wi-Fi adapter used for the test"/>
+                        <Button Grid.Column="1" Content="DISCOVER" Command="{Binding DiscoverCommand}" Margin="8,0,0,0" Padding="16,6"
+                                ToolTip="Run two fresh scans and list every network in range" AutomationProperties.Name="Discover networks"/>
+                    </Grid>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,0">
+                        <TextBlock Text="Scope:" Foreground="#AA4400" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <ComboBox ItemsSource="{Binding ScopeOptions}" SelectedItem="{Binding SelectedScope}" MinWidth="300" AutomationProperties.Name="Test scope"/>
+                    </StackPanel>
+                    <TextBlock Grid.Row="3" Style="{StaticResource Hint}" Text="{Binding SelectionHint}" Margin="0,4,0,0"/>
+                    <Grid Grid.Row="4" Margin="0,8,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Filter by SSID, BSSID or vendor" AutomationProperties.Name="Search networks"/>
+                        <Button Grid.Column="1" Content="Select shown" Command="{Binding SelectAllCommand}" Margin="8,0,0,0" Padding="10,4"/>
+                        <Button Grid.Column="2" Content="Clear" Command="{Binding SelectNoneCommand}" Margin="6,0,0,0" Padding="10,4"/>
+                    </Grid>
+                    <DataGrid Grid.Row="5" ItemsSource="{Binding FilteredCandidates}" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column"
+                              AutomationProperties.Name="Discovered networks">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="TEST" Width="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                                  AutomationProperties.Name="Include network in test"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="SSID" Binding="{Binding Ssid}" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="BSSID" Binding="{Binding Bssid}" Width="135" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="65" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="CH" Binding="{Binding Channel}" Width="40" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="SIGNAL" Binding="{Binding RssiText}" Width="135" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="SECURITY" Binding="{Binding Security}" Width="130" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="VENDOR" Binding="{Binding Vendor}" Width="*" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="0,6,0,0">
+                        <TextBlock Text="{Binding DiscoveryStatus}" Foreground="#FF8800" TextWrapping="Wrap"/>
+                        <TextBlock Text="   ·   selected: " Foreground="#AA4400"/>
+                        <TextBlock Text="{Binding SelectedCount}" Foreground="#FF6600" FontWeight="Bold"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 2 · HOW LONG + 3 · WHERE -->
+            <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource Panel}">
+                <DockPanel>
+                <!-- Pinned: summary, validation and START always visible (engine C-05: visible status, Fitts's law) -->
+                <StackPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                    <TextBlock Text="{Binding SummaryLine}" Foreground="#FF8800" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                    <TextBlock Text="{Binding ValidationMessage}" Foreground="#FF3300" TextWrapping="Wrap" Margin="0,0,0,8"
+                               Visibility="{Binding HasValidationMessage, Converter={StaticResource Vis}}"/>
+                    <Button Style="{StaticResource BigButton}" Content="▶  START SATURATION TEST" Command="{Binding StartCommand}"
+                            IsEnabled="{Binding CanStart}" HorizontalAlignment="Stretch" Margin="0" AutomationProperties.Name="Start saturation test"/>
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource StepTitle}" Text="2 · HOW LONG"/>
+                        <TextBlock Style="{StaticResource Label}" Text="Duration"/>
+                        <ComboBox ItemsSource="{Binding DurationOptions}" SelectedItem="{Binding SelectedDuration}" AutomationProperties.Name="Test duration"/>
+                        <StackPanel Visibility="{Binding IsCustomDuration, Converter={StaticResource Vis}}">
+                            <TextBlock Style="{StaticResource Label}" Text="Custom duration (minutes, 1–1440)"/>
+                            <TextBox Text="{Binding CustomMinutes, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Custom duration in minutes"/>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource Label}" Text="Scan interval (seconds) — Windows needs about 2–4 s per scan"/>
+                        <ComboBox ItemsSource="{Binding IntervalOptions}" SelectedItem="{Binding IntervalSeconds}" AutomationProperties.Name="Scan interval"/>
+
+                        <TextBlock Style="{StaticResource StepTitle}" Text="3 · WHERE" Margin="0,16,0,4"/>
+                        <TextBlock Style="{StaticResource Label}" Text="Test area / location (required)"/>
+                        <TextBox Text="{Binding Location, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Test location"/>
+                        <TextBlock Style="{StaticResource Label}" Text="Geolocation: latitude / longitude (decimal degrees, WGS84) / accuracy m"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="6"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="6"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding Latitude, UpdateSourceTrigger=PropertyChanged}" ToolTip="Latitude, e.g. 41.878113" AutomationProperties.Name="Latitude"/>
+                            <TextBox Grid.Column="2" Text="{Binding Longitude, UpdateSourceTrigger=PropertyChanged}" ToolTip="Longitude, e.g. -87.629799" AutomationProperties.Name="Longitude"/>
+                            <TextBox Grid.Column="4" Text="{Binding AccuracyMeters, UpdateSourceTrigger=PropertyChanged}" ToolTip="Accuracy in metres (optional)" AutomationProperties.Name="Location accuracy in metres"/>
+                            <Button Grid.Column="5" Content="DETECT" Command="{Binding DetectLocationCommand}" Margin="6,0,0,0" Padding="10,4"
+                                    ToolTip="Use the Windows Location service" AutomationProperties.Name="Detect location"/>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Hint}" Text="{Binding GeoStatus}" Margin="0,2,0,0"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="6"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="6"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource Label}" Text="Building"/>
+                                <TextBox Text="{Binding Building}" AutomationProperties.Name="Building"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Style="{StaticResource Label}" Text="Floor"/>
+                                <TextBox Text="{Binding Floor}" AutomationProperties.Name="Floor"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4">
+                                <TextBlock Style="{StaticResource Label}" Text="Zone / room"/>
+                                <TextBox Text="{Binding Zone}" AutomationProperties.Name="Zone"/>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Label}" Text="Test name (optional)"/>
+                        <TextBox Text="{Binding TestName}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Style="{StaticResource Label}" Text="Facility"/>
+                                <TextBox Text="{Binding Facility}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Style="{StaticResource Label}" Text="Operator"/>
+                                <TextBox Text="{Binding Operator}"/>
+                            </StackPanel>
+                        </Grid>
+                        <TextBlock Style="{StaticResource Label}" Text="Client (printed on the report)"/>
+                        <TextBox Text="{Binding Client}"/>
+                        <TextBlock Style="{StaticResource Label}" Text="Notes"/>
+                        <TextBox Text="{Binding Notes}" Height="44" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+
+                        <Expander Header="Advanced thresholds" Foreground="#AA4400" Margin="0,10,0,0">
+                            <Grid Margin="0,6,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource Label}" Text="Drop threshold (dB)"/>
+                                    <TextBox Text="{Binding DropDb, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Style="{StaticResource Label}" Text="Peak threshold (dB)"/>
+                                    <TextBox Text="{Binding PeakDb, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1">
+                                    <TextBlock Style="{StaticResource Label}" Text="Dropout = missed scans"/>
+                                    <TextBox Text="{Binding DropoutCycles, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="2">
+                                    <TextBlock Style="{StaticResource Label}" Text="Baseline window (samples)"/>
+                                    <TextBox Text="{Binding BaselineWindow, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Expander>
+                        <CheckBox Content="Keep this PC awake while the test runs" IsChecked="{Binding KeepAwakeEnabled}" Margin="0,10,0,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+                </DockPanel>
+            </Border>
+
+            <!-- HISTORY -->
+            <Border Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource Panel}" Padding="10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid ItemsSource="{Binding History}" SelectedItem="{Binding SelectedHistory}" AutoGenerateColumns="False" IsReadOnly="True"
+                              HeadersVisibility="Column" AutomationProperties.Name="Saturation test history">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="STARTED (UTC)" Binding="{Binding StartUtc, StringFormat=yyyy-MM-dd HH:mm}" Width="130"/>
+                            <DataGridTextColumn Header="NAME" Binding="{Binding Config.Name}" Width="*"/>
+                            <DataGridTextColumn Header="LOCATION" Binding="{Binding Config.Location}" Width="150"/>
+                            <DataGridTextColumn Header="GEO" Binding="{Binding Config.Geo.CoordinatesText}" Width="190"/>
+                            <DataGridTextColumn Header="SCOPE" Binding="{Binding Config.Scope}" Width="110"/>
+                            <DataGridTextColumn Header="CYCLES" Binding="{Binding CycleCount}" Width="70"/>
+                            <DataGridTextColumn Header="STATUS" Binding="{Binding Status}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="1" Margin="10,0,0,0" Width="130">
+                        <TextBlock Text="PAST TESTS" Style="{StaticResource StepTitle}"/>
+                        <Button Content="Open results" Command="{Binding OpenHistoryCommand}" Margin="0,0,0,6"/>
+                        <Button Content="Refresh" Command="{Binding RefreshHistoryCommand}" Margin="0,0,0,6"/>
+                        <Button Content="Delete…" Command="{Binding DeleteHistoryCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ===================== STEP 2: RUNNING ===================== -->
+        <Grid Visibility="{Binding IsRunningStep, Converter={StaticResource Vis}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Style="{StaticResource Panel}" Margin="0,0,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="{Binding RunStatus}" FontSize="18" FontWeight="Bold" Foreground="#FF6600"/>
+                        <ProgressBar Value="{Binding ProgressPct, Mode=OneWay}" IsIndeterminate="{Binding IsIndeterminate}" Height="14" Margin="0,8,0,6"
+                                     Foreground="#FF6600" Background="#1A0A00" BorderBrush="#883300" AutomationProperties.Name="Test progress"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Elapsed " Foreground="#AA4400"/>
+                            <TextBlock Text="{Binding ElapsedText}" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="     Remaining " Foreground="#AA4400"/>
+                            <TextBlock Text="{Binding RemainingText}" FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="     " />
+                            <TextBlock Text="{Binding CycleText}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding WarningText}" Foreground="#FFBB33" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,6,0,0"
+                                   Visibility="{Binding HasWarning, Converter={StaticResource Vis}}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource BigButton}" Content="❚❚  PAUSE" Command="{Binding PauseCommand}" Visibility="{Binding IsNotPaused, Converter={StaticResource Vis}}"/>
+                        <Button Style="{StaticResource BigButton}" Content="▶  RESUME" Command="{Binding ResumeCommand}" Visibility="{Binding IsPaused, Converter={StaticResource Vis}}"/>
+                        <Button Style="{StaticResource BigButton}" Content="■  STOP" Command="{Binding StopCommand}" AutomationProperties.Name="Stop test"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="380"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <ItemsControl ItemsSource="{Binding Tiles}" Margin="0,0,0,10" MaxHeight="230">
+                    <ItemsControl.Template>
+                        <ControlTemplate>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"><ItemsPresenter/></ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{Binding Brush}" BorderThickness="2" CornerRadius="6" Padding="10" Margin="0,0,8,8" Width="340">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Title}" Foreground="#FF8800" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,4">
+                                        <TextBlock Text="{Binding Current}" FontSize="30" FontWeight="Bold" Foreground="{Binding Brush}"/>
+                                        <TextBlock Text="{Binding CurrentLabel}" FontSize="14" FontWeight="Bold" Foreground="{Binding Brush}" VerticalAlignment="Bottom" Margin="10,0,0,6"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Stats}" Foreground="#AA4400" FontSize="11" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Events}" Foreground="#FF8800" FontSize="11" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Border Grid.Row="1" Style="{StaticResource Panel}" Padding="6">
+                    <Canvas x:Name="LiveChart" ClipToBounds="True" SizeChanged="OnChartSizeChanged" AutomationProperties.Name="Live RSSI timeline"/>
+                </Border>
+                <Border Grid.Column="2" Grid.RowSpan="2" Style="{StaticResource Panel}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource StepTitle}" Text="ADD MARKER"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding MarkerText, UpdateSourceTrigger=PropertyChanged}" ToolTip="e.g. microwave on, door closed, people entered"
+                                     AutomationProperties.Name="Marker text"/>
+                            <Button Grid.Column="1" Content="Add" Command="{Binding AddMarkerCommand}" Margin="6,0,0,0" Padding="12,4"/>
+                        </Grid>
+                        <TextBlock Grid.Row="2" Style="{StaticResource StepTitle}" Text="EVENT FEED" Margin="0,14,0,6"/>
+                        <ListBox Grid.Row="3" ItemsSource="{Binding EventFeed}" Background="#000000" Foreground="#FF8800" BorderBrush="#883300"
+                                 FontFamily="Consolas" FontSize="11" AutomationProperties.Name="Event feed"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- ===================== STEP 3: RESULTS ===================== -->
+        <Grid Visibility="{Binding IsResults, Converter={StaticResource Vis}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="RESULTS" Style="{StaticResource StepTitle}" FontSize="18" Margin="0"/>
+                    <TextBlock Text="{Binding ResultTitle}" Foreground="#AA4400" TextWrapping="Wrap"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Style="{StaticResource BigButton}" Content="PDF REPORT" Command="{Binding ExportPdfCommand}"/>
+                    <Button Style="{StaticResource BigButton}" Content="CSV BUNDLE" Command="{Binding ExportCsvCommand}"/>
+                    <Button Style="{StaticResource BigButton}" Content="JSON" Command="{Binding ExportJsonCommand}"/>
+                    <Button Style="{StaticResource BigButton}" Content="NEW TEST" Command="{Binding NewTestCommand}" Margin="16,0,0,0"/>
+                </StackPanel>
+            </Grid>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding ResultTargets}" SelectedItem="{Binding SelectedResultTarget}" AutoGenerateColumns="False" IsReadOnly="True"
+                      HeadersVisibility="Column" MaxHeight="210" Margin="0,0,0,8" AutomationProperties.Name="Target summaries">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="GRADE" Binding="{Binding Grade}" Width="55"/>
+                    <DataGridTextColumn Header="SCORE" Binding="{Binding StabilityScore, StringFormat=F1}" Width="55"/>
+                    <DataGridTextColumn Header="SSID" Binding="{Binding Ssid}" Width="130"/>
+                    <DataGridTextColumn Header="BSSID" Binding="{Binding Bssid}" Width="130"/>
+                    <DataGridTextColumn Header="CH" Binding="{Binding Channels}" Width="60"/>
+                    <DataGridTextColumn Header="AVAIL %" Binding="{Binding AvailabilityPct, StringFormat=F1}" Width="65"/>
+                    <DataGridTextColumn Header="MEAN" Binding="{Binding Mean, StringFormat=F1}" Width="55"/>
+                    <DataGridTextColumn Header="TIER" Binding="{Binding Tier}" Width="70"/>
+                    <DataGridTextColumn Header="σ dB" Binding="{Binding StdDev, StringFormat=F1}" Width="50"/>
+                    <DataGridTextColumn Header="MIN" Binding="{Binding Min}" Width="45"/>
+                    <DataGridTextColumn Header="MAX" Binding="{Binding Max}" Width="45"/>
+                    <DataGridTextColumn Header="DROPS" Binding="{Binding DropCount}" Width="55"/>
+                    <DataGridTextColumn Header="DROPOUTS" Binding="{Binding DropoutCount}" Width="75"/>
+                    <DataGridTextColumn Header="CH CHG" Binding="{Binding ChannelChangeCount}" Width="60"/>
+                    <DataGridTextColumn Header="%&lt;-80" Binding="{Binding PctBelowUnusable, StringFormat=F1}" Width="55"/>
+                    <DataGridTextColumn Header="FINDINGS" Binding="{Binding Findings[0]}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Style="{StaticResource Panel}" Padding="6">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Selected target timeline (bands: &lt;-67 / &lt;-70 / &lt;-80 dBm · red ticks = not seen · dashed = markers)" Style="{StaticResource Hint}"/>
+                        <Canvas Grid.Row="1" x:Name="ResultChart" ClipToBounds="True" SizeChanged="OnChartSizeChanged" AutomationProperties.Name="Result RSSI timeline"/>
+                    </Grid>
+                </Border>
+                <DataGrid Grid.Column="2" ItemsSource="{Binding ResultEvents}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column"
+                          AutomationProperties.Name="Detected events">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="TYPE" Binding="{Binding Type}" Width="120"/>
+                        <DataGridTextColumn Header="START (UTC)" Binding="{Binding StartUtc, StringFormat=HH:mm:ss}" Width="80"/>
+                        <DataGridTextColumn Header="DUR s" Binding="{Binding DurationSeconds, StringFormat=F0}" Width="55"/>
+                        <DataGridTextColumn Header="SUBJECT" Binding="{Binding Subject}" Width="130"/>
+                        <DataGridTextColumn Header="DETAIL" Binding="{Binding Detail}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <TextBlock Grid.Row="3" Text="{Binding ExportStatus}" Foreground="#FF8800" TextWrapping="Wrap" Margin="0,8,0,0"/>
+        </Grid>
+    </Grid>
+</UserControl>

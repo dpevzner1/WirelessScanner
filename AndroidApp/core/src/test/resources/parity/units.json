@@ -1,0 +1,2541 @@
+{
+  "t0": "2026-10-19T09:00:00Z",
+  "scans": [
+    [
+      {
+        "bssid": "9A:00:00:1F:42:70",
+        "ssid": "Home",
+        "band": "2.4 GHz",
+        "channel": 6,
+        "channelWidth": 20,
+        "rssi": -25,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000000.2,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:1F:42:73",
+        "ssid": "Home-IoT",
+        "band": "2.4 GHz",
+        "channel": 6,
+        "channelWidth": 20,
+        "rssi": -27,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000000.6,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:70",
+        "ssid": "Home",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -40,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000900.1,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:74",
+        "ssid": "Home-Guest",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -42,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000900.4,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:76",
+        "ssid": "\u003CHidden SSID\u003E",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -51,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000900.9,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "3C:00:00:1B:61:43",
+        "ssid": "Mesh-Net",
+        "band": "5 GHz",
+        "channel": 44,
+        "channelWidth": 20,
+        "rssi": -70,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-a"
+      },
+      {
+        "bssid": "3C:00:00:1B:61:46",
+        "ssid": "Mesh-Net-Guest",
+        "band": "5 GHz",
+        "channel": 44,
+        "channelWidth": 20,
+        "rssi": -71,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-a"
+      },
+      {
+        "bssid": "3C:00:00:19:61:43",
+        "ssid": "Mesh-Net",
+        "band": "5 GHz",
+        "channel": 157,
+        "channelWidth": 20,
+        "rssi": -80,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-b"
+      },
+      {
+        "bssid": "80:00:00:4C:7D:F0",
+        "ssid": "Office",
+        "band": "2.4 GHz",
+        "channel": 1,
+        "channelWidth": 20,
+        "rssi": -60,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Synthetic Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "80:00:00:4C:7D:F3",
+        "ssid": "Office-IoT",
+        "band": "2.4 GHz",
+        "channel": 1,
+        "channelWidth": 20,
+        "rssi": -61,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "82:00:00:4C:7D:F3",
+        "ssid": "\u003CHidden SSID\u003E",
+        "band": "5 GHz",
+        "channel": 52,
+        "channelWidth": 20,
+        "rssi": -66,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "C4:00:00:31:5B:F0",
+        "ssid": "Lone",
+        "band": "5 GHz",
+        "channel": 36,
+        "channelWidth": 20,
+        "rssi": -75,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      }
+    ],
+    [
+      {
+        "bssid": "9A:00:00:1F:42:70",
+        "ssid": "Home",
+        "band": "2.4 GHz",
+        "channel": 6,
+        "channelWidth": 20,
+        "rssi": -25,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000003.2,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:1F:42:73",
+        "ssid": "Home-IoT",
+        "band": "2.4 GHz",
+        "channel": 6,
+        "channelWidth": 20,
+        "rssi": -27,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000003.6,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:70",
+        "ssid": "Home",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -40,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000903.1,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:74",
+        "ssid": "Home-Guest",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -42,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000903.4,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:76",
+        "ssid": "\u003CHidden SSID\u003E",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -51,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000903.9,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "3C:00:00:1B:61:43",
+        "ssid": "Mesh-Net",
+        "band": "5 GHz",
+        "channel": 44,
+        "channelWidth": 20,
+        "rssi": -70,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-a"
+      },
+      {
+        "bssid": "3C:00:00:1B:61:46",
+        "ssid": "Mesh-Net-Guest",
+        "band": "5 GHz",
+        "channel": 44,
+        "channelWidth": 20,
+        "rssi": -71,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-a"
+      },
+      {
+        "bssid": "3C:00:00:19:61:43",
+        "ssid": "Mesh-Net",
+        "band": "5 GHz",
+        "channel": 157,
+        "channelWidth": 20,
+        "rssi": -80,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-b"
+      },
+      {
+        "bssid": "80:00:00:4C:7D:F0",
+        "ssid": "Office",
+        "band": "2.4 GHz",
+        "channel": 1,
+        "channelWidth": 20,
+        "rssi": -60,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Synthetic Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "80:00:00:4C:7D:F3",
+        "ssid": "Office-IoT",
+        "band": "2.4 GHz",
+        "channel": 1,
+        "channelWidth": 20,
+        "rssi": -61,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "82:00:00:4C:7D:F3",
+        "ssid": "\u003CHidden SSID\u003E",
+        "band": "5 GHz",
+        "channel": 52,
+        "channelWidth": 20,
+        "rssi": -66,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "C4:00:00:31:5B:F0",
+        "ssid": "Lone",
+        "band": "5 GHz",
+        "channel": 36,
+        "channelWidth": 20,
+        "rssi": -75,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      }
+    ],
+    [
+      {
+        "bssid": "9A:00:00:1F:42:70",
+        "ssid": "Home",
+        "band": "2.4 GHz",
+        "channel": 6,
+        "channelWidth": 20,
+        "rssi": -25,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000006.2999999999,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:1F:42:73",
+        "ssid": "Home-IoT",
+        "band": "2.4 GHz",
+        "channel": 6,
+        "channelWidth": 20,
+        "rssi": -27,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000006.7,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:70",
+        "ssid": "Home",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -40,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000906.2,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:74",
+        "ssid": "Home-Guest",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -42,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000906.5,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "9A:00:00:26:42:76",
+        "ssid": "\u003CHidden SSID\u003E",
+        "band": "5 GHz",
+        "channel": 149,
+        "channelWidth": 20,
+        "rssi": -51,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": 1000907,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "3C:00:00:1B:61:43",
+        "ssid": "Mesh-Net",
+        "band": "5 GHz",
+        "channel": 44,
+        "channelWidth": 20,
+        "rssi": -70,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-a"
+      },
+      {
+        "bssid": "3C:00:00:1B:61:46",
+        "ssid": "Mesh-Net-Guest",
+        "band": "5 GHz",
+        "channel": 44,
+        "channelWidth": 20,
+        "rssi": -71,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-a"
+      },
+      {
+        "bssid": "3C:00:00:19:61:43",
+        "ssid": "Mesh-Net",
+        "band": "5 GHz",
+        "channel": 157,
+        "channelWidth": 20,
+        "rssi": -80,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": "Synthetic Networks",
+        "wpsModel": null,
+        "wpsModelNumber": "MX-1",
+        "wpsDeviceName": null,
+        "wpsUuid": "uuid-mesh-b"
+      },
+      {
+        "bssid": "80:00:00:4C:7D:F0",
+        "ssid": "Office",
+        "band": "2.4 GHz",
+        "channel": 1,
+        "channelWidth": 20,
+        "rssi": -60,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Synthetic Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "80:00:00:4C:7D:F3",
+        "ssid": "Office-IoT",
+        "band": "2.4 GHz",
+        "channel": 1,
+        "channelWidth": 20,
+        "rssi": -61,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "82:00:00:4C:7D:F3",
+        "ssid": "\u003CHidden SSID\u003E",
+        "band": "5 GHz",
+        "channel": 52,
+        "channelWidth": 20,
+        "rssi": -66,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      },
+      {
+        "bssid": "C4:00:00:31:5B:F0",
+        "ssid": "Lone",
+        "band": "5 GHz",
+        "channel": 36,
+        "channelWidth": 20,
+        "rssi": -75,
+        "snr": 0,
+        "quality": 0,
+        "securityType": "WPA2",
+        "vendorOui": "Unknown Vendor",
+        "beaconAgeMs": null,
+        "phyType": null,
+        "beaconIntervalTu": null,
+        "centerFrequencyMhz": null,
+        "stationCount": null,
+        "channelUtilizationPct": null,
+        "tsfOffsetMs": null,
+        "wpsManufacturer": null,
+        "wpsModel": null,
+        "wpsModelNumber": null,
+        "wpsDeviceName": null,
+        "wpsUuid": null
+      }
+    ]
+  ],
+  "operations": [
+    "split:80:00:00:4C:7D:F3",
+    "rename:U-9A00001F4270:Owner router",
+    "merge:C4:00:00:31:5B:F0:U-3C0000194361",
+    "reset:U-3C0000194361"
+  ],
+  "steps": [
+    {
+      "what": "scan0",
+      "units": [
+        {
+          "id": "U-9A00001F4270",
+          "name": "Access point (42:70)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same radio clock: 2 radio(s) where several BSSIDs share one TSF timer (within 5 ms).",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz#9A:00:00:1F:42:70",
+              "band": "2.4 GHz",
+              "channel": 6,
+              "members": [
+                {
+                  "bssid": "9A:00:00:1F:42:70",
+                  "ssid": "Home",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -25
+                },
+                {
+                  "bssid": "9A:00:00:1F:42:73",
+                  "ssid": "Home-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -27
+                }
+              ]
+            },
+            {
+              "key": "5 GHz#9A:00:00:26:42:70",
+              "band": "5 GHz",
+              "channel": 149,
+              "members": [
+                {
+                  "bssid": "9A:00:00:26:42:70",
+                  "ssid": "Home",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -40
+                },
+                {
+                  "bssid": "9A:00:00:26:42:74",
+                  "ssid": "Home-Guest",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -42
+                },
+                {
+                  "bssid": "9A:00:00:26:42:76",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -51
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-8000004C7DF0",
+          "name": "Synthetic Vendor (7D:F0)",
+          "isCustomName": false,
+          "confidence": "Medium",
+          "evidence": [
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F0",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F0",
+                  "ssid": "Office",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -60
+                },
+                {
+                  "bssid": "80:00:00:4C:7D:F3",
+                  "ssid": "Office-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -61
+                }
+              ]
+            },
+            {
+              "key": "5 GHz@82:00:00:4C:7D:F3",
+              "band": "5 GHz",
+              "channel": 52,
+              "members": [
+                {
+                  "bssid": "82:00:00:4C:7D:F3",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 52,
+                  "rssi": -66
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Vendor",
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C00001B6143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same WPS device identity (UUID-E).",
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:1B:61:43",
+              "band": "5 GHz",
+              "channel": 44,
+              "members": [
+                {
+                  "bssid": "3C:00:00:1B:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -70
+                },
+                {
+                  "bssid": "3C:00:00:1B:61:46",
+                  "ssid": "Mesh-Net-Guest",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -71
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C0000196143"
+          ],
+          "isMeshCandidate": true
+        },
+        {
+          "id": "U-C40000315BF0",
+          "name": "Access point (5B:F0)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [],
+          "radios": [
+            {
+              "key": "5 GHz@C4:00:00:31:5B:F0",
+              "band": "5 GHz",
+              "channel": 36,
+              "members": [
+                {
+                  "bssid": "C4:00:00:31:5B:F0",
+                  "ssid": "Lone",
+                  "band": "5 GHz",
+                  "channel": 36,
+                  "rssi": -75
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C0000196143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:19:61:43",
+              "band": "5 GHz",
+              "channel": 157,
+              "members": [
+                {
+                  "bssid": "3C:00:00:19:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 157,
+                  "rssi": -80
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C00001B6143"
+          ],
+          "isMeshCandidate": true
+        }
+      ]
+    },
+    {
+      "what": "scan1",
+      "units": [
+        {
+          "id": "U-9A00001F4270",
+          "name": "Access point (42:70)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same radio clock: 2 radio(s) where several BSSIDs share one TSF timer (within 5 ms).",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz#9A:00:00:1F:42:70",
+              "band": "2.4 GHz",
+              "channel": 6,
+              "members": [
+                {
+                  "bssid": "9A:00:00:1F:42:70",
+                  "ssid": "Home",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -25
+                },
+                {
+                  "bssid": "9A:00:00:1F:42:73",
+                  "ssid": "Home-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -27
+                }
+              ]
+            },
+            {
+              "key": "5 GHz#9A:00:00:26:42:70",
+              "band": "5 GHz",
+              "channel": 149,
+              "members": [
+                {
+                  "bssid": "9A:00:00:26:42:70",
+                  "ssid": "Home",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -40
+                },
+                {
+                  "bssid": "9A:00:00:26:42:74",
+                  "ssid": "Home-Guest",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -42
+                },
+                {
+                  "bssid": "9A:00:00:26:42:76",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -51
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-8000004C7DF0",
+          "name": "Synthetic Vendor (7D:F0)",
+          "isCustomName": false,
+          "confidence": "Medium",
+          "evidence": [
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F0",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F0",
+                  "ssid": "Office",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -60
+                },
+                {
+                  "bssid": "80:00:00:4C:7D:F3",
+                  "ssid": "Office-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -61
+                }
+              ]
+            },
+            {
+              "key": "5 GHz@82:00:00:4C:7D:F3",
+              "band": "5 GHz",
+              "channel": 52,
+              "members": [
+                {
+                  "bssid": "82:00:00:4C:7D:F3",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 52,
+                  "rssi": -66
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Vendor",
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C00001B6143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same WPS device identity (UUID-E).",
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:1B:61:43",
+              "band": "5 GHz",
+              "channel": 44,
+              "members": [
+                {
+                  "bssid": "3C:00:00:1B:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -70
+                },
+                {
+                  "bssid": "3C:00:00:1B:61:46",
+                  "ssid": "Mesh-Net-Guest",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -71
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C0000196143"
+          ],
+          "isMeshCandidate": true
+        },
+        {
+          "id": "U-C40000315BF0",
+          "name": "Access point (5B:F0)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [],
+          "radios": [
+            {
+              "key": "5 GHz@C4:00:00:31:5B:F0",
+              "band": "5 GHz",
+              "channel": 36,
+              "members": [
+                {
+                  "bssid": "C4:00:00:31:5B:F0",
+                  "ssid": "Lone",
+                  "band": "5 GHz",
+                  "channel": 36,
+                  "rssi": -75
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C0000196143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:19:61:43",
+              "band": "5 GHz",
+              "channel": 157,
+              "members": [
+                {
+                  "bssid": "3C:00:00:19:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 157,
+                  "rssi": -80
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C00001B6143"
+          ],
+          "isMeshCandidate": true
+        }
+      ]
+    },
+    {
+      "what": "scan2",
+      "units": [
+        {
+          "id": "U-9A00001F4270",
+          "name": "Access point (42:70)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same radio clock: 2 radio(s) where several BSSIDs share one TSF timer (within 5 ms).",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz#9A:00:00:1F:42:70",
+              "band": "2.4 GHz",
+              "channel": 6,
+              "members": [
+                {
+                  "bssid": "9A:00:00:1F:42:70",
+                  "ssid": "Home",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -25
+                },
+                {
+                  "bssid": "9A:00:00:1F:42:73",
+                  "ssid": "Home-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -27
+                }
+              ]
+            },
+            {
+              "key": "5 GHz#9A:00:00:26:42:70",
+              "band": "5 GHz",
+              "channel": 149,
+              "members": [
+                {
+                  "bssid": "9A:00:00:26:42:70",
+                  "ssid": "Home",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -40
+                },
+                {
+                  "bssid": "9A:00:00:26:42:74",
+                  "ssid": "Home-Guest",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -42
+                },
+                {
+                  "bssid": "9A:00:00:26:42:76",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -51
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-8000004C7DF0",
+          "name": "Synthetic Vendor (7D:F0)",
+          "isCustomName": false,
+          "confidence": "Medium",
+          "evidence": [
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F0",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F0",
+                  "ssid": "Office",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -60
+                },
+                {
+                  "bssid": "80:00:00:4C:7D:F3",
+                  "ssid": "Office-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -61
+                }
+              ]
+            },
+            {
+              "key": "5 GHz@82:00:00:4C:7D:F3",
+              "band": "5 GHz",
+              "channel": 52,
+              "members": [
+                {
+                  "bssid": "82:00:00:4C:7D:F3",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 52,
+                  "rssi": -66
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Vendor",
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C00001B6143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same WPS device identity (UUID-E).",
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:1B:61:43",
+              "band": "5 GHz",
+              "channel": 44,
+              "members": [
+                {
+                  "bssid": "3C:00:00:1B:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -70
+                },
+                {
+                  "bssid": "3C:00:00:1B:61:46",
+                  "ssid": "Mesh-Net-Guest",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -71
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C0000196143"
+          ],
+          "isMeshCandidate": true
+        },
+        {
+          "id": "U-C40000315BF0",
+          "name": "Access point (5B:F0)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [],
+          "radios": [
+            {
+              "key": "5 GHz@C4:00:00:31:5B:F0",
+              "band": "5 GHz",
+              "channel": 36,
+              "members": [
+                {
+                  "bssid": "C4:00:00:31:5B:F0",
+                  "ssid": "Lone",
+                  "band": "5 GHz",
+                  "channel": 36,
+                  "rssi": -75
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C0000196143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:19:61:43",
+              "band": "5 GHz",
+              "channel": 157,
+              "members": [
+                {
+                  "bssid": "3C:00:00:19:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 157,
+                  "rssi": -80
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C00001B6143"
+          ],
+          "isMeshCandidate": true
+        }
+      ]
+    },
+    {
+      "what": "split",
+      "units": [
+        {
+          "id": "U-9A00001F4270",
+          "name": "Access point (42:70)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same radio clock: 2 radio(s) where several BSSIDs share one TSF timer (within 5 ms).",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz#9A:00:00:1F:42:70",
+              "band": "2.4 GHz",
+              "channel": 6,
+              "members": [
+                {
+                  "bssid": "9A:00:00:1F:42:70",
+                  "ssid": "Home",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -25
+                },
+                {
+                  "bssid": "9A:00:00:1F:42:73",
+                  "ssid": "Home-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -27
+                }
+              ]
+            },
+            {
+              "key": "5 GHz#9A:00:00:26:42:70",
+              "band": "5 GHz",
+              "channel": 149,
+              "members": [
+                {
+                  "bssid": "9A:00:00:26:42:70",
+                  "ssid": "Home",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -40
+                },
+                {
+                  "bssid": "9A:00:00:26:42:74",
+                  "ssid": "Home-Guest",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -42
+                },
+                {
+                  "bssid": "9A:00:00:26:42:76",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -51
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-8000004C7DF0",
+          "name": "Synthetic Vendor (7D:F0)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F0",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F0",
+                  "ssid": "Office",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -60
+                }
+              ]
+            },
+            {
+              "key": "5 GHz@82:00:00:4C:7D:F3",
+              "band": "5 GHz",
+              "channel": 52,
+              "members": [
+                {
+                  "bssid": "82:00:00:4C:7D:F3",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 52,
+                  "rssi": -66
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Vendor",
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "M-80:00:00:4C:7D:F3",
+          "name": "Access point (7D:F3)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F3",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F3",
+                  "ssid": "Office-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -61
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C00001B6143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same WPS device identity (UUID-E).",
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:1B:61:43",
+              "band": "5 GHz",
+              "channel": 44,
+              "members": [
+                {
+                  "bssid": "3C:00:00:1B:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -70
+                },
+                {
+                  "bssid": "3C:00:00:1B:61:46",
+                  "ssid": "Mesh-Net-Guest",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -71
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C0000196143"
+          ],
+          "isMeshCandidate": true
+        },
+        {
+          "id": "U-C40000315BF0",
+          "name": "Access point (5B:F0)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [],
+          "radios": [
+            {
+              "key": "5 GHz@C4:00:00:31:5B:F0",
+              "band": "5 GHz",
+              "channel": 36,
+              "members": [
+                {
+                  "bssid": "C4:00:00:31:5B:F0",
+                  "ssid": "Lone",
+                  "band": "5 GHz",
+                  "channel": 36,
+                  "rssi": -75
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C0000196143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:19:61:43",
+              "band": "5 GHz",
+              "channel": 157,
+              "members": [
+                {
+                  "bssid": "3C:00:00:19:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 157,
+                  "rssi": -80
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C00001B6143"
+          ],
+          "isMeshCandidate": true
+        }
+      ]
+    },
+    {
+      "what": "rename",
+      "units": [
+        {
+          "id": "U-9A00001F4270",
+          "name": "Owner router",
+          "isCustomName": true,
+          "confidence": "High",
+          "evidence": [
+            "Same radio clock: 2 radio(s) where several BSSIDs share one TSF timer (within 5 ms).",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz#9A:00:00:1F:42:70",
+              "band": "2.4 GHz",
+              "channel": 6,
+              "members": [
+                {
+                  "bssid": "9A:00:00:1F:42:70",
+                  "ssid": "Home",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -25
+                },
+                {
+                  "bssid": "9A:00:00:1F:42:73",
+                  "ssid": "Home-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -27
+                }
+              ]
+            },
+            {
+              "key": "5 GHz#9A:00:00:26:42:70",
+              "band": "5 GHz",
+              "channel": 149,
+              "members": [
+                {
+                  "bssid": "9A:00:00:26:42:70",
+                  "ssid": "Home",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -40
+                },
+                {
+                  "bssid": "9A:00:00:26:42:74",
+                  "ssid": "Home-Guest",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -42
+                },
+                {
+                  "bssid": "9A:00:00:26:42:76",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -51
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-8000004C7DF0",
+          "name": "Synthetic Vendor (7D:F0)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F0",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F0",
+                  "ssid": "Office",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -60
+                }
+              ]
+            },
+            {
+              "key": "5 GHz@82:00:00:4C:7D:F3",
+              "band": "5 GHz",
+              "channel": 52,
+              "members": [
+                {
+                  "bssid": "82:00:00:4C:7D:F3",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 52,
+                  "rssi": -66
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Vendor",
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "M-80:00:00:4C:7D:F3",
+          "name": "Access point (7D:F3)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F3",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F3",
+                  "ssid": "Office-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -61
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C00001B6143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same WPS device identity (UUID-E).",
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:1B:61:43",
+              "band": "5 GHz",
+              "channel": 44,
+              "members": [
+                {
+                  "bssid": "3C:00:00:1B:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -70
+                },
+                {
+                  "bssid": "3C:00:00:1B:61:46",
+                  "ssid": "Mesh-Net-Guest",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -71
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C0000196143"
+          ],
+          "isMeshCandidate": true
+        },
+        {
+          "id": "U-C40000315BF0",
+          "name": "Access point (5B:F0)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [],
+          "radios": [
+            {
+              "key": "5 GHz@C4:00:00:31:5B:F0",
+              "band": "5 GHz",
+              "channel": 36,
+              "members": [
+                {
+                  "bssid": "C4:00:00:31:5B:F0",
+                  "ssid": "Lone",
+                  "band": "5 GHz",
+                  "channel": 36,
+                  "rssi": -75
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C0000196143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:19:61:43",
+              "band": "5 GHz",
+              "channel": 157,
+              "members": [
+                {
+                  "bssid": "3C:00:00:19:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 157,
+                  "rssi": -80
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C00001B6143"
+          ],
+          "isMeshCandidate": true
+        }
+      ]
+    },
+    {
+      "what": "merge",
+      "units": [
+        {
+          "id": "U-9A00001F4270",
+          "name": "Owner router",
+          "isCustomName": true,
+          "confidence": "High",
+          "evidence": [
+            "Same radio clock: 2 radio(s) where several BSSIDs share one TSF timer (within 5 ms).",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz#9A:00:00:1F:42:70",
+              "band": "2.4 GHz",
+              "channel": 6,
+              "members": [
+                {
+                  "bssid": "9A:00:00:1F:42:70",
+                  "ssid": "Home",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -25
+                },
+                {
+                  "bssid": "9A:00:00:1F:42:73",
+                  "ssid": "Home-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -27
+                }
+              ]
+            },
+            {
+              "key": "5 GHz#9A:00:00:26:42:70",
+              "band": "5 GHz",
+              "channel": 149,
+              "members": [
+                {
+                  "bssid": "9A:00:00:26:42:70",
+                  "ssid": "Home",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -40
+                },
+                {
+                  "bssid": "9A:00:00:26:42:74",
+                  "ssid": "Home-Guest",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -42
+                },
+                {
+                  "bssid": "9A:00:00:26:42:76",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -51
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-8000004C7DF0",
+          "name": "Synthetic Vendor (7D:F0)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F0",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F0",
+                  "ssid": "Office",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -60
+                }
+              ]
+            },
+            {
+              "key": "5 GHz@82:00:00:4C:7D:F3",
+              "band": "5 GHz",
+              "channel": 52,
+              "members": [
+                {
+                  "bssid": "82:00:00:4C:7D:F3",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 52,
+                  "rssi": -66
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Vendor",
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "M-80:00:00:4C:7D:F3",
+          "name": "Access point (7D:F3)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F3",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F3",
+                  "ssid": "Office-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -61
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C00001B6143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same WPS device identity (UUID-E).",
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:1B:61:43",
+              "band": "5 GHz",
+              "channel": 44,
+              "members": [
+                {
+                  "bssid": "3C:00:00:1B:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -70
+                },
+                {
+                  "bssid": "3C:00:00:1B:61:46",
+                  "ssid": "Mesh-Net-Guest",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -71
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C0000196143"
+          ],
+          "isMeshCandidate": true
+        },
+        {
+          "id": "U-3C0000194361",
+          "name": "Access point (5B:F0)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@C4:00:00:31:5B:F0",
+              "band": "5 GHz",
+              "channel": 36,
+              "members": [
+                {
+                  "bssid": "C4:00:00:31:5B:F0",
+                  "ssid": "Lone",
+                  "band": "5 GHz",
+                  "channel": 36,
+                  "rssi": -75
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C0000196143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:19:61:43",
+              "band": "5 GHz",
+              "channel": 157,
+              "members": [
+                {
+                  "bssid": "3C:00:00:19:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 157,
+                  "rssi": -80
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C00001B6143"
+          ],
+          "isMeshCandidate": true
+        }
+      ]
+    },
+    {
+      "what": "reset",
+      "units": [
+        {
+          "id": "U-9A00001F4270",
+          "name": "Owner router",
+          "isCustomName": true,
+          "confidence": "High",
+          "evidence": [
+            "Same radio clock: 2 radio(s) where several BSSIDs share one TSF timer (within 5 ms).",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz#9A:00:00:1F:42:70",
+              "band": "2.4 GHz",
+              "channel": 6,
+              "members": [
+                {
+                  "bssid": "9A:00:00:1F:42:70",
+                  "ssid": "Home",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -25
+                },
+                {
+                  "bssid": "9A:00:00:1F:42:73",
+                  "ssid": "Home-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 6,
+                  "rssi": -27
+                }
+              ]
+            },
+            {
+              "key": "5 GHz#9A:00:00:26:42:70",
+              "band": "5 GHz",
+              "channel": 149,
+              "members": [
+                {
+                  "bssid": "9A:00:00:26:42:70",
+                  "ssid": "Home",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -40
+                },
+                {
+                  "bssid": "9A:00:00:26:42:74",
+                  "ssid": "Home-Guest",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -42
+                },
+                {
+                  "bssid": "9A:00:00:26:42:76",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 149,
+                  "rssi": -51
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-8000004C7DF0",
+          "name": "Synthetic Vendor (7D:F0)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F0",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F0",
+                  "ssid": "Office",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -60
+                }
+              ]
+            },
+            {
+              "key": "5 GHz@82:00:00:4C:7D:F3",
+              "band": "5 GHz",
+              "channel": 52,
+              "members": [
+                {
+                  "bssid": "82:00:00:4C:7D:F3",
+                  "ssid": "\u003CHidden SSID\u003E",
+                  "band": "5 GHz",
+                  "channel": 52,
+                  "rssi": -66
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Vendor",
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "M-80:00:00:4C:7D:F3",
+          "name": "Access point (7D:F3)",
+          "isCustomName": false,
+          "confidence": "Manual",
+          "evidence": [
+            "Grouping corrected by the user.",
+            "Related MAC addresses (same address family across radios/SSIDs)."
+          ],
+          "radios": [
+            {
+              "key": "2.4 GHz@80:00:00:4C:7D:F3",
+              "band": "2.4 GHz",
+              "channel": 1,
+              "members": [
+                {
+                  "bssid": "80:00:00:4C:7D:F3",
+                  "ssid": "Office-IoT",
+                  "band": "2.4 GHz",
+                  "channel": 1,
+                  "rssi": -61
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C00001B6143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "High",
+          "evidence": [
+            "Same WPS device identity (UUID-E).",
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:1B:61:43",
+              "band": "5 GHz",
+              "channel": 44,
+              "members": [
+                {
+                  "bssid": "3C:00:00:1B:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -70
+                },
+                {
+                  "bssid": "3C:00:00:1B:61:46",
+                  "ssid": "Mesh-Net-Guest",
+                  "band": "5 GHz",
+                  "channel": 44,
+                  "rssi": -71
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C0000196143"
+          ],
+          "isMeshCandidate": true
+        },
+        {
+          "id": "U-C40000315BF0",
+          "name": "Access point (5B:F0)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [],
+          "radios": [
+            {
+              "key": "5 GHz@C4:00:00:31:5B:F0",
+              "band": "5 GHz",
+              "channel": 36,
+              "members": [
+                {
+                  "bssid": "C4:00:00:31:5B:F0",
+                  "ssid": "Lone",
+                  "band": "5 GHz",
+                  "channel": 36,
+                  "rssi": -75
+                }
+              ]
+            }
+          ],
+          "vendor": null,
+          "model": null,
+          "sameSsidUnitIds": [],
+          "isMeshCandidate": false
+        },
+        {
+          "id": "U-3C0000196143",
+          "name": "Synthetic Networks MX-1 (61:43)",
+          "isCustomName": false,
+          "confidence": "Single",
+          "evidence": [
+            "WPS model: MX-1.",
+            "Shares an SSID with 1 other unit(s): mesh node or extender candidate."
+          ],
+          "radios": [
+            {
+              "key": "5 GHz@3C:00:00:19:61:43",
+              "band": "5 GHz",
+              "channel": 157,
+              "members": [
+                {
+                  "bssid": "3C:00:00:19:61:43",
+                  "ssid": "Mesh-Net",
+                  "band": "5 GHz",
+                  "channel": 157,
+                  "rssi": -80
+                }
+              ]
+            }
+          ],
+          "vendor": "Synthetic Networks",
+          "model": "MX-1",
+          "sameSsidUnitIds": [
+            "U-3C00001B6143"
+          ],
+          "isMeshCandidate": true
+        }
+      ]
+    }
+  ],
+  "families": [
+    {
+      "a": "9A:00:00:1F:42:70",
+      "b": "9A:00:00:26:42:74",
+      "same": true
+    },
+    {
+      "a": "80:00:00:4C:7D:F0",
+      "b": "82:00:00:4C:7D:F3",
+      "same": true
+    },
+    {
+      "a": "3C:00:00:1B:61:43",
+      "b": "3C:00:00:19:61:43",
+      "same": false
+    },
+    {
+      "a": "80:00:00:4C:7D:F0",
+      "b": "80:00:00:4D:7D:F0",
+      "same": false
+    },
+    {
+      "a": "bad",
+      "b": "9A:00:00:1F:42:70",
+      "same": false
+    }
+  ]
+}

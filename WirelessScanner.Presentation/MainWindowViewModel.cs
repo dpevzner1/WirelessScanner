@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Win32;
+using WirelessScanner.Application;
 using WirelessScanner.Domain;
 using WirelessScanner.Infrastructure;
 
@@ -21,12 +23,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly IExportService _exportService;
     private readonly IRestApiServer _apiServer;
     private readonly ISettingsRepository _settingsRepository;
-    private readonly DispatcherTimer _scanTimer;
+    // Acquisition is owned by the shared ScanScheduler (DR-0011, F18): one in-flight scan per adapter for every view.
+    private readonly IScanScheduler _scheduler;
+    private IDisposable? _liveCadence;
+    private long _lastProcessedSeq;
+    private readonly SemaphoreSlim _scanGate = new(1, 1);
+    private readonly LinkedList<IReadOnlyList<AccessPoint>> _waterfall = new();
+    public const int WaterfallDepth = 60;
+    private string _lastCycleText = "No scan yet";
 
     private NetworkInterfaceInfo? _selectedAdapter;
     private ObservableCollection<NetworkInterfaceInfo> _adapters = new();
     private ObservableCollection<AccessPoint> _accessPoints = new();
-    
+
     private string _statusText = "Ready";
     private string _databaseSizeText = "Database Size: 0.0 MB";
     private string _selectedInterfaceName = "No Interface Selected";
@@ -179,7 +188,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 OnPropertyChanged();
                 SelectedInterfaceName = _selectedAdapter?.Name ?? "No Interface Selected";
                 StatusText = _selectedAdapter != null ? $"Connected to {_selectedAdapter.Name}" : "Ready";
-                
+
                 if (_selectedAdapter != null)
                 {
                     StartScanTimer();
@@ -225,6 +234,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         get => _isScanning;
         set { _isScanning = value; OnPropertyChanged(); }
+    }
+
+    /// <summary>Interval between fresh-scan cycles on the live tab (Windows scans take ~2-4 s).</summary>
+    public TimeSpan ScanInterval { get; set; } = TimeSpan.FromSeconds(5);
+
+    /// <summary>Maximum time to wait for Windows to confirm a scan completed.</summary>
+    public TimeSpan ScanTimeout { get; set; } = TimeSpan.FromSeconds(6);
+
+    /// <summary>Status of the most recent scan cycle (fresh/stale/failed, duration, AP count).</summary>
+    public string LastCycleText
+    {
+        get => _lastCycleText;
+        set { _lastCycleText = value; OnPropertyChanged(); }
     }
 
     // Capture Session Properties
@@ -284,13 +306,14 @@ public class MainWindowViewModel : INotifyPropertyChanged
             _isSessionActive = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsSessionIdle));
+            OnPropertyChanged(nameof(ModeStatusText));
         }
     }
 
     public bool IsSessionPaused
     {
         get => _isSessionPaused;
-        set { _isSessionPaused = value; OnPropertyChanged(); }
+        set { _isSessionPaused = value; OnPropertyChanged(); OnPropertyChanged(nameof(ModeStatusText)); }
     }
 
     public bool IsSessionIdle => !IsSessionActive;
@@ -318,7 +341,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public bool ApiEnabled
     {
         get => _apiEnabled;
-        set { _apiEnabled = value; OnPropertyChanged(); }
+        set { _apiEnabled = value; OnPropertyChanged(); UpdateApiServerStatusText(); }
     }
 
     public string ApiPort
@@ -330,7 +353,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public string ApiKey
     {
         get => _apiKey;
-        set { _apiKey = value; OnPropertyChanged(); }
+        set { _apiKey = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayedApiKey)); }
     }
 
     public string ApiServerStatusText
@@ -339,6 +362,10 @@ public class MainWindowViewModel : INotifyPropertyChanged
         set { _apiServerStatusText = value; OnPropertyChanged(); }
     }
 
+    /// <summary>
+    /// Legacy SSID/AP view switch, kept as an API bridge (the UI now uses the grouped explorer, DR-0010).
+    /// Switching clears the selection, as it always did.
+    /// </summary>
     public bool IsSsidView
     {
         get => _isSsidView;
@@ -350,10 +377,228 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 OnPropertyChanged();
                 DisplayAccessPoints.Clear();
                 _checkedKeys.Clear();
+                Selection.Clear();
                 UpdateDisplayAccessPoints();
                 OnPropertyChanged(nameof(FilteredActiveSessionLogs));
             }
         }
+    }
+
+    /// <summary>The single network selection shared by live view, capture and saturation test (DR-0011).</summary>
+    public NetworkSelection Selection { get; } = new();
+
+    /// <summary>Grouped network explorer (DR-0010).</summary>
+    public NetworkExplorerViewModel Explorer { get; }
+    /// <summary>Physical-unit inference (DR-0013), fed by every scan cycle.</summary>
+    public PhysicalUnitGrouper UnitGrouper { get; } = new();
+
+    /// <summary>Scan scheduler shared with the saturation test.</summary>
+    public IScanScheduler Scheduler => _scheduler;
+
+    // ---- Live Survey modes and centre views (DR-0011) ----
+    public enum SurveyModes { Monitor, Capture, Saturation, Connection }
+    private SurveyModes _surveyMode = SurveyModes.Monitor;
+    public SurveyModes SurveyMode
+    {
+        get => _surveyMode;
+        set
+        {
+            _surveyMode = value;
+            OnPropertyChanged();
+            foreach (var n in new[] { nameof(IsMonitorMode), nameof(IsCaptureMode), nameof(IsSaturationMode), nameof(IsConnectionMode), nameof(IsDrawerOpen), nameof(ModeDescription) }) OnPropertyChanged(n);
+            if (value == SurveyModes.Connection && Connection != null)
+            {
+                Connection.PrefillWhere(Saturation);
+                if (Connection.IsSetup) _ = Connection.RefreshContextAsync();
+            }
+        }
+    }
+    public bool IsConnectionMode { get => _surveyMode == SurveyModes.Connection; set { if (value) SurveyMode = SurveyModes.Connection; } }
+
+    /// <summary>One line under the mode bar: what the current mode is and does (DR-0014 clarity between the two tests).</summary>
+    public string ModeDescription => _surveyMode switch
+    {
+        SurveyModes.Capture => "Capture: record the selected networks to a session (walk-through or fixed spot). Listens only; nothing is sent.",
+        SurveyModes.Saturation => "Saturation test: leave this PC in place and measure how stable the selected networks' signal is. Listens to the radio only; sends nothing.",
+        SurveyModes.Connection => "Connection test: check the connection this PC is on, end to end (Wi-Fi → router → ISP → internet, DNS, web) with tiny probes, and see where problems happen. Never changes the connection.",
+        _ => "Monitor: watch the networks around you. Nothing is recorded and nothing is sent."
+    };
+    public bool IsMonitorMode { get => _surveyMode == SurveyModes.Monitor; set { if (value) SurveyMode = SurveyModes.Monitor; } }
+    public bool IsCaptureMode { get => _surveyMode == SurveyModes.Capture; set { if (value) SurveyMode = SurveyModes.Capture; } }
+    public bool IsSaturationMode { get => _surveyMode == SurveyModes.Saturation; set { if (value) SurveyMode = SurveyModes.Saturation; } }
+    public bool IsDrawerOpen => _surveyMode != SurveyModes.Monitor;
+
+    public enum CenterViews { Spectrum, Waterfall, Grid, Test, Results, Connection }
+    private CenterViews _centerView = CenterViews.Spectrum;
+    public CenterViews CenterView
+    {
+        get => _centerView;
+        set
+        {
+            _centerView = value;
+            _showSpectrumGraph = value != CenterViews.Grid;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(ShowSpectrumGraph));
+            OnPropertyChanged(nameof(ShowTelemetryGrid));
+            foreach (var n in new[] { nameof(IsSpectrumView), nameof(IsWaterfallView), nameof(IsGridView), nameof(IsTestView), nameof(IsResultsView), nameof(IsSpectrumOrWaterfall), nameof(IsStageView), nameof(IsConnectionView) }) OnPropertyChanged(n);
+            SpectrumChanged?.Invoke();
+        }
+    }
+    public bool IsSpectrumView { get => _centerView == CenterViews.Spectrum; set { if (value) CenterView = CenterViews.Spectrum; } }
+    public bool IsWaterfallView { get => _centerView == CenterViews.Waterfall; set { if (value) CenterView = CenterViews.Waterfall; } }
+    public bool IsGridView { get => _centerView == CenterViews.Grid; set { if (value) CenterView = CenterViews.Grid; } }
+    public bool IsTestView { get => _centerView == CenterViews.Test; set { if (value) CenterView = CenterViews.Test; } }
+    public bool IsResultsView { get => _centerView == CenterViews.Results; set { if (value) CenterView = CenterViews.Results; } }
+    /// <summary>Connection test stage (live path and timelines, or results).</summary>
+    public bool IsConnectionView { get => _centerView == CenterViews.Connection; set { if (value) CenterView = CenterViews.Connection; } }
+    public bool IsSpectrumOrWaterfall => _centerView is CenterViews.Spectrum or CenterViews.Waterfall;
+    /// <summary>Saturation stage (live test or results). Selecting it shows results when the attached test has them.</summary>
+    public bool IsStageView
+    {
+        get => _centerView is CenterViews.Test or CenterViews.Results;
+        set { if (value) CenterView = Saturation?.IsResults == true ? CenterViews.Results : CenterViews.Test; }
+    }
+
+    /// <summary>"All" (stacked, the 1.1 default), "2.4 GHz", "5 GHz" or "6 GHz".</summary>
+    private string _spectrumBand = "All";
+    public string SpectrumBand { get => _spectrumBand; set { _spectrumBand = value; OnPropertyChanged(); foreach (var n in new[] { nameof(IsBandAll), nameof(IsBand24), nameof(IsBand5), nameof(IsBand6) }) OnPropertyChanged(n); SpectrumChanged?.Invoke(); } }
+    public bool IsBandAll { get => _spectrumBand == "All"; set { if (value) SpectrumBand = "All"; } }
+    public bool IsBand24 { get => _spectrumBand == "2.4 GHz"; set { if (value) SpectrumBand = "2.4 GHz"; } }
+    public bool IsBand5 { get => _spectrumBand == "5 GHz"; set { if (value) SpectrumBand = "5 GHz"; } }
+    public bool IsBand6 { get => _spectrumBand == "6 GHz"; set { if (value) SpectrumBand = "6 GHz"; } }
+
+    private bool _labelAll;
+    /// <summary>Label every AP on the spectrum (the 1.1 behaviour); default labels focused networks only.</summary>
+    public bool LabelAll { get => _labelAll; set { _labelAll = value; OnPropertyChanged(); SpectrumChanged?.Invoke(); } }
+
+    /// <summary>Raised (UI thread) when the spectrum/waterfall must be redrawn.</summary>
+    public event Action? SpectrumChanged;
+
+    /// <summary>The last fresh scans (newest first) for the waterfall view.</summary>
+    public IReadOnlyList<IReadOnlyList<AccessPoint>> WaterfallHistory => _waterfall.ToList();
+
+    /// <summary>Identity colour slot (0..2) of a network on the spectrum, or -1 for context (DR-0010).</summary>
+    public int FocusSlot(string ssid) => Selection.FocusSlot(ssid, _accessPoints);
+
+    public bool IsSelectionAutoFocus => Selection.IsEmpty;
+
+    public void ToggleSpectrumAp(AccessPoint ap) => Selection.ToggleAp(ap.SSID, ap.BSSID, _accessPoints.Where(a => a.SSID == ap.SSID).Select(a => a.BSSID).ToList());
+
+    /// <summary>Mode bar / explorer footer buttons: "Monitor", "Capture" or "Saturation".</summary>
+    public ICommand SetModeCommand => _setModeCommand ??= new ParamCommand(p =>
+    {
+        if (Enum.TryParse<SurveyModes>(p as string, out var m)) SurveyMode = m;
+    });
+    private ICommand? _setModeCommand;
+
+    /// <summary>The saturation test attached to Live Survey (null when it runs standalone).</summary>
+    public SaturationTestViewModel? Saturation { get; private set; }
+
+    /// <summary>
+    /// Host the saturation test in Live Survey (DR-0011): it shares this selection and adapter, its running/results
+    /// steps drive the centre view, and the mode bar shows that a test runs and the selection is locked.
+    /// </summary>
+    public void AttachSaturation(SaturationTestViewModel sat)
+    {
+        Saturation = sat;
+        sat.AttachToLiveSurvey(Selection, ssid => _accessPoints.Count(a => a.SSID == ssid));
+        sat.SelectedAdapter = SelectedAdapter;
+        PropertyChanged += (_, e) => { if (e.PropertyName == nameof(SelectedAdapter) && !IsTestRunning) sat.SelectedAdapter = SelectedAdapter; };
+        sat.TestRunningChanged += running =>
+        {
+            IsTestRunning = running;
+            if (running) { SurveyMode = SurveyModes.Saturation; CenterView = CenterViews.Test; }
+        };
+        sat.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName != nameof(SaturationTestViewModel.CurrentStep)) return;
+            if (sat.IsResults) CenterView = CenterViews.Results;
+            else if (sat.IsSetup && _centerView is CenterViews.Test or CenterViews.Results) CenterView = CenterViews.Spectrum;
+        };
+        OnPropertyChanged(nameof(Saturation));
+    }
+
+    private bool _isTestRunning;
+    /// <summary>Set by the saturation view model while a test runs (mode bar status).</summary>
+    public bool IsTestRunning { get => _isTestRunning; set { _isTestRunning = value; OnPropertyChanged(); OnPropertyChanged(nameof(ModeStatusText)); } }
+
+    private bool _isConnectionTestRunning;
+    /// <summary>Set by the connection test view model while it runs (mode bar status).</summary>
+    public bool IsConnectionTestRunning { get => _isConnectionTestRunning; set { _isConnectionTestRunning = value; OnPropertyChanged(); OnPropertyChanged(nameof(ModeStatusText)); } }
+
+    public string ModeStatusText
+    {
+        get
+        {
+            var parts = new List<string>();
+            if (IsSessionActive) parts.Add(IsSessionPaused ? "⏸ CAPTURE PAUSED" : "● RECORDING");
+            if (IsTestRunning) parts.Add("● TESTING SIGNAL · selection locked");
+            if (IsConnectionTestRunning) parts.Add("● TESTING CONNECTION");
+            return parts.Count == 0 ? "Monitoring · nothing recorded" : string.Join("   ", parts);
+        }
+    }
+
+    /// <summary>The connection test attached to Live Survey (DR-0014).</summary>
+    public ConnectionTestViewModel? Connection { get; private set; }
+
+    /// <summary>
+    /// Host the connection test in Live Survey: it uses the Live Survey adapter, its running/results steps drive the CONNECTION centre
+    /// view, and "Also run a saturation test" selects the connected access point (its whole unit when grouped) and starts that test.
+    /// </summary>
+    public void AttachConnection(ConnectionTestViewModel conn)
+    {
+        Connection = conn;
+        conn.SelectedAdapter = SelectedAdapter;
+        PropertyChanged += (_, e) => { if (e.PropertyName == nameof(SelectedAdapter) && !IsConnectionTestRunning) conn.SelectedAdapter = SelectedAdapter; };
+        conn.TestRunningChanged += running =>
+        {
+            IsConnectionTestRunning = running;
+            if (running) { SurveyMode = SurveyModes.Connection; CenterView = CenterViews.Connection; }
+        };
+        conn.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName != nameof(ConnectionTestViewModel.CurrentStep)) return;
+            if (conn.IsResults) CenterView = CenterViews.Connection;
+        };
+        conn.StartLinkedSaturation = StartLinkedSaturationAsync;
+        OnPropertyChanged(nameof(Connection));
+    }
+
+    private async Task<Guid?> StartLinkedSaturationAsync(ConnectionTestViewModel c)
+    {
+        if (Saturation == null || IsTestRunning || c.Context?.Bssid is not { } bssid) return null;
+        if (!Selection.IsEmpty && !c.Confirm("Replace the current network selection with the connected access point for the linked saturation test?", "Linked saturation test")) return null;
+        Selection.Clear();
+        if (UnitGrouper.UnitOf(bssid) is { } unitId && UnitGrouper.Get(unitId) is { } unit) Selection.ToggleUnit(unit);
+        else Selection.SetBssid(c.Context.Ssid ?? "", bssid.ToUpperInvariant(), true);
+        Saturation.Location = c.Location;
+        Saturation.Latitude = c.Latitude;
+        Saturation.Longitude = c.Longitude;
+        Saturation.Building = c.Building;
+        Saturation.Floor = c.Floor;
+        Saturation.Zone = c.Zone;
+        Saturation.TestName = (string.IsNullOrWhiteSpace(c.TestName) ? "Connection test" : c.TestName.Trim()) + " (signal)";
+        Saturation.Notes = "Started together with a connection test (one timeline).";
+        await Saturation.StartAsync();
+        return Saturation.IsRunningStep ? Saturation.ActiveTestId : null;
+    }
+
+    private DateTime _lastConnectedRead = DateTime.MinValue;
+
+    /// <summary>Marks the access point this PC is connected to in the explorer (CONNECTED badge); at most every 5 s.</summary>
+    private async Task UpdateConnectedAsync()
+    {
+        if (SelectedAdapter is not { } adapter || (DateTime.UtcNow - _lastConnectedRead).TotalSeconds < 5) return;
+        _lastConnectedRead = DateTime.UtcNow;
+        try
+        {
+            var link = await _adapterProvider.ReadLinkAsync(adapter.Id);
+            string? bssid = link?.Connected == true ? link.Bssid : null;
+            Explorer.ConnectedBssid = bssid;
+            if (Connection != null)
+                Connection.UnitName = bssid != null && UnitGrouper.UnitOf(bssid) is { } id ? UnitGrouper.Get(id)?.Name : null;
+        }
+        catch (Exception ex) { StatusText = $"Could not read the current connection: {ex.Message}"; }
     }
 
     public bool ShowSpectrumGraph
@@ -394,24 +639,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         get
         {
-            if (_checkedKeys == null || !_checkedKeys.Any())
+            if (Selection.IsEmpty)
             {
                 return _accessPoints;
             }
-
-            var filtered = _accessPoints.Where(ap =>
-            {
-                if (IsSsidView)
-                {
-                    return _checkedKeys.Contains(ap.SSID);
-                }
-                else
-                {
-                    return _checkedKeys.Contains(ap.BSSID);
-                }
-            });
-
-            return new ObservableCollection<AccessPoint>(filtered);
+            return new ObservableCollection<AccessPoint>(_accessPoints.Where(ap => Selection.Matches(ap.SSID, ap.BSSID)));
         }
     }
 
@@ -421,42 +653,32 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         get
         {
-            if (_checkedKeys == null || !_checkedKeys.Any())
+            if (Selection.IsEmpty)
             {
                 return ActiveSessionLogs;
             }
-
-            var filtered = ActiveSessionLogs.Where(log =>
-            {
-                if (IsSsidView)
-                {
-                    return _checkedKeys.Contains(log.SSID);
-                }
-                else
-                {
-                    return _checkedKeys.Contains(log.BSSID);
-                }
-            });
-
-            return new ObservableCollection<LiveCaptureLogItem>(filtered);
+            return new ObservableCollection<LiveCaptureLogItem>(ActiveSessionLogs.Where(log => Selection.Matches(log.SSID, log.BSSID)));
         }
     }
 
+    /// <summary>Legacy item-check bridge: SSID view selects whole SSIDs, AP view selects fixed BSSIDs.</summary>
     private void OnItemCheckedChanged(AccessPointDisplayItem item)
     {
         string key = IsSsidView ? item.SSID : item.BSSID;
-        if (item.IsChecked)
-        {
-            _checkedKeys.Add(key);
-        }
-        else
-        {
-            _checkedKeys.Remove(key);
-        }
-        // Notify of change to trigger graph redraw and grid updates
+        if (item.IsChecked) _checkedKeys.Add(key); else _checkedKeys.Remove(key);
+        // A check that already matches the selection is a no-op (an AP inside a whole SSID is selected already).
+        if (!IsSsidView && item.IsChecked && Selection.IsExplicitlySelected(item.SSID, item.BSSID)) return;
+        if (IsSsidView) Selection.SetSsid(item.SSID, item.IsChecked);
+        else Selection.SetBssid(item.SSID, item.BSSID, item.IsChecked);
+    }
+
+    private void OnSelectionChanged()
+    {
         OnPropertyChanged(nameof(AccessPoints));
         OnPropertyChanged(nameof(FilteredAccessPoints));
         OnPropertyChanged(nameof(FilteredActiveSessionLogs));
+        OnPropertyChanged(nameof(IsSelectionAutoFocus));
+        SpectrumChanged?.Invoke();
     }
 
     public void UpdateDisplayAccessPoints()
@@ -493,7 +715,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                         SupportedRates: strongest.SupportedRates,
                         LastSeen: strongest.LastSeen
                     );
-                    bool isChecked = _checkedKeys.Contains(repAp.SSID);
+                    bool isChecked = Selection.IsWholeSsid(repAp.SSID);
                     return new AccessPointDisplayItem(repAp, isChecked, true, OnItemCheckedChanged);
                 })
                 .OrderByDescending(x => x.RSSI)
@@ -505,7 +727,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 .OrderByDescending(ap => ap.RSSI)
                 .Select(ap =>
                 {
-                    bool isChecked = _checkedKeys.Contains(ap.BSSID);
+                    bool isChecked = Selection.IsExplicitlySelected(ap.SSID, ap.BSSID);
                     return new AccessPointDisplayItem(ap, isChecked, false, OnItemCheckedChanged);
                 })
                 .ToList();
@@ -533,10 +755,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
                 var existingItem = DisplayAccessPoints[existingIndex];
                 existingItem.Update(target.AccessPoint, IsSsidView);
 
-                bool isChecked = IsSsidView ? _checkedKeys.Contains(target.SSID) : _checkedKeys.Contains(target.BSSID);
+                bool isChecked = IsSsidView ? Selection.IsWholeSsid(target.SSID) : Selection.IsExplicitlySelected(target.SSID, target.BSSID);
                 if (existingItem.IsChecked != isChecked)
                 {
-                    existingItem.IsChecked = isChecked;
+                    // Mirror the selection without firing the user-check callback: echoing it back added every AP of a
+                    // whole SSID as a fixed BSSID (live defect 2026-10-16, scope recorded as Mixed).
+                    existingItem.SetCheckedSilently(isChecked);
                 }
 
                 if (existingIndex != i)
@@ -617,7 +841,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             if (SelectedHistorySession == null) return "";
             return SelectedHistorySession.Mode == CaptureSessionMode.Stationary 
-                ? "Stationary Saturation" 
+                ? "Stationary Capture" 
                 : "Roaming Survey";
         }
     }
@@ -743,21 +967,31 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ISessionRepository sessionRepository,
         IExportService exportService,
         IRestApiServer apiServer,
-        ISettingsRepository settingsRepository)
+        ISettingsRepository settingsRepository,
+        IScanScheduler? scanScheduler = null)
     {
         _adapterProvider = adapterProvider;
+        // Without an injected scheduler (tests/headless) scans run on demand only; the app injects the shared looping one.
+        _scheduler = scanScheduler ?? new ScanScheduler(adapterProvider) { AutoScan = false };
+        _scheduler.CycleCompleted += OnSchedulerCycle;
+        // physical units (DR-0013): one grouper feeds the explorer's hardware view and resolves unit selections
+        Selection.UnitResolver = UnitGrouper;
+        Explorer = new NetworkExplorerViewModel(Selection, UnitGrouper);
+        Selection.Changed += OnSelectionChanged;
         _sessionManager = sessionManager;
         _sessionRepository = sessionRepository;
         _exportService = exportService;
         _apiServer = apiServer;
+        _apiServer.StateChanged += OnApiServerStateChanged;
         _settingsRepository = settingsRepository;
-        
+        UnitGrouper.OverridesChanged += o => _ = SaveUnitOverridesAsync(o);
+
         ScanCommand = new RelayCommand(async () => await PerformScanAsync());
         GenerateApiKeyCommand = new RelayCommand(GenerateApiKey);
         ApplyApiSettingsCommand = new RelayCommand(async () => await ApplyApiSettingsAsync());
         ExportApiKeyCommand = new RelayCommand(ExportApiKey);
         DeleteApiKeyCommand = new RelayCommand(DeleteApiKey);
-        
+
         StartSessionCommand = new RelayCommand(StartCaptureSession);
         PauseSessionCommand = new RelayCommand(PauseCaptureSession);
         ResumeSessionCommand = new RelayCommand(ResumeCaptureSession);
@@ -775,14 +1009,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ExportHistoryJsonCommand = new RelayCommand(async () => await ExportHistorySessionsAsync("json"));
         ExportHistoryPdfCommand = new RelayCommand(async () => await ExportHistorySessionsAsync("pdf"));
 
-        _scanTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(2)
-        };
-        _scanTimer.Tick += async (s, e) => await PerformScanAsync();
-
         // Load adapters and settings on initialization
         _ = LoadApiSettingsAsync();
+        _ = LoadUnitOverridesAsync();
         _ = LoadAdaptersAsync();
         _ = LoadHistoricalSessionsAsync();
         RefreshDatabaseSize();
@@ -809,166 +1038,190 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void StartScanTimer()
     {
+        var adapter = SelectedAdapter;
         IsScanning = true;
-        _scanTimer.Start();
-        _ = PerformScanAsync();
+        if (adapter == null || adapter.DeviceType == NetworkDeviceType.Wired_Ethernet)
+        {
+            _scheduler.SetAdapter(null);
+            _ = PerformScanAsync();
+            return;
+        }
+        _scheduler.ScanTimeout = ScanTimeout;
+        _scheduler.SetAdapter(adapter.Id);
+        _liveCadence ??= _scheduler.RequestCadence(ScanInterval);
     }
 
     private void StopScanTimer()
     {
+        _liveCadence?.Dispose();
+        _liveCadence = null;
+        _scheduler.SetAdapter(null);
         IsScanning = false;
-        _scanTimer.Stop();
         AccessPoints.Clear();
         UpdateDisplayAccessPoints();
+        Explorer.Update(Array.Empty<AccessPoint>(), false);
     }
 
+    /// <summary>Scheduler callback (background thread): process on the UI thread when there is one.</summary>
+    private void OnSchedulerCycle(ScheduledCycle cycle)
+    {
+        var dispatcher = System.Windows.Application.Current?.Dispatcher;
+        if (dispatcher != null && !dispatcher.CheckAccess()) dispatcher.BeginInvoke(new Action(() => _ = ProcessCycleAsync(cycle)));
+        else _ = ProcessCycleAsync(cycle);
+    }
+
+    /// <summary>
+    /// Runs one fresh-scan cycle (DR-0003). The AP list is always refreshed for display, but telemetry
+    /// samples are only captured for entries that are demonstrably fresh: the cycle was confirmed
+    /// fresh by Windows, or the entry's beacon age is within the freshness limit. Cached repeats are
+    /// never stored as new samples (finding F01).
+    /// </summary>
     public async Task PerformScanAsync()
     {
-        if (SelectedAdapter == null) return;
+        var adapter = SelectedAdapter;
+        if (adapter == null) return;
 
+        ScheduledCycle? scheduled = null;
+        await _scanGate.WaitAsync();
         try
         {
-            StatusText = "Scanning RF spectrum...";
-            
-            if (SelectedAdapter.DeviceType == NetworkDeviceType.Wired_Ethernet)
+            if (adapter.DeviceType == NetworkDeviceType.Wired_Ethernet)
             {
-                var stats = await _adapterProvider.GetWiredStatsAsync(SelectedAdapter.Id);
-                var tempAPs = new ObservableCollection<AccessPoint>();
-                var apRepresentation = new AccessPoint(
-                    "Wired Link",
-                    $"Ethernet ({stats.LinkStatus})",
-                    "Local Gateway",
-                    "Wired",
-                    0,
-                    0,
-                    stats.LinkStatus == "Up" ? 0 : -100,
-                    null,
-                    0,
-                    stats.LinkStatus == "Up" ? 100 : 0,
-                    "N/A",
-                    "Wired",
-                    null,
-                    new[] { $"{stats.SpeedBitsPerSecond / 1000000} Mbps" },
-                    DateTime.UtcNow
-                );
-                tempAPs.Add(apRepresentation);
+                // Wired adapters carry no RF telemetry; fake RSSI/quality sentinels were removed (finding F09).
+                var stats = await _adapterProvider.GetWiredStatsAsync(adapter.Id);
+                StatusText = $"Wired interface ({stats.LinkStatus}). Speed: {stats.SpeedBitsPerSecond / 1000000} Mbps | Gateway latency: {stats.AvgPingLatencyMs:F1} ms. RF telemetry is only available on Wi-Fi adapters.";
+                return;
+            }
 
+            StatusText = "Scanning RF spectrum (requesting a fresh scan)...";
+            _scheduler.ScanTimeout = ScanTimeout;
+            if (_scheduler.AdapterId != adapter.Id) _scheduler.SetAdapter(adapter.Id);
+            scheduled = await _scheduler.ScanNowAsync();
+        }
+        catch (Exception ex)
+        {
+            StatusText = $"Scan failure: {ex.Message}";
+        }
+        finally
+        {
+            _scanGate.Release();
+        }
+        if (scheduled != null) await ProcessCycleAsync(scheduled);
+    }
+
+    /// <summary>
+    /// Processes one scheduled cycle exactly once (by sequence), whoever triggered it: live loop, FORCE SCAN,
+    /// saturation test or discovery. Display always refreshes; capture stores only demonstrably fresh entries.
+    /// </summary>
+    public async Task ProcessCycleAsync(ScheduledCycle scheduled)
+    {
+        var adapter = SelectedAdapter;
+        if (adapter == null || scheduled.AdapterId != adapter.Id) return;
+        await _scanGate.WaitAsync();
+        try
+        {
+            if (scheduled.Sequence <= _lastProcessedSeq) return;
+            _lastProcessedSeq = scheduled.Sequence;
+            var cycle = scheduled.Result;
+
+            if (cycle.Status == ScanCycleStatus.Failed)
+            {
+                LastCycleText = $"Scan FAILED at {DateTime.Now:HH:mm:ss}: {cycle.ErrorMessage}";
+                StatusText = $"Scan failure: {cycle.ErrorMessage}";
                 if (IsSessionActive && !IsSessionPaused)
                 {
+                    _sessionManager.HandleScanError(new InvalidOperationException($"Capture gap: scan cycle failed ({cycle.ErrorCode}) {cycle.ErrorMessage}"));
+                }
+                return;
+            }
+
+            var freshnessLimitMs = (ScanInterval + TimeSpan.FromSeconds(5)).TotalMilliseconds;
+            bool IsFresh(AccessPoint ap) =>
+                ap.BeaconAgeMs is double age
+                    ? age <= freshnessLimitMs
+                    : cycle.Status == ScanCycleStatus.Fresh;
+
+            var tempAPs = new ObservableCollection<AccessPoint>(cycle.AccessPoints);
+            var batch = new System.Collections.Generic.List<TelemetrySample>();
+            int skippedStale = 0;
+
+            if (IsSessionActive && !IsSessionPaused)
+            {
+                foreach (var ap in cycle.AccessPoints)
+                {
+                    bool inScope = Selection.Matches(ap.SSID, ap.BSSID);
+                    if (!inScope) continue;
+                    if (!IsFresh(ap))
+                    {
+                        skippedStale++;
+                        continue;
+                    }
+
+                    double variation = _sessionManager.CalculateJitterFor(ap.BSSID, ap.RSSI);
                     var sample = new TelemetrySample(
                         Timestamp: DateTime.UtcNow,
                         SurveyPoint: SurveyPoint,
-                        BSSID: "Wired Link",
-                        SSID: $"Ethernet ({stats.LinkStatus})",
-                        Band: "Wired",
-                        Channel: 0,
-                        RSSI: stats.LinkStatus == "Up" ? 0 : -100,
-                        SNR: 0,
-                        Quality: stats.LinkStatus == "Up" ? 100 : 0,
-                        Jitter: stats.AvgPingLatencyMs,
-                        NoiseFloor: null
+                        BSSID: ap.BSSID,
+                        SSID: ap.SSID,
+                        Band: ap.Band,
+                        Channel: ap.Channel,
+                        RSSI: ap.RSSI,
+                        SNR: ap.SNR,
+                        Quality: ap.Quality,
+                        Jitter: variation,
+                        NoiseFloor: ap.NoiseFloor
                     );
-                    _sessionManager.SaveSample(sample);
+                    batch.Add(sample);
 
                     string fluctText = "-";
                     string fluctColor = "#888888";
-                    int currentRssi = stats.LinkStatus == "Up" ? 0 : -100;
-                    if (_lastRssiByBssid.TryGetValue("Wired Link", out int lastRssi))
+                    if (_lastRssiByBssid.TryGetValue(ap.BSSID, out int lastRssi))
                     {
-                        int diff = currentRssi - lastRssi;
+                        int diff = ap.RSSI - lastRssi;
                         if (diff > 0) { fluctText = $"▲ +{diff} dB"; fluctColor = "#00FF66"; }
                         else if (diff < 0) { fluctText = $"▼ {diff} dB"; fluctColor = "#FF3300"; }
                         else { fluctText = "• 0 dB"; fluctColor = "#888888"; }
                     }
-                    _lastRssiByBssid["Wired Link"] = currentRssi;
+                    _lastRssiByBssid[ap.BSSID] = ap.RSSI;
 
-                    var logItem = new LiveCaptureLogItem(sample, fluctText, fluctColor);
-                    ActiveSessionLogs.Insert(0, logItem);
+                    ActiveSessionLogs.Insert(0, new LiveCaptureLogItem(sample, fluctText, fluctColor));
                     while (ActiveSessionLogs.Count > 200)
                     {
                         ActiveSessionLogs.RemoveAt(ActiveSessionLogs.Count - 1);
                     }
                 }
 
-                AccessPoints = tempAPs;
-                StatusText = $"Wired interface active. Speed: {stats.SpeedBitsPerSecond / 1000000} Mbps | Latency: {stats.AvgPingLatencyMs:F1}ms";
+                // One ordered, batched write per cycle (findings F02/F03).
+                _sessionManager.SaveSamples(batch);
             }
-            else
-            {
-                var apList = await _adapterProvider.GetAccessPointsAsync(SelectedAdapter.Id);
-                var tempAPs = new ObservableCollection<AccessPoint>();
-                foreach (var ap in apList)
-                {
-                    tempAPs.Add(ap);
 
-                    if (IsSessionActive && !IsSessionPaused)
-                    {
-                        bool shouldCapture = false;
-                        if (_checkedKeys == null || !_checkedKeys.Any())
-                        {
-                            shouldCapture = true;
-                        }
-                        else
-                        {
-                            if (IsSsidView)
-                            {
-                                shouldCapture = _checkedKeys.Contains(ap.SSID);
-                            }
-                            else
-                            {
-                                shouldCapture = _checkedKeys.Contains(ap.BSSID);
-                            }
-                        }
+            AccessPoints = tempAPs;
+            LastCycleText = $"Last scan {DateTime.Now:HH:mm:ss}: {cycle.Status.ToString().ToUpperInvariant()} in {cycle.DurationMs:F0} ms, {cycle.AccessPoints.Count} APs"
+                            + (cycle.Status == ScanCycleStatus.Stale ? $" ({cycle.ErrorMessage})" : "");
+            StatusText = $"Scan complete. Found {AccessPoints.Count} Access Points."
+                         + (IsSessionActive && !IsSessionPaused ? $" Captured {batch.Count} fresh samples" + (skippedStale > 0 ? $", skipped {skippedStale} stale." : ".") : "");
 
-                        if (shouldCapture)
-                        {
-                            double jitter = _sessionManager.CalculateJitterFor(ap.BSSID, ap.RSSI);
-                            var sample = new TelemetrySample(
-                                Timestamp: DateTime.UtcNow,
-                                SurveyPoint: SurveyPoint,
-                                BSSID: ap.BSSID,
-                                SSID: ap.SSID,
-                                Band: ap.Band,
-                                Channel: ap.Channel,
-                                RSSI: ap.RSSI,
-                                SNR: ap.SNR,
-                                Quality: ap.Quality,
-                                Jitter: jitter,
-                                NoiseFloor: ap.NoiseFloor
-                            );
-                            _sessionManager.SaveSample(sample);
-
-                            string fluctText = "-";
-                            string fluctColor = "#888888";
-                            if (_lastRssiByBssid.TryGetValue(ap.BSSID, out int lastRssi))
-                            {
-                                int diff = ap.RSSI - lastRssi;
-                                if (diff > 0) { fluctText = $"▲ +{diff} dB"; fluctColor = "#00FF66"; }
-                                else if (diff < 0) { fluctText = $"▼ {diff} dB"; fluctColor = "#FF3300"; }
-                                else { fluctText = "• 0 dB"; fluctColor = "#888888"; }
-                            }
-                            _lastRssiByBssid[ap.BSSID] = ap.RSSI;
-
-                            var logItem = new LiveCaptureLogItem(sample, fluctText, fluctColor);
-                            ActiveSessionLogs.Insert(0, logItem);
-                            while (ActiveSessionLogs.Count > 200)
-                            {
-                                ActiveSessionLogs.RemoveAt(ActiveSessionLogs.Count - 1);
-                            }
-                        }
-                    }
-                }
-                AccessPoints = tempAPs;
-                StatusText = $"Scan complete. Found {AccessPoints.Count} Access Points.";
-            }
             UpdateDisplayAccessPoints();
+            UnitGrouper.Observe(cycle.AccessPoints, DateTime.UtcNow);
+            Explorer.Update(cycle.AccessPoints, cycle.Status == ScanCycleStatus.Fresh);
+            _ = UpdateConnectedAsync();
+            if (cycle.Status == ScanCycleStatus.Fresh)
+            {
+                _waterfall.AddFirst(cycle.AccessPoints);
+                while (_waterfall.Count > WaterfallDepth) _waterfall.RemoveLast();
+            }
             OnPropertyChanged(nameof(ActiveSessionLogs));
             OnPropertyChanged(nameof(FilteredActiveSessionLogs));
+            SpectrumChanged?.Invoke();
             _apiServer.UpdateLiveAccessPoints(AccessPoints);
         }
         catch (Exception ex)
         {
             StatusText = $"Scan failure: {ex.Message}";
+        }
+        finally
+        {
+            _scanGate.Release();
         }
     }
 
@@ -995,8 +1248,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
             SessionScope = dialog.Scope;
             SurveyPoint = dialog.SurveyPoint;
             SessionNotes = dialog.Notes;
-            SessionModeText = dialog.Mode == CaptureSessionMode.Stationary ? "Stationary Saturation" : "Roaming Survey";
-            
+            SessionModeText = dialog.Mode == CaptureSessionMode.Stationary ? "Stationary Capture" : "Roaming Survey";
+
             // Need notes later for PDF generation perhaps, saving to scope for now if no notes field in manager. 
             // The ISessionManager currently takes (name, scope, facility, device, mode)
             var scopeWithNotes = string.IsNullOrWhiteSpace(dialog.Notes) ? SessionScope : $"{SessionScope} | Notes: {dialog.Notes}";
@@ -1325,7 +1578,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         try
         {
-            var fileInfo = new FileInfo("wireless_scanner.db");
+            var fileInfo = new FileInfo(AppPaths.DatabasePath);
             if (fileInfo.Exists)
             {
                 double sizeMB = fileInfo.Length / (1024.0 * 1024.0);
@@ -1339,6 +1592,41 @@ public class MainWindowViewModel : INotifyPropertyChanged
         catch (Exception)
         {
             DatabaseSizeText = "Database Size: Unavailable";
+        }
+    }
+
+    /// <summary>Settings key holding the user's physical-unit corrections (JSON, DR-0013).</summary>
+    public const string UnitOverridesSettingKey = "PhysicalUnitOverrides";
+
+    private async Task LoadUnitOverridesAsync()
+    {
+        try
+        {
+            var json = await _settingsRepository.GetSettingAsync(UnitOverridesSettingKey);
+            if (string.IsNullOrWhiteSpace(json)) return;
+            var o = System.Text.Json.JsonSerializer.Deserialize<UnitOverrides>(json);
+            UnitGrouper.LoadOverrides(o == null ? null : new UnitOverrides
+            {
+                Assignments = new Dictionary<string, string>(o.Assignments, StringComparer.OrdinalIgnoreCase),
+                Names = new Dictionary<string, string>(o.Names, StringComparer.Ordinal)
+            });
+        }
+        catch (Exception ex)
+        {
+            // corrupt or unreadable corrections: automatic grouping still works; never block start-up
+            StatusText = $"Access-point grouping corrections could not be loaded ({ex.Message}); automatic grouping is used.";
+        }
+    }
+
+    private async Task SaveUnitOverridesAsync(UnitOverrides o)
+    {
+        try
+        {
+            await _settingsRepository.SaveSettingAsync(UnitOverridesSettingKey, System.Text.Json.JsonSerializer.Serialize(o));
+        }
+        catch (Exception ex)
+        {
+            StatusText = $"Access-point grouping correction not saved: {ex.Message}";
         }
     }
 
@@ -1366,14 +1654,62 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private void UpdateApiServerStatusText()
     {
         if (_apiServer.IsRunning)
-        {
-            ApiServerStatusText = $"REST API: Running on http://localhost:{_apiServer.Port}/";
-        }
+            ApiServerStatusText = $"● REST API: RUNNING on http://localhost:{_apiServer.Port}/";
+        else if (!string.IsNullOrEmpty(_apiServer.LastError))
+            ApiServerStatusText = $"✕ REST API: NOT RUNNING - {_apiServer.LastError}";
+        else if (ApiEnabled)
+            ApiServerStatusText = "○ REST API: enabled but not running - click APPLY & SAVE CHANGES to start it";
         else
-        {
-            ApiServerStatusText = "REST API: Stopped";
-        }
+            ApiServerStatusText = "○ REST API: disabled";
     }
+
+    /// <summary>Keeps the label true to the server (it starts in the background at app start; 1.3 live finding).</summary>
+    private void OnApiServerStateChanged()
+    {
+        var d = System.Windows.Application.Current?.Dispatcher;
+        if (d == null || d.CheckAccess()) UpdateApiServerStatusText();
+        else d.BeginInvoke(new Action(UpdateApiServerStatusText));
+    }
+
+    // ---- API key display and export (1.3 live finding: export was silent and wrote to a shared folder) ----
+    private bool _showApiKey;
+    public bool ShowApiKey { get => _showApiKey; set { _showApiKey = value; OnPropertyChanged(); OnPropertyChanged(nameof(DisplayedApiKey)); OnPropertyChanged(nameof(ShowApiKeyLabel)); } }
+    public string ShowApiKeyLabel => _showApiKey ? "HIDE" : "SHOW";
+    /// <summary>Masked by default so the key does not end up in screenshots.</summary>
+    public string DisplayedApiKey => string.IsNullOrEmpty(ApiKey) ? "(no key - click GENERATE)"
+        : _showApiKey ? ApiKey : ApiKey.Length > 12 ? ApiKey[..8] + new string('•', ApiKey.Length - 12) + ApiKey[^4..] : new string('•', ApiKey.Length);
+    private string _apiExportStatus = "";
+    public string ApiExportStatus { get => _apiExportStatus; set { _apiExportStatus = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasApiExportStatus)); } }
+    public bool HasApiExportStatus => !string.IsNullOrEmpty(_apiExportStatus);
+    public string? LastApiExportPath { get; private set; }
+    /// <summary>Save dialog hook (replaced in tests): suggested path in, chosen path or null out.</summary>
+    public Func<string, string?> ApiKeySaveDialog { get; set; } = suggested =>
+    {
+        // Never open a modal dialog without a running WPF app (headless/tests): it would block forever.
+        if (System.Windows.Application.Current == null) return null;
+        var dlg = new Microsoft.Win32.SaveFileDialog
+        {
+            Title = "Export WirelessScanner API key", Filter = "Markdown (*.md)|*.md|Text (*.txt)|*.txt",
+            FileName = Path.GetFileName(suggested), InitialDirectory = Path.GetDirectoryName(suggested), AddExtension = true, DefaultExt = ".md"
+        };
+        return dlg.ShowDialog() == true ? dlg.FileName : null;
+    };
+    public Action<string> CopyToClipboard { get; set; } = text => System.Windows.Clipboard.SetText(text);
+    public ICommand ToggleShowApiKeyCommand => _toggleShowApiKey ??= new RelayCommand(() => ShowApiKey = !ShowApiKey);
+    private ICommand? _toggleShowApiKey;
+    public ICommand CopyApiKeyCommand => _copyApiKey ??= new RelayCommand(() =>
+    {
+        if (string.IsNullOrEmpty(ApiKey)) { ApiExportStatus = "Generate an API key first."; return; }
+        try { CopyToClipboard(ApiKey); ApiExportStatus = "API key copied to the clipboard."; }
+        catch (Exception ex) { ApiExportStatus = $"Could not copy: {ex.Message}"; }
+    });
+    private ICommand? _copyApiKey;
+    public ICommand OpenApiExportFolderCommand => _openApiExportFolder ??= new RelayCommand(() =>
+    {
+        if (LastApiExportPath == null || !File.Exists(LastApiExportPath)) return;
+        try { System.Diagnostics.Process.Start("explorer.exe", $"/select,\"{LastApiExportPath}\""); } catch { /* best effort */ }
+    });
+    private ICommand? _openApiExportFolder;
 
     private void GenerateApiKey()
     {
@@ -1393,13 +1729,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         try
         {
-            string apiDirectory = Path.Combine(AppContext.BaseDirectory, "API");
-            if (!Directory.Exists(apiDirectory))
+            // Default to the user's own Documents (per-user permissions), not the machine-wide data folder.
+            string suggested = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "WirelessScanner", "API", "WirelessScanner-API-key.md");
+            Directory.CreateDirectory(Path.GetDirectoryName(suggested)!);
+            string? filePath = ApiKeySaveDialog(suggested);
+            if (filePath == null)
             {
-                Directory.CreateDirectory(apiDirectory);
+                ApiExportStatus = "Export cancelled.";
+                return;
             }
-
-            string filePath = Path.Combine(apiDirectory, "api_key.md");
             var content = $@"# Wireless Scanner REST API Credentials
 
 This file contains the security credentials and access details for the Wireless Scanner REST API.
@@ -1426,11 +1764,14 @@ print(response.json())
 ```
 ";
             File.WriteAllText(filePath, content, System.Text.Encoding.UTF8);
-            StatusText = $"API key exported to {Path.Combine("API", "api_key.md")}";
+            LastApiExportPath = filePath;
+            ApiExportStatus = $"API key exported to {filePath}. Keep this file private: anyone who can read it can query the API.";
+            StatusText = ApiExportStatus;
         }
         catch (Exception ex)
         {
-            StatusText = $"Failed to export API key: {ex.Message}";
+            ApiExportStatus = $"Failed to export API key: {ex.Message}";
+            StatusText = ApiExportStatus;
         }
     }
 
@@ -1439,19 +1780,23 @@ print(response.json())
         ApiKey = "";
         StatusText = "API key cleared. Click 'Apply Changes' to save.";
 
+        // Remove copies of the old key this app wrote: the pre-1.3 shared file and this session's export.
+        var removed = new List<string>();
         try
         {
-            string apiDirectory = Path.Combine(AppContext.BaseDirectory, "API");
-            string filePath = Path.Combine(apiDirectory, "api_key.md");
-            if (File.Exists(filePath))
+            foreach (var path in new[] { Path.Combine(AppPaths.ApiDirectory, "api_key.md"), LastApiExportPath })
             {
-                File.Delete(filePath);
+                if (path != null && File.Exists(path)) { File.Delete(path); removed.Add(path); }
             }
+            LastApiExportPath = null;
         }
         catch (Exception ex)
         {
-            StatusText = $"API key cleared. (Failed to delete markdown file: {ex.Message})";
+            StatusText = $"API key cleared. (Failed to delete an exported key file: {ex.Message})";
         }
+        ApiExportStatus = "API key cleared. Click APPLY & SAVE CHANGES to save." +
+            (removed.Count > 0 ? $" Deleted exported key file(s): {string.Join(", ", removed)}." : "") +
+            " Copies you saved elsewhere still contain the old key; it stops working once you apply a new one.";
     }
 
     private async Task ApplyApiSettingsAsync()
@@ -1486,20 +1831,15 @@ print(response.json())
             }
 
             UpdateApiServerStatusText();
-            
-            if (ApiEnabled)
-            {
-                ExportApiKey();
-                StatusText = "REST API settings saved and applied. Key saved to API/api_key.md.";
-            }
-            else
-            {
-                StatusText = "REST API settings saved and applied successfully.";
-            }
+            StatusText = ApiEnabled
+                ? $"REST API settings saved; server running on port {port}. Use EXPORT or COPY to hand the key to a script."
+                : "REST API settings saved; server stopped.";
+            ApiExportStatus = StatusText;
         }
         catch (Exception ex)
         {
-            StatusText = $"Failed to apply REST API settings: {ex.Message}";
+            UpdateApiServerStatusText();
+            StatusText = $"Failed to apply REST API settings: {_apiServer.LastError ?? ex.Message}";
         }
     }
 
@@ -1680,6 +2020,14 @@ public class AccessPointDisplayItem : INotifyPropertyChanged
                 _onCheckedChanged(this);
             }
         }
+    }
+
+    /// <summary>Reflect the shared selection in this item without treating it as a user check.</summary>
+    public void SetCheckedSilently(bool value)
+    {
+        if (_isChecked == value) return;
+        _isChecked = value;
+        OnPropertyChanged(nameof(IsChecked));
     }
 
     public string SSID => AccessPoint.SSID;

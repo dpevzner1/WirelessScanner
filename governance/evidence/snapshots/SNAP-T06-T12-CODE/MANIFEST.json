@@ -1,0 +1,356 @@
+{
+  "snapshot_id": "SNAP-T06-T12-CODE",
+  "captured_at": "2026-10-15T23:47:07.910030+00:00",
+  "files": [
+    {
+      "path": "WirelessScanner.Domain/IAppLogger.cs",
+      "sha256": "ad93c31e2aad8eebaaefcdb7d69573543453f750e7b993ad05a500b982a867fd",
+      "bytes": 198
+    },
+    {
+      "path": "WirelessScanner.Domain/IExportService.cs",
+      "sha256": "b68cde487e46b351a585edd7067027aeca1c1bf837ad85735071277a545dd56e",
+      "bytes": 1119
+    },
+    {
+      "path": "WirelessScanner.Domain/INetworkAdapterProvider.cs",
+      "sha256": "9868036d124ae601e61af9ec696d49574a40f2c0b87e3b6a422656f410c514ec",
+      "bytes": 3007
+    },
+    {
+      "path": "WirelessScanner.Domain/IRestApiServer.cs",
+      "sha256": "7c05f5093f652bf93e425d074a93499f7ff57a389934719d591a9ebff8762a5e",
+      "bytes": 493
+    },
+    {
+      "path": "WirelessScanner.Domain/ISessionManager.cs",
+      "sha256": "2a3c6fceceefa633d65bf72d5d15ba1fff72b32501ae9f5887e0d0840bfd7bf8",
+      "bytes": 1456
+    },
+    {
+      "path": "WirelessScanner.Domain/ISessionRepository.cs",
+      "sha256": "21e705877cb3a3373e3288b4134421d85806690d7e6edfbe6aa30b33b0e25935",
+      "bytes": 1098
+    },
+    {
+      "path": "WirelessScanner.Domain/ISettingsRepository.cs",
+      "sha256": "a4591e618110b0db35056e6e96adf54598d40ea95c50cf7fac9ffdc9f68f6543",
+      "bytes": 207
+    },
+    {
+      "path": "WirelessScanner.Domain/IStatisticsCalculator.cs",
+      "sha256": "56453e8bcd1f31c3dec6aa7ab66db477ef80a9568699c25cc3275277a417108e",
+      "bytes": 344
+    },
+    {
+      "path": "WirelessScanner.Domain/Saturation.cs",
+      "sha256": "b60c184044b52dca3be97195341ce315c6c0a373f335b5c480d97ce2d903c061",
+      "bytes": 11424
+    },
+    {
+      "path": "WirelessScanner.Domain/ScanCycle.cs",
+      "sha256": "31aba8d5df86e2acb219b51703cd43ecbdcf1ec63e6940d669c8462e70bd9340",
+      "bytes": 2198
+    },
+    {
+      "path": "WirelessScanner.Domain/TelemetrySample.cs",
+      "sha256": "62d7fd7cfa1a0a55cb371d712d612b36bab4504ecfe00160394e642f16a08009",
+      "bytes": 284
+    },
+    {
+      "path": "WirelessScanner.Domain/WirelessScanner.Domain.csproj",
+      "sha256": "61e3f2d043e37f0db4be1d8083dd31bebbfbb8fde2cf027327db2556c16bc385",
+      "bytes": 219
+    },
+    {
+      "path": "WirelessScanner.Application/OrderedPersistenceWriter.cs",
+      "sha256": "fa8ca8beacc762caeb8ed6239e4aa57df01a625188c2c24b9ff7659dae46a1d9",
+      "bytes": 3123
+    },
+    {
+      "path": "WirelessScanner.Application/SaturationAnalyzer.cs",
+      "sha256": "95a9689974201c46e28ea0cb92c8536971cabc5753adc4fa59cd997dfe2af427",
+      "bytes": 23805
+    },
+    {
+      "path": "WirelessScanner.Application/SaturationObservationBuilder.cs",
+      "sha256": "f7f084462ef488dd31ed81378c9e9d8b58721c76399a7843a1074167fbcb2ee4",
+      "bytes": 4872
+    },
+    {
+      "path": "WirelessScanner.Application/SaturationTestRunner.cs",
+      "sha256": "eeb3d07042c2ffff3cd8e6a30221c03959d95e7f464fe6d4124926b8a3490588",
+      "bytes": 9466
+    },
+    {
+      "path": "WirelessScanner.Application/SessionManager.cs",
+      "sha256": "8c41ae427baba9f3be576e6bc49012ffabfea53f2380a88baba81d5d3c16b57c",
+      "bytes": 5181
+    },
+    {
+      "path": "WirelessScanner.Application/StatisticsCalculator.cs",
+      "sha256": "a6e3d19095ea35348600b05bd135907719c33fdfe7997f5372dbb1797fa2296c",
+      "bytes": 1024
+    },
+    {
+      "path": "WirelessScanner.Application/WirelessScanner.Application.csproj",
+      "sha256": "1f669f3e8b1ecb79ab3d2d0644434556c9c80856fc5af2ff54f28744c42cdec3",
+      "bytes": 434
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/AppLogger.cs",
+      "sha256": "966611e3bc5e561e9d50a292b5c61112d777ad77f28b96a7d3d10e8b3e509c32",
+      "bytes": 2678
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/AppPaths.cs",
+      "sha256": "fd2b821c6dbdabf51612091637a0a269f8deb0c2e87767ed57708f8c1b3a9a4b",
+      "bytes": 4033
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/ExportService.cs",
+      "sha256": "849713f3e0f281573caf5c38d3b9d6aa533e4bed8bf908cb25fb3ece96ebb394",
+      "bytes": 40079
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/MockNetworkAdapterProvider.cs",
+      "sha256": "353bb95d57cd1e9e15331baf53390f6fac55766345bf3eb1d0a0cdd8e43967b5",
+      "bytes": 5067
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/RestApiServer.cs",
+      "sha256": "f2507dc49ce2fd503f7394b508a270719e31245ca3ff15e4278a2bb6451d58d7",
+      "bytes": 10532
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SaturationExportService.cs",
+      "sha256": "0fc38c7a679128f12fd79727416a556e1611991bc5b125e5d99124ff8e33227e",
+      "bytes": 32554
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SaturationRepository.cs",
+      "sha256": "f101eae6613207fafe18fd4f651f410586f06bb959b0d6234b494078771e4507",
+      "bytes": 7189
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SchemaMigrator.cs",
+      "sha256": "7aefd7ae643acab90068c7c9f4292bfb0ff17972da8c8090be72e35c6d582894",
+      "bytes": 3402
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SessionRepository.cs",
+      "sha256": "f34a2a87c70d03a62305755172fad08da16432ecd5d9e0bb154d04a2eae8e12f",
+      "bytes": 7352
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SettingsRepository.cs",
+      "sha256": "4feb4f6e7a925503c398679a726d0f6734cc34bf27c541b3e33dfb38bf1f816f",
+      "bytes": 1093
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/WirelessScanner.Infrastructure.csproj",
+      "sha256": "3a8b2353403aa525e3522b9a12eb0ef23836c3d9ae27bd6dc7e356a0bd583056",
+      "bytes": 862
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/WlanAdapter.cs",
+      "sha256": "c0a9ba29f3f01a501d78dcd946502545dbc531ddf87b342acc306f21d1b3d847",
+      "bytes": 32295
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/WlanDbContext.cs",
+      "sha256": "5eccd7d8a79c070d2588019a8e654665885fe16511ba16c05ff1cc0f99319968",
+      "bytes": 5965
+    },
+    {
+      "path": "WirelessScanner.Presentation/App.xaml",
+      "sha256": "8e04e9514cb197b98135b3dcbf8063da2c16863755c1eb9f92d1f751c892a35d",
+      "bytes": 364
+    },
+    {
+      "path": "WirelessScanner.Presentation/App.xaml.cs",
+      "sha256": "8aaf0f140b17fdc9e1ca93895d85dcc16da02cb026fce8099a5ebc97270fad31",
+      "bytes": 9094
+    },
+    {
+      "path": "WirelessScanner.Presentation/AssemblyInfo.cs",
+      "sha256": "3fac2af92385f676e9a941befd23fe38f0a5fa6167d4a3a88f07e730c5595ca3",
+      "bytes": 643
+    },
+    {
+      "path": "WirelessScanner.Presentation/EndOfCaptureExportDialog.xaml",
+      "sha256": "11c91e64ca56c761d163e2f81542d21991b79d5c24db78f105ac6fc49eedfced",
+      "bytes": 6472
+    },
+    {
+      "path": "WirelessScanner.Presentation/EndOfCaptureExportDialog.xaml.cs",
+      "sha256": "03e407aea3c93704341de58091e24230802ad5719e9f701711fff08a6172f43a",
+      "bytes": 1389
+    },
+    {
+      "path": "WirelessScanner.Presentation/MainWindow.xaml",
+      "sha256": "578a90f54b880eecd71de10f613ecb6ca4b0d061fcdcd35d59ed899c2b669a40",
+      "bytes": 88278
+    },
+    {
+      "path": "WirelessScanner.Presentation/MainWindow.xaml.cs",
+      "sha256": "7aab433c5c9e4bd90b8f336d7b8e5cfabf2550b5f277cf98ad51474497f54328",
+      "bytes": 26930
+    },
+    {
+      "path": "WirelessScanner.Presentation/MainWindowViewModel.cs",
+      "sha256": "d9f732dd1cd615a58e13515ba030ab841244b870f0a40624a3655ea958467f83",
+      "bytes": 58920
+    },
+    {
+      "path": "WirelessScanner.Presentation/SaturationTestView.xaml",
+      "sha256": "00b02f72bf85f43fa4524e0c9b8be97f9b0038d058ba039f9d5171c6fcaf769c",
+      "bytes": 32927
+    },
+    {
+      "path": "WirelessScanner.Presentation/SaturationTestView.xaml.cs",
+      "sha256": "61c13eda5208a492f97664a78db796629188537d42ebf166f473511f5e28bcf9",
+      "bytes": 6598
+    },
+    {
+      "path": "WirelessScanner.Presentation/SaturationTestViewModel.cs",
+      "sha256": "a9bd8f97ae19cb969a1468ccb819b3a8c144138b944d609bb453678e0334b524",
+      "bytes": 40318
+    },
+    {
+      "path": "WirelessScanner.Presentation/SessionCaptureDialog.xaml",
+      "sha256": "45a7fa86b66ddaaee74fddb1b92a7fb78493ef8f0f4205376c6af6971aeed9bb",
+      "bytes": 3771
+    },
+    {
+      "path": "WirelessScanner.Presentation/SessionCaptureDialog.xaml.cs",
+      "sha256": "37cd1a0c0ae0664c92f42d64c59df308b83a998cca42c9e61bf394077a9c05a8",
+      "bytes": 851
+    },
+    {
+      "path": "WirelessScanner.Presentation/WindowsGeoLocationProvider.cs",
+      "sha256": "ae4f497fb353f66eaa255f33d7826f44737b827d1245a62c9c3809a25b1ff52d",
+      "bytes": 1832
+    },
+    {
+      "path": "WirelessScanner.Presentation/WirelessScanner.Presentation.csproj",
+      "sha256": "04d70b361a30ba67d664191575406761f3faabd004369879541134ff5ff42a0c",
+      "bytes": 1275
+    },
+    {
+      "path": "WirelessScanner.Setup/Program.cs",
+      "sha256": "184068c78efd03707954e1aad27608436cb9244dc8bf5c88f65c7f6d385a0ce8",
+      "bytes": 31115
+    },
+    {
+      "path": "WirelessScanner.Setup/WirelessScanner.Setup.csproj",
+      "sha256": "7532300970102d637aa809fe4adc4cbb15a77cfb532997c0c242b59b6f6a4daf",
+      "bytes": 879
+    },
+    {
+      "path": "WirelessScanner.Setup.Core/InstallerCore.cs",
+      "sha256": "6ab551e379f020a8ac25ed08f3ac1ddb71fbca362fc7d5dc2569899f78ce7f25",
+      "bytes": 13099
+    },
+    {
+      "path": "WirelessScanner.Setup.Core/WirelessScanner.Setup.Core.csproj",
+      "sha256": "54fb6082ea482f132acca5355b8695e91a64d196a2ae8231d63047d38b5cd3f2",
+      "bytes": 402
+    },
+    {
+      "path": "WirelessScanner.Tests/ApiTests.cs",
+      "sha256": "d556bf2a145ee4672a89788d33fe8b44d80b001f8f51a0296cc716a6e6a7b7c5",
+      "bytes": 7940
+    },
+    {
+      "path": "WirelessScanner.Tests/AppPathsTests.cs",
+      "sha256": "e19a64fea911eed36fe65158140f3ad8a51fd6c067f4d56802e2747920822cf2",
+      "bytes": 2432
+    },
+    {
+      "path": "WirelessScanner.Tests/CoreFixTests.cs",
+      "sha256": "4cad3330f47b5a0033c828ac7c2f9cd6d5de215398d34e51db805a78e713e97d",
+      "bytes": 16678
+    },
+    {
+      "path": "WirelessScanner.Tests/GeoTagTests.cs",
+      "sha256": "7082483ead94daedb5558a4086bbbd9483a9d8e5ee729ffecc0783502d63f58f",
+      "bytes": 6180
+    },
+    {
+      "path": "WirelessScanner.Tests/HardwareProbeTests.cs",
+      "sha256": "02eb057ff290d5fad7e2ede466fe824ec644342f2147af5e9ee7826a5dd3a370",
+      "bytes": 2990
+    },
+    {
+      "path": "WirelessScanner.Tests/InstallerCoreTests.cs",
+      "sha256": "d4b5af848d74e0c514aa3b477687f0ccd8fd537cf677ff14f084b57bdaa3ecdb",
+      "bytes": 7976
+    },
+    {
+      "path": "WirelessScanner.Tests/ReportPreviewTests.cs",
+      "sha256": "2efcf62133f4d41b2e2d01a93fc78c98b3c20c354d7bed0a56e41e371a33bd6e",
+      "bytes": 3703
+    },
+    {
+      "path": "WirelessScanner.Tests/SaturationHardwareRun.cs",
+      "sha256": "c56e56a2c6b93bf6f728d0a4ad82f7e290b88c122658b39f17336ab9712e2325",
+      "bytes": 5442
+    },
+    {
+      "path": "WirelessScanner.Tests/SaturationTests.cs",
+      "sha256": "040de500d72089384873d2b80b94fe5ec71bb230cba78de9599400466d6d39e0",
+      "bytes": 28803
+    },
+    {
+      "path": "WirelessScanner.Tests/SaturationViewModelTests.cs",
+      "sha256": "03e37ba67ecda2455b6ae8c0aa6e896a0fa3b86ec7a9fe67a51ad670dc538848",
+      "bytes": 7441
+    },
+    {
+      "path": "WirelessScanner.Tests/TestEnvironment.cs",
+      "sha256": "dbe5ebc9d1388533afc860c6349c45d08f84e4729f7a33c42afa5bdee7797326",
+      "bytes": 791
+    },
+    {
+      "path": "WirelessScanner.Tests/UiRenderTests.cs",
+      "sha256": "920ae41633cae528f68e1ce88fb9905b3865ccddffd3fbd5e78c8e8cad94eae6",
+      "bytes": 4571
+    },
+    {
+      "path": "WirelessScanner.Tests/UnitTest1.cs",
+      "sha256": "b0651c25ac6f41176bfeacc2acb8fe67671133022cb6efc2408fe325fd951459",
+      "bytes": 36611
+    },
+    {
+      "path": "WirelessScanner.Tests/WirelessScanner.Tests.csproj",
+      "sha256": "a19fea54427600baf4efb52bb94c5cab3d4e54e9e3e7b81efb90dccd47a19eae",
+      "bytes": 1328
+    },
+    {
+      "path": "tools/build_release.py",
+      "sha256": "18708ca258f2e76381c9ae1019e0646aa35c126db1ffef3113da6b87deac1064",
+      "bytes": 6258
+    },
+    {
+      "path": "tools/sync_github_export.py",
+      "sha256": "ab0588c783b467b7ea4cbfd394d6f78fefbac233a1a3bd4a011b429bd4726217",
+      "bytes": 6127
+    },
+    {
+      "path": "publish.bat",
+      "sha256": "3e2a12670f1cd083b7cf6f8a1b59eb2d0cc02ae2b5d311a2db28852e3c9309a0",
+      "bytes": 497
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "8b13103055c8293ed5a008b49201bcaac59d95f4b8cdf751d05f7ebcd8b7f1a9",
+      "bytes": 456
+    },
+    {
+      "path": "WirelessScanner.slnx",
+      "sha256": "a3341660d81ee002562111d51f51381d909203de82b12338b2fb06b3bf97d063",
+      "bytes": 592
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "id": "IT-T24-01",
+  "task_ids": [
+    "T24"
+  ],
+  "finding_ids": [
+    "F29"
+  ],
+  "scope": "connection test stage A (segmented monitor, attribution, UX, reports, REST)",
+  "state": "completed",
+  "started_at": "2026-10-18T21:33:47+00:00",
+  "finished_at": "2026-10-19T00:38:31+00:00",
+  "hypothesis": {
+    "claim": "Probes bound to the Wi-Fi address across router, ISP hop, internet, DNS and web, with outage/spike attribution, locate where a connection fails without ever changing it",
+    "disconfirming_result": "A probe leaves through another interface, a fault is attributed to the wrong segment, the association changes, or totals do not reconcile",
+    "prior_lessons": [
+      "LL-2026-10-18-PHYSICAL-UNITS",
+      "LL-2026-10-16-LIVE-SURVEY-REDESIGN"
+    ]
+  },
+  "decision": {
+    "options": [
+      "A: segmented passive-path probes",
+      "B first: speed tests",
+      "C first: responder"
+    ],
+    "chosen": "A: segmented passive-path probes",
+    "why": "Answers 'where does it break' continuously at ~10 kbit/s without servers; owner chose A then B then C",
+    "rejected": [
+      "Speed-first (disruptive, server-dependent)",
+      "Ping-only monitoring (no attribution, ICMP deprioritised)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-1.4-TEST-2"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Application/ConnectionTestRunner.cs",
+      "engine_sha256": "WirelessScanner.Application/ConnectionAnalyzer.cs",
+      "context_sha256": "docs/CONNECTION_TEST_SPEC.md",
+      "test_sha256": "WirelessScanner.Tests/ConnectionTestTests.cs"
+    }
+  },
+  "change": {
+    "summary": "Domain model; WindowsConnectionProber (IcmpSendEcho2Ex with source, bound TCP/DNS/HTTPS); WlanAdapter.ReadLinkAsync (+ statistics, RSSI fallback); runner with path discovery (retry, rediscovery), gaps, stop-on-network-change; CONN-ANALYTICS-1; exports; repository schema 4; Connection test mode, drawer, stage, history, CONNECTED badge, linked saturation; /api/connection",
+    "artifact_evidence_ids": [
+      "EV-1.5-CHANGE",
+      "EV-1.5-DOCS"
+    ],
+    "scope_authority": "Owner 2026-10-18: 'agree on A, B, then C'; UX choices; 'build it all'"
+  },
+  "test": {
+    "commands": [
+      "dotnet test (TEST-1.5-FULL-1/2/3)",
+      "Category=HardwareConnection (HW-CONN-2, HW-CONN-3)",
+      "doc_audit_1_5.py (DOC-AUDIT-1.5-1)"
+    ],
+    "positive": [
+      "Runs_Ticks_WithDueProbes_BoundToWifiAddress_AndPersistsEverything",
+      "Outage_AtRouter_IsAttributedToRouter_AndInternetOutageFollows",
+      "FullRun_StartRunningResults_DrivesModeAndCentreView_AndHistory",
+      "HW-CONN-3 all segments, association unchanged"
+    ],
+    "negative": [
+      "RefusesToStart_WithoutWifiConnection",
+      "IspHopSilentWhileInternetFine_IsNotAProblem",
+      "TwoFailedRounds_AreNotAnOutage",
+      "SmallVariation_IsNotASpike"
+    ],
+    "regression": [
+      "Full suite 249/249 incl. parity P1-P7"
+    ],
+    "result_evidence_ids": [
+      "EV-1.5-TEST",
+      "EV-1.5-HW",
+      "EV-1.5-HW-RETRY",
+      "EV-1.5-DOCAUDIT"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Scripted prober made the runner deterministic",
+      "Explicit real run with redacted output found two real-hardware defects"
+    ],
+    "what_failed": [
+      "SSID change missed when BSSID unchanged (fixed)",
+      "Windows TCP reset timing assumption (fixed: Refused without RTT)",
+      "ISP discovery intermittent at start-up (fixed: retry + rediscovery)",
+      "Driver lacks RSSI opcode (fixed: BSS fallback)"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Installed build unverified on the owner's machine",
+      "ISP probing depends on provider routers"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [
+      "IT-T16-01",
+      "IT-T23-01"
+    ],
+    "reuse_applied": "Saturation-test step/hook/drawer/stage pattern; ordered writer; export helpers",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-18-CONNECTION-TEST"
+    ],
+    "transferable_rule": "Run network features once on the real target machine before release; never treat elapsed time as a round trip unless the protocol guarantees one exchange",
+    "applicability_limits": "Windows client network measurements"
+  },
+  "next_action": {
+    "action": "Owner installs 1.5.0 and runs a 15-minute connection test",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner installs 1.5.0"
+  }
+}

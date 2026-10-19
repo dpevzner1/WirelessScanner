@@ -1,0 +1,158 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Shared HUD theme for the Live Survey controls (DR-0010). Keyed styles only: the implicit Button/TextBox/
+         ComboBox/DataGrid styles still come from MainWindow so every screen keeps one look. -->
+    <SolidColorBrush x:Key="HudAccent" Color="#FF6600"/>
+    <SolidColorBrush x:Key="HudText" Color="#FF8800"/>
+    <SolidColorBrush x:Key="HudMuted" Color="#AA4400"/>
+    <SolidColorBrush x:Key="HudBorder" Color="#883300"/>
+    <SolidColorBrush x:Key="HudFaint" Color="#331800"/>
+    <SolidColorBrush x:Key="HudSurface" Color="#000000"/>
+    <SolidColorBrush x:Key="HudRaised" Color="#120700"/>
+    <SolidColorBrush x:Key="HudCritical" Color="#D03B3B"/>
+    <SolidColorBrush x:Key="HudWarning" Color="#FAB219"/>
+    <BooleanToVisibilityConverter x:Key="HudVis"/>
+
+    <Style x:Key="HudPanel" TargetType="Border">
+        <Setter Property="BorderBrush" Value="#883300"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="Background" Value="#000000"/>
+    </Style>
+    <Style x:Key="HudTitle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#FF6600"/>
+        <Setter Property="Margin" Value="0,0,0,6"/>
+    </Style>
+    <Style x:Key="HudLabel" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#AA4400"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Margin" Value="0,6,0,2"/>
+    </Style>
+    <Style x:Key="HudHint" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#AA4400"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="FontStyle" Value="Italic"/>
+    </Style>
+
+    <!-- Filter chip: a pill toggle. Checked = filled + accent border; the label always says what it filters. -->
+    <Style x:Key="HudChip" TargetType="ToggleButton">
+        <Setter Property="Foreground" Value="#AA4400"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Margin" Value="0,0,6,6"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border x:Name="b" CornerRadius="11" BorderBrush="#883300" BorderThickness="1" Background="Transparent" Padding="10,3">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="#2A1200"/>
+                            <Setter TargetName="b" Property="BorderBrush" Value="#FF6600"/>
+                            <Setter Property="Foreground" Value="#FF8800"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="b" Property="BorderBrush" Value="#FF6600"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="b" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Segmented control item (mode bar, centre views, bands). -->
+    <Style x:Key="HudSegment" TargetType="RadioButton">
+        <Setter Property="Foreground" Value="#AA4400"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="b" BorderBrush="#883300" BorderThickness="1" Background="Transparent" Padding="14,5" Margin="0,0,-1,0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="#2A1200"/>
+                            <Setter TargetName="b" Property="BorderBrush" Value="#FF6600"/>
+                            <Setter Property="Foreground" Value="#FF8800"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="b" Property="BorderBrush" Value="#FF6600"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="b" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Tri-state box: the glyph (✓ / – / empty) is the state, so it never relies on colour alone. -->
+    <Style x:Key="HudCheckBox" TargetType="Button">
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Foreground" Value="#FF8800"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="b" CornerRadius="4" BorderBrush="#FF6600" BorderThickness="1.5" Background="#000000">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="#2A1200"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused" Value="True">
+                            <Setter TargetName="b" Property="BorderThickness" Value="2.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="b" Property="BorderBrush" Value="#553311"/>
+                            <Setter Property="Foreground" Value="#553311"/>
+                            <Setter Property="Cursor" Value="No"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Flat text button (caret, links). -->
+    <Style x:Key="HudFlatButton" TargetType="Button">
+        <Setter Property="Foreground" Value="#AA4400"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="#FF8800"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

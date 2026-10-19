@@ -1,0 +1,16 @@
+{
+  "snapshot_id": "SNAP-LL-CORE-1",
+  "captured_at": "2026-10-15T22:21:48.711603+00:00",
+  "files": [
+    {
+      "path": "LessonsLearned/records/2026-10-15-core-scan-persistence.md",
+      "sha256": "9c038f86edd0e04d54c8872b151af876e1e76390315d49c26acb34b962ec1743",
+      "bytes": 10953
+    },
+    {
+      "path": "LessonsLearned/lesson-register.json",
+      "sha256": "1df29e4848b52867df91028f523b320e192735066863bd9675f711bb16d55aed",
+      "bytes": 1899
+    }
+  ]
+}

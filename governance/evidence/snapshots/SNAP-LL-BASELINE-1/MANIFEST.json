@@ -1,0 +1,16 @@
+{
+  "snapshot_id": "SNAP-LL-BASELINE-1",
+  "captured_at": "2026-10-15T22:03:44.902028+00:00",
+  "files": [
+    {
+      "path": "LessonsLearned/records/2026-10-15-baseline-governance.md",
+      "sha256": "3dd3eb1a51ea9d49c7e632349a779b91c76629dddf3ff267bd85b2eceac80153",
+      "bytes": 11259
+    },
+    {
+      "path": "LessonsLearned/lesson-register.json",
+      "sha256": "7f429a7496feda7b6c049a6abf3c2271e8f3dd5cebb370ab8f49c2f577a221b4",
+      "bytes": 944
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "snapshot_id": "SNAP-T12-DOCS",
+  "captured_at": "2026-10-15T23:47:11.678533+00:00",
+  "files": [
+    {
+      "path": "docs/consultation/ENGINE_CONSULTATION_LOG.md",
+      "sha256": "14bcf0f2426e16c561c9a5a196a95969d651182bef2f7c6fa886d5eb491805e4",
+      "bytes": 5307
+    },
+    {
+      "path": "docs/decisions/DR-0001-governance-adoption.md",
+      "sha256": "d1016a73d8a22ec95b266b4b2c7a28d915d094e1a924963654ec2501a04bf41b",
+      "bytes": 4816
+    },
+    {
+      "path": "docs/decisions/DR-0002-canonical-folder-and-sync.md",
+      "sha256": "7ab123da1b18bf8c0f457b1e148b88cbc48b7e92d0567e6388b6d8308e9e4045",
+      "bytes": 3428
+    },
+    {
+      "path": "docs/decisions/DR-0003-fresh-scan-and-persistence-pipeline.md",
+      "sha256": "667fb80ab28c93db532d82a72177f1ed34f6e3c070dd8d47e843151286371d7f",
+      "bytes": 4469
+    },
+    {
+      "path": "docs/decisions/DR-0004-saturation-test-measurement-model.md",
+      "sha256": "e32045f4a8065cf355e5091ba4c100f9e2447de686d46ab94bb9a59007d16d26",
+      "bytes": 3486
+    },
+    {
+      "path": "docs/decisions/DR-0005-saturation-test-ux.md",
+      "sha256": "ed8df42d9437fbe1f920b212d43469bfd0f04b9349e5e615e93f535128672dc1",
+      "bytes": 2985
+    },
+    {
+      "path": "docs/decisions/DR-0006-data-location.md",
+      "sha256": "df1dccf1bb0ea98d71a225df387a401fdd95bf63caca97ba4c3beff329d65042",
+      "bytes": 2314
+    },
+    {
+      "path": "docs/decisions/DR-0007-installer-lifecycle.md",
+      "sha256": "5c73068b65451bf5503f106c50524f2c119d7b12305f7190846acb4d36eecc4a",
+      "bytes": 4333
+    },
+    {
+      "path": "docs/decisions/DR-0008-rest-api-security.md",
+      "sha256": "13df828fc52f2d63d5cbd1ed87f8edcba02fca2fab8f586bba65e63294e9e4f5",
+      "bytes": 2211
+    },
+    {
+      "path": "docs/decisions/DR-0009-geolocation-tagging.md",
+      "sha256": "b867a58001ee5b0d6d07489309f81612e9f5d2c1443b577bbb9584743b637e37",
+      "bytes": 3977
+    },
+    {
+      "path": "docs/PROJECT_CONVENTIONS.md",
+      "sha256": "b77c6b6a663241827cad8d543685231459633793475bc871520b4802eb496f05",
+      "bytes": 6653
+    },
+    {
+      "path": "docs/SATURATION_TEST_SPEC.md",
+      "sha256": "33e73ce44e7f24641684f7ade9b7ee6256625b9367170d702e45acdfc7efd4d4",
+      "bytes": 16128
+    },
+    {
+      "path": "docs/standards/PROJECT_REMEDIATION_AUDIT_STANDARD.md",
+      "sha256": "8376b98ec5c73d847bc1bfb7433a353a0747e6da6108b0d5f2ba52906ecfc6c1",
+      "bytes": 17556
+    },
+    {
+      "path": "docs/standards/REVIEW_ATTESTATION_STANDARD.md",
+      "sha256": "4fc8808819bcde76cd2ebe29915f1cb65db124a127589d0774c8e6fad25e178b",
+      "bytes": 9129
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "aef9799a07abd049b6b3d9efaa3df8c49b691159f8cecfd2ad58d4ac9e894353",
+      "bytes": 6585
+    },
+    {
+      "path": "docs/TECHNICAL_REFERENCE.md",
+      "sha256": "bacfd70f97ddb939206205d5b525cf09962de49515fe4d0276f1342201283183",
+      "bytes": 11056
+    },
+    {
+      "path": "docs/USER_GUIDE.md",
+      "sha256": "6d3ab64a0e3ee46a4d6220a27924bd35b6607a5ecd6ffb82e2d073f47bb49847",
+      "bytes": 18570
+    },
+    {
+      "path": "README.md",
+      "sha256": "67378d29c5e411024137db57d8c1af146229a1c04bf1f4d4e926db50e80ec292",
+      "bytes": 5000
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "52f81b8792d3448cafc393bfaed83a7d65bb6a05153de8f11755d08171e0b72f",
+      "bytes": 4238
+    }
+  ]
+}

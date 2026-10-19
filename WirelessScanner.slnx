@@ -4,4 +4,8 @@
   <Project Path="WirelessScanner.Infrastructure/WirelessScanner.Infrastructure.csproj" />
   <Project Path="WirelessScanner.Presentation/WirelessScanner.Presentation.csproj" />
   <Project Path="WirelessScanner.Tests/WirelessScanner.Tests.csproj" />
+  <Project Path="WirelessScanner.Setup/WirelessScanner.Setup.csproj" />
+  <Project Path="WirelessScanner.Setup.Core/WirelessScanner.Setup.Core.csproj" />
+  <Project Path="WirelessScanner.Responder.Core/WirelessScanner.Responder.Core.csproj" />
+  <Project Path="WirelessScanner.Responder/WirelessScanner.Responder.csproj" />
 </Solution>

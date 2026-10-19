@@ -89,6 +89,26 @@ public class ApiTests
     }
 
     [Test]
+    public async Task Connection_Endpoints_ReportStateAndHistory()
+    {
+        async Task<JsonElement> Get(string path)
+        {
+            var req = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:{_testPort}{path}");
+            req.Headers.Add("X-API-Key", _testApiKey);
+            var resp = await _httpClient.SendAsync(req);
+            Assert.That(resp.StatusCode, Is.EqualTo(HttpStatusCode.OK), path);
+            return JsonDocument.Parse(await resp.Content.ReadAsStringAsync()).RootElement.Clone();
+        }
+        var idle = await Get("/api/connection");
+        Assert.That(idle.GetProperty("running").GetBoolean(), Is.False);
+        ((RestApiServer)_apiServer).ConnectionStatusProvider = () => new { running = true, name = "Office" };
+        var running = await Get("/api/connection");
+        Assert.That(running.GetProperty("name").GetString(), Is.EqualTo("Office"));
+        var tests = await Get("/api/connection/tests");
+        Assert.That(tests.ValueKind, Is.EqualTo(JsonValueKind.Array));
+    }
+
+    [Test]
     public async Task Request_WithValidHeaderApiKey_ReturnsStatusOk()
     {
         var request = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:{_testPort}/api/status");
@@ -107,10 +127,54 @@ public class ApiTests
     }
 
     [Test]
-    public async Task Request_WithQueryStringApiKey_ReturnsStatusOk()
+    public async Task Request_WithQueryStringApiKey_IsRejected()
     {
+        // F05: query-string keys leak into proxy logs and history; only the X-API-Key header is accepted.
         var response = await _httpClient.GetAsync($"http://localhost:{_testPort}/api/status?api_key={_testApiKey}");
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        var body = await response.Content.ReadAsStringAsync();
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Unauthorized));
+            Assert.That(body, Does.Contain("X-API-Key header"));
+        });
+    }
+
+    [Test]
+    public async Task Cors_IsNotWildcard_AndOnlyEchoesConfiguredOrigin()
+    {
+        var req = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:{_testPort}/api/status");
+        req.Headers.Add("X-API-Key", _testApiKey);
+        req.Headers.Add("Origin", "https://evil.example");
+        var response = await _httpClient.SendAsync(req);
+        Assert.That(response.Headers.Contains("Access-Control-Allow-Origin"), Is.False);
+
+        _apiServer.AllowedOrigin = "http://localhost:3000";
+        var ok = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:{_testPort}/api/status");
+        ok.Headers.Add("X-API-Key", _testApiKey);
+        ok.Headers.Add("Origin", "http://localhost:3000");
+        var allowed = await _httpClient.SendAsync(ok);
+        Assert.That(allowed.Headers.GetValues("Access-Control-Allow-Origin"), Is.EqualTo(new[] { "http://localhost:3000" }));
+    }
+
+    [Test]
+    public void KeyComparison_RejectsPrefixesAndEmpty()
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.That(_apiServer.KeyMatches(_testApiKey), Is.True);
+            Assert.That(_apiServer.KeyMatches(_testApiKey[..^1]), Is.False);
+            Assert.That(_apiServer.KeyMatches(""), Is.False);
+            Assert.That(_apiServer.KeyMatches(null), Is.False);
+        });
+    }
+
+    [Test]
+    public async Task PortConflict_ReportsActionableError()
+    {
+        var second = new RestApiServer(_factory, new NullLogger());
+        Assert.ThrowsAsync<HttpListenerException>(() => second.StartAsync(_testPort, _testApiKey));
+        Assert.That(second.LastError, Does.Contain($"Port {_testPort}"));
+        await second.StopAsync();
     }
 
     [Test]

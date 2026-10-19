@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "review_attestation_record.v1",
+  "title": "Review attestation ledger record",
+  "description": "One line of ATTESTATION-LEDGER.jsonl written by tools/review_attestation.py. Tool-agnostic: the actor may be any assistant, automation or person. Identity is self-declared unless the record carries a verified signature.",
+  "type": "object",
+  "required": ["schema", "sequence", "record_id", "review_id", "recorded_at_utc", "recorded_at_local", "actor", "step", "command", "inputs", "outputs", "limits", "previous_record_sha256", "record_sha256", "signature"],
+  "properties": {
+    "schema": {"const": "review_attestation_record.v1"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "record_id": {"type": "string", "pattern": "^ATT-[0-9]{5}$"},
+    "review_id": {"type": "string", "minLength": 1},
+    "recorded_at_utc": {"type": "string", "format": "date-time"},
+    "recorded_at_local": {"type": "string", "format": "date-time"},
+    "actor": {
+      "type": "object",
+      "required": ["tool", "tool_version", "model", "operator", "role", "identity_basis"],
+      "properties": {
+        "tool": {"type": "string", "minLength": 1, "description": "Product or process that performed the step, for example Claude Code, Codex, a CI job or a named person"},
+        "tool_version": {"type": "string", "description": "Exact version or 'unknown'"},
+        "model": {"type": "string", "description": "Model identifier when an AI model performed the step, otherwise 'unknown' or 'not_applicable'"},
+        "operator": {"type": "string", "description": "Accountable person or account directing the tool, or 'unknown'"},
+        "role": {"enum": ["reviewer", "implementer", "custodian", "auditor", "human_reviewer", "automation", "other"]},
+        "identity_basis": {"enum": ["self_declared", "signature_verified"]}
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": ["phase", "id", "kind", "description"],
+      "properties": {
+        "phase": {"type": "string"},
+        "id": {"type": "string"},
+        "kind": {"enum": ["init", "read", "hash_check", "execute", "write", "judgment", "decision", "freeze", "note", "seal"]},
+        "description": {"type": "string", "minLength": 1}
+      }
+    },
+    "command": {
+      "type": ["object", "null"],
+      "properties": {
+        "argv": {"type": "string"},
+        "exit_code": {"type": ["integer", "null"]},
+        "executed_by_this_tool": {"type": "boolean"},
+        "stdout": {"$ref": "#/$defs/file_or_null"},
+        "stderr": {"$ref": "#/$defs/file_or_null"}
+      }
+    },
+    "inputs": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+    "outputs": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "session": {"type": "object", "description": "Present on the init record only: purpose, authorized scope, prohibited actions, exceptions, write roots, coverage exclusions, environment and protected-manifest state"},
+    "seal": {"type": "object", "description": "Present on the seal record only: artifact inventory hash, protected-manifest drift and pre-seal verification"},
+    "previous_record_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "signature": {
+      "type": "object",
+      "required": ["method"],
+      "properties": {
+        "method": {"enum": ["none", "ssh"]},
+        "namespace": {"type": "string"},
+        "signer": {"type": "string"},
+        "value": {"type": "string"},
+        "limit": {"type": "string"}
+      }
+    }
+  },
+  "$defs": {
+    "file": {"type": "object", "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}},
+    "file_or_null": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/file"}]}
+  }
+}

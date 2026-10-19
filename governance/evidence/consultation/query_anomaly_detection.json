@@ -1,0 +1,1784 @@
+{
+  "concepts": [
+    {
+      "term": "anomaly detection",
+      "score": 380.6695,
+      "document_frequency": 5,
+      "total_mentions": 82,
+      "domains": {
+        "full_stack_web_product_engineering": 5006,
+        "security": 3612,
+        "software": 2609,
+        "devops": 2274,
+        "api_engineering": 2101,
+        "data": 2047,
+        "cloud": 1519,
+        "ai": 1045,
+        "windows_internals_reverse_engineering": 937,
+        "ai_assisted_devops_and_coding": 817,
+        "mobile_application_engineering": 635,
+        "snmp_protocol_engineering": 337,
+        "network_monitoring": 210,
+        "custom_linux_image_builds": 193,
+        "nvidia_cuda_gpu_platform_engineering": 193,
+        "embedded_edge_hardware_iot": 190,
+        "systems": 154,
+        "product_experience": 63,
+        "systems_memory_performance_engineering": 52,
+        "linux_kernel_infrastructure": 43,
+        "raspberry_pi_provisioning_imaging": 41,
+        "vector_database_and_rag_engineering": 28,
+        "legacy_game_graphics_modernization_engineering": 24,
+        "telemetry_capture_architecture_engineering": 22,
+        "openclaw_autonomous_agent_engineering": 11,
+        "low_level_game_engine_performance_architecture": 6,
+        "heterogeneous_parallel_portability_engineering": 1,
+        "gpu_accelerated_compute_engineering": 1,
+        "workspace_automation": 1
+      },
+      "documents": {
+        "AI_DEVOPS__INTEGRATING_MACHINE_INTELLIGENCE_INTO_CONTI_c94e79bb49": [
+          25,
+          59
+        ],
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616": [
+          103,
+          170,
+          201,
+          204,
+          278,
+          299,
+          432,
+          684
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          61,
+          98,
+          117,
+          118
+        ],
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785": [
+          118,
+          154,
+          156
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          29,
+          31,
+          236,
+          303,
+          313,
+          318,
+          324,
+          353,
+          364,
+          365,
+          394
+        ]
+      }
+    },
+    {
+      "term": "anomaly",
+      "score": 744.291,
+      "document_frequency": 11,
+      "total_mentions": 184,
+      "domains": {
+        "full_stack_web_product_engineering": 13054,
+        "data": 5965,
+        "vector_database_and_rag_engineering": 4708,
+        "software": 4695,
+        "devops": 4511,
+        "security": 4454,
+        "ai": 3871,
+        "api_engineering": 3554,
+        "arm_embedded_platform_engineering": 3022,
+        "windows_internals_reverse_engineering": 2260,
+        "ai_assisted_devops_and_coding": 2120,
+        "cloud": 1952,
+        "snmp_protocol_engineering": 1270,
+        "mobile_application_engineering": 1227,
+        "network_monitoring": 830,
+        "embedded_edge_hardware_iot": 637,
+        "custom_linux_image_builds": 539,
+        "systems_memory_performance_engineering": 512,
+        "systems": 321,
+        "nvidia_cuda_gpu_platform_engineering": 254,
+        "product_experience": 212,
+        "telemetry_capture_architecture_engineering": 210,
+        "raspberry_pi_provisioning_imaging": 144,
+        "linux_kernel_infrastructure": 143,
+        "amd_xdna_npu_endpoint_engineering": 62,
+        "legacy_game_graphics_modernization_engineering": 34,
+        "gpu_accelerated_compute_engineering": 21,
+        "heterogeneous_parallel_portability_engineering": 17,
+        "openclaw_autonomous_agent_engineering": 12,
+        "dos_legacy_pc_systems_engineering": 8,
+        "low_level_game_engine_performance_architecture": 8,
+        "workspace_automation": 3
+      },
+      "documents": {
+        "AI_DEVOPS__INTEGRATING_MACHINE_INTELLIGENCE_INTO_CONTI_c94e79bb49": [
+          16,
+          25,
+          46,
+          59,
+          62,
+          63
+        ],
+        "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302": [
+          7,
+          189,
+          218,
+          359,
+          362,
+          364
+        ],
+        "DESIGN_AND_ARCHITECTURE_OF_SNMP_MONITORING_SYSTEM_74472a97bb": [
+          62,
+          69
+        ],
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616": [
+          103,
+          170,
+          201,
+          204,
+          278,
+          299,
+          432,
+          442,
+          598,
+          602,
+          684
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          61,
+          98,
+          110,
+          114,
+          117,
+          118,
+          119
+        ],
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785": [
+          102,
+          118,
+          123,
+          126,
+          141,
+          144,
+          145,
+          153,
+          154,
+          156,
+          160
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          29,
+          31,
+          59,
+          207,
+          213,
+          232,
+          236,
+          293,
+          303,
+          307,
+          310,
+          311,
+          313,
+          317,
+          318,
+          319,
+          322,
+          324,
+          332,
+          353,
+          364,
+          365,
+          375,
+          394
+        ],
+        "The.DevOps.Handbook_4a7e71d883": [
+          274,
+          275,
+          302,
+          303,
+          306,
+          308,
+          309,
+          311,
+          516,
+          517,
+          548,
+          557,
+          586
+        ],
+        "VECTOR_DATABASE_ENGINEERING__BUILDING_SCALABLE_AI_SEAR_f498709026": [
+          20,
+          318,
+          319,
+          320,
+          330
+        ],
+        "VECTOR_DATABASES_FOR_EVERYONE__A_BEGINNER_S_GUIDE_TO_T_0f970924af": [
+          10,
+          218,
+          219,
+          222,
+          223,
+          225,
+          226,
+          227
+        ],
+        "VECTOR_DATABASES_FOR_GENERATIVE_AI__BUILD_RAG_APPS_IN__331f2124f5": [
+          195,
+          197,
+          198,
+          199,
+          201,
+          269
+        ]
+      }
+    },
+    {
+      "term": "detection",
+      "score": 3391.987,
+      "document_frequency": 42,
+      "total_mentions": 1098,
+      "domains": {
+        "full_stack_web_product_engineering": 36032,
+        "data": 15289,
+        "software": 13535,
+        "api_engineering": 11886,
+        "windows_internals_reverse_engineering": 9437,
+        "security": 9217,
+        "devops": 8066,
+        "ai": 6399,
+        "snmp_protocol_engineering": 6353,
+        "cloud": 6314,
+        "embedded_edge_hardware_iot": 5590,
+        "gpu_accelerated_compute_engineering": 5438,
+        "ai_assisted_devops_and_coding": 5319,
+        "network_monitoring": 5299,
+        "systems_memory_performance_engineering": 4740,
+        "systems": 4707,
+        "arm_embedded_platform_engineering": 4377,
+        "nvidia_cuda_gpu_platform_engineering": 3457,
+        "custom_linux_image_builds": 3356,
+        "mobile_application_engineering": 3065,
+        "linux_kernel_infrastructure": 2889,
+        "vector_database_and_rag_engineering": 2382,
+        "raspberry_pi_provisioning_imaging": 2333,
+        "amd_rocm_gpu_platform_engineering": 1927,
+        "heterogeneous_parallel_portability_engineering": 1896,
+        "low_level_game_engine_performance_architecture": 1140,
+        "product_experience": 870,
+        "telemetry_capture_architecture_engineering": 484,
+        "windows_desktop_app_engineering": 467,
+        "legacy_game_graphics_modernization_engineering": 219,
+        "dos_legacy_pc_systems_engineering": 211,
+        "openclaw_autonomous_agent_engineering": 200,
+        "amd_xdna_npu_endpoint_engineering": 89,
+        "workspace_automation": 55
+      },
+      "documents": {
+        "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac": [
+          24,
+          26,
+          545,
+          552,
+          583,
+          589,
+          591,
+          596,
+          610,
+          615,
+          621,
+          623,
+          624,
+          625,
+          647,
+          658,
+          678,
+          680,
+          683,
+          684,
+          699,
+          707,
+          714,
+          721,
+          727
+        ],
+        "AI_DEVOPS__INTEGRATING_MACHINE_INTELLIGENCE_INTO_CONTI_c94e79bb49": [
+          3,
+          4,
+          16,
+          25,
+          46,
+          48,
+          52,
+          59,
+          60,
+          62,
+          63
+        ],
+        "ARM_ARCHITECTURE_AND_PROGRAMMING_ESSENTIALS__DEFINITIV_c68f9d4b1c": [
+          3,
+          53,
+          55,
+          57,
+          103,
+          105,
+          123,
+          128,
+          139,
+          149,
+          176,
+          183,
+          185,
+          196,
+          198,
+          202,
+          205
+        ],
+        "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302": [
+          7,
+          85,
+          101,
+          289,
+          353,
+          359,
+          365
+        ],
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a": [
+          162,
+          173,
+          193,
+          214,
+          215,
+          221,
+          226,
+          261,
+          266,
+          282,
+          329,
+          348,
+          383,
+          385,
+          399,
+          446,
+          460,
+          472,
+          479,
+          514,
+          541,
+          544
+        ],
+        "Creating_Video_Games_Using_PyGame_A_comprehensive_107c43d3b5": [
+          119,
+          131,
+          140,
+          151
+        ],
+        "CUDA_PROGRAMMING_FUNDAMENTALS__DEFINITIVE_REFERENCE_FO_c9914d8f9f": [
+          198,
+          200,
+          201,
+          208
+        ],
+        "DESIGN_AND_ARCHITECTURE_OF_SNMP_MONITORING_SYSTEM_74472a97bb": [
+          6,
+          8,
+          9,
+          10,
+          14,
+          15,
+          18,
+          51,
+          52,
+          53,
+          54,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          72,
+          79
+        ],
+        "DesignMachineLEarningSys_8a5b7a1b4e": [
+          17,
+          22,
+          120,
+          267,
+          279,
+          332,
+          333,
+          337
+        ],
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac": [
+          14,
+          33,
+          49,
+          65,
+          76,
+          78,
+          126,
+          128,
+          129,
+          204,
+          257,
+          262,
+          265,
+          271,
+          272,
+          273,
+          283,
+          285,
+          299,
+          300,
+          311,
+          321,
+          324,
+          325,
+          329,
+          359,
+          361,
+          378,
+          383
+        ],
+        "Game_Engine_Black_Book_-_Doom_v1.1_-_Fabien_Sanglard_2_cc893f4e58": [
+          21,
+          22,
+          112,
+          262,
+          263,
+          271,
+          369
+        ],
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492": [
+          235,
+          236,
+          237
+        ],
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616": [
+          56,
+          103,
+          108,
+          149,
+          150,
+          155,
+          158,
+          170,
+          201,
+          204,
+          205,
+          215,
+          217,
+          219,
+          256,
+          262,
+          278,
+          279,
+          282,
+          286,
+          287,
+          296,
+          299,
+          300,
+          308,
+          327,
+          344,
+          350,
+          395,
+          432,
+          442,
+          578,
+          602,
+          613,
+          633,
+          641,
+          642,
+          659,
+          675,
+          684,
+          687,
+          690
+        ],
+        "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4": [
+          15,
+          136,
+          169,
+          205
+        ],
+        "GPU_PROGRAMMING_WITH_CUDA_AND_OPENCL__HIGH-PERFORMANCE_ea87e6f0ef": [
+          58,
+          61,
+          69,
+          81,
+          82,
+          89,
+          103
+        ],
+        "HIGH-PERFORMANCE_API_ENGINEERING__SCALABLE_BACKEND_INT_cf9eca75da": [
+          95,
+          97,
+          106
+        ],
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd": [
+          8,
+          12,
+          13,
+          21,
+          404,
+          725,
+          738,
+          814,
+          922,
+          1016,
+          1047,
+          1206,
+          1212,
+          1219,
+          1222,
+          1227,
+          1229,
+          1250,
+          1251,
+          1253,
+          1257,
+          1272,
+          1414,
+          1842,
+          1849,
+          1861,
+          1893
+        ],
+        "LEARN_WINDOWS_MEMORY_MANAGEMENT_FROM_SCRATCH__A_HANDS-_4cd165e5d7": [
+          18,
+          19,
+          187,
+          193,
+          198,
+          206,
+          290,
+          292,
+          349
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          68,
+          77,
+          274,
+          280,
+          281,
+          303,
+          305,
+          308,
+          310,
+          314,
+          315,
+          316,
+          429,
+          440,
+          454,
+          463,
+          464,
+          481,
+          486,
+          497,
+          505,
+          506,
+          509,
+          511,
+          514,
+          515,
+          517,
+          518,
+          521,
+          522,
+          529,
+          569,
+          584,
+          589,
+          591,
+          600,
+          636,
+          646,
+          654
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          6,
+          50,
+          51,
+          54,
+          61,
+          91,
+          98,
+          102,
+          107,
+          108,
+          109,
+          110,
+          112,
+          113,
+          114,
+          117,
+          118,
+          119
+        ],
+        "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b": [
+          5,
+          59,
+          103,
+          126,
+          127,
+          130,
+          148,
+          154,
+          233,
+          251
+        ],
+        "MASTERING_SSH_SFTP__A_PRACTICAL_GUIDE_TO_SECURE_REMOTE_196b3f38ee": [
+          12,
+          13,
+          142,
+          144,
+          178,
+          183,
+          193,
+          288
+        ],
+        "MASTERING_USB_ON_LINUX_MINT_22.3__CREATE_BOOTABLE_DRIV_bf5ef146c1": [
+          23,
+          25,
+          26,
+          27,
+          31,
+          33,
+          34,
+          36,
+          39,
+          191,
+          201,
+          203
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          7,
+          12,
+          95,
+          96,
+          98,
+          114,
+          131,
+          164,
+          191,
+          192
+        ],
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785": [
+          6,
+          9,
+          108,
+          114,
+          116,
+          118,
+          119,
+          125,
+          126,
+          144,
+          154,
+          156,
+          157,
+          160
+        ],
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec": [
+          72,
+          129,
+          134,
+          136,
+          190
+        ],
+        "REVERSE_ENGINEERING_101__UNLOCK_THE_SECRETS_OF_SOFTWAR_3c3139f1b4": [
+          5,
+          141,
+          142,
+          153,
+          155,
+          157,
+          160,
+          306,
+          307,
+          311,
+          314
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          51,
+          125,
+          130,
+          158,
+          160,
+          182,
+          191,
+          192,
+          195,
+          200,
+          211,
+          220,
+          222,
+          238
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          7,
+          21,
+          28,
+          29,
+          31,
+          39,
+          44,
+          46,
+          48,
+          50,
+          52,
+          59,
+          62,
+          63,
+          84,
+          98,
+          110,
+          111,
+          112,
+          117,
+          157,
+          176,
+          177,
+          194,
+          195,
+          198,
+          201,
+          202,
+          207,
+          210,
+          212,
+          227,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          236,
+          237,
+          240,
+          242,
+          244,
+          245,
+          246,
+          248,
+          255,
+          258,
+          285,
+          293,
+          294,
+          297,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307,
+          308,
+          310,
+          311,
+          312,
+          313,
+          314,
+          317,
+          318,
+          319,
+          321,
+          322,
+          323,
+          324,
+          325,
+          326,
+          328,
+          330,
+          332,
+          336,
+          337,
+          340,
+          341,
+          343,
+          344,
+          345,
+          348,
+          349,
+          352,
+          353,
+          361,
+          362,
+          363,
+          364,
+          365,
+          366,
+          369,
+          373,
+          375,
+          376,
+          382,
+          383,
+          385,
+          391,
+          393,
+          394
+        ],
+        "SNMP_Engineering__LibreNMS_e63d4ec109": [
+          1,
+          2
+        ],
+        "SNMP_Engineering__rfc3512_dfa9205bdf": [
+          15
+        ],
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2": [
+          33,
+          42,
+          88,
+          90,
+          101,
+          106,
+          116,
+          158,
+          161
+        ],
+        "The.DevOps.Handbook_4a7e71d883": [
+          12,
+          38,
+          52,
+          61,
+          67,
+          73,
+          84,
+          274,
+          275,
+          289,
+          297,
+          300,
+          301,
+          306,
+          308,
+          310,
+          316,
+          344,
+          362,
+          393,
+          516,
+          517,
+          545,
+          548,
+          557,
+          562,
+          586,
+          587,
+          589
+        ],
+        "THE_ARM_MULTICORE_ENGINEERING_HANDBOOK__ARCHITECTING_R_c181e1f382": [
+          37,
+          38,
+          40,
+          107
+        ],
+        "THE_COMPLETE_HOMELAB_GUIDE__BUILD_YOUR_SELF-HOSTED_INF_1b6130de23": [
+          20,
+          49,
+          80,
+          544,
+          584,
+          585,
+          595,
+          613,
+          776,
+          799,
+          800,
+          805
+        ],
+        "THE_LITTLE_HANDBOOK_OF_WINDOWS_MEMORY_ANALYSIS__JUST_S_b831c5be12": [
+          6,
+          8,
+          112,
+          147,
+          150
+        ],
+        "THE_SNMP_ESSENTIALS__COMPREHENSIVE_GUIDE_TO_NETWORK_MO_50d4ea6eee": [
+          58,
+          161,
+          210,
+          224,
+          241,
+          243,
+          262,
+          285,
+          298,
+          301,
+          306,
+          337,
+          339,
+          365
+        ],
+        "Understanding_Deep_Learning_Building_Machine_Lear_9411ddf3dd": [
+          16,
+          18,
+          26,
+          37,
+          38,
+          40,
+          43,
+          66,
+          72,
+          76,
+          77,
+          78,
+          88,
+          99,
+          133,
+          135,
+          137,
+          205,
+          210,
+          211,
+          215,
+          224,
+          226,
+          227,
+          242,
+          244,
+          247,
+          254,
+          258,
+          273,
+          274,
+          321,
+          322,
+          325,
+          326,
+          333,
+          364,
+          368,
+          374,
+          384,
+          390,
+          392,
+          393,
+          402
+        ],
+        "UNIX_LINUX_ADMINISTRATION__MODERN_PRACTICES_FOR_ENTERP_85ffa2bb56": [
+          68
+        ],
+        "VECTOR_DATABASE_ENGINEERING__BUILDING_SCALABLE_AI_SEAR_f498709026": [
+          17,
+          20,
+          234,
+          259,
+          278,
+          317,
+          318,
+          319,
+          320,
+          330
+        ]
+      }
+    },
+    {
+      "term": "threat detection",
+      "score": 567.1074,
+      "document_frequency": 4,
+      "total_mentions": 118,
+      "domains": {
+        "security": 4760,
+        "full_stack_web_product_engineering": 4104,
+        "cloud": 3312,
+        "api_engineering": 2511,
+        "software": 2374,
+        "devops": 1219,
+        "data": 1036,
+        "windows_internals_reverse_engineering": 605,
+        "ai": 507,
+        "ai_assisted_devops_and_coding": 448,
+        "mobile_application_engineering": 442,
+        "snmp_protocol_engineering": 367,
+        "systems": 266,
+        "network_monitoring": 204,
+        "nvidia_cuda_gpu_platform_engineering": 200,
+        "embedded_edge_hardware_iot": 197,
+        "custom_linux_image_builds": 183,
+        "product_experience": 52,
+        "raspberry_pi_provisioning_imaging": 42,
+        "systems_memory_performance_engineering": 37,
+        "linux_kernel_infrastructure": 31,
+        "legacy_game_graphics_modernization_engineering": 24,
+        "telemetry_capture_architecture_engineering": 20,
+        "openclaw_autonomous_agent_engineering": 12,
+        "vector_database_and_rag_engineering": 10,
+        "low_level_game_engine_performance_architecture": 8,
+        "gpu_accelerated_compute_engineering": 1,
+        "workspace_automation": 1
+      },
+      "documents": {
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616": [
+          215,
+          217,
+          344,
+          350,
+          659,
+          675
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          303,
+          308,
+          314,
+          454,
+          514,
+          518,
+          654
+        ],
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785": [
+          6,
+          116,
+          125
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          29,
+          31,
+          44,
+          48,
+          111,
+          195,
+          301,
+          304,
+          307,
+          314,
+          317,
+          322,
+          324,
+          328,
+          341,
+          344,
+          353,
+          364,
+          373,
+          375,
+          376,
+          394
+        ]
+      }
+    },
+    {
+      "term": "leak detection",
+      "score": 139.681,
+      "document_frequency": 6,
+      "total_mentions": 31,
+      "domains": {
+        "gpu_accelerated_compute_engineering": 6954,
+        "nvidia_cuda_gpu_platform_engineering": 6286,
+        "windows_internals_reverse_engineering": 5266,
+        "full_stack_web_product_engineering": 5252,
+        "systems_memory_performance_engineering": 4222,
+        "software": 2976,
+        "api_engineering": 2250,
+        "systems": 1830,
+        "devops": 1437,
+        "data": 1078,
+        "cloud": 778,
+        "linux_kernel_infrastructure": 730,
+        "custom_linux_image_builds": 522,
+        "embedded_edge_hardware_iot": 500,
+        "network_monitoring": 439,
+        "snmp_protocol_engineering": 422,
+        "security": 395,
+        "dos_legacy_pc_systems_engineering": 254,
+        "telemetry_capture_architecture_engineering": 168,
+        "mobile_application_engineering": 157,
+        "legacy_game_graphics_modernization_engineering": 145,
+        "product_experience": 131,
+        "low_level_game_engine_performance_architecture": 127,
+        "ai": 107,
+        "windows_desktop_app_engineering": 98,
+        "ai_assisted_devops_and_coding": 94,
+        "arm_embedded_platform_engineering": 39,
+        "vector_database_and_rag_engineering": 27,
+        "raspberry_pi_provisioning_imaging": 23,
+        "heterogeneous_parallel_portability_engineering": 21,
+        "amd_rocm_gpu_platform_engineering": 13,
+        "amd_xdna_npu_endpoint_engineering": 1
+      },
+      "documents": {
+        "CUDA_C_Programming_Guide_793b33dd1f": [
+          437
+        ],
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd": [
+          21,
+          1016,
+          1206,
+          1219,
+          1222,
+          1227,
+          1229,
+          1250,
+          1251,
+          1253,
+          1257,
+          1272,
+          1842,
+          1861,
+          1893
+        ],
+        "LEARN_WINDOWS_MEMORY_MANAGEMENT_FROM_SCRATCH__A_HANDS-_4cd165e5d7": [
+          18,
+          19,
+          187,
+          193,
+          198,
+          206,
+          290,
+          349
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          191
+        ],
+        "OLD_NEW_THING_59541c3c88": [
+          247
+        ],
+        "OPTIMIZING_MEMORY_MANAGEMENT_IN_C___A_BEGINNER_S_GUIDE_ebf08e9f9a": [
+          264,
+          267
+        ]
+      }
+    },
+    {
+      "term": "feature detection",
+      "score": 47.1634,
+      "document_frequency": 8,
+      "total_mentions": 11,
+      "domains": {
+        "full_stack_web_product_engineering": 13849,
+        "data": 7228,
+        "software": 5425,
+        "api_engineering": 4153,
+        "gpu_accelerated_compute_engineering": 3976,
+        "heterogeneous_parallel_portability_engineering": 3644,
+        "windows_internals_reverse_engineering": 3593,
+        "arm_embedded_platform_engineering": 3088,
+        "embedded_edge_hardware_iot": 1975,
+        "devops": 1922,
+        "amd_rocm_gpu_platform_engineering": 1757,
+        "custom_linux_image_builds": 1585,
+        "mobile_application_engineering": 1286,
+        "systems_memory_performance_engineering": 1184,
+        "security": 1054,
+        "ai": 982,
+        "cloud": 679,
+        "snmp_protocol_engineering": 613,
+        "systems": 583,
+        "nvidia_cuda_gpu_platform_engineering": 578,
+        "ai_assisted_devops_and_coding": 552,
+        "windows_desktop_app_engineering": 503,
+        "product_experience": 459,
+        "linux_kernel_infrastructure": 426,
+        "network_monitoring": 374,
+        "legacy_game_graphics_modernization_engineering": 271,
+        "telemetry_capture_architecture_engineering": 260,
+        "vector_database_and_rag_engineering": 174,
+        "raspberry_pi_provisioning_imaging": 117,
+        "amd_xdna_npu_endpoint_engineering": 74,
+        "low_level_game_engine_performance_architecture": 31,
+        "dos_legacy_pc_systems_engineering": 13,
+        "openclaw_autonomous_agent_engineering": 1
+      },
+      "documents": {
+        "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302": [
+          63,
+          66,
+          85
+        ],
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a": [
+          479
+        ],
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac": [
+          262
+        ],
+        "OpenCL_API_9714d26dc8": [
+          507
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          97
+        ],
+        "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00": [
+          647
+        ],
+        "Understanding_Deep_Learning_Building_Machine_Lear_9411ddf3dd": [
+          370
+        ],
+        "WRITING_HIGH-PERFORMANCE_APPLICATIONS_IN_RUST__PROFILI_0b7be6eb59": [
+          545,
+          649
+        ]
+      }
+    }
+  ],
+  "book_index_entries": [
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 548,
+      "term": "case studies: anomaly detection techniques",
+      "pages": [
+        224,
+        226
+      ],
+      "raw": "anomaly detection techniques, 224–226"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 557,
+      "term": "e-commerce sites: anomaly detection techniques",
+      "pages": [
+        224,
+        226
+      ],
+      "raw": "anomaly detection techniques, 224–226"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 586,
+      "term": "telemetry analysis. See also production telemetry; telemetry: analysis tools, 224n anomaly detection techniques",
+      "pages": [
+        222,
+        226
+      ],
+      "raw": "analysis tools, 224n anomaly detection techniques, 222–226"
+    },
+    {
+      "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+      "document_title": "GENERATIVE AI WITH LANGCHAIN_ BUILD PRODUCTION-READY LLM APPLICATIONS AND ADVANCED AGENTS USING PYTHON, LANGCHAIN, AND LANGGRAPH",
+      "source_index_page": 1145,
+      "term": "LLM applications: bias detection and monitoring",
+      "pages": [
+        391
+      ],
+      "raw": "bias detection and monitoring 391"
+    },
+    {
+      "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+      "document_title": "GENERATIVE AI WITH LANGCHAIN_ BUILD PRODUCTION-READY LLM APPLICATIONS AND ADVANCED AGENTS USING PYTHON, LANGCHAIN, AND LANGGRAPH",
+      "source_index_page": 1145,
+      "term": "LLM applications: hallucination detection",
+      "pages": [
+        390
+      ],
+      "raw": "hallucination detection 390"
+    },
+    {
+      "document_id": "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+      "document_title": "Python for Security and Networking Leverage Pytho",
+      "source_index_page": 693,
+      "term": "S: false ARP attack detection",
+      "pages": [
+        199,
+        200,
+        201
+      ],
+      "raw": "false ARP attack detection 199-201"
+    },
+    {
+      "document_id": "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+      "document_title": "Python for Security and Networking Leverage Pytho",
+      "source_index_page": 693,
+      "term": "S: working with, for ARP spoofing attack detection",
+      "pages": [
+        198,
+        199
+      ],
+      "raw": "working with, for ARP spoofing attack detection 198, 199"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 545,
+      "term": "automated validation test suite: error detection",
+      "pages": [
+        132,
+        133
+      ],
+      "raw": "error detection, 132–133"
+    }
+  ],
+  "cross_references": [
+    {
+      "source": "analysis",
+      "target": "detection",
+      "relation": "co-occurs",
+      "strength": 16.2676,
+      "shared_documents": [
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+        "REVERSE_ENGINEERING_101__UNLOCK_THE_SECRETS_OF_SOFTWAR_3c3139f1b4",
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+        "Understanding_Deep_Learning_Building_Machine_Lear_9411ddf3dd",
+        "WRITING_HIGH-PERFORMANCE_APPLICATIONS_IN_RUST__PROFILI_0b7be6eb59"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+          "pages": [
+            235
+          ]
+        },
+        {
+          "document_id": "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+          "pages": [
+            404,
+            1047,
+            1227
+          ]
+        },
+        {
+          "document_id": "REVERSE_ENGINEERING_101__UNLOCK_THE_SECRETS_OF_SOFTWAR_3c3139f1b4",
+          "pages": [
+            160,
+            307
+          ]
+        },
+        {
+          "document_id": "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+          "pages": [
+            230,
+            293,
+            307,
+            312,
+            313,
+            318,
+            322,
+            362
+          ]
+        },
+        {
+          "document_id": "Understanding_Deep_Learning_Building_Machine_Lear_9411ddf3dd",
+          "pages": [
+            40
+          ]
+        },
+        {
+          "document_id": "WRITING_HIGH-PERFORMANCE_APPLICATIONS_IN_RUST__PROFILI_0b7be6eb59",
+          "pages": [
+            693
+          ]
+        }
+      ]
+    },
+    {
+      "source": "analytics",
+      "target": "anomaly",
+      "relation": "co-occurs",
+      "strength": 3.3333,
+      "shared_documents": [
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "VECTOR_DATABASES_FOR_GENERATIVE_AI__BUILD_RAG_APPS_IN__331f2124f5"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+          "pages": [
+            432
+          ]
+        },
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            529
+          ]
+        },
+        {
+          "document_id": "VECTOR_DATABASES_FOR_GENERATIVE_AI__BUILD_RAG_APPS_IN__331f2124f5",
+          "pages": [
+            269
+          ]
+        }
+      ]
+    },
+    {
+      "source": "techniques",
+      "target": "detection",
+      "relation": "co-occurs",
+      "strength": 15.4,
+      "shared_documents": [
+        "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac",
+        "ARM_ARCHITECTURE_AND_PROGRAMMING_ESSENTIALS__DEFINITIV_c68f9d4b1c",
+        "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4",
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+        "LEARN_WINDOWS_MEMORY_MANAGEMENT_FROM_SCRATCH__A_HANDS-_4cd165e5d7",
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+        "The.DevOps.Handbook_4a7e71d883"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac",
+          "pages": [
+            699
+          ]
+        },
+        {
+          "document_id": "ARM_ARCHITECTURE_AND_PROGRAMMING_ESSENTIALS__DEFINITIV_c68f9d4b1c",
+          "pages": [
+            53
+          ]
+        },
+        {
+          "document_id": "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4",
+          "pages": [
+            15
+          ]
+        },
+        {
+          "document_id": "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+          "pages": [
+            13
+          ]
+        },
+        {
+          "document_id": "LEARN_WINDOWS_MEMORY_MANAGEMENT_FROM_SCRATCH__A_HANDS-_4cd165e5d7",
+          "pages": [
+            19,
+            193
+          ]
+        },
+        {
+          "document_id": "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+          "pages": [
+            311,
+            312,
+            314,
+            318
+          ]
+        },
+        {
+          "document_id": "The.DevOps.Handbook_4a7e71d883",
+          "pages": [
+            297,
+            306,
+            308,
+            586
+          ]
+        }
+      ]
+    },
+    {
+      "source": "prevent",
+      "target": "detection",
+      "relation": "co-occurs",
+      "strength": 5.3226,
+      "shared_documents": [
+        "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac",
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+        "OPTIMIZING_MEMORY_MANAGEMENT_IN_C___A_BEGINNER_S_GUIDE_ebf08e9f9a",
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac",
+          "pages": [
+            552,
+            699
+          ]
+        },
+        {
+          "document_id": "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+          "pages": [
+            432
+          ]
+        },
+        {
+          "document_id": "OPTIMIZING_MEMORY_MANAGEMENT_IN_C___A_BEGINNER_S_GUIDE_ebf08e9f9a",
+          "pages": [
+            434
+          ]
+        },
+        {
+          "document_id": "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+          "pages": [
+            234
+          ]
+        }
+      ]
+    },
+    {
+      "source": "detection",
+      "target": "anomaly",
+      "relation": "co-occurs",
+      "strength": 32.7381,
+      "shared_documents": [
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac",
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+        "HIGH-PERFORMANCE_API_ENGINEERING__SCALABLE_BACKEND_INT_cf9eca75da",
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3",
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+        "The.DevOps.Handbook_4a7e71d883",
+        "VECTOR_DATABASES_FOR_GENERATIVE_AI__BUILD_RAG_APPS_IN__331f2124f5",
+        "VECTOR_DATABASE_ENGINEERING__BUILDING_SCALABLE_AI_SEAR_f498709026"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+          "pages": [
+            1091
+          ]
+        },
+        {
+          "document_id": "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac",
+          "pages": [
+            299
+          ]
+        },
+        {
+          "document_id": "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+          "pages": [
+            235,
+            236
+          ]
+        },
+        {
+          "document_id": "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+          "pages": [
+            278,
+            299,
+            432
+          ]
+        },
+        {
+          "document_id": "HIGH-PERFORMANCE_API_ENGINEERING__SCALABLE_BACKEND_INT_cf9eca75da",
+          "pages": [
+            95
+          ]
+        },
+        {
+          "document_id": "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+          "pages": [
+            1047,
+            1414
+          ]
+        },
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            529
+          ]
+        },
+        {
+          "document_id": "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3",
+          "pages": [
+            61,
+            118
+          ]
+        },
+        {
+          "document_id": "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+          "pages": [
+            154
+          ]
+        },
+        {
+          "document_id": "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+          "pages": [
+            31,
+            236,
+            318,
+            324,
+            353
+          ]
+        },
+        {
+          "document_id": "The.DevOps.Handbook_4a7e71d883",
+          "pages": [
+            274,
+            306,
+            308,
+            517
+          ]
+        },
+        {
+          "document_id": "VECTOR_DATABASES_FOR_GENERATIVE_AI__BUILD_RAG_APPS_IN__331f2124f5",
+          "pages": [
+            195
+          ]
+        },
+        {
+          "document_id": "VECTOR_DATABASE_ENGINEERING__BUILDING_SCALABLE_AI_SEAR_f498709026",
+          "pages": [
+            319
+          ]
+        }
+      ]
+    },
+    {
+      "source": "detection",
+      "target": "detect",
+      "relation": "variant-or-specialization",
+      "strength": 14.5918,
+      "shared_documents": [
+        "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac",
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+        "REVERSE_ENGINEERING_101__UNLOCK_THE_SECRETS_OF_SOFTWAR_3c3139f1b4",
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac",
+          "pages": [
+            552,
+            678,
+            699,
+            721
+          ]
+        },
+        {
+          "document_id": "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+          "pages": [
+            1257
+          ]
+        },
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            529
+          ]
+        },
+        {
+          "document_id": "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+          "pages": [
+            116
+          ]
+        },
+        {
+          "document_id": "REVERSE_ENGINEERING_101__UNLOCK_THE_SECRETS_OF_SOFTWAR_3c3139f1b4",
+          "pages": [
+            141,
+            160,
+            307
+          ]
+        },
+        {
+          "document_id": "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+          "pages": [
+            304,
+            313,
+            317
+          ]
+        }
+      ]
+    },
+    {
+      "source": "detection",
+      "target": "memory leak",
+      "relation": "co-occurs",
+      "strength": 13.6094,
+      "shared_documents": [
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+        "LEARN_WINDOWS_MEMORY_MANAGEMENT_FROM_SCRATCH__A_HANDS-_4cd165e5d7",
+        "OPTIMIZING_MEMORY_MANAGEMENT_IN_C___A_BEGINNER_S_GUIDE_ebf08e9f9a"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+          "pages": [
+            21,
+            1206,
+            1250,
+            1253,
+            1414,
+            1842,
+            1861
+          ]
+        },
+        {
+          "document_id": "LEARN_WINDOWS_MEMORY_MANAGEMENT_FROM_SCRATCH__A_HANDS-_4cd165e5d7",
+          "pages": [
+            19,
+            187,
+            193,
+            206
+          ]
+        },
+        {
+          "document_id": "OPTIMIZING_MEMORY_MANAGEMENT_IN_C___A_BEGINNER_S_GUIDE_ebf08e9f9a",
+          "pages": [
+            264,
+            434
+          ]
+        }
+      ]
+    },
+    {
+      "source": "detection",
+      "target": "attack",
+      "relation": "co-occurs",
+      "strength": 12.1957,
+      "shared_documents": [
+        "DESIGN_AND_ARCHITECTURE_OF_SNMP_MONITORING_SYSTEM_74472a97bb",
+        "MASTERING_SSH_SFTP__A_PRACTICAL_GUIDE_TO_SECURE_REMOTE_196b3f38ee",
+        "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+        "THE_COMPLETE_HOMELAB_GUIDE__BUILD_YOUR_SELF-HOSTED_INF_1b6130de23"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "DESIGN_AND_ARCHITECTURE_OF_SNMP_MONITORING_SYSTEM_74472a97bb",
+          "pages": [
+            8,
+            10,
+            62,
+            64,
+            66,
+            68
+          ]
+        },
+        {
+          "document_id": "MASTERING_SSH_SFTP__A_PRACTICAL_GUIDE_TO_SECURE_REMOTE_196b3f38ee",
+          "pages": [
+            183
+          ]
+        },
+        {
+          "document_id": "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+          "pages": [
+            693
+          ]
+        },
+        {
+          "document_id": "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+          "pages": [
+            302,
+            313
+          ]
+        },
+        {
+          "document_id": "THE_COMPLETE_HOMELAB_GUIDE__BUILD_YOUR_SELF-HOSTED_INF_1b6130de23",
+          "pages": [
+            799
+          ]
+        }
+      ]
+    }
+  ]
+}

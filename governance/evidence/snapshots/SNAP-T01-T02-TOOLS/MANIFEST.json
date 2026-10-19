@@ -1,0 +1,26 @@
+{
+  "snapshot_id": "SNAP-T01-T02-TOOLS",
+  "captured_at": "2026-10-15T22:03:43.244619+00:00",
+  "files": [
+    {
+      "path": "tools/sync_github_export.py",
+      "sha256": "0d13d0ccd827a5732d5f02964dc502bff562a11a8eda99f7308be3be366bbc92",
+      "bytes": 5994
+    },
+    {
+      "path": "tools/ws_control.py",
+      "sha256": "f9cc9751932d8d3e4d2de498a09aebebcc81594fc85e08d72e78fa84e65d8cb4",
+      "bytes": 10504
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "052dd841c13987437d0c97cb1cfa3c72183dfed7a5ae59de8ca4d8b9b8b71c36",
+      "bytes": 419
+    },
+    {
+      "path": "governance/bootstrap/build_initial_control.py",
+      "sha256": "74b042b5a758efb9cc6c65b1c23c07b01d0c1c7d243a3865f50d7a728acfb1ae",
+      "bytes": 26239
+    }
+  ]
+}

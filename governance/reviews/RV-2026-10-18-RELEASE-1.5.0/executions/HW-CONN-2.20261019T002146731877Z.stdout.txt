@@ -1,0 +1,32 @@
+Test run for C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+NUnit Adapter 5.0.0.0: Test execution started
+Running selected tests in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll
+   NUnit3TestExecutor discovered 1 of 1 NUnit test cases using Current Discovery mode, Explicit run
+HW-CONN: 262 probes = 262 ok + 0 failed; 60 link samples; active 60.0 s
+HW-CONN: ISP hop found: True at TTL 3 (echo: True); path hops 3; other active interfaces: 0
+HW-CONN: Gateway   Icmp    sent   60 loss      0 % p50     3.5 p95    60.8 jitter   14.0 ms outages 0
+HW-CONN: IspHop    Icmp    sent   14 loss      0 % p50     6.5 p95     9.7 jitter    2.1 ms outages 0
+HW-CONN: Internet  Tcp     sent   90 loss      0 % p50    10.7 p95    25.8 jitter    4.1 ms outages 0
+HW-CONN: Dns       Dns     sent    6 loss      0 % p50     5.1 p95    61.1 jitter   27.2 ms outages 0
+HW-CONN: Web       Https   sent    2 loss      0 % p50    52.7 p95   178.4 jitter  125.6 ms outages 0
+HW-CONN: link counters reported by driver: True; retry 17.79 %; roams 0; RSSI mean -72.4 dBm
+HW-CONN: verdicts: Browsing GOOD; Streaming video GOOD; Video calls GOOD; Online gaming GOOD; voice MOS 4.40 (estimate)
+HW-CONN: events: LatencySpike 1
+HW-CONN: association unchanged by the test: True
+HW-CONN: export conn_hw_20261019_002253_info.csv sha256 d8d0715657c42a701ba488c3661558a2b34b699af56b59a23b1e9c5197961986
+HW-CONN: export conn_hw_20261019_002253_probes.csv sha256 bd50de67a44f85013a4886ab21dfd32373667238192d7db80f3fc608c1b448d8
+HW-CONN: export conn_hw_20261019_002253_link.csv sha256 2102efa100c5311f228389b95fc95417b6f01583c16b406f8c93e416f3816a09
+HW-CONN: export conn_hw_20261019_002253_segments.csv sha256 09c2bdf709b53e0a7408a772dc17937f4d07f5b9dfcd2a422f1c95e44bcba695
+HW-CONN: export conn_hw_20261019_002253_events.csv sha256 c26724169505595ced11d7b5744b32a8c8e24ebbbe8d8eab536908d9a41ead86
+HW-CONN: export conn_hw_20261019_002253_markers.csv sha256 a0d74929c443ca401c6373162708f0d3ab5ccf24869e19e3cdf51e90006a3502
+HW-CONN: export conn_hw_20261019_002253.json sha256 c3b036c121bb5ecf2515bfd5f2ff6ae47d82949e5d2670da8c5cc11b2038364b
+HW-CONN: export conn_hw_20261019_002253.pdf sha256 7300103f7c3a5d3d3467119302009d304d18c5e2009df53d69c7a3f1b3e34b48
+
+NUnit Adapter 5.0.0.0: Test execution complete
+  Passed RealConnection_ProbesEverySegment_AndReportsWithoutChangingTheConnection [1 m 4 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 1.1041 Minutes

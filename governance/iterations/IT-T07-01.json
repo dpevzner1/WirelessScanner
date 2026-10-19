@@ -1,0 +1,114 @@
+{
+  "id": "IT-T07-01",
+  "task_ids": [
+    "T07"
+  ],
+  "finding_ids": [
+    "F04"
+  ],
+  "scope": "data location",
+  "state": "completed",
+  "started_at": "2026-10-15T23:00:00+00:00",
+  "finished_at": "2026-10-15T23:05:00+00:00",
+  "hypothesis": {
+    "claim": "Central AppPaths under ProgramData with copy-only migration removes working-directory dependence without data loss",
+    "disconfirming_result": "Paths vary with working directory or migration overwrites existing data",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [
+      "ProgramData",
+      "LocalAppData",
+      "Exe folder"
+    ],
+    "chosen": "ProgramData",
+    "why": "Elevated machine-wide tool; survives uninstall",
+    "rejected": [
+      "LocalAppData (splits data per user)",
+      "Exe folder (Program Files, removed on uninstall)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Infrastructure/AppPaths.cs",
+      "engine_sha256": "WirelessScanner.Infrastructure/AppLogger.cs",
+      "context_sha256": "docs/decisions/DR-0006-data-location.md",
+      "test_sha256": "WirelessScanner.Tests/AppPathsTests.cs"
+    }
+  },
+  "change": {
+    "summary": "AppPaths; DbContext/logger/API/VM use it; startup migration; test isolation fixture",
+    "artifact_evidence_ids": [
+      "EV-T06-T12-CHANGE"
+    ],
+    "scope_authority": "DR-0006"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests --no-build"
+    ],
+    "positive": [
+      "Paths_AreUnderDataDirectory_IndependentOfWorkingDirectory"
+    ],
+    "negative": [
+      "Migration_CopiesLegacyDbOnce_AndNeverOverwrites"
+    ],
+    "regression": [
+      "API key tests now use AppPaths"
+    ],
+    "result_evidence_ids": [
+      "EV-T06T09-TEST"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Env override enables portable use and isolated tests"
+    ],
+    "what_failed": [],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Real 1.0 upgrade not exercised"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ],
+    "transferable_rule": "Persistent state needs one path authority and copy-only migration",
+    "applicability_limits": "Single-machine desktop apps"
+  },
+  "next_action": {
+    "action": "Verify upgrade from 1.0 during installer VM run",
+    "owner": "demitri.pevzner",
+    "resume_condition": "VM run approved"
+  }
+}

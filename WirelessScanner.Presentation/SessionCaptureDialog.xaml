@@ -43,7 +43,7 @@
             <TextBlock Text="Capture Mode:" Foreground="#883300" FontWeight="Bold" Margin="0,0,0,5"/>
             <Border Background="#110500" BorderBrush="#883300" BorderThickness="1" Padding="10" CornerRadius="4">
                 <StackPanel>
-                    <RadioButton x:Name="RbStationary" Content="Stationary Saturation (Identify performance jitter in a fixed spot)" Foreground="#FF8800" IsChecked="True" Margin="0,0,0,5"/>
+                    <RadioButton x:Name="RbStationary" Content="Stationary capture (fixed spot). For full peak/drop/dropout analysis and reports use the SATURATION TEST tab" Foreground="#FF8800" IsChecked="True" Margin="0,0,0,5"/>
                     <RadioButton x:Name="RbRoaming" Content="Roaming Survey (Observe signal peaks/dips while walking)" Foreground="#FF8800"/>
                 </StackPanel>
             </Border>

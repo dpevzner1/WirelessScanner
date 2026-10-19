@@ -1,0 +1,121 @@
+{
+  "id": "IT-T12-01",
+  "task_ids": [
+    "T10",
+    "T11",
+    "T12",
+    "T01"
+  ],
+  "finding_ids": [
+    "F07",
+    "F11",
+    "F12"
+  ],
+  "scope": "tests, hygiene, documentation",
+  "state": "completed",
+  "started_at": "2026-10-15T23:40:00+00:00",
+  "finished_at": "2026-10-15T23:48:00+00:00",
+  "hypothesis": {
+    "claim": "Every feature can be documented with an evidence label and every doc claim matches the code",
+    "disconfirming_result": "A doc claim has no implementation or test",
+    "prior_lessons": [
+      "LL-2026-10-15-BASELINE-GOVERNANCE"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Fix code to match intended docs",
+      "Weaken docs"
+    ],
+    "chosen": "Fix code where cheap (elevation, API version); mark the rest Not implemented",
+    "why": "Truthful docs without silently dropping requirements",
+    "rejected": [
+      "Claiming unbuilt features"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "docs/USER_GUIDE.md",
+      "engine_sha256": "docs/STATUS.md",
+      "context_sha256": "docs/PROJECT_CONVENTIONS.md",
+      "test_sha256": "WirelessScanner.Tests/UiRenderTests.cs"
+    }
+  },
+  "change": {
+    "summary": "README, CHANGELOG, USER_GUIDE, TECHNICAL_REFERENCE, STATUS, DR-0006..0009, PLAN banners; UAC self-elevation; API version; label renames; Class1 stubs removed",
+    "artifact_evidence_ids": [
+      "EV-T06-T12-CHANGE",
+      "EV-T12-DOCS"
+    ],
+    "scope_authority": "Owner: 'ensure all of this app's features, functions, and relevant details are well documented'"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests --no-build",
+      "doc-vs-code audit"
+    ],
+    "positive": [
+      "108/108 after doc-driven fixes"
+    ],
+    "negative": [
+      "Audit found 2 false claims -> fixed in code"
+    ],
+    "regression": [
+      "Full suite"
+    ],
+    "result_evidence_ids": [
+      "EV-FINAL-TEST"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Doc audit as verification"
+    ],
+    "what_failed": [],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Docs need owner review"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": "TEST-FINAL-1 reran after code changes from the doc audit"
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ],
+    "transferable_rule": "Audit every documentation claim against code before release; mark unbuilt scope explicitly",
+    "applicability_limits": "Any project"
+  },
+  "next_action": {
+    "action": "Owner review of documentation and decisions",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner availability"
+  }
+}

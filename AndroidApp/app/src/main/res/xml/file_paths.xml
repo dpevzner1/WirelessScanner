@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Only the export staging folder in the app cache is shareable (reference lesson A-LRN-011). -->
+<paths>
+    <cache-path name="exports" path="exports/" />
+</paths>

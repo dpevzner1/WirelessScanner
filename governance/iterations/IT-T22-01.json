@@ -1,0 +1,120 @@
+{
+  "id": "IT-T22-01",
+  "task_ids": [
+    "T22"
+  ],
+  "finding_ids": [
+    "F27"
+  ],
+  "scope": "REST API settings screen (1.3.1, shipped in 1.4.0)",
+  "state": "completed",
+  "started_at": "2026-10-17T18:14:05+00:00",
+  "finished_at": "2026-10-18T21:32:15+00:00",
+  "hypothesis": {
+    "claim": "Binding the status to a server event, reporting export results next to the button and masking the key removes every defect the owner saw, without changing the API itself",
+    "disconfirming_result": "Status stale after start, export result invisible, key written by APPLY, or a dialog opening without an application",
+    "prior_lessons": [
+      "LL-2026-10-16-RELEASE-REPORTS"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Event-bound status + inline results",
+      "Poll the server state"
+    ],
+    "chosen": "Event-bound status + inline results",
+    "why": "The server knows when it starts or fails; polling adds lag and work",
+    "rejected": [
+      "Polling timer"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-1.3-TEST"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Presentation/MainWindowViewModel.cs",
+      "engine_sha256": "WirelessScanner.Infrastructure/RestApiServer.cs",
+      "context_sha256": "CHANGELOG.md",
+      "test_sha256": "WirelessScanner.Tests/ApiSettingsScreenTests.cs"
+    }
+  },
+  "change": {
+    "summary": "IRestApiServer.StateChanged; UpdateApiServerStatusText; Save-dialog export to Documents with ApiExportStatus and OPEN FOLDER; APPLY writes no key; DELETE removes legacy file; masked key with SHOW/COPY; headless dialog guard",
+    "artifact_evidence_ids": [
+      "EV-1.4-CHANGE-2"
+    ],
+    "scope_authority": "Owner 2026-10-17 report (screenshot); 'For REST API, go with these recommendations'"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj (TEST-1.4-FULL-2)",
+      "python tools/build_release.py (RELEASE-1.4.0-2)"
+    ],
+    "positive": [
+      "ApiSettingsScreenTests: RUNNING shown on server event; export result shown"
+    ],
+    "negative": [
+      "APPLY writes no key file",
+      "No dialog without Application.Current"
+    ],
+    "regression": [
+      "ApiTests",
+      "Full suite 209/209"
+    ],
+    "result_evidence_ids": [
+      "EV-1.4-TEST-2",
+      "EV-1.4-RELEASE-2"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Dialog hook made the screen testable headless"
+    ],
+    "what_failed": [
+      "Old tests opened a real SaveFileDialog and hung the test host"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Live re-check on the installed 1.4.0 pending (T22-WP3)"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": "tools/api_smoke.py from 1.3 for the live check",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-16-RELEASE-REPORTS"
+    ],
+    "transferable_rule": "Bind UI state to service events; show results next to the action",
+    "applicability_limits": "WPF MVVM with background services"
+  },
+  "next_action": {
+    "action": "Owner installs 1.4.0, regenerates the API key; live api_smoke check/watch",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner installs 1.4.0"
+  }
+}

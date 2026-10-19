@@ -1,0 +1,14 @@
+PASS  auth: no key rejected: HTTP 401
+PASS  auth: key in URL rejected: HTTP 401
+PASS  auth: wrong key rejected: HTTP 401
+PASS  status: healthy: HTTP 200, version 1.3.0
+PASS  status: version is 1.3.0: reported 1.3.0
+PASS  live: access points present: HTTP 200, 18 APs
+PASS  live: fields plausible (RSSI range, band/channel consistency): ok
+INFO  live: bands {'2.4 GHz': 11, '5 GHz': 7}; width known 18/18; beacon age median 2875 ms; SSIDs 12 (identifiers not printed)
+PASS  sessions: list: HTTP 200, 0 sessions
+PASS  sessions: bad id -> 400: HTTP 400
+PASS  sessions: unknown id -> 404: HTTP 404
+PASS  stats: HTTP 200, sessions 0, samples 0, db 0.11 MB
+PASS  unknown endpoint -> 404: HTTP 404
+SUMMARY  12/12 checks passed

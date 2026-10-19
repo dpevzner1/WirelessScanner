@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WirelessScanner.Domain;
 
@@ -9,8 +10,9 @@ public class SessionManager : ISessionManager
 {
     private readonly ISessionRepository _sessionRepository;
     private readonly IAppLogger _logger;
+    private readonly OrderedPersistenceWriter _writer;
     private readonly ConcurrentDictionary<string, int> _lastRssiByBssid = new();
-    
+
     private CaptureSession? _activeSession;
     private string _activeSurveyPoint = "Default";
 
@@ -26,21 +28,27 @@ public class SessionManager : ISessionManager
     public event Action<TelemetrySample>? SampleLogged;
 
     public SessionManager(ISessionRepository sessionRepository, IAppLogger logger)
+        : this(sessionRepository, logger, new OrderedPersistenceWriter(logger))
+    {
+    }
+
+    public SessionManager(ISessionRepository sessionRepository, IAppLogger logger, OrderedPersistenceWriter writer)
     {
         _sessionRepository = sessionRepository;
         _logger = logger;
+        _writer = writer;
     }
 
     public CaptureSession StartSession(string name, string scope, string facility, NetworkInterfaceInfo device, CaptureSessionMode mode)
     {
-        if (_activeSession != null && _activeSession.Status == CaptureSessionStatus.Active)
+        if (_activeSession != null && _activeSession.Status is CaptureSessionStatus.Active or CaptureSessionStatus.Paused)
         {
-            throw new InvalidOperationException("A session is already actively running.");
+            throw new InvalidOperationException("A session is already running. Stop it before starting a new one.");
         }
 
         _lastRssiByBssid.Clear();
-        
-        _activeSession = new CaptureSession(
+
+        var session = new CaptureSession(
             SessionId: Guid.NewGuid(),
             Name: string.IsNullOrWhiteSpace(name) ? $"Session_{DateTime.Now:yyyyMMdd_HHmmss}" : name.Trim(),
             Scope: string.IsNullOrWhiteSpace(scope) ? "All SSIDs" : scope.Trim(),
@@ -52,124 +60,74 @@ public class SessionManager : ISessionManager
             Mode: mode,
             Status: CaptureSessionStatus.Active
         );
+        _activeSession = session;
 
-        // Run fire-and-forget DB write
-        Task.Run(async () =>
-        {
-            try
-            {
-                await _sessionRepository.SaveSessionAsync(_activeSession);
-            }
-            catch (Exception ex)
-            {
-                HandleScanError(ex);
-            }
-        });
+        // Enqueued first: every sample of this session is written after the session row (F02).
+        _writer.Enqueue($"save-session {session.SessionId}", () => _sessionRepository.SaveSessionAsync(session));
 
-        SessionStateChanged?.Invoke(_activeSession);
-        return _activeSession;
+        SessionStateChanged?.Invoke(session);
+        return session;
     }
 
-    public void PauseSession()
-    {
-        if (_activeSession == null || _activeSession.Status != CaptureSessionStatus.Active) return;
+    public void PauseSession() => Transition(CaptureSessionStatus.Active, CaptureSessionStatus.Paused, endTime: null);
 
-        _activeSession = _activeSession with { Status = CaptureSessionStatus.Paused };
-        
-        Task.Run(async () =>
-        {
-            try
-            {
-                await _sessionRepository.UpdateSessionStatusAsync(_activeSession.SessionId, _activeSession.Status, null);
-            }
-            catch (Exception ex)
-            {
-                HandleScanError(ex);
-            }
-        });
-
-        SessionStateChanged?.Invoke(_activeSession);
-    }
-
-    public void ResumeSession()
-    {
-        if (_activeSession == null || _activeSession.Status != CaptureSessionStatus.Paused) return;
-
-        _activeSession = _activeSession with { Status = CaptureSessionStatus.Active };
-        
-        Task.Run(async () =>
-        {
-            try
-            {
-                await _sessionRepository.UpdateSessionStatusAsync(_activeSession.SessionId, _activeSession.Status, null);
-            }
-            catch (Exception ex)
-            {
-                HandleScanError(ex);
-            }
-        });
-
-        SessionStateChanged?.Invoke(_activeSession);
-    }
+    public void ResumeSession() => Transition(CaptureSessionStatus.Paused, CaptureSessionStatus.Active, endTime: null);
 
     public void StopSession()
     {
         if (_activeSession == null || _activeSession.Status == CaptureSessionStatus.Completed) return;
-
-        _activeSession = _activeSession with 
-        { 
-            Status = CaptureSessionStatus.Completed,
-            EndTime = DateTime.UtcNow 
-        };
-        
-        Task.Run(async () =>
-        {
-            try
-            {
-                await _sessionRepository.UpdateSessionStatusAsync(_activeSession.SessionId, _activeSession.Status, _activeSession.EndTime);
-            }
-            catch (Exception ex)
-            {
-                HandleScanError(ex);
-            }
-        });
-
-        SessionStateChanged?.Invoke(_activeSession);
+        Transition(_activeSession.Status, CaptureSessionStatus.Completed, endTime: DateTime.UtcNow);
     }
 
+    private void Transition(CaptureSessionStatus from, CaptureSessionStatus to, DateTime? endTime)
+    {
+        if (_activeSession == null || _activeSession.Status != from) return;
+
+        var updated = _activeSession with { Status = to, EndTime = endTime ?? _activeSession.EndTime };
+        _activeSession = updated;
+        _writer.Enqueue($"status {updated.SessionId} {to}",
+            () => _sessionRepository.UpdateSessionStatusAsync(updated.SessionId, updated.Status, endTime));
+
+        SessionStateChanged?.Invoke(updated);
+    }
+
+    /// <summary>
+    /// Scan-to-scan RSSI variation in dB: |RSSI(t) - RSSI(t-1)| per BSSID.
+    /// Historically labelled "jitter"; it is not packet latency jitter (F14, DR-0004).
+    /// </summary>
     public double CalculateJitterFor(string bssid, int rssi)
     {
         if (string.IsNullOrWhiteSpace(bssid)) return 0.0;
 
-        double jitter = 0.0;
-        
-        // Jitter = |RSSI_t - RSSI_t-1|
+        double variation = 0.0;
         if (_lastRssiByBssid.TryGetValue(bssid, out int lastRssi))
         {
-            jitter = Math.Abs(rssi - lastRssi);
+            variation = Math.Abs(rssi - lastRssi);
         }
-        
+
         _lastRssiByBssid[bssid] = rssi;
-        return jitter;
+        return variation;
     }
 
-    public void SaveSample(TelemetrySample sample)
-    {
-        if (_activeSession == null || _activeSession.Status != CaptureSessionStatus.Active) return;
+    public void SaveSample(TelemetrySample sample) => SaveSamples(new[] { sample });
 
-        Task.Run(async () =>
+    public void SaveSamples(IReadOnlyList<TelemetrySample> samples)
+    {
+        var session = _activeSession;
+        if (session == null || session.Status != CaptureSessionStatus.Active || samples.Count == 0) return;
+
+        var batch = samples is List<TelemetrySample> list ? list.ToArray() : samples;
+        _writer.Enqueue($"samples {session.SessionId} x{batch.Count}", async () =>
         {
-            try
+            await _sessionRepository.SaveSamplesAsync(batch, session.SessionId);
+            foreach (var sample in batch)
             {
-                await _sessionRepository.SaveSampleAsync(sample, _activeSession.SessionId);
                 SampleLogged?.Invoke(sample);
-            }
-            catch (Exception ex)
-            {
-                HandleScanError(ex);
             }
         });
     }
+
+    public Task FlushAsync() => _writer.FlushAsync();
 
     public void HandleScanError(Exception ex)
     {

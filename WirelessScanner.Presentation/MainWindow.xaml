@@ -13,7 +13,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
         <local:BindingProxy x:Key="proxy" Data="{Binding}" />
-        
+
         <!-- Amber HUD Colors & Brushes -->
         <SolidColorBrush x:Key="ObsidianBg" Color="#000000" />
         <SolidColorBrush x:Key="PanelBg" Color="#000000" />
@@ -23,7 +23,7 @@
         <SolidColorBrush x:Key="NeonCyan" Color="#FF6600" />
         <SolidColorBrush x:Key="NeonPurple" Color="#FFaa33" />
         <SolidColorBrush x:Key="SignalGreen" Color="#FF8800" />
-        
+
         <!-- Header Gradient -->
         <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,0">
             <GradientStop Color="#FF8800" Offset="0.0" />
@@ -284,7 +284,7 @@
                                 <TextBlock Text="APs" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtAp"/>
                                 <!-- Right Label -->
                                 <TextBlock Text="SSIDs" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtSsid"/>
-                                
+
                                 <!-- Sliding Thumb -->
                                 <Border x:Name="Thumb" Width="70" Height="24" CornerRadius="12" BorderBrush="#FF6600" BorderThickness="1" HorizontalAlignment="Left" Margin="4,0,0,0">
                                     <Border.Background>
@@ -305,7 +305,7 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="BorderBrush" Value="#FF6600"/>
                             </Trigger>
-                            
+
                             <EventTrigger RoutedEvent="ToggleButton.Checked">
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -361,7 +361,7 @@
                                 <TextBlock Text="SPECTRUM GRAPH" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,0,0,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtSpectrum"/>
                                 <!-- Right Label -->
                                 <TextBlock Text="TELEMETRY GRID" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,15,0" Foreground="#883300" FontSize="11" FontWeight="Bold" x:Name="TxtGrid"/>
-                                
+
                                 <!-- Sliding Thumb -->
                                 <Border x:Name="Thumb" Width="110" Height="24" CornerRadius="12" BorderBrush="#FF6600" BorderThickness="1" HorizontalAlignment="Left" Margin="4,0,0,0">
                                     <Border.Background>
@@ -382,7 +382,7 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="BorderBrush" Value="#FF6600"/>
                             </Trigger>
-                            
+
                             <EventTrigger RoutedEvent="ToggleButton.Checked">
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -443,7 +443,7 @@
                     <TextBlock Text="WIRELESS SPECTRAL SCANNER" FontSize="18" FontWeight="Bold" Foreground="#FF6600" VerticalAlignment="Center" />
                 </StackPanel>
 
-                <TextBlock Grid.Column="2" Text="NATIVE CLIENT v1.0" Foreground="#883300" FontSize="12" VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBlock Grid.Column="2" x:Name="VersionText" Text="NATIVE CLIENT" Foreground="#883300" FontSize="12" VerticalAlignment="Center" FontWeight="Bold" />
             </Grid>
         </Border>
 
@@ -482,350 +482,284 @@
             </TabControl.Resources>
 
             <TabItem Header="LIVE SURVEY">
-                <Grid Margin="10,15,10,10">
+                <!-- Live Survey (DR-0010/DR-0011): mode bar · network explorer · centre view · mode drawer.
+                     One selection drives the live view, capture sessions and saturation tests. -->
+                <Grid Margin="10,12,10,10">
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="Themes/HudTheme.xaml"/>
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="400" /> <!-- Controls & List Sidebar -->
-                        <ColumnDefinition Width="*" />   <!-- Spectrum Graph or Telemetry Grid -->
+                        <ColumnDefinition Width="380" /> <!-- network explorer -->
+                        <ColumnDefinition Width="*" />   <!-- centre view -->
+                        <ColumnDefinition Width="Auto" /><!-- mode drawer -->
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                    <!-- LEFT CONTROL & SURVEY PANEL -->
-                    <Border Grid.Column="0" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15" Margin="0,0,15,0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/> <!-- Capture Controls -->
-                                <RowDefinition Height="Auto"/> <!-- Title -->
-                                <RowDefinition Height="Auto"/> <!-- Dropdown -->
-                                <RowDefinition Height="Auto"/> <!-- Diagnostics Panel -->
-                                <RowDefinition Height="Auto"/> <!-- View Toggle -->
-                                <RowDefinition Height="*"/>    <!-- Condensed List -->
-                                <RowDefinition Height="Auto"/> <!-- Action Button -->
-                            </Grid.RowDefinitions>
-
-                            <!-- CAPTURE CONTROLS -->
-                            <Grid Grid.Row="0" Margin="0,0,0,15">
-                                <Button Content="● BEGIN SESSION CAPTURE" Command="{Binding StartSessionCommand}" Foreground="#FF0000" BorderBrush="#FF0000" FontWeight="Bold" Height="36" Margin="0" Padding="0">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsSessionIdle}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                                <!-- Stop / Pause Buttons (visible when active) -->
-                                <Grid>
-                                    <Grid.Style>
-                                        <Style TargetType="Grid">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Grid.Style>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="0" Content="■ STOP" Command="{Binding StopSessionCommand}" Foreground="#FF0000" BorderBrush="#FF0000" FontWeight="Bold" Height="36" Margin="0,0,4,0" Padding="0"/>
-                                    <Button Grid.Column="1" Content="⏸ PAUSE" Command="{Binding PauseSessionCommand}" Foreground="#FFAA33" BorderBrush="#FFAA33" FontWeight="Bold" Height="36" Margin="4,0,0,0" Padding="0"/>
-                                </Grid>
-                            </Grid>
-
-                            <TextBlock Grid.Row="1" Text="HARDWARE SELECTION" FontSize="12" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,8"/>
-
-                            <ComboBox Grid.Row="2" ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" Margin="0,0,0,12">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Margin="0,4">
-                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="#FF6600" FontSize="13"/>
-                                            <TextBlock Text="{Binding Description}" Foreground="#FFAA33" FontSize="11" Margin="0,2,0,2"/>
-                                            <TextBlock Text="{Binding DetailsText}" Foreground="#AA4400" FontSize="10" FontFamily="Consolas"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-
-                            <!-- METRIC DIAGNOSTICS -->
-                            <Border Grid.Row="3" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="10" Margin="0,0,0,12">
-                                <StackPanel>
-                                    <Grid Margin="0,0,0,6">
-                                        <TextBlock Text="Adapter Class:" Foreground="#883300"/>
-                                        <TextBlock Text="{Binding SelectedAdapter.DeviceType}" HorizontalAlignment="Right" Foreground="#FF8800" FontWeight="SemiBold"/>
-                                    </Grid>
-                                    <Grid Margin="0,0,0,6">
-                                        <TextBlock Text="Link Status:" Foreground="#883300"/>
-                                        <TextBlock Text="Active" HorizontalAlignment="Right" Foreground="#FF6600" FontWeight="SemiBold"/>
-                                    </Grid>
-                                    <Grid>
-                                        <TextBlock Text="PNPID:" Foreground="#883300"/>
-                                        <TextBlock Text="{Binding SelectedAdapter.PnpDeviceId}" HorizontalAlignment="Right" MaxWidth="220" TextTrimming="CharacterEllipsis" Foreground="#FF8800"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- SSID / AP VIEW SWITCH -->
-                            <ToggleButton Grid.Row="4" IsChecked="{Binding IsSsidView, Mode=TwoWay}" Style="{StaticResource FuturisticSlideSwitchStyle}" Height="32" Margin="0,0,0,12"/>
-
-                             <!-- CONDENSED ACTIVE NETWORKS LIST -->
-                            <ListView Grid.Row="5" ItemsSource="{Binding DisplayAccessPoints}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="2,4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/> <!-- Checkbox -->
-                                                <ColumnDefinition Width="*"/>    <!-- Content Stack -->
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                            
-                                            <StackPanel Grid.Column="1">
-                                                <!-- Header line -->
-                                                <Grid>
-                                                    <TextBlock Text="{Binding HeaderText}" FontWeight="Bold" Foreground="#FF6600" FontSize="13" TextTrimming="CharacterEllipsis"/>
-                                                    <TextBlock Text="{Binding DetailsText}" HorizontalAlignment="Right" Foreground="#FFAA33" FontSize="11" FontWeight="SemiBold"/>
-                                                </Grid>
-                                                <!-- Subheader line -->
-                                                <TextBlock Text="{Binding SubheaderText}" Foreground="#AA4400" FontSize="11" Margin="0,2,0,2" TextTrimming="CharacterEllipsis"/>
-                                                <!-- Telemetry details -->
-                                                <TextBlock Text="{Binding TelemetryText}" Foreground="#883300" FontSize="10" FontFamily="Consolas"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-
-                            <Button Grid.Row="6" Content="FORCE SCAN TICK" Command="{Binding ScanCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="38"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- RIGHT TELEMETRY / GRAPH CONTAINER -->
-                    <Grid Grid.Column="1">
+                    <!-- MODE BAR -->
+                    <Grid Grid.ColumnSpan="3" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/> <!-- Swap View Header -->
-                            <RowDefinition Height="*"/>    <!-- Graph / Grid Content -->
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        <!-- one line saying what the current mode is and does (DR-0014: clarity between the two tests) -->
+                        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding ModeDescription}" Foreground="#AA4400" FontSize="11" Margin="2,6,0,0" TextWrapping="Wrap"
+                                   AutomationProperties.Name="What this mode does"/>
+                        <StackPanel Orientation="Horizontal" AutomationProperties.Name="Survey mode">
+                            <RadioButton Style="{StaticResource HudSegment}" GroupName="SurveyMode" Content="◉ MONITOR" IsChecked="{Binding IsMonitorMode}"
+                                         ToolTip="Watch the spectrum; nothing is recorded"/>
+                            <RadioButton Style="{StaticResource HudSegment}" GroupName="SurveyMode" Content="● CAPTURE" IsChecked="{Binding IsCaptureMode}"
+                                         ToolTip="Record the selected networks to a capture session"/>
+                            <RadioButton Style="{StaticResource HudSegment}" GroupName="SurveyMode" Content="◎ SATURATION TEST" IsChecked="{Binding IsSaturationMode}"
+                                         ToolTip="Leave this PC in place and measure peaks, drops and channel changes of the selected networks (listens only)"/>
+                            <RadioButton Style="{StaticResource HudSegment}" GroupName="SurveyMode" Content="⇄ CONNECTION TEST" IsChecked="{Binding IsConnectionMode}"
+                                         ToolTip="Check your current connection end to end (Wi-Fi → router → ISP → internet, DNS, web) and see where problems happen"/>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="{Binding ModeStatusText}" Foreground="#FF8800" FontWeight="SemiBold" VerticalAlignment="Center" Margin="16,0,0,0"
+                                   AutomationProperties.Name="Survey status"/>
+                        <TextBlock Grid.Column="2" Text="{Binding LastCycleText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center"
+                                   ToolTip="Status of the most recent Windows scan cycle (FRESH = confirmed new scan)"/>
+                    </Grid>
 
-                        <!-- HEADER & SWAP CONTROL -->
-                        <Grid Grid.Row="0" Margin="5,0,5,10">
+                    <!-- NETWORK EXPLORER -->
+                    <local:NetworkExplorerView Grid.Row="1" Grid.Column="0" Margin="0,0,12,0"/>
+
+                    <!-- CENTRE -->
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/> <!-- view switch -->
+                            <RowDefinition Height="*"/>    <!-- view -->
+                            <RowDefinition Height="Auto"/> <!-- active capture log -->
+                        </Grid.RowDefinitions>
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
                             <TextBlock FontSize="14" FontWeight="Bold" Foreground="#FF6600" VerticalAlignment="Center">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Text" Value="RF SPECTRUM SURVEY GRAPH"/>
+                                        <Setter Property="Text" Value="RF SPECTRUM"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
-                                                <Setter Property="Text" Value="ACTIVE SESSION DIAGNOSTICS &amp; TELEMETRY LOG"/>
+                                            <DataTrigger Binding="{Binding IsWaterfallView}" Value="True">
+                                                <Setter Property="Text" Value="RF WATERFALL"/>
                                             </DataTrigger>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding IsSessionActive}" Value="False"/>
-                                                    <Condition Binding="{Binding ShowSpectrumGraph}" Value="False"/>
-                                                </MultiDataTrigger.Conditions>
+                                            <DataTrigger Binding="{Binding IsGridView}" Value="True">
                                                 <Setter Property="Text" Value="LIVE SPECTRUM SURVEY TELEMETRY"/>
-                                            </MultiDataTrigger>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsStageView}" Value="True">
+                                                <Setter Property="Text" Value="SATURATION TEST"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsConnectionView}" Value="True">
+                                                <Setter Property="Text" Value="CONNECTION TEST"/>
+                                            </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            
-                            <ToggleButton IsChecked="{Binding ShowTelemetryGrid, Mode=TwoWay}" HorizontalAlignment="Right" Height="32">
-                                <ToggleButton.Style>
-                                    <Style TargetType="ToggleButton" BasedOn="{StaticResource SpectrumGridSlideSwitchStyle}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ToggleButton.Style>
-                            </ToggleButton>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" AutomationProperties.Name="Centre view">
+                                <RadioButton Style="{StaticResource HudSegment}" GroupName="CenterView" Content="SPECTRUM" IsChecked="{Binding IsSpectrumView}"/>
+                                <RadioButton Style="{StaticResource HudSegment}" GroupName="CenterView" Content="WATERFALL" IsChecked="{Binding IsWaterfallView}"/>
+                                <RadioButton Style="{StaticResource HudSegment}" GroupName="CenterView" Content="GRID" IsChecked="{Binding IsGridView}"
+                                             ToolTip="Telemetry table of the networks shown"/>
+                                <RadioButton Style="{StaticResource HudSegment}" GroupName="CenterView" Content="SATURATION" IsChecked="{Binding IsStageView}"
+                                             ToolTip="Saturation test: live tiles while running, results when finished"/>
+                                <RadioButton Style="{StaticResource HudSegment}" GroupName="CenterView" Content="CONNECTION" IsChecked="{Binding IsConnectionView}"
+                                             ToolTip="Connection test: connection path and timelines while running, results when finished"/>
+                            </StackPanel>
                         </Grid>
 
-                        <!-- SWITCHABLE CONTENT PANEL -->
-                        <Grid Grid.Row="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" /> <!-- Graphs (Canvas 2.4 and 5Ghz) -->
-                                <RowDefinition Height="Auto" /> <!-- Live Session Log Grid -->
-                            </Grid.RowDefinitions>
+                        <!-- spectrum / waterfall -->
+                        <local:SpectrumView Grid.Row="1" x:Name="Spectrum" Visibility="{Binding IsSpectrumOrWaterfall, Converter={StaticResource BoolToVisConverter}}"/>
 
-                            <!-- GRAPHICAL SPECTRUM CANVAS -->
-                            <Grid Grid.Row="0" x:Name="SpectrumGraphContainer">
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ShowSpectrumGraph}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" /> <!-- 2.4 GHz -->
-                                    <RowDefinition Height="*" /> <!-- 5 GHz -->
-                                </Grid.RowDefinitions>
+                        <!-- telemetry grid -->
+                        <Border Grid.Row="1" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="5" Background="#000000"
+                                Visibility="{Binding IsGridView, Converter={StaticResource BoolToVisConverter}}">
+                            <DataGrid ItemsSource="{Binding FilteredAccessPoints}" AutomationProperties.Name="Telemetry grid">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="160" />
+                                    <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="140" />
+                                    <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="80" />
+                                    <DataGridTextColumn Header="CHANNEL" Binding="{Binding Channel}" Width="80" />
+                                    <DataGridTextColumn Header="WIDTH" Binding="{Binding ChannelWidth, StringFormat={}{0} MHz}" Width="80" />
+                                    <DataGridTextColumn Header="RSSI (dBm)" Binding="{Binding RSSI}" Width="90" />
+                                    <DataGridTextColumn Header="SNR EST. (dB)" Binding="{Binding SNR}" Width="80" />
+                                    <DataGridTextColumn Header="QUALITY" Binding="{Binding Quality, StringFormat={}{0}%}" Width="85" />
+                                    <DataGridTextColumn Header="SECURITY" Binding="{Binding SecurityType}" Width="120" />
+                                    <DataGridTextColumn Header="VENDOR" Binding="{Binding VendorOUI}" Width="120" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
 
-                                <!-- 2.4 GHz Band -->
-                                <Grid Grid.Row="0" Margin="0,0,0,8">
-                                    <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000">
-                                        <Canvas x:Name="Canvas24Ghz" SizeChanged="OnCanvasSizeChanged" Background="Transparent" ClipToBounds="True"/>
+                        <!-- saturation stage -->
+                        <local:SaturationStageView Grid.Row="1" x:Name="SaturationStage" DataContext="{Binding Saturation}"
+                                                   Visibility="{Binding DataContext.IsStageView, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisConverter}}"/>
+
+                        <!-- connection test stage (DR-0014) -->
+                        <local:ConnectionStageView Grid.Row="1" x:Name="ConnectionStage" DataContext="{Binding Connection}"
+                                                   Visibility="{Binding DataContext.IsConnectionView, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisConverter}}"/>
+
+                        <!-- ACTIVE CAPTURE LOG (bottom while a capture session runs) -->
+                        <Grid Grid.Row="2" x:Name="ActiveSessionLogContainer" Height="240" Margin="0,12,0,0"
+                              Visibility="{Binding IsSessionActive, Converter={StaticResource BoolToVisConverter}}">
+                            <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="10" Background="#000000">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0" Margin="5,0,5,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="LIVE CAPTURED TELEMETRY LOG" FontSize="11" FontWeight="Bold" Foreground="#FF6600" VerticalAlignment="Center"/>
+                                        <!-- Text/Foreground live in the style: a local value would block the PAUSED trigger (1.1 defect) -->
+                                        <TextBlock Grid.Column="1" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" x:Name="RecordingIndicator">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="● RECORDING"/>
+                                                    <Setter Property="Foreground" Value="#FF3300"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsSessionPaused}" Value="True">
+                                                            <Setter Property="Text" Value="⏸ PAUSED"/>
+                                                            <Setter Property="Foreground" Value="#FFAA33"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                    <Border Grid.Row="1" Background="#110500" BorderBrush="#883300" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,5,0,8">
+                                        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="SESSION: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SessionName}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            <TextBlock Text="FACILITY: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding FacilityName}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            <TextBlock Text="SCOPE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SessionScope}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            <TextBlock Text="ZONE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SurveyPoint}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            <TextBlock Text="MODE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SessionModeText}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            <TextBlock Text="NOTES: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Visibility="{Binding HasSessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                            <TextBlock Text="{Binding SessionNotes}" Foreground="#FF8800" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Visibility="{Binding HasSessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                        </WrapPanel>
                                     </Border>
-                                    <TextBlock Text="2.4 GHz BAND CHANNELS" FontSize="11" FontWeight="Bold" Foreground="#883300" Margin="10,10,0,0" IsHitTestVisible="False"/>
-                                </Grid>
-
-                                <!-- 5 GHz Band -->
-                                <Grid Grid.Row="1" Margin="0,8,0,0">
-                                    <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000">
-                                        <Canvas x:Name="Canvas5Ghz" SizeChanged="OnCanvasSizeChanged" Background="Transparent" ClipToBounds="True"/>
-                                    </Border>
-                                    <TextBlock Text="5 GHz BAND CHANNELS (5150 - 5850 MHz)" FontSize="11" FontWeight="Bold" Foreground="#883300" Margin="10,10,0,0" IsHitTestVisible="False"/>
-                                </Grid>
-                            </Grid>
-
-                            <!-- DETAILED TELEMETRY GRID -->
-                            <Grid Grid.Row="0" Grid.RowSpan="2" x:Name="TelemetryGridContainer">
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ShowSpectrumGraph}" Value="False">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                                
-                                <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="5" Background="#000000">
-                                    <DataGrid ItemsSource="{Binding FilteredAccessPoints}">
+                                    <DataGrid Grid.Row="2" ItemsSource="{Binding FilteredActiveSessionLogs}"
+                                              HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0"
+                                              EnableRowVirtualization="True" EnableColumnVirtualization="True" AutomationProperties.Name="Captured telemetry log">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="160" />
-                                            <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="140" />
-                                            <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="80" />
-                                            <DataGridTextColumn Header="CHANNEL" Binding="{Binding Channel}" Width="80" />
-                                            <DataGridTextColumn Header="RSSI (dBm)" Binding="{Binding RSSI}" Width="90" />
-                                            <DataGridTextColumn Header="SNR (dB)" Binding="{Binding SNR}" Width="80" />
-                                            <DataGridTextColumn Header="QUALITY" Binding="{Binding Quality, StringFormat={}{0}%}" Width="85" />
-                                            <DataGridTextColumn Header="SECURITY" Binding="{Binding SecurityType}" Width="120" />
-                                            <DataGridTextColumn Header="VENDOR" Binding="{Binding VendorOUI}" Width="120" />
+                                            <DataGridTextColumn Header="TIMESTAMP" Binding="{Binding Timestamp, StringFormat=\{0:HH:mm:ss\}}" Width="100"/>
+                                            <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="150" />
+                                            <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="130" />
+                                            <DataGridTextColumn Header="CH" Binding="{Binding Channel}" Width="50" />
+                                            <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="70" />
+                                            <DataGridTextColumn Header="RSSI" Binding="{Binding RSSI, StringFormat=\{0\} dBm}" Width="70" />
+                                            <DataGridTemplateColumn Header="FLUCTUATION" Width="110">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding FluctuationText}" Foreground="{Binding FluctuationBrush}" FontWeight="Bold" FontFamily="Consolas"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="SNR EST." Binding="{Binding SNR, StringFormat=~\{0\} dB}" Width="70" />
+                                            <DataGridTextColumn Header="QUAL" Binding="{Binding Quality, StringFormat=\{0\}%}" Width="70" />
+                                            <DataGridTextColumn Header="VAR (dB)" Binding="{Binding Jitter, StringFormat=\{0:F1\} dB}" Width="80" />
                                         </DataGrid.Columns>
                                     </DataGrid>
-                                </Border>
-                            </Grid>
-
-                            <!-- ACTIVE SESSION LOG PANEL (bottom of screen when session active) -->
-                            <Grid Grid.Row="1" x:Name="ActiveSessionLogContainer" Height="240" Margin="0,15,0,0">
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsSessionActive}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-
-                                        <Border BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="10" Background="#000000">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-
-                                        <!-- Header indicators with active session details -->
-                                        <Grid Grid.Row="0" Margin="5,0,5,4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <TextBlock Grid.Column="0" Text="LIVE CAPTURED TELEMETRY LOG" FontSize="11" FontWeight="Bold" Foreground="#FF6600" VerticalAlignment="Center"/>
-                                            
-                                            <TextBlock Grid.Column="1" Text="● RECORDING" FontSize="11" FontWeight="Bold" Foreground="#FF3300" VerticalAlignment="Center" x:Name="RecordingIndicator">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsSessionPaused}" Value="True">
-                                                                <Setter Property="Text" Value="⏸ PAUSED"/>
-                                                                <Setter Property="Foreground" Value="#FFAA33"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </Grid>
-
-                                        <!-- Prominent Metadata Banner -->
-                                        <Border Grid.Row="1" Background="#110500" BorderBrush="#883300" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,5,0,8">
-                                            <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <TextBlock Text="SESSION: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding SessionName}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
-                                                
-                                                <TextBlock Text="FACILITY: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding FacilityName}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
-                                                
-                                                <TextBlock Text="SCOPE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding SessionScope}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
-                                                
-                                                <TextBlock Text="ZONE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding SurveyPoint}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
-                                                
-                                                <TextBlock Text="MODE: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                                <TextBlock Text="{Binding SessionModeText}" Foreground="#FF8800" FontSize="11" Margin="2,0,15,0" FontWeight="Bold" VerticalAlignment="Center"/>
-                                                
-                                                <TextBlock Text="NOTES: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Visibility="{Binding HasSessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
-                                                <TextBlock Text="{Binding SessionNotes}" Foreground="#FF8800" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Visibility="{Binding HasSessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
-                                            </WrapPanel>
-                                        </Border>
-
-                                        <!-- The scrolling telemetry data grid -->
-                                        <DataGrid Grid.Row="2" ItemsSource="{Binding FilteredActiveSessionLogs}" 
-                                                  HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0" 
-                                                  EnableRowVirtualization="True" EnableColumnVirtualization="True">
-                                            <DataGrid.Columns>
-                                                <DataGridTextColumn Header="TIMESTAMP" Binding="{Binding Timestamp, StringFormat=\{0:HH:mm:ss\}}" Width="100"/>
-                                                <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="150" />
-                                                <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="130" />
-                                                <DataGridTextColumn Header="CH" Binding="{Binding Channel}" Width="50" />
-                                                <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="70" />
-                                                <DataGridTextColumn Header="RSSI" Binding="{Binding RSSI, StringFormat=\{0\} dBm}" Width="70" />
-                                                
-                                                <!-- Fluctuation -->
-                                                <DataGridTemplateColumn Header="FLUCTUATION" Width="110">
-                                                    <DataGridTemplateColumn.CellTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding FluctuationText}" Foreground="{Binding FluctuationBrush}" FontWeight="Bold" FontFamily="Consolas"/>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellTemplate>
-                                                </DataGridTemplateColumn>
-
-                                                <DataGridTextColumn Header="SNR" Binding="{Binding SNR, StringFormat=\{0\} dB}" Width="70" />
-                                                <DataGridTextColumn Header="QUAL" Binding="{Binding Quality, StringFormat=\{0\}%}" Width="70" />
-                                                <DataGridTextColumn Header="JITT" Binding="{Binding Jitter, StringFormat=\{0:F1\} ms}" Width="80" />
-                                            </DataGrid.Columns>
-                                        </DataGrid>
-                                    </Grid>
-                                </Border>
-                            </Grid>
+                                </Grid>
+                            </Border>
                         </Grid>
+                    </Grid>
+
+                    <!-- MODE DRAWER -->
+                    <Grid Grid.Row="1" Grid.Column="2" Width="360" Margin="12,0,0,0" Visibility="{Binding IsDrawerOpen, Converter={StaticResource BoolToVisConverter}}">
+                        <!-- capture -->
+                        <Border Style="{StaticResource HudPanel}" Visibility="{Binding IsCaptureMode, Converter={StaticResource BoolToVisConverter}}" AutomationProperties.Name="Capture session controls">
+                            <StackPanel>
+                                <TextBlock Text="CAPTURE SESSION" Style="{StaticResource HudTitle}" FontSize="14"/>
+                                <TextBlock Style="{StaticResource HudHint}" Margin="0,0,0,10"
+                                           Text="Records every scan of the networks selected in the list (nothing selected = everything) to a session you can review and export under HISTORY."/>
+                                <Border Background="#0F0600" BorderBrush="#331800" BorderThickness="1" CornerRadius="6" Padding="8,5" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="RECORDS" Foreground="#883300" FontSize="10" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Explorer.ScopeText}" Foreground="#FF8800" FontSize="11" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Border>
+                                <Button Content="● BEGIN SESSION CAPTURE" Command="{Binding StartSessionCommand}" Foreground="#FF0000" BorderBrush="#FF0000" FontWeight="Bold" Height="40"
+                                        Visibility="{Binding IsSessionIdle, Converter={StaticResource BoolToVisConverter}}" AutomationProperties.Name="Begin session capture"/>
+                                <StackPanel Visibility="{Binding IsSessionActive, Converter={StaticResource BoolToVisConverter}}">
+                                    <TextBlock FontSize="13" FontWeight="Bold" Margin="0,0,0,8">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="● RECORDING"/>
+                                                <Setter Property="Foreground" Value="#FF3300"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSessionPaused}" Value="True">
+                                                        <Setter Property="Text" Value="⏸ PAUSED"/>
+                                                        <Setter Property="Foreground" Value="#FFAA33"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock Foreground="#AA4400" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,10">
+                                        <Run Text="{Binding SessionName, Mode=OneWay}" Foreground="#FF8800" FontWeight="Bold"/>
+                                        <Run Text=" · "/><Run Text="{Binding FacilityName, Mode=OneWay}"/>
+                                        <Run Text=" · zone "/><Run Text="{Binding SurveyPoint, Mode=OneWay}"/>
+                                    </TextBlock>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="6"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="■ STOP" Command="{Binding StopSessionCommand}" Foreground="#FF0000" BorderBrush="#FF0000" FontWeight="Bold" Height="38" AutomationProperties.Name="Stop capture"/>
+                                        <Button Grid.Column="2" Content="⏸ PAUSE" Command="{Binding PauseSessionCommand}" Foreground="#FFAA33" BorderBrush="#FFAA33" FontWeight="Bold" Height="38"
+                                                AutomationProperties.Name="Pause capture">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsSessionPaused}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button Grid.Column="2" Content="▶ RESUME" Command="{Binding ResumeSessionCommand}" Foreground="#FFAA33" BorderBrush="#FFAA33" FontWeight="Bold" Height="38"
+                                                AutomationProperties.Name="Resume capture" Visibility="{Binding IsSessionPaused, Converter={StaticResource BoolToVisConverter}}"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <!-- saturation -->
+                        <local:SaturationDrawerView x:Name="SaturationDrawer" DataContext="{Binding Saturation}"
+                                                    Visibility="{Binding DataContext.IsSaturationMode, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisConverter}}"/>
+                        <!-- connection test -->
+                        <local:ConnectionDrawerView x:Name="ConnectionDrawer" DataContext="{Binding Connection}"
+                                                    Visibility="{Binding DataContext.IsConnectionMode, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisConverter}}"/>
                     </Grid>
                 </Grid>
             </TabItem>
 
-            <TabItem Header="REST API CONFIG">
-                <Grid Margin="15">
+            <TabItem Header="SETTINGS">
+                <TabControl Margin="15" Background="#000000" BorderThickness="0" AutomationProperties.Name="Settings section">
+                    <TabItem Header="REST API" AutomationProperties.Name="REST API settings">
+                <Grid Margin="0,12,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="450" />
                         <ColumnDefinition Width="*" />
@@ -842,19 +776,37 @@
                             <TextBox Text="{Binding ApiPort, UpdateSourceTrigger=PropertyChanged}" Background="#000000" Foreground="#FF8800" BorderBrush="#883300" Padding="8,6" FontSize="14" Margin="0,0,0,20"/>
 
                             <TextBlock Text="API KEY" FontSize="12" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,6"/>
-                            <TextBox Text="{Binding ApiKey, Mode=OneWay}" IsReadOnly="True" Background="#000000" Foreground="#FF8800" BorderBrush="#883300" Padding="8,6" FontSize="14" Margin="0,0,0,10"/>
-                            <Grid Margin="0,0,0,20">
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <!-- Masked by default (keys end up in screenshots); SHOW reveals, COPY puts it on the clipboard -->
+                                <TextBox Text="{Binding DisplayedApiKey, Mode=OneWay}" IsReadOnly="True" Background="#000000" Foreground="#FF8800" BorderBrush="#883300" Padding="8,6" FontSize="14"
+                                         FontFamily="Consolas" AutomationProperties.Name="API key"/>
+                                <Button Grid.Column="1" Content="{Binding ShowApiKeyLabel}" Command="{Binding ToggleShowApiKeyCommand}" Margin="6,0,0,0" Padding="10,6" Width="64" AutomationProperties.Name="Show or hide API key"/>
+                                <Button Grid.Column="2" Content="COPY" Command="{Binding CopyApiKeyCommand}" Margin="6,0,0,0" Padding="10,6" AutomationProperties.Name="Copy API key"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Button Grid.Column="0" Content="GENERATE" Command="{Binding GenerateApiKeyCommand}" Margin="0,0,5,0" Padding="12,8"/>
-                                <Button Grid.Column="1" Content="EXPORT" Command="{Binding ExportApiKeyCommand}" Margin="5,0,5,0" Padding="12,8"/>
+                                <Button Grid.Column="1" Content="EXPORT…" Command="{Binding ExportApiKeyCommand}" Margin="5,0,5,0" Padding="12,8" ToolTip="Save the key and usage examples to a file you choose"/>
                                 <Button Grid.Column="2" Content="DELETE" Command="{Binding DeleteApiKeyCommand}" Margin="5,0,0,0" Padding="12,8"/>
                             </Grid>
+                            <Border Background="#110500" BorderBrush="#883300" BorderThickness="1" CornerRadius="6" Padding="10,8" Margin="0,0,0,12"
+                                    Visibility="{Binding HasApiExportStatus, Converter={StaticResource BoolToVisConverter}}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ApiExportStatus}" Foreground="#FF8800" TextWrapping="Wrap" FontSize="12" AutomationProperties.Name="API settings result"/>
+                                    <Button Content="OPEN FOLDER" Command="{Binding OpenApiExportFolderCommand}" HorizontalAlignment="Left" Padding="10,4" Margin="0,6,0,0" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
 
-                            <Button Content="APPLY &amp; SAVE CHANGES" Command="{Binding ApplyApiSettingsCommand}" HorizontalAlignment="Stretch" Padding="16,10" Margin="0,10,0,0" FontSize="14" BorderBrush="#FF6600"/>
+                            <Button Content="APPLY &amp; SAVE CHANGES" Command="{Binding ApplyApiSettingsCommand}" HorizontalAlignment="Stretch" Padding="16,10" Margin="0,4,0,0" FontSize="14" BorderBrush="#FF6600"/>
                         </StackPanel>
                     </Border>
 
@@ -863,12 +815,12 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel>
                                 <TextBlock Text="REST API ACCESS &amp; DOCUMENTATION" FontSize="16" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,15"/>
-                                
+
                                 <Border Background="#000000" BorderBrush="#883300" BorderThickness="1" Padding="12" CornerRadius="8" Margin="0,0,0,15">
                                     <TextBlock Text="{Binding ApiServerStatusText}" FontSize="13" FontWeight="Bold" Foreground="#FF6600"/>
                                 </Border>
 
-                                <TextBlock Text="The REST API enables orchestration tools (e.g. scripts, automation) and AI agents running on this device to read Wi-Fi scanner data. All endpoints require the X-API-Key header or api_key query string parameter." TextWrapping="Wrap" Foreground="#AA4400" FontSize="13" Margin="0,0,0,15" LineHeight="18"/>
+                                <TextBlock Text="The REST API enables orchestration tools (e.g. scripts, automation) and AI agents running on this device to read Wi-Fi scanner data. All endpoints require the X-API-Key request header (keys in the URL are rejected). The server listens on localhost only." TextWrapping="Wrap" Foreground="#AA4400" FontSize="13" Margin="0,0,0,15" LineHeight="18"/>
 
                                 <TextBlock Text="AVAILABLE ENDPOINTS" FontSize="12" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,10"/>
 
@@ -896,281 +848,481 @@
                                     <TextBlock Text="GET /api/stats" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
                                     <TextBlock Text="Returns high-level statistics like total sessions, total samples, and DB file size." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0"/>
                                 </StackPanel>
+
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="GET /api/connection" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
+                                    <TextBlock Text="State of the running connection test: segments (loss, latency, jitter, outages), where problems happened, verdicts." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0" TextWrapping="Wrap"/>
+                                </StackPanel>
+
+                                <StackPanel Margin="0,0,0,10">
+                                    <TextBlock Text="GET /api/connection/tests" FontFamily="Consolas" FontSize="13" Foreground="#FF8800" FontWeight="Bold"/>
+                                    <TextBlock Text="Saved connection tests (name, network, location, times, status)." Foreground="#AA4400" FontSize="12" Margin="10,2,0,0"/>
+                                </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
                     </Border>
                 </Grid>
+                    </TabItem>
+                    <TabItem Header="TEST SERVERS" AutomationProperties.Name="Test servers">
+                        <Grid Margin="0,12,0,0" DataContext="{Binding Connection}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="470"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="18">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <StackPanel>
+                                        <TextBlock Text="SPEED TEST SERVER (stage B)" FontSize="14" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,8"/>
+                                        <ComboBox ItemsSource="{Binding SpeedKindOptions}" SelectedItem="{Binding SpeedKind}" AutomationProperties.Name="Speed test server type"
+                                                  ToolTip="None: speed tests off. Responder: your LAN responder (measures Wi-Fi capacity). Http: a server you control (measures internet capacity)."/>
+                                        <StackPanel Visibility="{Binding IsHttpSpeed, Converter={StaticResource BoolToVisConverter}}" Margin="0,8,0,0">
+                                            <TextBlock Text="Download URL (a large file)" Foreground="#883300" FontWeight="Bold" FontSize="11"/>
+                                            <TextBox Text="{Binding HttpDownloadUrl, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Speed download URL"/>
+                                            <TextBlock Text="Upload URL (accepts POST)" Foreground="#883300" FontWeight="Bold" FontSize="11" Margin="0,6,0,0"/>
+                                            <TextBox Text="{Binding HttpUploadUrl, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Speed upload URL"/>
+                                        </StackPanel>
+                                        <Grid Margin="0,8,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="Parallel streams (1–16)" Foreground="#883300" FontWeight="Bold" FontSize="11"/>
+                                                <TextBox Text="{Binding SpeedStreams, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Speed test streams"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="Seconds per direction (3–30)" Foreground="#883300" FontWeight="Bold" FontSize="11"/>
+                                                <TextBox Text="{Binding SpeedSeconds, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Speed test seconds"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <TextBlock Text="LAN RESPONDER (stage C)" FontSize="14" FontWeight="Bold" Foreground="#FF6600" Margin="0,20,0,8"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="90"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="Address (wired PC or Raspberry Pi)" Foreground="#883300" FontWeight="Bold" FontSize="11"/>
+                                                <TextBox Text="{Binding ResponderAddress, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Responder address"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="Port" Foreground="#883300" FontWeight="Bold" FontSize="11"/>
+                                                <TextBox Text="{Binding ResponderPort, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Responder port"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock Text="Pairing key (shown by the responder)" Foreground="#883300" FontWeight="Bold" FontSize="11" Margin="0,6,0,0"/>
+                                        <TextBox Text="{Binding ResponderKeyInput, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Responder key"
+                                                 ToolTip="Paste the key printed by WirelessScanner.Responder (--show-key). It is stored protected for this Windows user and never shown again."/>
+                                        <TextBlock Text="{Binding ResponderKeyState}" Foreground="#AA4400" FontSize="11" Margin="0,2,0,0"/>
+                                        <Grid Margin="0,12,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Content="SAVE" Command="{Binding SaveServersCommand}" Height="36" AutomationProperties.Name="Save test servers"/>
+                                            <Button Grid.Column="2" Content="CHECK RESPONDER" Command="{Binding CheckResponderCommand}" Height="36" AutomationProperties.Name="Check responder"/>
+                                        </Grid>
+                                        <TextBlock Text="{Binding ServerStatus}" Foreground="#FF8800" TextWrapping="Wrap" Margin="0,8,0,0" AutomationProperties.Name="Test server status"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Border>
+                            <Border Grid.Column="1" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="18" Margin="15,0,0,0">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <StackPanel>
+                                        <TextBlock Text="WHAT THESE ARE FOR" FontSize="14" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,8"/>
+                                        <TextBlock Foreground="#AA4400" TextWrapping="Wrap" FontSize="12"
+                                                   Text="The connection test works without any server. These are optional extras used from the Connection test drawer."/>
+                                        <TextBlock Foreground="#FF8800" FontWeight="Bold" TextWrapping="Wrap" Margin="0,10,0,2" Text="Speed and responsiveness (stage B)"/>
+                                        <TextBlock Foreground="#AA4400" TextWrapping="Wrap" FontSize="12"
+                                                   Text="Measures download and upload capacity and how much the delay grows while the link is busy (bufferbloat grade). Against the LAN responder it measures the Wi-Fi itself; against an HTTP server you control it measures the internet path. A speed test saturates the connection for 10–60 s, so other users notice."/>
+                                        <TextBlock Foreground="#FAB219" TextWrapping="Wrap" FontSize="12" Margin="0,6,0,0"
+                                                   Text="No public speed-test provider is preset: some (for example M-Lab) publish every result together with your IP address. Choosing one is your decision."/>
+                                        <TextBlock Foreground="#FF8800" FontWeight="Bold" TextWrapping="Wrap" Margin="0,12,0,2" Text="Two-way Wi-Fi test (stage C)"/>
+                                        <TextBlock Foreground="#AA4400" TextWrapping="Wrap" FontSize="12"
+                                                   Text="Run the WirelessScanner responder on a WIRED machine on the same network. The app then sends a voice-like stream to it and measures loss, reordering and delay variation separately upstream and downstream, a call-quality estimate for each direction, and the pure Wi-Fi capacity — no internet involved."/>
+                                        <TextBlock Foreground="#FF8800" FontWeight="Bold" Margin="0,12,0,2" Text="Starting the responder"/>
+                                        <TextBox IsReadOnly="True" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Background="#0A0400" Foreground="#FF8800" BorderBrush="#331800"
+                                                 Text="WirelessScanner.Responder --name &quot;Lab Pi&quot;&#x0a;(first run prints the pairing key; later: --show-key)&#x0a;Allow TCP and UDP 5410 for the local network only.&#x0a;Raspberry Pi: dotnet publish WirelessScanner.Responder -c Release -r linux-arm64 (self-contained)"/>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </TabItem>
 
             <TabItem Header="HISTORY / LOGS">
-                <Grid Margin="15">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="400" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <TabControl Margin="15" Background="#000000" BorderThickness="0" AutomationProperties.Name="History type">
+                    <TabItem Header="CAPTURE SESSIONS" AutomationProperties.Name="Capture session history">
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="400" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                    <!-- MASTER VIEW: Session List with Filters -->
-                    <Border Grid.Column="0" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>  <!-- Title -->
-                                <RowDefinition Height="Auto"/>  <!-- Search Fields -->
-                                <RowDefinition Height="Auto"/>  <!-- Search Buttons -->
-                                <RowDefinition Height="*"/>     <!-- Session List -->
-                                <RowDefinition Height="Auto"/>  <!-- Refresh -->
-                            </Grid.RowDefinitions>
-                            
-                            <TextBlock Grid.Row="0" Text="SAVED CAPTURE SESSIONS" FontSize="14" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,10"/>
-                            
-                            <!-- SEARCH FILTERS -->
-                            <StackPanel Grid.Row="1" Margin="0,0,0,8">
-                                <!-- Session Name -->
-                                <TextBlock Text="SESSION NAME" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
-                                <TextBox Text="{Binding HistoryFilterName, UpdateSourceTrigger=PropertyChanged}" 
-                                         Background="#000000" Foreground="#FF8800" BorderBrush="#883300" 
-                                         Padding="8,6" FontSize="12" Margin="0,0,0,8"/>
-                                
-                                <!-- Date Range -->
-                                <Grid Margin="0,0,0,4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="12"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock Text="FROM DATE" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
-                                        <DatePicker SelectedDate="{Binding HistoryFilterFromDate, Mode=TwoWay}" 
-                                                    Background="#000000" Foreground="#FF8800" BorderBrush="#883300" 
-                                                    FontSize="12" Padding="4,4"/>
-                                    </StackPanel>
-
-                                    <TextBlock Grid.Column="1" Text="—" Foreground="#883300" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,8"/>
-
-                                    <StackPanel Grid.Column="2">
-                                        <TextBlock Text="TO DATE" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
-                                        <DatePicker SelectedDate="{Binding HistoryFilterToDate, Mode=TwoWay}" 
-                                                    Background="#000000" Foreground="#FF8800" BorderBrush="#883300"
-                                                    FontSize="12" Padding="4,4"/>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                            
-                            <!-- SEARCH / CLEAR BUTTONS -->
-                            <Grid Grid.Row="2" Margin="0,0,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" Content="🔍 SEARCH" Command="{Binding SearchHistoryCommand}" Margin="0,0,4,0" Padding="0,8" FontSize="12"/>
-                                <Button Grid.Column="1" Content="✕ CLEAR FILTERS" Command="{Binding ClearHistoryFilterCommand}" Margin="4,0,0,0" Padding="0,8" FontSize="12" Foreground="#883300" BorderBrush="#883300"/>
-                            </Grid>
-                            
-                            <!-- SESSION LIST (Multi-Select) -->
-                            <DataGrid Grid.Row="3" x:Name="HistorySessionGrid"
-                                      ItemsSource="{Binding FilteredHistoricalSessions}" 
-                                      SelectedItem="{Binding SelectedHistorySession, Mode=TwoWay}" 
-                                      AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended"
-                                      HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0"
-                                      SelectionChanged="OnHistoryGridSelectionChanged">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="DATE" Binding="{Binding StartTime, StringFormat=\{0:MM/dd HH:mm\}}" Width="100"/>
-                                    <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="*"/>
-                                    <DataGridTextColumn Header="MODE" Binding="{Binding Mode}" Width="70"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-                            <Button Grid.Row="4" Content="REFRESH LIST" Command="{Binding RefreshSessionsCommand}" Margin="0,10,0,0"/>
-                        </Grid>
-                    </Border>
-
-                    <!-- DETAIL VIEW -->
-                    <Border Grid.Column="1" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15" Margin="15,0,0,0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="1.2*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <StackPanel Grid.Row="0" Margin="0,0,0,15">
-                                <TextBlock Text="SESSION DETAILS" FontSize="16" FontWeight="Bold" Foreground="#FF6600"/>
-                                <TextBlock Text="{Binding SelectedHistorySession.Name, FallbackValue='No session selected'}" FontSize="20" FontWeight="Bold" Foreground="#FF8800" Margin="0,5,0,0"/>
-                                <WrapPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                    <TextBlock Text="Facility: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding SelectedHistorySession.FacilityName, FallbackValue='N/A'}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
-                                    
-                                    <TextBlock Text="Scope: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding SelectedHistorySessionScopeOnly}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
-                                    
-                                    <TextBlock Text="Mode: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding SelectedHistorySessionModeText}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
-                                    
-                                    <TextBlock Text="Notes: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Visibility="{Binding HasSelectedHistorySessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
-                                    <TextBlock Text="{Binding SelectedHistorySessionNotesOnly}" Foreground="#FFAA33" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Visibility="{Binding HasSelectedHistorySessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
-                                </WrapPanel>
-                            </StackPanel>
-
-                            <!-- TELEMETRY TIMELINE GRAPH -->
-                            <Border Grid.Row="1" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000">
+                            <!-- MASTER VIEW: Session List with Filters -->
+                            <Border Grid.Column="0" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15">
                                 <Grid>
-                                    <TextBlock Text="SELECT A SESSION TO VIEW TELEMETRY TIMELINE" Foreground="#883300" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    
-                                    <Grid>
-                                        <Grid.Style>
-                                            <Style TargetType="Grid">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Grid.Style>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>  <!-- Title -->
+                                        <RowDefinition Height="Auto"/>  <!-- Search Fields -->
+                                        <RowDefinition Height="Auto"/>  <!-- Search Buttons -->
+                                        <RowDefinition Height="*"/>     <!-- Session List -->
+                                        <RowDefinition Height="Auto"/>  <!-- Refresh -->
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Text="SAVED CAPTURE SESSIONS" FontSize="14" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,10"/>
+
+                                    <!-- SEARCH FILTERS -->
+                                    <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                                        <!-- Session Name -->
+                                        <TextBlock Text="SESSION NAME" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
+                                        <TextBox Text="{Binding HistoryFilterName, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Background="#000000" Foreground="#FF8800" BorderBrush="#883300" 
+                                                 Padding="8,6" FontSize="12" Margin="0,0,0,8"/>
+
+                                        <!-- Date Range -->
+                                        <Grid Margin="0,0,0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="12"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="FROM DATE" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
+                                                <DatePicker SelectedDate="{Binding HistoryFilterFromDate, Mode=TwoWay}" 
+                                                            Background="#000000" Foreground="#FF8800" BorderBrush="#883300" 
+                                                            FontSize="12" Padding="4,4"/>
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Column="1" Text="—" Foreground="#883300" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="TO DATE" FontSize="10" FontWeight="Bold" Foreground="#883300" Margin="0,0,0,4"/>
+                                                <DatePicker SelectedDate="{Binding HistoryFilterToDate, Mode=TwoWay}" 
+                                                            Background="#000000" Foreground="#FF8800" BorderBrush="#883300"
+                                                            FontSize="12" Padding="4,4"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+
+                                    <!-- SEARCH / CLEAR BUTTONS -->
+                                    <Grid Grid.Row="2" Margin="0,0,0,10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="220"/>
+                                            <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-
-                                        <Canvas Grid.Column="0" x:Name="CanvasHistoryGraph" SizeChanged="OnHistoryCanvasSizeChanged" Background="Transparent" ClipToBounds="True"/>
-
-                                        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="10,10,10,10" BorderBrush="#441F00" BorderThickness="1,0,0,0" Padding="10,0,0,0">
-                                            <StackPanel x:Name="PanelHistoryLegend">
-                                                <!-- Legend items dynamically added in code behind -->
-                                            </StackPanel>
-                                        </ScrollViewer>
+                                        <Button Grid.Column="0" Content="🔍 SEARCH" Command="{Binding SearchHistoryCommand}" Margin="0,0,4,0" Padding="0,8" FontSize="12"/>
+                                        <Button Grid.Column="1" Content="✕ CLEAR FILTERS" Command="{Binding ClearHistoryFilterCommand}" Margin="4,0,0,0" Padding="0,8" FontSize="12" Foreground="#883300" BorderBrush="#883300"/>
                                     </Grid>
+
+                                    <!-- SESSION LIST (Multi-Select) -->
+                                    <DataGrid Grid.Row="3" x:Name="HistorySessionGrid"
+                                              ItemsSource="{Binding FilteredHistoricalSessions}" 
+                                              SelectedItem="{Binding SelectedHistorySession, Mode=TwoWay}" 
+                                              AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended"
+                                              HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0"
+                                              SelectionChanged="OnHistoryGridSelectionChanged">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="DATE" Binding="{Binding StartTime, StringFormat=\{0:MM/dd HH:mm\}}" Width="100"/>
+                                            <DataGridTextColumn Header="NAME" Binding="{Binding Name}" Width="*"/>
+                                            <DataGridTextColumn Header="MODE" Binding="{Binding Mode}" Width="70"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                    <Button Grid.Row="4" Content="REFRESH LIST" Command="{Binding RefreshSessionsCommand}" Margin="0,10,0,0"/>
                                 </Grid>
                             </Border>
 
-                            <Border Grid.Row="2" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000" Margin="0,10,0,0" Padding="5">
+                            <!-- DETAIL VIEW -->
+                            <Border Grid.Column="1" Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="15" Margin="15,0,0,0">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="*"/>
+                                        <RowDefinition Height="1.2*"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <!-- DISPLAY FIELDS COLUMN SELECTOR WRAPPANEL -->
-                                    <WrapPanel Grid.Row="0" Margin="5,2,5,8" Orientation="Horizontal">
-                                        <WrapPanel.Style>
-                                            <Style TargetType="WrapPanel">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </WrapPanel.Style>
-                                        <TextBlock Text="DISPLAY FIELDS: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                                        <CheckBox Content="Time" IsChecked="{Binding ShowColTime, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="SSID" IsChecked="{Binding ShowColSsid, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="BSSID" IsChecked="{Binding ShowColBssid, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="Channel" IsChecked="{Binding ShowColChannel, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="Band" IsChecked="{Binding ShowColBand, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="RSSI" IsChecked="{Binding ShowColRssi, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="SNR" IsChecked="{Binding ShowColSnr, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="Quality" IsChecked="{Binding ShowColQuality, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="Jitter" IsChecked="{Binding ShowColJitter, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                        <CheckBox Content="Zone" IsChecked="{Binding ShowColZone, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
-                                    </WrapPanel>
+                                    <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                                        <TextBlock Text="SESSION DETAILS" FontSize="16" FontWeight="Bold" Foreground="#FF6600"/>
+                                        <TextBlock Text="{Binding SelectedHistorySession.Name, FallbackValue='No session selected'}" FontSize="20" FontWeight="Bold" Foreground="#FF8800" Margin="0,5,0,0"/>
+                                        <WrapPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                            <TextBlock Text="Facility: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SelectedHistorySession.FacilityName, FallbackValue='N/A'}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
 
-                                    <TextBlock Grid.Row="1" Text="HISTORICAL TELEMETRY SAMPLES" Foreground="#883300" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                            <TextBlock Text="Scope: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SelectedHistorySessionScopeOnly}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
+
+                                            <TextBlock Text="Mode: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding SelectedHistorySessionModeText}" Foreground="#FFAA33" FontSize="11" Margin="0,0,15,0" VerticalAlignment="Center"/>
+
+                                            <TextBlock Text="Notes: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Visibility="{Binding HasSelectedHistorySessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                            <TextBlock Text="{Binding SelectedHistorySessionNotesOnly}" Foreground="#FFAA33" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Visibility="{Binding HasSelectedHistorySessionNotes, Converter={StaticResource BoolToVisConverter}}"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+
+                                    <!-- TELEMETRY TIMELINE GRAPH -->
+                                    <Border Grid.Row="1" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000">
+                                        <Grid>
+                                            <TextBlock Text="SELECT A SESSION TO VIEW TELEMETRY TIMELINE" Foreground="#883300" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <Grid>
+                                                <Grid.Style>
+                                                    <Style TargetType="Grid">
                                                         <Setter Property="Visibility" Value="Visible"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="220"/>
+                                                </Grid.ColumnDefinitions>
 
-                                    <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredSelectedSessionSamples}" 
-                                              CanUserSortColumns="True" CanUserReorderColumns="True"
-                                              AutoGenerateColumns="False" IsReadOnly="True"
-                                              HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0"
-                                              Background="Transparent" BorderBrush="Transparent" Foreground="#FF6600"
-                                              EnableRowVirtualization="True" EnableColumnVirtualization="True">
-                                        <DataGrid.Style>
-                                            <Style TargetType="DataGrid">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                <Canvas Grid.Column="0" x:Name="CanvasHistoryGraph" SizeChanged="OnHistoryCanvasSizeChanged" Background="Transparent" ClipToBounds="True"/>
+
+                                                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Margin="10,10,10,10" BorderBrush="#441F00" BorderThickness="1,0,0,0" Padding="10,0,0,0">
+                                                    <StackPanel x:Name="PanelHistoryLegend">
+                                                        <!-- Legend items dynamically added in code behind -->
+                                                    </StackPanel>
+                                                </ScrollViewer>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+
+                                    <Border Grid.Row="2" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Background="#000000" Margin="0,10,0,0" Padding="5">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <!-- DISPLAY FIELDS COLUMN SELECTOR WRAPPANEL -->
+                                            <WrapPanel Grid.Row="0" Margin="5,2,5,8" Orientation="Horizontal">
+                                                <WrapPanel.Style>
+                                                    <Style TargetType="WrapPanel">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </WrapPanel.Style>
+                                                <TextBlock Text="DISPLAY FIELDS: " Foreground="#883300" FontWeight="Bold" FontSize="11" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                                <CheckBox Content="Time" IsChecked="{Binding ShowColTime, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="SSID" IsChecked="{Binding ShowColSsid, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="BSSID" IsChecked="{Binding ShowColBssid, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="Channel" IsChecked="{Binding ShowColChannel, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="Band" IsChecked="{Binding ShowColBand, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="RSSI" IsChecked="{Binding ShowColRssi, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="SNR" IsChecked="{Binding ShowColSnr, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="Quality" IsChecked="{Binding ShowColQuality, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="RSSI variation" IsChecked="{Binding ShowColJitter, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                                <CheckBox Content="Zone" IsChecked="{Binding ShowColZone, Mode=TwoWay}" Margin="0,0,12,0" VerticalAlignment="Center" Foreground="#FF6600"/>
+                                            </WrapPanel>
+
+                                            <TextBlock Grid.Row="1" Text="HISTORICAL TELEMETRY SAMPLES" Foreground="#883300" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
                                                         <Setter Property="Visibility" Value="Collapsed"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </DataGrid.Style>
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="TIMESTAMP" Binding="{Binding Timestamp, StringFormat=\{0:HH:mm:ss\}}" Width="85"
-                                                                Visibility="{Binding Data.ShowColTime, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="120"
-                                                                Visibility="{Binding Data.ShowColSsid, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="130"
-                                                                Visibility="{Binding Data.ShowColBssid, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="CH" Binding="{Binding Channel}" Width="40"
-                                                                Visibility="{Binding Data.ShowColChannel, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="65"
-                                                                Visibility="{Binding Data.ShowColBand, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="RSSI" Binding="{Binding RSSI, StringFormat=\{0\} dBm}" Width="65"
-                                                                Visibility="{Binding Data.ShowColRssi, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="SNR" Binding="{Binding SNR, StringFormat=\{0\} dB}" Width="50"
-                                                                Visibility="{Binding Data.ShowColSnr, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="QUAL" Binding="{Binding Quality, StringFormat=\{0\}%}" Width="50"
-                                                                Visibility="{Binding Data.ShowColQuality, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="JITT" Binding="{Binding Jitter, StringFormat=\{0:F1\} ms}" Width="60"
-                                                                Visibility="{Binding Data.ShowColJitter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                            <DataGridTextColumn Header="ZONE" Binding="{Binding SurveyPoint}" Width="*"
-                                                                Visibility="{Binding Data.ShowColZone, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
-                                        </DataGrid.Columns>
-                                    </DataGrid>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredSelectedSessionSamples}" 
+                                                      CanUserSortColumns="True" CanUserReorderColumns="True"
+                                                      AutoGenerateColumns="False" IsReadOnly="True"
+                                                      HeadersVisibility="Column" GridLinesVisibility="None" RowHeaderWidth="0"
+                                                      Background="Transparent" BorderBrush="Transparent" Foreground="#FF6600"
+                                                      EnableRowVirtualization="True" EnableColumnVirtualization="True">
+                                                <DataGrid.Style>
+                                                    <Style TargetType="DataGrid">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding SelectedHistorySession}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGrid.Style>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="TIMESTAMP" Binding="{Binding Timestamp, StringFormat=\{0:HH:mm:ss\}}" Width="85"
+                                                                        Visibility="{Binding Data.ShowColTime, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="SSID" Binding="{Binding SSID}" Width="120"
+                                                                        Visibility="{Binding Data.ShowColSsid, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="BSSID" Binding="{Binding BSSID}" Width="130"
+                                                                        Visibility="{Binding Data.ShowColBssid, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="CH" Binding="{Binding Channel}" Width="40"
+                                                                        Visibility="{Binding Data.ShowColChannel, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="BAND" Binding="{Binding Band}" Width="65"
+                                                                        Visibility="{Binding Data.ShowColBand, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="RSSI" Binding="{Binding RSSI, StringFormat=\{0\} dBm}" Width="65"
+                                                                        Visibility="{Binding Data.ShowColRssi, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="SNR EST." Binding="{Binding SNR, StringFormat=~\{0\} dB}" Width="50"
+                                                                        Visibility="{Binding Data.ShowColSnr, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="QUAL" Binding="{Binding Quality, StringFormat=\{0\}%}" Width="50"
+                                                                        Visibility="{Binding Data.ShowColQuality, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="VAR (dB)" Binding="{Binding Jitter, StringFormat=\{0:F1\} dB}" Width="60"
+                                                                        Visibility="{Binding Data.ShowColJitter, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                    <DataGridTextColumn Header="ZONE" Binding="{Binding SurveyPoint}" Width="*"
+                                                                        Visibility="{Binding Data.ShowColZone, Source={StaticResource proxy}, Converter={StaticResource BoolToVisConverter}}" />
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </Border>
+
+                                    <!-- FOOTER: Sample count + Export + Delete -->
+                                    <Grid Grid.Row="3" Margin="0,12,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <!-- Row 1: Sample count -->
+                                        <TextBlock Grid.Row="0" Text="{Binding SelectedSessionSampleCount, StringFormat='\{0\} Samples Recorded'}" Foreground="#AA4400" FontWeight="Bold" Margin="0,0,0,8"/>
+
+                                        <!-- Row 2: Export and Delete buttons -->
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="16"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Grid.Column="0" Content="EXPORT CSV" Command="{Binding ExportHistoryCsvCommand}" Padding="10,8" Margin="0,0,4,0" FontSize="11"/>
+                                            <Button Grid.Column="1" Content="EXPORT JSON" Command="{Binding ExportHistoryJsonCommand}" Padding="10,8" Margin="4,0,4,0" FontSize="11"/>
+                                            <Button Grid.Column="2" Content="EXPORT PDF" Command="{Binding ExportHistoryPdfCommand}" Padding="10,8" Margin="4,0,0,0" FontSize="11"/>
+                                            <Button Grid.Column="4" Content="DELETE SESSION" Command="{Binding DeleteSelectedSessionCommand}" Padding="15,8" Foreground="#FF0000" BorderBrush="#FF0000" FontSize="11"/>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
                             </Border>
-
-                            <!-- FOOTER: Sample count + Export + Delete -->
-                            <Grid Grid.Row="3" Margin="0,12,0,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <!-- Row 1: Sample count -->
-                                <TextBlock Grid.Row="0" Text="{Binding SelectedSessionSampleCount, StringFormat='\{0\} Samples Recorded'}" Foreground="#AA4400" FontWeight="Bold" Margin="0,0,0,8"/>
-
-                                <!-- Row 2: Export and Delete buttons -->
-                                <Grid Grid.Row="1">
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="SATURATION TESTS" AutomationProperties.Name="Saturation test history">
+                        <Grid Margin="0,12,0,0" DataContext="{Binding Saturation}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="230"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="10">
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="16"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="0" Content="EXPORT CSV" Command="{Binding ExportHistoryCsvCommand}" Padding="10,8" Margin="0,0,4,0" FontSize="11"/>
-                                    <Button Grid.Column="1" Content="EXPORT JSON" Command="{Binding ExportHistoryJsonCommand}" Padding="10,8" Margin="4,0,4,0" FontSize="11"/>
-                                    <Button Grid.Column="2" Content="EXPORT PDF" Command="{Binding ExportHistoryPdfCommand}" Padding="10,8" Margin="4,0,0,0" FontSize="11"/>
-                                    <Button Grid.Column="4" Content="DELETE SESSION" Command="{Binding DeleteSelectedSessionCommand}" Padding="15,8" Foreground="#FF0000" BorderBrush="#FF0000" FontSize="11"/>
+                                    <DataGrid ItemsSource="{Binding History}" SelectedItem="{Binding SelectedHistory}" AutoGenerateColumns="False" IsReadOnly="True"
+                                              HeadersVisibility="Column" AutomationProperties.Name="Saturation test history">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="STARTED (UTC)" Binding="{Binding StartUtc, StringFormat=yyyy-MM-dd HH:mm}" Width="130"/>
+                                            <DataGridTextColumn Header="NAME" Binding="{Binding Config.Name}" Width="*"/>
+                                            <DataGridTextColumn Header="LOCATION" Binding="{Binding Config.Location}" Width="150"/>
+                                            <DataGridTextColumn Header="GEO" Binding="{Binding Config.Geo.CoordinatesText}" Width="190"/>
+                                            <DataGridTextColumn Header="SCOPE" Binding="{Binding Config.Scope}" Width="110"/>
+                                            <DataGridTextColumn Header="CYCLES" Binding="{Binding CycleCount}" Width="70"/>
+                                            <DataGridTextColumn Header="STATUS" Binding="{Binding Status}" Width="90"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0" Width="150">
+                                        <TextBlock Text="PAST TESTS" FontSize="13" FontWeight="Bold" Foreground="#FF6600" Margin="0,0,0,8"/>
+                                        <Button Content="Open results" Command="{Binding OpenHistoryCommand}" Margin="0,0,0,6" AutomationProperties.Name="Open selected test results"/>
+                                        <Button Content="Refresh" Command="{Binding RefreshHistoryCommand}" Margin="0,0,0,6"/>
+                                        <Button Content="Delete…" Command="{Binding DeleteHistoryCommand}" Margin="0,0,0,6"/>
+                                        <TextBlock Text="{Binding HistoryStatus}" Foreground="#FAB219" FontSize="11" TextWrapping="Wrap"/>
+                                    </StackPanel>
                                 </Grid>
+                            </Border>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <local:SaturationStageView x:Name="HistorySaturationStage" Visibility="{Binding IsResults, Converter={StaticResource BoolToVisConverter}}"/>
+                                <StackPanel Grid.Column="1" Width="200" Margin="10,0,0,0" Visibility="{Binding IsResults, Converter={StaticResource BoolToVisConverter}}">
+                                    <TextBlock Text="{Binding ResultTitle}" Foreground="#AA4400" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                                    <Button Content="PDF REPORT" Command="{Binding ExportPdfCommand}" Margin="0,0,0,6"/>
+                                    <Button Content="CSV BUNDLE" Command="{Binding ExportCsvCommand}" Margin="0,0,0,6"/>
+                                    <Button Content="JSON" Command="{Binding ExportJsonCommand}" Margin="0,0,0,6"/>
+                                    <TextBlock Text="{Binding ExportStatus}" Foreground="#FF8800" FontSize="11" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <TextBlock Grid.ColumnSpan="2" Foreground="#AA4400" FontStyle="Italic" Margin="6" TextWrapping="Wrap"
+                                           Text="Select a past test and press 'Open results' to see its targets, timeline, events and exports here. New tests are started in LIVE SURVEY → SATURATION TEST.">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsResults}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </Grid>
                         </Grid>
-                    </Border>
-                </Grid>
+                    </TabItem>
+                    <TabItem Header="CONNECTION TESTS" AutomationProperties.Name="Connection test history">
+                        <Grid Margin="0,12,0,0" DataContext="{Binding Connection}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="#000000" BorderBrush="#883300" BorderThickness="1" CornerRadius="8" Padding="10">
+                                <StackPanel>
+                                    <DataGrid ItemsSource="{Binding History}" SelectedItem="{Binding SelectedHistory}" AutoGenerateColumns="False" IsReadOnly="True" Height="190"
+                                              HeadersVisibility="Column" AutomationProperties.Name="Connection test history list">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="STARTED (UTC)" Binding="{Binding StartUtc, StringFormat=yyyy-MM-dd HH:mm}" Width="130"/>
+                                            <DataGridTextColumn Header="NAME" Binding="{Binding Config.Name}" Width="*"/>
+                                            <DataGridTextColumn Header="NETWORK" Binding="{Binding Config.ContextAtStart.Ssid}" Width="130"/>
+                                            <DataGridTextColumn Header="LOCATION" Binding="{Binding Config.Location}" Width="150"/>
+                                            <DataGridTextColumn Header="GEO" Binding="{Binding Config.Geo.CoordinatesText}" Width="170"/>
+                                            <DataGridTextColumn Header="PROBES" Binding="{Binding ProbeCount}" Width="70"/>
+                                            <DataGridTextColumn Header="STATUS" Binding="{Binding Status}" Width="90"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                        <Button Content="OPEN RESULTS" Command="{Binding OpenHistoryCommand}" Padding="12,5" Margin="0,0,8,0" AutomationProperties.Name="Open connection test results"/>
+                                        <Button Content="REFRESH" Command="{Binding RefreshHistoryCommand}" Padding="12,5" Margin="0,0,8,0"/>
+                                        <Button Content="DELETE…" Command="{Binding DeleteHistoryCommand}" Padding="12,5" AutomationProperties.Name="Delete connection test"/>
+                                        <TextBlock Text="{Binding HistoryStatus}" Foreground="#FAB219" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <local:ConnectionStageView Grid.Row="1" x:Name="HistoryConnectionStage" Margin="0,10,0,0"
+                                                       Visibility="{Binding IsResults, Converter={StaticResource BoolToVisConverter}}"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </TabItem>
+
         </TabControl>
 
         <!-- STATUS BAR -->
@@ -1181,7 +1333,11 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="{Binding StatusText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding StatusText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" />
+                    <TextBlock Text="   |   " Foreground="#552200" FontSize="11" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding LastCycleText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" ToolTip="Status of the most recent Windows scan cycle (FRESH = confirmed new scan)" />
+                </StackPanel>
                 <TextBlock Grid.Column="1" Text="{Binding DatabaseSizeText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" />
             </Grid>
         </Border>

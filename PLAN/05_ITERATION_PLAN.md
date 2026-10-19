@@ -1,3 +1,5 @@
+> **HISTORICAL BASELINE (May 2026).** This planning document is kept unchanged as the original design record. Current behaviour: [docs/STATUS.md](../docs/STATUS.md), [docs/USER_GUIDE.md](../docs/USER_GUIDE.md), [docs/TECHNICAL_REFERENCE.md](../docs/TECHNICAL_REFERENCE.md). Where this plan and the code differ, the code and STATUS.md are authoritative (docs/PROJECT_CONVENTIONS.md §2).
+
 # WirelessScanner — Iteration Plan
 
 > **Version:** 1.0  

@@ -1,0 +1,6 @@
+Test run for C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows\WirelessScanner.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Skipped ScanAsync_OnRealAdapter_ReportsCycleStatusesAndBeaconAges [13 ms]
+  Skipped RealAdapter_SaturationTest_ProducesCompleteReport [< 1 ms]
+
+Passed!  - Failed:     0, Passed:    83, Skipped:     0, Total:    83, Duration: 53 s - WirelessScanner.Tests.dll (net10.0)

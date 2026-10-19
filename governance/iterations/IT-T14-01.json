@@ -1,0 +1,124 @@
+{
+  "id": "IT-T14-01",
+  "task_ids": [
+    "T14"
+  ],
+  "finding_ids": [
+    "F19"
+  ],
+  "scope": "network selection UX",
+  "state": "completed",
+  "started_at": "2026-10-16T14:39:00+00:00",
+  "finished_at": "2026-10-16T15:24:58+00:00",
+  "hypothesis": {
+    "claim": "A grouped explorer over one NetworkSelection (whole SSIDs follow new APs, fixed BSSIDs) replaces both 1.1 selection UIs without losing any capability",
+    "disconfirming_result": "A 1.1 selection behaviour (filtering of graph/grid/log/capture, hidden-SSID rule, SSID vs AP semantics) cannot be expressed, or refresh loses selection/expansion with 100+ APs",
+    "prior_lessons": [
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Grouped tree + shared selection",
+      "Restyle the flat list"
+    ],
+    "chosen": "Grouped tree + shared selection",
+    "why": "DR-0010; one rule set for live, capture and test",
+    "rejected": [
+      "Restyle only (keeps two selection models)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-DESIGN-REDESIGN"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Application/NetworkSelection.cs",
+      "engine_sha256": "WirelessScanner.Presentation/NetworkExplorerViewModel.cs",
+      "context_sha256": "docs/decisions/DR-0010-network-explorer-and-spectrum.md",
+      "test_sha256": "WirelessScanner.Tests/RedesignTests.cs"
+    }
+  },
+  "change": {
+    "summary": "NetworkSelection (tri-state, lock, DeriveScope incl. Mixed, focus order), NetworkExplorerViewModel (reconcile in place, filters, search, sort, sparklines), NetworkExplorerView + HudTheme, legacy IsSsidView/item-check bridge",
+    "artifact_evidence_ids": [
+      "EV-T13-T16-CHANGE"
+    ],
+    "scope_authority": "Owner approval 2026-10-16; DR-0010"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj --no-build",
+      "LiveSurveyRenderTests (UI-RENDER-REDESIGN-2)"
+    ],
+    "positive": [
+      "NetworkSelectionTests",
+      "NetworkExplorerTests",
+      "LegacyBridges_StillFilterLiveViewAndCapture"
+    ],
+    "negative": [
+      "Hidden SSID group refused",
+      "Locked selection refuses changes",
+      "Stale entries do not extend sparklines"
+    ],
+    "regression": [
+      "1.1 filtering tests",
+      "Full suite"
+    ],
+    "result_evidence_ids": [
+      "EV-T13-T17-TEST",
+      "EV-T14-T16-UI",
+      "EV-T14-T16-UI-RUN"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Reconcile-in-place keeps state over 120 APs"
+    ],
+    "what_failed": [
+      "AP rows truncated BSSIDs in the first render -> columns tightened"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "No usability study"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-16-LIVE-SURVEY-REDESIGN"
+    ],
+    "transferable_rule": "When merging two UIs, unify the model first and bridge the old API, then replace views",
+    "applicability_limits": "WPF MVVM"
+  },
+  "next_action": {
+    "action": "Usability walkthrough",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner availability"
+  }
+}

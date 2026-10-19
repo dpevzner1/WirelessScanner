@@ -1,0 +1,129 @@
+{
+  "id": "IT-T16-01",
+  "task_ids": [
+    "T16"
+  ],
+  "finding_ids": [
+    "F19"
+  ],
+  "scope": "saturation test in Live Survey",
+  "state": "completed",
+  "started_at": "2026-10-16T14:39:00+00:00",
+  "finished_at": "2026-10-16T15:24:58+00:00",
+  "hypothesis": {
+    "claim": "The saturation test can live in Live Survey (mode bar, drawer, centre stage, History sub-tab) with selection-derived scope incl. Mixed and a lock, keeping every 1.1 saturation capability",
+    "disconfirming_result": "Any S1-S18 parity row cannot be proven, or a running test can change scope",
+    "prior_lessons": [
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Mode + drawer + stage",
+      "Keep separate tab with shared selection"
+    ],
+    "chosen": "Mode + drawer + stage",
+    "why": "Owner Q1 (merge tab); one place to choose networks",
+    "rejected": [
+      "Separate tab (owner: too confusing)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-DESIGN-REDESIGN"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Presentation/SaturationTestViewModel.cs",
+      "engine_sha256": "WirelessScanner.Presentation/MainWindow.xaml",
+      "context_sha256": "docs/PARITY_CHECKLIST.md",
+      "test_sha256": "WirelessScanner.Tests/LiveSurveyTests.cs"
+    }
+  },
+  "change": {
+    "summary": "Mixed scope in tracker/analyzer; SaturationTestViewModel attached mode (derived scope, confirm empty, lock/unlock, history guard); AttachSaturation; mode bar, capture drawer (+RESUME), saturation drawer/stage, History SATURATION TESTS sub-tab; SATURATION TEST tab removed; PAUSED header fix",
+    "artifact_evidence_ids": [
+      "EV-T13-T16-CHANGE"
+    ],
+    "scope_authority": "Owner approval 2026-10-16 (Q1, Q2); DR-0011"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj --no-build",
+      "LiveSurveyRenderTests"
+    ],
+    "positive": [
+      "AttachedTest_ScopeComesFromSharedSelection_IncludingMixed",
+      "RunningTest_LocksSelection_DrivesModeAndCentreView_AndCaptureKeepsWorking",
+      "SaturationHistory_OpenDeleteRefresh_AndOpenRefusedWhileATestRuns",
+      "MixedScope_..."
+    ],
+    "negative": [
+      "EmptySelection_AsksBeforeTestingEverything_AndDeclineDoesNotStart",
+      "Open refused while running",
+      "Delete declined keeps record"
+    ],
+    "regression": [
+      "SaturationViewModelTests (standalone mode)",
+      "UiRenderTests",
+      "ExistingScopes_ProduceIdenticalReports_AfterMixedSupport"
+    ],
+    "result_evidence_ids": [
+      "EV-T13-T17-TEST",
+      "EV-T14-T16-UI",
+      "EV-T14-T16-UI-RUN"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Parity rows forced 3 missing tests to be written"
+    ],
+    "what_failed": [
+      "Results tables crushed beside the drawer in the first render -> stacked layout",
+      "1.1 PAUSED header defect found by rendering"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "No real-network trial of the merged flow yet"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [
+      "IT-T06-01"
+    ],
+    "reuse_applied": "Analyzer, runner, exports and repository from IT-T06 reused unchanged except Mixed",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-16-LIVE-SURVEY-REDESIGN"
+    ],
+    "transferable_rule": "Write the parity inventory before moving UI; prove each row with an existing test or render",
+    "applicability_limits": "UI consolidations"
+  },
+  "next_action": {
+    "action": "Owner trial; then approve 1.2 release build",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner availability"
+  }
+}

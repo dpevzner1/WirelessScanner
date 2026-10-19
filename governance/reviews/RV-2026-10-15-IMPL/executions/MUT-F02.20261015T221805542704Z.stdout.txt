@@ -1,0 +1,36 @@
+Test run for C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows\WirelessScanner.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Failed SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey [101 ms]
+  Error Message:
+   Multiple failures or warnings in test:
+  1)   Assert.That(repo.FkViolations, Is.EqualTo(0))
+  Expected: 0
+  But was:  20
+
+  2)   Assert.That(repo.Samples, Has.Count.EqualTo(20))
+  Expected: property Count equal to 20
+  But was:  0
+
+
+  Stack Trace:
+     at WirelessScanner.Tests.OrderedPersistenceTests.SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\CoreFixTests.cs:line 173
+   at NUnit.Framework.Internal.TaskAwaitAdapter.GenericAdapter`1.BlockUntilCompleted()
+   at NUnit.Framework.Internal.MessagePumpStrategy.NoMessagePumpStrategy.WaitForCompletion(AwaitAdapter awaiter)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await[TResult](TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.AsyncToSyncAdapter.Await(TestExecutionContext context, Func`1 invoke)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.RunTestMethod(TestExecutionContext context)
+   at NUnit.Framework.Internal.Commands.TestMethodCommand.Execute(TestExecutionContext context)
+   at NUnit.Framework.Internal.Execution.SimpleWorkItem.<>c__DisplayClass3_0.<PerformWork>b__0()
+   at NUnit.Framework.Internal.ContextUtils.<>c__DisplayClass1_0`1.<DoIsolated>b__0(Object _)
+
+1)    at WirelessScanner.Tests.OrderedPersistenceTests.<>c__DisplayClass3_0.<SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey>b__0() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\CoreFixTests.cs:line 175
+   at NUnit.Framework.Assert.Multiple(TestDelegate testDelegate)
+   at WirelessScanner.Tests.OrderedPersistenceTests.SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\CoreFixTests.cs:line 173
+
+2)    at WirelessScanner.Tests.OrderedPersistenceTests.<>c__DisplayClass3_0.<SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey>b__0() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\CoreFixTests.cs:line 176
+   at NUnit.Framework.Assert.Multiple(TestDelegate testDelegate)
+   at WirelessScanner.Tests.OrderedPersistenceTests.SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\CoreFixTests.cs:line 173
+
+
+
+Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 101 ms - WirelessScanner.Tests.dll (net10.0)

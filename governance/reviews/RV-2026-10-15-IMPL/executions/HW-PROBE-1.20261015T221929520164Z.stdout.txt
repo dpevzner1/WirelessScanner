@@ -1,0 +1,19 @@
+Test run for C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows\WirelessScanner.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows\WirelessScanner.Tests.dll
+NUnit Adapter 5.0.0.0: Test execution started
+Running selected tests in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows\WirelessScanner.Tests.dll
+   NUnit3TestExecutor discovered 1 of 1 NUnit test cases using Current Discovery mode, Explicit run
+HARDWARE_PROBE_JSON {"adapter":"Intel(R) Dual Band Wireless-AC 7265","cycles":[{"cycle":1,"status":"Fresh","durationMs":1093,"aps":32,"beaconAgeKnown":32,"beaconAgeMedianMs":757,"beaconAgeMaxMs":42579,"ErrorCode":null,"ErrorMessage":null,"bands":{"2.4 GHz":17,"5 GHz":15},"widthsKnown":32,"security":{"WPA2-Personal":20,"WPA2-Enterprise":6,"WPA2/WPA3-Personal":4,"Open":2}},{"cycle":2,"status":"Fresh","durationMs":1228,"aps":26,"beaconAgeKnown":26,"beaconAgeMedianMs":841,"beaconAgeMaxMs":5071,"ErrorCode":null,"ErrorMessage":null,"bands":{"2.4 GHz":15,"5 GHz":11},"widthsKnown":26,"security":{"WPA2-Personal":18,"WPA2/WPA3-Personal":4,"Open":2,"WPA2-Enterprise":2}},{"cycle":3,"status":"Fresh","durationMs":1024,"aps":23,"beaconAgeKnown":23,"beaconAgeMedianMs":641,"beaconAgeMaxMs":4912,"ErrorCode":null,"ErrorMessage":null,"bands":{"2.4 GHz":15,"5 GHz":8},"widthsKnown":23,"security":{"WPA2-Personal":16,"WPA2/WPA3-Personal":2,"WPA2-Enterprise":4,"Open":1}},{"cycle":4,"status":"Fresh","durationMs":3507,"aps":20,"beaconAgeKnown":20,"beaconAgeMedianMs":3447,"beaconAgeMaxMs":7310,"ErrorCode":null,"ErrorMessage":null,"bands":{"5 GHz":8,"2.4 GHz":12},"widthsKnown":20,"security":{"WPA2-Personal":13,"WPA2/WPA3-Personal":3,"WPA2-Enterprise":3,"Open":1}}],"bssidsSeen":37,"bssidsWithRssiChangeAcrossCycles":15}
+
+NUnit Adapter 5.0.0.0: Test execution complete
+  Passed ScanAsync_OnRealAdapter_ReportsCycleStatusesAndBeaconAges [19 s]
+  Standard Output Messages:
+ HARDWARE_PROBE_JSON {"adapter":"Intel(R) Dual Band Wireless-AC 7265","cycles":[{"cycle":1,"status":"Fresh","durationMs":1093,"aps":32,"beaconAgeKnown":32,"beaconAgeMedianMs":757,"beaconAgeMaxMs":42579,"ErrorCode":null,"ErrorMessage":null,"bands":{"2.4 GHz":17,"5 GHz":15},"widthsKnown":32,"security":{"WPA2-Personal":20,"WPA2-Enterprise":6,"WPA2/WPA3-Personal":4,"Open":2}},{"cycle":2,"status":"Fresh","durationMs":1228,"aps":26,"beaconAgeKnown":26,"beaconAgeMedianMs":841,"beaconAgeMaxMs":5071,"ErrorCode":null,"ErrorMessage":null,"bands":{"2.4 GHz":15,"5 GHz":11},"widthsKnown":26,"security":{"WPA2-Personal":18,"WPA2/WPA3-Personal":4,"Open":2,"WPA2-Enterprise":2}},{"cycle":3,"status":"Fresh","durationMs":1024,"aps":23,"beaconAgeKnown":23,"beaconAgeMedianMs":641,"beaconAgeMaxMs":4912,"ErrorCode":null,"ErrorMessage":null,"bands":{"2.4 GHz":15,"5 GHz":8},"widthsKnown":23,"security":{"WPA2-Personal":16,"WPA2/WPA3-Personal":2,"WPA2-Enterprise":4,"Open":1}},{"cycle":4,"status":"Fresh","durationMs":3507,"aps":20,"beaconAgeKnown":20,"beaconAgeMedianMs":3447,"beaconAgeMaxMs":7310,"ErrorCode":null,"ErrorMessage":null,"bands":{"5 GHz":8,"2.4 GHz":12},"widthsKnown":20,"security":{"WPA2-Personal":13,"WPA2/WPA3-Personal":3,"WPA2-Enterprise":3,"Open":1}}],"bssidsSeen":37,"bssidsWithRssiChangeAcrossCycles":15}
+
+
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 22.7375 Seconds

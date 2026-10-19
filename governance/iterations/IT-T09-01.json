@@ -1,0 +1,126 @@
+{
+  "id": "IT-T09-01",
+  "task_ids": [
+    "T09"
+  ],
+  "finding_ids": [
+    "F06"
+  ],
+  "scope": "installer lifecycle",
+  "state": "completed",
+  "started_at": "2026-10-15T23:15:00+00:00",
+  "finished_at": "2026-10-15T23:40:00+00:00",
+  "hypothesis": {
+    "claim": "A tested netstandard core plus a net48 wizard delivers update/repair/downgrade/modify/uninstall with data retention, integrity checks and no prerequisites",
+    "disconfirming_result": "Core tests fail on stale removal, zip-slip, integrity or data preservation; release pipeline cannot produce <=20 MB parts",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [
+      "net48 wizard + tested core",
+      "Self-contained .NET setup",
+      "MSI/MSIX"
+    ],
+    "chosen": "net48 wizard + tested core",
+    "why": "No prerequisite, small, testable logic",
+    "rejected": [
+      "Self-contained setup (~70 MB extra)",
+      "MSI/MSIX (signing/toolchain decisions deferred)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Setup/Program.cs",
+      "engine_sha256": "WirelessScanner.Setup.Core/InstallerCore.cs",
+      "context_sha256": "docs/decisions/DR-0007-installer-lifecycle.md",
+      "test_sha256": "WirelessScanner.Tests/InstallerCoreTests.cs"
+    }
+  },
+  "change": {
+    "summary": "Setup.Core (VersionPolicy, PayloadAssembler, PackageExtractor+manifest, DataSafety, ShortcutPlanner, InstallPaths); net48 wizard with maintenance modes; build_release.py; LiveCharts and PDB removal",
+    "artifact_evidence_ids": [
+      "EV-T06-T12-CHANGE"
+    ],
+    "scope_authority": "Owner request 2026-10-15; DR-0007"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests --no-build --filter InstallerCoreTests",
+      "python tools/build_release.py --skip-tests"
+    ],
+    "positive": [
+      "Upgrade removes stale files",
+      "Payload verifies"
+    ],
+    "negative": [
+      "Corrupt/missing part rejected",
+      "Zip-slip entry skipped",
+      "Unmanaged files untouched",
+      "Dangerous folders rejected"
+    ],
+    "regression": [
+      "Full suite 108/108"
+    ],
+    "result_evidence_ids": [
+      "EV-T06T09-TEST",
+      "EV-T09-RELEASE"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Core extraction made logic testable",
+      "Release size regression caught by summary"
+    ],
+    "what_failed": [
+      "Text/Form.Text name clash",
+      "System.Text.Json dependency bloat",
+      "Test split bug",
+      "84 MB PDB in first payload"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Installer never executed end-to-end"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": "RELEASE-1 is the second release build after removing LiveCharts/PDB (changed inputs)"
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ],
+    "transferable_rule": "Keep installer decisions in a testable library; verify payload integrity; never delete what you did not install",
+    "applicability_limits": "Custom WinForms installers"
+  },
+  "next_action": {
+    "action": "Owner-approved VM run of the installer checklist",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Approval and a test VM"
+  }
+}

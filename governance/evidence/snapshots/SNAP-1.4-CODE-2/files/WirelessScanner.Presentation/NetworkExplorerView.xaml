@@ -1,0 +1,354 @@
+<UserControl x:Class="WirelessScanner.Presentation.NetworkExplorerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WirelessScanner.Presentation"
+             AutomationProperties.Name="Network explorer">
+    <!-- Grouped network explorer (DR-0010). DataContext = MainWindowViewModel; the tree binds to its Explorer.
+         Replaces the flat SSID/AP list: one selection model for live view, capture and saturation test. -->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/HudTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Border Style="{StaticResource HudPanel}" Padding="12">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- adapter -->
+                <RowDefinition Height="Auto"/> <!-- adapter details -->
+                <RowDefinition Height="Auto"/> <!-- search + sort -->
+                <RowDefinition Height="Auto"/> <!-- chips -->
+                <RowDefinition Height="Auto"/> <!-- counts -->
+                <RowDefinition Height="*"/>    <!-- tree -->
+                <RowDefinition Height="Auto"/> <!-- scope + actions -->
+            </Grid.RowDefinitions>
+
+            <!-- ADAPTER -->
+            <Grid Margin="0,0,0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="ADAPTER" Style="{StaticResource HudTitle}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox Grid.Column="1" ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" AutomationProperties.Name="Wi-Fi adapter"
+                          ToolTip="Wi-Fi adapter used for scanning, capture and saturation tests">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,2">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="#FF6600" FontSize="12"/>
+                                <TextBlock Text="{Binding Description}" Foreground="#FFAA33" FontSize="10"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
+            <Expander Grid.Row="1" Header="Adapter details" Foreground="#AA4400" FontSize="11" Margin="0,0,0,8" AutomationProperties.Name="Adapter details">
+                <Border Background="#0A0400" BorderBrush="#331800" BorderThickness="1" CornerRadius="6" Padding="8" Margin="0,4,0,0">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,3">
+                            <TextBlock Text="Adapter class:" Foreground="#883300"/>
+                            <TextBlock Text="{Binding SelectedAdapter.DeviceType}" HorizontalAlignment="Right" Foreground="#FF8800"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,3">
+                            <TextBlock Text="Link status:" Foreground="#883300"/>
+                            <TextBlock Text="Active" HorizontalAlignment="Right" Foreground="#FF8800"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,3">
+                            <TextBlock Text="PNPID:" Foreground="#883300"/>
+                            <TextBlock Text="{Binding SelectedAdapter.PnpDeviceId}" HorizontalAlignment="Right" MaxWidth="230" TextTrimming="CharacterEllipsis" Foreground="#FF8800"
+                                       ToolTip="{Binding SelectedAdapter.PnpDeviceId}"/>
+                        </Grid>
+                        <TextBlock Text="{Binding SelectedAdapter.DetailsText}" Foreground="#AA4400" FontFamily="Consolas" FontSize="10" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+            </Expander>
+
+            <!-- SEARCH + SORT -->
+            <Grid Grid.Row="2" Margin="0,0,0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <TextBox x:Name="SearchBox" Text="{Binding Explorer.SearchText, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Search networks"
+                             ToolTip="Filter by SSID, BSSID or vendor"/>
+                    <TextBlock Text="⌕  Search SSID, BSSID, vendor" Foreground="#663300" IsHitTestVisible="False" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <ComboBox Grid.Column="1" Width="96" Margin="6,0,0,0" ItemsSource="{Binding Explorer.SortOptions}" SelectedItem="{Binding Explorer.Sort}"
+                          AutomationProperties.Name="Sort networks by" ToolTip="Sort networks by signal, name or channel"/>
+            </Grid>
+
+            <!-- CHIPS -->
+            <WrapPanel Grid.Row="3" Margin="0,0,0,2">
+                <ToggleButton Style="{StaticResource HudChip}" Content="2.4 GHz" IsChecked="{Binding Explorer.Filter24}" AutomationProperties.Name="Show 2.4 gigahertz"/>
+                <ToggleButton Style="{StaticResource HudChip}" Content="5 GHz" IsChecked="{Binding Explorer.Filter5}" AutomationProperties.Name="Show 5 gigahertz"/>
+                <ToggleButton Style="{StaticResource HudChip}" Content="6 GHz" IsChecked="{Binding Explorer.Filter6}" AutomationProperties.Name="Show 6 gigahertz"/>
+                <ToggleButton Style="{StaticResource HudChip}" Content="≥ −70 dBm" IsChecked="{Binding Explorer.FilterFairOrBetter}" ToolTip="Only fair or better signal"/>
+                <ToggleButton Style="{StaticResource HudChip}" Content="Secured" IsChecked="{Binding Explorer.FilterSecured}" ToolTip="Hide open networks"/>
+                <ToggleButton Style="{StaticResource HudChip}" Content="Selected" IsChecked="{Binding Explorer.FilterSelectedOnly}" ToolTip="Only what is selected"/>
+            </WrapPanel>
+
+            <!-- counts + grouping (DR-0013: by network name or by physical access point) -->
+            <Grid Grid.Row="4" Margin="0,0,0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Explorer.CountText}" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                <TextBlock Grid.Column="1" Text="GROUP BY" Foreground="#883300" FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Margin="6,0,6,0"/>
+                <ComboBox Grid.Column="2" Width="112" SelectedIndex="{Binding Explorer.GroupingIndex}" AutomationProperties.Name="Group networks by"
+                          ToolTip="Network: one row per SSID. Access point: one row per physical router/AP (inferred), with every SSID and radio it broadcasts.">
+                    <ComboBoxItem Content="Network"/>
+                    <ComboBoxItem Content="Access point"/>
+                </ComboBox>
+            </Grid>
+
+            <!-- TREE -->
+            <Grid Grid.Row="5">
+                <ScrollViewer x:Name="TreeScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+                              Visibility="{Binding Explorer.IsNetworkView, Converter={StaticResource HudVis}}">
+                    <ItemsControl ItemsSource="{Binding Explorer.Groups}" AutomationProperties.Name="Networks" Focusable="False">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type local:NetworkGroupItem}">
+                                <Border Margin="0,0,0,4" CornerRadius="6" BorderThickness="1" Padding="6,5">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="BorderBrush" Value="#2A1400"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelectedAny}" Value="True">
+                                                    <Setter Property="BorderBrush" Value="#883300"/>
+                                                    <Setter Property="Background" Value="#0F0600"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <StackPanel>
+                                        <!-- group row -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/> <!-- caret -->
+                                                <ColumnDefinition Width="Auto"/> <!-- check -->
+                                                <ColumnDefinition Width="Auto"/> <!-- swatch -->
+                                                <ColumnDefinition Width="*"/>    <!-- name -->
+                                                <ColumnDefinition Width="Auto"/> <!-- signal -->
+                                            </Grid.ColumnDefinitions>
+                                            <Button Style="{StaticResource HudFlatButton}" Content="{Binding CaretGlyph}" Width="18" FontSize="13"
+                                                    Command="{Binding DataContext.Explorer.ToggleExpandCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                    AutomationProperties.Name="Show or hide access points" ToolTip="Show / hide access points"/>
+                                            <Button Grid.Column="1" Style="{StaticResource HudCheckBox}" Content="{Binding CheckGlyph}" IsEnabled="{Binding CanToggle}" Margin="2,0,8,0"
+                                                    Command="{Binding DataContext.Explorer.ToggleGroupCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                    ToolTip="{Binding CheckToolTip}" ToolTipService.ShowOnDisabled="True" AutomationProperties.Name="{Binding DisplayName, StringFormat=Select network {0}}"/>
+                                            <Rectangle Grid.Column="2" Width="4" Height="26" RadiusX="2" RadiusY="2" Margin="0,0,8,0" VerticalAlignment="Center"
+                                                       Fill="{Binding SwatchBrush}" Visibility="{Binding HasSwatch, Converter={StaticResource HudVis}}"/>
+                                            <StackPanel Grid.Column="3">
+                                                <TextBlock Text="{Binding DisplayName}" FontWeight="Bold" Foreground="#FF8800" FontSize="13" TextTrimming="CharacterEllipsis">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsHidden}" Value="True">
+                                                                    <Setter Property="FontStyle" Value="Italic"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding SubText}" Foreground="#AA4400" FontSize="10.5" TextTrimming="CharacterEllipsis" ToolTip="{Binding SubText}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="4" Margin="6,0,0,0" HorizontalAlignment="Right">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                    <TextBlock Text="{Binding BarsOn}" Foreground="{Binding TierBrush}" FontSize="12"/>
+                                                    <TextBlock Text="{Binding BarsOff}" Foreground="#3A2A1A" FontSize="12"/>
+                                                    <TextBlock Text="{Binding RssiText}" Foreground="#FF8800" FontSize="11" FontWeight="SemiBold" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding TierText}" Foreground="#AA4400" FontSize="9.5" HorizontalAlignment="Right"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <!-- AP rows -->
+                                        <ItemsControl ItemsSource="{Binding Aps}" Margin="20,4,0,0" Visibility="{Binding IsExpanded, Converter={StaticResource HudVis}}" Focusable="False">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type local:NetworkApItem}">
+                                                    <Grid Margin="0,2" ToolTip="{Binding ToolTipText}" Background="Transparent">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="44"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button Style="{StaticResource HudCheckBox}" Width="17" Height="17" FontSize="11" Content="{Binding CheckGlyph}" IsEnabled="{Binding CanToggle}" Margin="0,0,6,0"
+                                                                Command="{Binding DataContext.Explorer.ToggleApCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                                AutomationProperties.Name="{Binding Bssid, StringFormat=Select access point {0}}"/>
+                                                        <StackPanel Grid.Column="1">
+                                                            <TextBlock Text="{Binding Bssid}" Foreground="#FF8800" FontFamily="Consolas" FontSize="11"/>
+                                                            <TextBlock Text="{Binding DetailText}" Foreground="#AA4400" FontSize="10"/>
+                                                        </StackPanel>
+                                                        <!-- 12-scan sparkline -->
+                                                        <Viewbox Grid.Column="2" Width="42" Height="16" Stretch="Fill" VerticalAlignment="Center" ToolTip="Signal over the last 12 scans">
+                                                            <Polyline Points="{Binding SparkPoints}" Stroke="{Binding SparkBrush}" StrokeThickness="1.5" Width="56" Height="18" StrokeLineJoin="Round"/>
+                                                        </Viewbox>
+                                                        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="4,0,0,0">
+                                                            <TextBlock Text="{Binding BarsOn}" Foreground="{Binding TierBrush}" FontSize="10"/>
+                                                            <TextBlock Text="{Binding BarsOff}" Foreground="#3A2A1A" FontSize="10"/>
+                                                            <TextBlock Text="{Binding RssiText}" Foreground="#FF8800" FontSize="10.5" Margin="4,0,0,0" Width="44"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <!-- ACCESS-POINT (HARDWARE) VIEW, DR-0013: one row per inferred physical unit -->
+                <ScrollViewer x:Name="UnitScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False"
+                              Visibility="{Binding Explorer.IsUnitView, Converter={StaticResource HudVis}}">
+                    <ItemsControl ItemsSource="{Binding Explorer.UnitGroups}" AutomationProperties.Name="Access points (hardware)" Focusable="False">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type local:UnitGroupItem}">
+                                <Border Margin="0,0,0,4" CornerRadius="6" BorderThickness="1" Padding="6,5">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="BorderBrush" Value="#2A1400"/>
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelectedAny}" Value="True">
+                                                    <Setter Property="BorderBrush" Value="#883300"/>
+                                                    <Setter Property="Background" Value="#0F0600"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <StackPanel>
+                                        <Grid Background="Transparent" Tag="{Binding}" ContextMenuOpening="UnitRow_ContextMenuOpening" ToolTip="{Binding EvidenceText}">
+                                            <Grid.ContextMenu>
+                                                <ContextMenu/>
+                                            </Grid.ContextMenu>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Style="{StaticResource HudFlatButton}" Content="{Binding CaretGlyph}" Width="18" FontSize="13"
+                                                    Command="{Binding DataContext.Explorer.ToggleUnitExpandCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                    AutomationProperties.Name="Show or hide the SSIDs of this access point" ToolTip="Show / hide SSIDs and BSSIDs"/>
+                                            <Button Grid.Column="1" Style="{StaticResource HudCheckBox}" Content="{Binding CheckGlyph}" IsEnabled="{Binding CanToggle}" Margin="2,0,8,0"
+                                                    Command="{Binding DataContext.Explorer.ToggleUnitCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                    ToolTip="{Binding CheckToolTip}" ToolTipService.ShowOnDisabled="True" AutomationProperties.Name="{Binding Name, StringFormat=Select access point {0}}"/>
+                                            <StackPanel Grid.Column="2">
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="#FF8800" FontSize="13" TextTrimming="CharacterEllipsis"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border BorderBrush="{Binding ConfidenceBrush}" BorderThickness="1" CornerRadius="3" Padding="3,0" Margin="0,1,5,0" VerticalAlignment="Center"
+                                                            AutomationProperties.Name="{Binding ConfidenceText, StringFormat=Grouping confidence {0}}">
+                                                        <TextBlock Text="{Binding ConfidenceText}" Foreground="{Binding ConfidenceBrush}" FontSize="8.5" FontWeight="Bold"/>
+                                                    </Border>
+                                                    <TextBlock Text="{Binding SubText}" Foreground="#AA4400" FontSize="10.5" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding MeshText}" Foreground="#C2B5A3" FontSize="10" TextWrapping="Wrap"
+                                                           Visibility="{Binding IsMeshCandidate, Converter={StaticResource HudVis}}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="3" Margin="6,0,0,0" HorizontalAlignment="Right">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                    <TextBlock Text="{Binding BarsOn}" Foreground="{Binding TierBrush}" FontSize="12"/>
+                                                    <TextBlock Text="{Binding BarsOff}" Foreground="#3A2A1A" FontSize="12"/>
+                                                    <TextBlock Text="{Binding RssiText}" Foreground="#FF8800" FontSize="11" FontWeight="SemiBold" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding TierText}" Foreground="#AA4400" FontSize="9.5" HorizontalAlignment="Right"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <ItemsControl ItemsSource="{Binding Aps}" Margin="20,4,0,0" Visibility="{Binding IsExpanded, Converter={StaticResource HudVis}}" Focusable="False">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type local:NetworkApItem}">
+                                                    <Grid Margin="0,2" ToolTip="{Binding ToolTipText}" Background="Transparent" Tag="{Binding}" ContextMenuOpening="UnitMember_ContextMenuOpening">
+                                                        <Grid.ContextMenu>
+                                                            <ContextMenu/>
+                                                        </Grid.ContextMenu>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="44"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Button Style="{StaticResource HudCheckBox}" Width="17" Height="17" FontSize="11" Content="{Binding CheckGlyph}" IsEnabled="{Binding CanToggle}" Margin="0,0,6,0"
+                                                                Command="{Binding DataContext.Explorer.ToggleApCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"
+                                                                AutomationProperties.Name="{Binding Bssid, StringFormat=Select access point {0}}"/>
+                                                        <StackPanel Grid.Column="1">
+                                                            <TextBlock Text="{Binding DisplaySsid}" Foreground="#FF8800" FontSize="11.5" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Foreground="#AA4400" FontSize="10">
+                                                                <Run Text="{Binding Bssid, Mode=OneWay}" FontFamily="Consolas"/><Run Text=" · "/><Run Text="{Binding DetailText, Mode=OneWay}"/>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                        <Viewbox Grid.Column="2" Width="42" Height="16" Stretch="Fill" VerticalAlignment="Center" ToolTip="Signal over the last 12 scans">
+                                                            <Polyline Points="{Binding SparkPoints}" Stroke="{Binding SparkBrush}" StrokeThickness="1.5" Width="56" Height="18" StrokeLineJoin="Round"/>
+                                                        </Viewbox>
+                                                        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Margin="4,0,0,0">
+                                                            <TextBlock Text="{Binding BarsOn}" Foreground="{Binding TierBrush}" FontSize="10"/>
+                                                            <TextBlock Text="{Binding BarsOff}" Foreground="#3A2A1A" FontSize="10"/>
+                                                            <TextBlock Text="{Binding RssiText}" Foreground="#FF8800" FontSize="10.5" Margin="4,0,0,0" Width="44"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <TextBlock Text="{Binding Explorer.EmptyText}" Style="{StaticResource HudHint}" Margin="6,10" VerticalAlignment="Top"
+                           Visibility="{Binding Explorer.HasEmptyText, Converter={StaticResource HudVis}}"/>
+            </Grid>
+
+            <!-- FOOTER: scope in words + actions -->
+            <StackPanel Grid.Row="6" Margin="0,8,0,0">
+                <Border Background="#0F0600" BorderBrush="#331800" BorderThickness="1" CornerRadius="6" Padding="8,5" Margin="0,0,0,8">
+                    <StackPanel>
+                        <TextBlock Text="SELECTION" Foreground="#883300" FontSize="10" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Explorer.ScopeText}" Foreground="#FF8800" FontSize="11" TextWrapping="Wrap" AutomationProperties.Name="Selection scope"/>
+                    </StackPanel>
+                </Border>
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="6"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Select shown" Command="{Binding Explorer.SelectShownCommand}" Padding="6,5" IsEnabled="{Binding Explorer.IsLocked, Converter={x:Static local:InverseBoolConverter.Instance}}"
+                            ToolTip="Select every network shown (whole SSIDs; hidden networks per access point)"/>
+                    <Button Grid.Column="2" Content="Clear" Command="{Binding Explorer.ClearCommand}" Padding="6,5" IsEnabled="{Binding Explorer.IsLocked, Converter={x:Static local:InverseBoolConverter.Instance}}"
+                            ToolTip="Clear the selection (everything is shown and captured)"/>
+                </Grid>
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="6"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Capture session…" Command="{Binding SetModeCommand}" CommandParameter="Capture" Padding="6,5"
+                            ToolTip="Record the selected networks to a capture session"/>
+                    <Button Grid.Column="2" Content="Saturation test…" Command="{Binding SetModeCommand}" CommandParameter="Saturation" Padding="6,5"
+                            ToolTip="Leave this PC in place and measure peaks, drops and channel changes of the selected networks"/>
+                </Grid>
+                <Button Content="FORCE SCAN" Command="{Binding ScanCommand}" Height="34" ToolTip="Run a fresh scan now" AutomationProperties.Name="Force scan"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

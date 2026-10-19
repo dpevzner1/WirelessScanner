@@ -1,0 +1,186 @@
+{
+  "snapshot_id": "SNAP-1.3-CODE",
+  "captured_at": "2026-10-16T20:08:44.738524+00:00",
+  "files": [
+    {
+      "path": "Directory.Build.props",
+      "sha256": "218158d7c1da8530ae34dbe75f2a990221c377464edf8814a1268a524d3661ac",
+      "bytes": 308
+    },
+    {
+      "path": "WirelessScanner.Domain/ChannelMath.cs",
+      "sha256": "2ba0df5a27ce458327d677c2f416c27cd4c838ed4e76dc014a94e79006e2045c",
+      "bytes": 4059
+    },
+    {
+      "path": "WirelessScanner.Domain/INetworkAdapterProvider.cs",
+      "sha256": "1d8cdeb7280b6cf754ec3eb9a277aed5843c940ce24c091dc09e44b1ee7a77d8",
+      "bytes": 5275
+    },
+    {
+      "path": "WirelessScanner.Domain/Saturation.cs",
+      "sha256": "1f5c0a2733106918a79a8147add6b5c0cf66148882e47645fe94aa5c7f1f1b47",
+      "bytes": 14739
+    },
+    {
+      "path": "WirelessScanner.Application/SaturationAnalyzer.cs",
+      "sha256": "3d0994bf6f93f402b2df1237294f698d9150a48757b6425e7b75221934c5ae5e",
+      "bytes": 28328
+    },
+    {
+      "path": "WirelessScanner.Application/SaturationObservationBuilder.cs",
+      "sha256": "01c983355bd250f4688f8c65ae9db148448622f0824d0b5155b417659b814a5d",
+      "bytes": 6158
+    },
+    {
+      "path": "WirelessScanner.Application/SaturationTestRunner.cs",
+      "sha256": "3ad0eeb46aad0a61305069da09cdc5c82c7977b78003f534dd7c6e83dc82cf4d",
+      "bytes": 12805
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/WlanAdapter.cs",
+      "sha256": "3dd167cc5674cf766cba67f7082ced1bf289df740b36ef7fca1a6aaa87553bf6",
+      "bytes": 41063
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/AccessPointExtensions.cs",
+      "sha256": "60a6765770b1ae3199799713e6190e764b50416c3414f1bda0c19d5d009851ac",
+      "bytes": 416
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SaturationExportService.cs",
+      "sha256": "1f3a71ca9411173b1e9c97265631a6b12abd151f5b3aa229aea102f203db39c2",
+      "bytes": 47715
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SaturationAnalyzerInfo.cs",
+      "sha256": "4b9faa240b678bff408ee1673f384b8fe5f894ffdc22415c4453a60694b64d35",
+      "bytes": 283
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SaturationRepository.cs",
+      "sha256": "ce178226cbb500d9ed596191c7c7c9e4ed66df642bdd6fb052d709a6f65f8542",
+      "bytes": 8588
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/SchemaMigrator.cs",
+      "sha256": "f3b5868d9113f69b63c19e2d1c52c5a7f8e58dfa68dbbc6f4ac8e51a3bc69208",
+      "bytes": 5333
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/WlanDbContext.cs",
+      "sha256": "94b7cbaececa84dd05cd1988f14da1ea6280d0321a9e91cf5a4ae82d622095d2",
+      "bytes": 6747
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/ExportService.cs",
+      "sha256": "3aa2f048486efd2abc1ce145773936b2afc6cd8ddff85840ee8a631f59b35cbc",
+      "bytes": 42102
+    },
+    {
+      "path": "WirelessScanner.Infrastructure/WirelessScanner.Infrastructure.csproj",
+      "sha256": "312c0b8a6046ed4bd6b2f0cd044592e0b6b193986429b9f9a59c45beb050db11",
+      "bytes": 833
+    },
+    {
+      "path": "WirelessScanner.Presentation/MainWindowViewModel.cs",
+      "sha256": "fb368cc3dc7d29260070cab56b729974c0a8b8ed9d74dc09a0c547d0d8ed5a73",
+      "bytes": 71344
+    },
+    {
+      "path": "WirelessScanner.Presentation/SaturationTestViewModel.cs",
+      "sha256": "ab0b7134e9fcdaf9edd5f7a2ca529909460a39702972649066a87a7f8542261e",
+      "bytes": 45887
+    },
+    {
+      "path": "WirelessScanner.Presentation/SpectrumLayout.cs",
+      "sha256": "1609a41db9f45004ed6350a1d1b59b08b97db807776acc4f460dc6ed73ed00c0",
+      "bytes": 4408
+    },
+    {
+      "path": "WirelessScanner.Presentation/MainWindow.xaml",
+      "sha256": "865423037f3b61d2d4dea585ae7c16adb7f19ac1bd542dd348f3cafb331aa3d6",
+      "bytes": 92708
+    },
+    {
+      "path": "WirelessScanner.Presentation/MainWindow.xaml.cs",
+      "sha256": "0674085a3f2c80637a8269cc98dc5c5c7ab8ff2da1166b89af66362cafa177d8",
+      "bytes": 17199
+    },
+    {
+      "path": "WirelessScanner.Presentation/WirelessScanner.Presentation.csproj",
+      "sha256": "1c2eb4b72a22abbc97a5c50eb20d953de63961b4133feafce6073afa269b443b",
+      "bytes": 2474
+    },
+    {
+      "path": "WirelessScanner.Setup.Core/InstallerCore.cs",
+      "sha256": "edb0b0f41dd688993d23d55c098769e06030d7f3383b018d820af239782c02ee",
+      "bytes": 18765
+    },
+    {
+      "path": "WirelessScanner.Setup/Program.cs",
+      "sha256": "ecf5cc4bb175746cd6204e7eded4832428053bd911bade3896f90a63b199cdb9",
+      "bytes": 35182
+    },
+    {
+      "path": "WirelessScanner.Setup/WirelessScanner.Setup.csproj",
+      "sha256": "e27b42acfffdb776f3ca664b47843c5a3d983c1203ad200ea6d6fe7185f7c027",
+      "bytes": 850
+    },
+    {
+      "path": "WirelessScanner.Setup/icon.ico",
+      "sha256": "be39a3af143dd06836378457facdf3d1ee881bb990ce58471ea683584a6bf2b9",
+      "bytes": 60584
+    },
+    {
+      "path": "WirelessScanner.Tests/ReportPrecisionTests.cs",
+      "sha256": "b719067d377778402a6b29a27c49735d4af7a9d56d847e811f605d033c38efd5",
+      "bytes": 24144
+    },
+    {
+      "path": "WirelessScanner.Tests/InstallDetectorTests.cs",
+      "sha256": "4a95efa2103c11991b890cc55f6e4d504bf50c1c47a49ea70854334ad3d8afbf",
+      "bytes": 7311
+    },
+    {
+      "path": "WirelessScanner.Tests/LiveSurveyTests.cs",
+      "sha256": "e70d1c7699f17bc3b649bb1ac52be4b8ea1ad57f9e11bf359efea8f10460338a",
+      "bytes": 23299
+    },
+    {
+      "path": "WirelessScanner.Tests/SaturationTests.cs",
+      "sha256": "569385489a2cc305af9145c5881361ab4e647558dc9b0d743159b27edace1121",
+      "bytes": 28410
+    },
+    {
+      "path": "WirelessScanner.Tests/SaturationViewModelTests.cs",
+      "sha256": "9438702d2c701727aaa9f3f5ec987ae577d85d099c97dd21519301b951b6791d",
+      "bytes": 7441
+    },
+    {
+      "path": "tools/make_icons.py",
+      "sha256": "0084c3f516c90d6a1d27c3a8a16a8953fb5f943134bcbc6c5477924a7d7d22ed",
+      "bytes": 7816
+    },
+    {
+      "path": "tools/api_smoke.py",
+      "sha256": "d1259124903445416a7cedf9884102dd1832511e3666128e1563ed0d5f0563d8",
+      "bytes": 9342
+    },
+    {
+      "path": "tools/build_release.py",
+      "sha256": "72a54388bfae2cb8f9dcb922775275d549eab89930d666431cef491a20c87030",
+      "bytes": 6336
+    },
+    {
+      "path": "tools/sync_github_export.py",
+      "sha256": "a13867e044bdbff8c01eb696792dedff9d589e6cbdb6708c74d8478d27daee3d",
+      "bytes": 6318
+    },
+    {
+      "path": "governance/bootstrap/add_reports_installer_scope_2026-10-16.py",
+      "sha256": "bb5d3caa743fbcec763eb4221313d276b1a768dc0be39b8b646a5e835fb647cb",
+      "bytes": 10648
+    }
+  ]
+}

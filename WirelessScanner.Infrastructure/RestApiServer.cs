@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -22,13 +23,26 @@ public class RestApiServer : IRestApiServer
     private int _port = 5005;
     private string _apiKey = string.Empty;
     private bool _isRunning;
-    
+
     private readonly object _liveLock = new();
     private List<AccessPoint> _liveAccessPoints = new();
 
     public bool IsRunning => _isRunning;
+    public string? LastError { get; private set; }
+    public event Action? StateChanged;
+
+    private void RaiseStateChanged()
+    {
+        try { StateChanged?.Invoke(); } catch (Exception ex) { _logger.Error($"StateChanged handler failed: {ex.Message}", ex); }
+    }
+
+    /// <summary>Optional browser origin allowed to call the API (CORS). Null = no CORS headers (curl/scripts unaffected).</summary>
+    public string? AllowedOrigin { get; set; }
     public int Port => _port;
     public string ApiKey => _apiKey;
+
+    /// <summary>Live connection-test state for GET /api/connection (DR-0014); set by the app. Null = connection test not available.</summary>
+    public Func<object?>? ConnectionStatusProvider { get; set; }
 
     public RestApiServer(
         IDbContextFactory<WlanDbContext> contextFactory,
@@ -53,17 +67,23 @@ public class RestApiServer : IRestApiServer
 
         try
         {
+            LastError = null;
             _listener.Start();
             _isRunning = true;
             _logger.Info($"REST API Server started on http://localhost:{_port}/");
-            
+            RaiseStateChanged();
+
             _ = AcceptConnectionsAsync(_cts.Token);
         }
         catch (Exception ex)
         {
             _logger.Error($"Failed to start REST API Server on port {_port}: {ex.Message}", ex);
+            LastError = ex is HttpListenerException hle && (hle.ErrorCode == 183 || hle.ErrorCode == 32 || ex.Message.Contains("conflicts", StringComparison.OrdinalIgnoreCase))
+                ? $"Port {_port} is already in use by another program or registration. Choose another port (1024-65535) and apply again."
+                : $"Could not start the REST API on port {_port}: {ex.Message}";
             _isRunning = false;
             _listener = null;
+            RaiseStateChanged();
             throw;
         }
     }
@@ -86,6 +106,7 @@ public class RestApiServer : IRestApiServer
 
         _listener = null;
         _logger.Info("REST API Server stopped.");
+        RaiseStateChanged();
         return Task.CompletedTask;
     }
 
@@ -126,10 +147,16 @@ public class RestApiServer : IRestApiServer
         var request = context.Request;
         var response = context.Response;
 
-        // Apply CORS headers
-        response.Headers.Add("Access-Control-Allow-Origin", "*");
-        response.Headers.Add("Access-Control-Allow-Headers", "X-API-Key, Content-Type");
-        response.Headers.Add("Access-Control-Allow-Methods", "GET, OPTIONS");
+        // CORS only for an explicitly configured origin (F05: was "*").
+        string? origin = request.Headers["Origin"];
+        if (!string.IsNullOrEmpty(AllowedOrigin) && string.Equals(origin, AllowedOrigin, StringComparison.OrdinalIgnoreCase))
+        {
+            response.Headers.Add("Access-Control-Allow-Origin", AllowedOrigin);
+            response.Headers.Add("Vary", "Origin");
+            response.Headers.Add("Access-Control-Allow-Headers", "X-API-Key, Content-Type");
+            response.Headers.Add("Access-Control-Allow-Methods", "GET, OPTIONS");
+        }
+        response.Headers.Add("Cache-Control", "no-store");
 
         if (request.HttpMethod == "OPTIONS")
         {
@@ -140,15 +167,14 @@ public class RestApiServer : IRestApiServer
 
         try
         {
-            // Authenticate API Key
+            // Authenticate API key: header only (query strings leak into logs/history - F05), constant-time comparison.
             string? providedKey = request.Headers["X-API-Key"];
-            if (string.IsNullOrEmpty(providedKey))
+            if (!string.IsNullOrEmpty(request.QueryString["api_key"]) && string.IsNullOrEmpty(providedKey))
             {
-                // Fallback to query param
-                providedKey = request.QueryString["api_key"];
+                await WriteJsonResponseAsync(response, HttpStatusCode.Unauthorized, new { error = "API keys in the URL are not accepted. Send the key in the X-API-Key header." });
+                return;
             }
-
-            if (string.IsNullOrEmpty(_apiKey) || providedKey != _apiKey)
+            if (!KeyMatches(providedKey))
             {
                 await WriteJsonResponseAsync(response, HttpStatusCode.Unauthorized, new { error = "Unauthorized. Invalid or missing API Key." });
                 return;
@@ -163,7 +189,7 @@ public class RestApiServer : IRestApiServer
             string path = request.Url?.AbsolutePath.ToLower() ?? "";
             if (path == "/api/status")
             {
-                await WriteJsonResponseAsync(response, HttpStatusCode.OK, new { status = "Healthy", version = "1.0", port = _port });
+                await WriteJsonResponseAsync(response, HttpStatusCode.OK, new { status = "Healthy", version = typeof(RestApiServer).Assembly.GetName().Version?.ToString(3) ?? "unknown", port = _port });
             }
             else if (path == "/api/live")
             {
@@ -173,6 +199,19 @@ public class RestApiServer : IRestApiServer
                     apList = _liveAccessPoints.ToList();
                 }
                 await WriteJsonResponseAsync(response, HttpStatusCode.OK, apList);
+            }
+            else if (path == "/api/connection")
+            {
+                object payload = ConnectionStatusProvider?.Invoke() ?? new { running = false, message = "No connection test is running." };
+                await WriteJsonResponseAsync(response, HttpStatusCode.OK, payload);
+            }
+            else if (path == "/api/connection/tests")
+            {
+                using var db = _contextFactory.CreateDbContext();
+                var tests = await db.ConnectionTests.OrderByDescending(t => t.StartTime)
+                    .Select(t => new { t.TestId, t.Name, t.Location, t.Ssid, t.StartTime, t.EndTime, t.ActiveSeconds, Status = ((ConnectionTestStatus)t.Status).ToString(), t.LinkedSaturationTestId })
+                    .ToListAsync(token);
+                await WriteJsonResponseAsync(response, HttpStatusCode.OK, tests);
             }
             else if (path == "/api/sessions")
             {
@@ -205,11 +244,11 @@ public class RestApiServer : IRestApiServer
                 using var db = _contextFactory.CreateDbContext();
                 var totalSessions = await db.Sessions.CountAsync(token);
                 var totalSamples = await db.Samples.CountAsync(token);
-                
+
                 double dbSizeMB = 0;
                 try
                 {
-                    var fileInfo = new FileInfo("wireless_scanner.db");
+                    var fileInfo = new FileInfo(AppPaths.DatabasePath);
                     if (fileInfo.Exists)
                     {
                         dbSizeMB = fileInfo.Length / (1024.0 * 1024.0);
@@ -232,8 +271,16 @@ public class RestApiServer : IRestApiServer
         catch (Exception ex)
         {
             _logger.Error($"Error processing API request: {ex.Message}", ex);
-            await WriteJsonResponseAsync(response, HttpStatusCode.InternalServerError, new { error = ex.Message });
+            await WriteJsonResponseAsync(response, HttpStatusCode.InternalServerError, new { error = "Internal error; see the application log." });
         }
+    }
+
+    internal bool KeyMatches(string? provided)
+    {
+        if (string.IsNullOrEmpty(_apiKey) || string.IsNullOrEmpty(provided)) return false;
+        var a = System.Text.Encoding.UTF8.GetBytes(provided);
+        var b = System.Text.Encoding.UTF8.GetBytes(_apiKey);
+        return CryptographicOperations.FixedTimeEquals(a, b);
     }
 
     private async Task WriteJsonResponseAsync(HttpListenerResponse response, HttpStatusCode statusCode, object data)
@@ -242,11 +289,11 @@ public class RestApiServer : IRestApiServer
         {
             response.StatusCode = (int)statusCode;
             response.ContentType = "application/json";
-            
+
             string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
             byte[] buffer = Encoding.UTF8.GetBytes(json);
             response.ContentLength64 = buffer.Length;
-            
+
             await response.OutputStream.WriteAsync(buffer, 0, buffer.Length);
             response.OutputStream.Close();
         }

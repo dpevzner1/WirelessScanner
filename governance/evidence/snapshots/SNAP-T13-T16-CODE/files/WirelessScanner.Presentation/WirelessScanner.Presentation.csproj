@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\WirelessScanner.Domain\WirelessScanner.Domain.csproj" />
+    <ProjectReference Include="..\WirelessScanner.Application\WirelessScanner.Application.csproj" />
+    <ProjectReference Include="..\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.8" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <Version>1.2.0</Version>
+    <Product>WirelessScanner</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WirelessScanner.Tests" />
+  </ItemGroup>
+
+  <!-- Never ship native debug symbols (an 84 MB libSkiaSharp.pdb came from a package; finding F11). -->
+  <Target Name="RemovePdbsFromPublish" AfterTargets="ComputeResolvedFilesToPublishList">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(Extension)' == '.pdb'" />
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,16 @@
+{
+  "snapshot_id": "SNAP-LL-REDESIGN-2",
+  "captured_at": "2026-10-16T16:01:44.205845+00:00",
+  "files": [
+    {
+      "path": "LessonsLearned/records/2026-10-16-live-survey-redesign.md",
+      "sha256": "bd1df7cf8dc63aca91f12d0a3e5c0b9bddd2cc1e3d0c47e528a05292a9197fb6",
+      "bytes": 15905
+    },
+    {
+      "path": "LessonsLearned/lesson-register.json",
+      "sha256": "4930b1954c190b96cd631363cc758597620818803c78d66491513d06c8911e74",
+      "bytes": 3468
+    }
+  ]
+}

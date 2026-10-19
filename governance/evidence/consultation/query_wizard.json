@@ -1,0 +1,105 @@
+{
+  "concepts": [
+    {
+      "term": "wizard",
+      "score": 311.6319,
+      "document_frequency": 7,
+      "total_mentions": 71,
+      "domains": {
+        "ai_assisted_devops_and_coding": 6086,
+        "full_stack_web_product_engineering": 5200,
+        "ai": 3556,
+        "systems": 2504,
+        "openclaw_autonomous_agent_engineering": 2498,
+        "data": 2082,
+        "api_engineering": 1814,
+        "cloud": 1191,
+        "software": 850,
+        "windows_internals_reverse_engineering": 708,
+        "security": 608,
+        "mobile_application_engineering": 480,
+        "gpu_accelerated_compute_engineering": 417,
+        "devops": 390,
+        "nvidia_cuda_gpu_platform_engineering": 372,
+        "embedded_edge_hardware_iot": 242,
+        "snmp_protocol_engineering": 234,
+        "product_experience": 233,
+        "network_monitoring": 215,
+        "custom_linux_image_builds": 196,
+        "systems_memory_performance_engineering": 172,
+        "workspace_automation": 135,
+        "vector_database_and_rag_engineering": 111,
+        "linux_kernel_infrastructure": 100,
+        "amd_rocm_gpu_platform_engineering": 86,
+        "raspberry_pi_provisioning_imaging": 84,
+        "heterogeneous_parallel_portability_engineering": 48,
+        "telemetry_capture_architecture_engineering": 45,
+        "legacy_game_graphics_modernization_engineering": 15,
+        "windows_desktop_app_engineering": 8,
+        "arm_embedded_platform_engineering": 6,
+        "amd_xdna_npu_endpoint_engineering": 2
+      },
+      "documents": {
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7": [
+          114,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          127,
+          285
+        ],
+        "GPU_PROGRAMMING_IN_C___STEP-BY-STEP_GUIDE_AND_PROJECTS_2ccd5a5f88": [
+          6
+        ],
+        "HOW_TO_RUN_ANDROID_APPLICATIONS_ON_YOUR_WINDOWS_7_PC_b2215dffe5": [
+          9,
+          12,
+          14,
+          17
+        ],
+        "OPENCLAW__YOUR_FIRST_AI_AGENT__A_COMPLETE_BEGINNER_S_G_a01a4d5b9d": [
+          21,
+          58
+        ],
+        "OPENCLAW_WITH_OLLAMA_LOCAL_AI__101_THINGS_TO_KNOW_-_RU_cd74f55b94": [
+          23,
+          53,
+          65,
+          168,
+          169,
+          170,
+          172,
+          173,
+          189
+        ],
+        "PowerShell_3_8e30413707": [
+          86,
+          212,
+          291,
+          441,
+          469,
+          502,
+          508,
+          509,
+          514,
+          517,
+          518,
+          530,
+          581
+        ],
+        "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56": [
+          79,
+          80,
+          81,
+          84
+        ]
+      }
+    }
+  ],
+  "book_index_entries": [],
+  "cross_references": []
+}

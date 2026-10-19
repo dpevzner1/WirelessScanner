@@ -1,0 +1,70 @@
+{
+  "audit_summary": {
+    "audit_dimensions": 12,
+    "work_packages": 37,
+    "iterations": 0,
+    "terminal_iterations": 0,
+    "repeat_fingerprints": 0,
+    "metrics_measured": 0,
+    "efficiency_improvement_established": false,
+    "next_planned_task": "T01"
+  },
+  "recorded_at": "2026-10-15T22:00:13.571873+00:00",
+  "control": "config\\pipeline\\wirelessscanner-remediation-control.json",
+  "control_valid": true,
+  "errors": [],
+  "negative_controls": [
+    {
+      "fixture": "orphan_finding",
+      "rejected": true
+    },
+    {
+      "fixture": "evidence_drift",
+      "rejected": true
+    },
+    {
+      "fixture": "broken_event_chain",
+      "rejected": true
+    },
+    {
+      "fixture": "premature_task_closure",
+      "rejected": true
+    },
+    {
+      "fixture": "premature_expertise",
+      "rejected": true
+    },
+    {
+      "fixture": "dependency_cycle",
+      "rejected": true
+    },
+    {
+      "fixture": "missing_work_packages",
+      "rejected": true
+    },
+    {
+      "fixture": "missing_negative_plan",
+      "rejected": true
+    },
+    {
+      "fixture": "unsupported_measured_metric",
+      "rejected": true
+    },
+    {
+      "fixture": "missing_cause",
+      "rejected": true
+    },
+    {
+      "fixture": "broken_reciprocal_mapping",
+      "rejected": true
+    },
+    {
+      "fixture": "duplicate_sequence",
+      "rejected": true
+    }
+  ],
+  "open_findings": 14,
+  "verified_tasks": 0,
+  "qualification_state": "not_qualified",
+  "semantic_competence_validated": false
+}

@@ -1,0 +1,11 @@
+{
+  "snapshot_id": "SNAP-1.5-SYNC",
+  "captured_at": "2026-10-19T00:44:53.798885+00:00",
+  "files": [
+    {
+      "path": "tools/sync_github_export.py",
+      "sha256": "b077ccc51256c086c58ce19d25037319181fd835a1c55d1724e36095e94b135f",
+      "bytes": 6386
+    }
+  ]
+}

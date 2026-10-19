@@ -1,0 +1,123 @@
+{
+  "id": "IT-T15-01",
+  "task_ids": [
+    "T15"
+  ],
+  "finding_ids": [
+    "F20"
+  ],
+  "scope": "RF spectrum visualisation",
+  "state": "completed",
+  "started_at": "2026-10-16T14:39:00+00:00",
+  "finished_at": "2026-10-16T15:24:58+00:00",
+  "hypothesis": {
+    "claim": "Width-true masks from pure SpectrumLayout plus max-3 identity colours, bands, DFS shading, load strip and a waterfall make the spectrum readable and accurate",
+    "disconfirming_result": "Bonded-channel geometry wrong for standard channels, colours fail CVD separation, or labels collide in renders",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [
+      "Identity colour max 3 + context",
+      "Tier colour",
+      "8-colour categorical"
+    ],
+    "chosen": "Identity colour max 3 + context",
+    "why": "Only 3 validated colours are all-pairs separable for overlapping shapes (dataviz validator)",
+    "rejected": [
+      "Tier colour (monotone; identity lost)",
+      "8 colours (fails all-pairs CVD)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-DESIGN-REDESIGN"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Presentation/SpectrumLayout.cs",
+      "engine_sha256": "WirelessScanner.Presentation/SpectrumView.xaml.cs",
+      "context_sha256": "docs/decisions/DR-0010-network-explorer-and-spectrum.md",
+      "test_sha256": "WirelessScanner.Tests/RedesignTests.cs"
+    }
+  },
+  "change": {
+    "summary": "SpectrumLayout (axes, bonded centres, occupancy, load, least busy, waterfall bins), SpectrumView (spectrum + waterfall, labels with collision handling, click-to-select), 60-scan waterfall history, band/label options",
+    "artifact_evidence_ids": [
+      "EV-T13-T16-CHANGE"
+    ],
+    "scope_authority": "Owner approval 2026-10-16 (Q3, Q4); DR-0010"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj --no-build",
+      "LiveSurveyRenderTests"
+    ],
+    "positive": [
+      "BlockCenter_UsesStandardBondedChannels (12 cases)",
+      "LeastBusy_PicksAmongPreferredChannels",
+      "Waterfall_KeepsSixtyFreshScans_NewestFirst"
+    ],
+    "negative": [
+      "Nothing heard -> null bin, not a number",
+      "No energy outside the occupied block"
+    ],
+    "regression": [
+      "Full suite"
+    ],
+    "result_evidence_ids": [
+      "EV-T13-T17-TEST",
+      "EV-T14-T16-UI"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Pure geometry module tested directly"
+    ],
+    "what_failed": [
+      "One wrong test expectation (6 GHz block)",
+      "Render defects: label overlaps, marker over tick label, crowding on short strips -> fixed"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "2.4 GHz HT40 side assumed",
+      "Dim context outlines may need more contrast"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-16-LIVE-SURVEY-REDESIGN"
+    ],
+    "transferable_rule": "Keep chart geometry pure and tested; validate colours with the script; review renders at realistic sizes",
+    "applicability_limits": "Canvas-drawn WPF charts"
+  },
+  "next_action": {
+    "action": "Owner checks colours/contrast on real networks",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner availability"
+  }
+}

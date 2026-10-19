@@ -1,0 +1,7 @@
+<Project>
+  <!-- One version for every project (app, libraries, setup): the REST API, reports, installer and Apps & features all
+       read it from here. tools/build_release.py reads it too. Bump only this line for a release. -->
+  <PropertyGroup>
+    <Version>1.5.0</Version>
+  </PropertyGroup>
+</Project>

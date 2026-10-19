@@ -1,0 +1,41 @@
+<UserControl x:Class="WirelessScanner.Presentation.SpectrumView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             AutomationProperties.Name="RF spectrum">
+    <!-- RF spectrum and waterfall (DR-0010). DataContext = MainWindowViewModel. Drawn in code from SpectrumLayout:
+         width-true flat-top masks, max 3 identity colours (+ dashed context), RSSI bands, DFS shading, channel load,
+         least-busy channel, 60-scan waterfall. -->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/HudTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- toolbar: band + label mode + legend -->
+        <Grid Margin="0,0,0,6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" AutomationProperties.Name="Band">
+                <RadioButton Style="{StaticResource HudSegment}" GroupName="SpecBand" Content="All" IsChecked="{Binding IsBandAll}"/>
+                <RadioButton Style="{StaticResource HudSegment}" GroupName="SpecBand" Content="2.4 GHz" IsChecked="{Binding IsBand24}"/>
+                <RadioButton Style="{StaticResource HudSegment}" GroupName="SpecBand" Content="5 GHz" IsChecked="{Binding IsBand5}"/>
+                <RadioButton Style="{StaticResource HudSegment}" GroupName="SpecBand" Content="6 GHz" IsChecked="{Binding IsBand6}"/>
+            </StackPanel>
+            <CheckBox Grid.Column="1" Content="Label all" IsChecked="{Binding LabelAll}" Foreground="#AA4400" VerticalAlignment="Center" Margin="14,0,0,0"
+                      ToolTip="Label every access point (default: only the coloured, focused networks)"/>
+            <TextBlock x:Name="LegendText" Grid.Column="2" Foreground="#AA4400" FontSize="11" VerticalAlignment="Center" HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" Margin="10,0,0,0"/>
+        </Grid>
+        <Border Grid.Row="1" Style="{StaticResource HudPanel}" Padding="0">
+            <Canvas x:Name="Plot" ClipToBounds="True" Background="Transparent" SizeChanged="OnPlotSizeChanged" AutomationProperties.Name="Spectrum plot"/>
+        </Border>
+    </Grid>
+</UserControl>

@@ -47,6 +47,10 @@ public interface ISessionManager
     double CalculateJitterFor(string bssid, int rssi);
     void HandleScanError(Exception ex);
     void SaveSample(TelemetrySample sample);
+    void SaveSamples(IReadOnlyList<TelemetrySample> samples);
+
+    // Completes when all persistence queued so far has been written (tests, shutdown, exports).
+    System.Threading.Tasks.Task FlushAsync();
 
     event Action<CaptureSession>? SessionStateChanged;
     event Action<TelemetrySample>? SampleLogged;

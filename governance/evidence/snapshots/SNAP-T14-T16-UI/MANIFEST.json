@@ -1,0 +1,76 @@
+{
+  "snapshot_id": "SNAP-T14-T16-UI",
+  "captured_at": "2026-10-16T15:32:47.843508+00:00",
+  "files": [
+    {
+      "path": "docs/images/ui_ls_capture_drawer.png",
+      "sha256": "db258dab1c2585f3930d61f4e091a5f490c9c7ba29d01d7935c1425159edf07d",
+      "bytes": 157415
+    },
+    {
+      "path": "docs/images/ui_ls_capture_paused.png",
+      "sha256": "b17c8d95a915583edfe211207d008d903f8bcdffc4cc9d6eeb9d5b53e65ddbc6",
+      "bytes": 150984
+    },
+    {
+      "path": "docs/images/ui_ls_capture_recording.png",
+      "sha256": "ccceab1fbcdcc40c72e4ad0109d1ffe8ab6a4395a8c7f2e3e81a39ec3761c71d",
+      "bytes": 150230
+    },
+    {
+      "path": "docs/images/ui_ls_grid.png",
+      "sha256": "662fce50ff31e6a83099de5352bdda9ca62ecf2de2c5a8a12dc58ddb67b5b7e4",
+      "bytes": 116598
+    },
+    {
+      "path": "docs/images/ui_ls_monitor_auto.png",
+      "sha256": "3e6af3b8baddc2575f8d18923de76e1eabc6303cbaeb88414da5142d64a5375c",
+      "bytes": 160322
+    },
+    {
+      "path": "docs/images/ui_ls_monitor_selected.png",
+      "sha256": "6a61eb92a9c9d196d182a5c64389ca9c6885544648a94b9f5bd67fd7e657a10d",
+      "bytes": 153279
+    },
+    {
+      "path": "docs/images/ui_ls_saturation_results.png",
+      "sha256": "c0f4ec837a60d71ec4657facc298da129b6845875aced546aa6756f0c9c48ea0",
+      "bytes": 224750
+    },
+    {
+      "path": "docs/images/ui_ls_saturation_running.png",
+      "sha256": "8258592184ed2f7b0ca8ab938ea2a568f5b28fefadb07cbc481ccdadeaea755d",
+      "bytes": 237438
+    },
+    {
+      "path": "docs/images/ui_ls_saturation_setup_invalid.png",
+      "sha256": "9eca2e1ac352230395365085cfd1e051070d498e7601aca3956f037a884d7361",
+      "bytes": 192079
+    },
+    {
+      "path": "docs/images/ui_ls_saturation_setup_ready.png",
+      "sha256": "343f5635ca9469fbc52be438fa49ef2bec481a3ee793685d1f0bb9b2fea7ae50",
+      "bytes": 189863
+    },
+    {
+      "path": "docs/images/ui_ls_spectrum_5ghz_labelall.png",
+      "sha256": "920f40a64a1bb082fdccc5007e693902ed5f73bc3adee2048153438fc637ad3d",
+      "bytes": 144921
+    },
+    {
+      "path": "docs/images/ui_ls_waterfall.png",
+      "sha256": "c03cc06d31f7332012c17dd2effdf59df9eaf67418c9d789d7a18ed95bcb30d1",
+      "bytes": 115289
+    },
+    {
+      "path": "docs/images/ui_history_capture_sessions.png",
+      "sha256": "f59ff82633f6c52d23631325b71d6801031d7e5008fc48fec08e9f41164ddd23",
+      "bytes": 52013
+    },
+    {
+      "path": "docs/images/ui_history_saturation_tests.png",
+      "sha256": "1810a76f5a28f2c1b9016d90bfe078d84023a2e051ca35551bca2895cab5607a",
+      "bytes": 165673
+    }
+  ]
+}

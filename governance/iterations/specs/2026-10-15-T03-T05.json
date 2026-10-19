@@ -1,0 +1,44 @@
+[
+  {
+    "id": "IT-T03-01", "task_ids": ["T03"], "finding_ids": ["F01", "F13"], "scope": "scan acquisition", "state": "completed",
+    "started_at": "2026-10-15T22:06:00+00:00", "finished_at": "2026-10-15T22:20:00+00:00",
+    "hypothesis": {"claim": "Waiting for the ACM scan_complete notification after WlanScan yields fresh BSS lists, and beacon age (ullHostTimestamp as FILETIME) identifies cached entries", "disconfirming_result": "Real adapter never delivers scan_complete (all cycles stale) or beacon ages implausible", "prior_lessons": ["LL-2026-10-15-BASELINE-GOVERNANCE"]},
+    "decision": {"options": ["Notification-driven scan", "Poll list until newest timestamp changes", "Keep cached reads"], "chosen": "Notification-driven scan", "why": "Documented completion contract; beacon age kept as secondary freshness signal", "rejected": ["Polling (ambiguous when nothing new is heard)", "Cached reads (F01)"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT"], "files": {"input_sha256": "WirelessScanner.Infrastructure/WlanAdapter.cs", "engine_sha256": "WirelessScanner.Domain/ScanCycle.cs", "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0003-fresh-scan-and-persistence-pipeline.md", "test_sha256": "WirelessScanner.Tests/HardwareProbeTests.cs"}},
+    "change": {"summary": "ScanAsync with WlanRegisterNotification, persistent handle, error mapping (WlanErrorText), beacon age; VM loop captures only fresh entries", "artifact_evidence_ids": ["EV-T03T05-CHANGE"], "scope_authority": "DR-0003"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build", "dotnet test WirelessScanner.Tests --no-build --filter Category=Hardware"], "positive": ["FreshCycle_StoresOneSamplePerAp", "HW-PROBE-1 4/4 Fresh"], "negative": ["StaleCycle_WithUnknownBeaconAge_IsNotStoredAsSample", "FailedCycle_StoresNothing_AndReportsReason"], "regression": ["Original 20 tests pass"], "result_evidence_ids": ["EV-T03T05-TEST-1", "EV-T03-HW-1"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Notification path confirmed on Intel AC 7265", "Beacon age plausible (median 0.6-3.4 s)"], "what_failed": ["PATCH-1 heredoc abort (tooling, not product)"], "new_finding_ids": [], "residual_risk": ["Single adapter", "Throttling while connected not observed"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": null, "rerun_justification": null},
+    "lessons": {"record_ids": ["LL-2026-10-15-CORE-SCAN-PERSISTENCE"], "transferable_rule": "Never treat a cached sensor read as a new sample; require an acquisition confirmation or a source timestamp", "applicability_limits": "Windows Native Wi-Fi API; other providers need their own freshness signal"},
+    "next_action": {"action": "Use ScanAsync in the saturation runner (T06)", "owner": "Claude Code (implementer)", "resume_condition": "Suite green"}
+  },
+  {
+    "id": "IT-T04-01", "task_ids": ["T04"], "finding_ids": ["F02", "F03"], "scope": "persistence ordering and schema", "state": "completed",
+    "started_at": "2026-10-15T22:10:00+00:00", "finished_at": "2026-10-15T22:19:00+00:00",
+    "hypothesis": {"claim": "A single FIFO consumer guarantees session-before-sample ordering and removes the FK race", "disconfirming_result": "Ordering test passes even with the baseline fire-and-forget code (test would be insensitive) or FK violations persist with the writer", "prior_lessons": []},
+    "decision": {"options": ["Channel-based single writer", "Await each write inline", "Locks around DbContext"], "chosen": "Channel-based single writer", "why": "Ordering by construction, no UI/scan blocking, batching per cycle", "rejected": ["Inline awaits block the loop", "Locks do not order independent tasks"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT", "EV-BL-LOG-0531"], "files": {"input_sha256": "WirelessScanner.Application/SessionManager.cs", "engine_sha256": "WirelessScanner.Application/OrderedPersistenceWriter.cs", "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0003-fresh-scan-and-persistence-pipeline.md", "test_sha256": "WirelessScanner.Tests/CoreFixTests.cs"}},
+    "change": {"summary": "OrderedPersistenceWriter; SessionManager routes all writes; batched SaveSamplesAsync; SchemaMigrator (user_version 2) using EF GenerateCreateScript", "artifact_evidence_ids": ["EV-T03T05-CHANGE"], "scope_authority": "DR-0003"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build", "mutation: restore Task.Run session insert; run SamplesSavedImmediatelyAfterStart"], "positive": ["SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey", "Upgrade_AddsMissingTables_ToLegacyDatabase_AndIsIdempotent"], "negative": ["MUT-F02 fails on baseline behaviour", "Writer_PreservesFifoOrder_AndContinuesAfterFailure"], "regression": ["SessionRepository_DbIntegration_SavesAndCascades", "ExportService tests"], "result_evidence_ids": ["EV-T03T05-TEST-1", "EV-T04-MUT", "EV-T03T05-TEST-2"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Mutation check proves test sensitivity"], "what_failed": [], "new_finding_ids": [], "residual_risk": ["Drain timeout 10 s on exit may lose a backlog after a hang"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": null, "rerun_justification": "TEST-T03T05-2 reran after restoring the mutated file (code changed)"},
+    "lessons": {"record_ids": ["LL-2026-10-15-CORE-SCAN-PERSISTENCE"], "transferable_rule": "Order dependent persistence through one queue; prove the test detects the old bug with a mutation run", "applicability_limits": "Single-process SQLite"},
+    "next_action": {"action": "Reuse writer for saturation cycles", "owner": "Claude Code (implementer)", "resume_condition": "Suite green"}
+  },
+  {
+    "id": "IT-T05-01", "task_ids": ["T05"], "finding_ids": ["F09", "F14", "F15", "F16", "F17"], "scope": "measurement semantics and parsers", "state": "completed",
+    "started_at": "2026-10-15T22:12:00+00:00", "finished_at": "2026-10-15T22:20:00+00:00",
+    "hypothesis": {"claim": "Removing assumed/sentinel values, relabelling units and parsing operation/AKM elements makes reported fields truthful", "disconfirming_result": "Test vectors from IEEE 802.11 element layouts disagree with parser output, or 'ms' labels remain", "prior_lessons": []},
+    "decision": {"options": ["Fix semantics now", "Defer to saturation work"], "chosen": "Fix semantics now", "why": "Saturation analytics depend on correct channel/width/security and units", "rejected": ["Defer (would propagate wrong values into new reports)"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT"], "files": {"input_sha256": "WirelessScanner.Infrastructure/WlanAdapter.cs", "engine_sha256": "WirelessScanner.Infrastructure/ExportService.cs", "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0004-saturation-test-measurement-model.md", "test_sha256": "WirelessScanner.Tests/CoreFixTests.cs"}},
+    "change": {"summary": "NoiseFloor null; SNR estimated label; variation dB labels; 6 GHz base 5950; width from HT/VHT/HE operation; AKM-based security", "artifact_evidence_ids": ["EV-T03T05-CHANGE"], "scope_authority": "DR-0004"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build"], "positive": ["ParserTests (channels, widths, security, rates, beacon age)"], "negative": ["Capability-only HT gives null width", "No 6 GHz default width", "UnitLabelTests: no 'ms' on variation"], "regression": ["Export tests"], "result_evidence_ids": ["EV-T03T05-TEST-1", "EV-T03-HW-1"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Test vectors exposed F15-F17", "Hardware probe saw Enterprise networks correctly labelled"], "what_failed": [], "new_finding_ids": ["F15", "F16", "F17"], "residual_risk": ["CSV/JSON header rename breaks downstream consumers (documented)"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": null, "rerun_justification": null},
+    "lessons": {"record_ids": ["LL-2026-10-15-CORE-SCAN-PERSISTENCE"], "transferable_rule": "Write protocol test vectors before trusting any parser; unknown is null, not a default", "applicability_limits": "802.11 element parsing"},
+    "next_action": {"action": "Implement saturation test T06", "owner": "Claude Code (implementer)", "resume_condition": "Suite green"}
+  }
+]

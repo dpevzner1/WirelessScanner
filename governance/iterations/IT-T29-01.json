@@ -1,0 +1,123 @@
+{
+  "id": "IT-T29-01",
+  "task_ids": [
+    "T29"
+  ],
+  "finding_ids": [
+    "F32"
+  ],
+  "scope": "Android device gate after a repeated, already-solved ADB authorization failure",
+  "state": "completed",
+  "started_at": "2026-10-19T13:00:00+00:00",
+  "finished_at": "2026-10-19T13:27:33+00:00",
+  "hypothesis": {
+    "claim": "An executable preflight, hash-verified deploy and authorized-only install with screenshot prevent both the authorization repeat and false deployment claims",
+    "disconfirming_result": "An install or visual claim is produced without an authorized target, or a corrupted copy passes",
+    "prior_lessons": [
+      "LL-2026-10-19-ANDROID-DEVICE-AUTH"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Executable gate script",
+      "Checklist text only"
+    ],
+    "chosen": "Executable gate script",
+    "why": "Text-only reference lessons were not applied; a gate with exit codes and evidence is",
+    "rejected": [
+      "Checklist text only (already existed in the references)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-ANDROID-DEPLOY-GATE-1"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "tools/android_deploy.ps1",
+      "engine_sha256": "tools/android_deploy.ps1",
+      "context_sha256": "AndroidApp/docs/DEPLOYMENT.md",
+      "test_sha256": "AndroidApp/artifacts/deploy/deploy-20261019T132733Z.json"
+    }
+  },
+  "change": {
+    "summary": "tools/android_deploy.ps1 (preflight, read-back hash, authorized install, foreground and screenshot), DEPLOYMENT.md, DR-0015 addendum, lesson records, progress log",
+    "artifact_evidence_ids": [
+      "EV-ANDROID-DEPLOY-GATE-1",
+      "EV-ANDROID-DEPLOY-GATE-3"
+    ],
+    "scope_authority": "Owner 2026-10-19: document the error and how the other projects circumvented it"
+  },
+  "test": {
+    "commands": [
+      "tools/android_deploy.ps1 -Install (GATE-1 unauthorized, GATE-2 preview1, GATE-3 preview2)"
+    ],
+    "positive": [
+      "GATE-3: device, copy hash match, install passed, foreground, visible screenshot"
+    ],
+    "negative": [
+      "GATE-1: unauthorized, install blocked and not claimed",
+      "GATE-2: launch passed but black screen, caught by screenshot review"
+    ],
+    "regression": [
+      "Control and lesson validators pass"
+    ],
+    "result_evidence_ids": [
+      "EV-ANDROID-DEPLOY-GATE-1",
+      "EV-ANDROID-DEPLOY-GATE-3"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Reference records identified the fix immediately",
+      "Owner fix on the tablet"
+    ],
+    "what_failed": [
+      "Design-only reference intake",
+      "size-only copy check",
+      "launch-only check"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "H1 unverified: adb_allowed_connection_time reads null"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": "Reference playbook sections 1, 6 and 10, R3 section 5, A-LRN-016/017/043",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-19-ANDROID-DEVICE-AUTH",
+      "LL-2026-10-19-ANDROID-PORT"
+    ],
+    "transferable_rule": "Turn every known operational failure from a reference project into an executable gate with evidence, run at session start",
+    "applicability_limits": "Projects with physical test devices"
+  },
+  "next_action": {
+    "action": "Run the preflight at the start of every Android session",
+    "owner": "Claude Code",
+    "resume_condition": "Next Android session"
+  }
+}

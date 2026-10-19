@@ -1,0 +1,19 @@
+Test run for C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll
+NUnit Adapter 5.0.0.0: Test execution started
+Running selected tests in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Debug\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll
+   NUnit3TestExecutor discovered 1 of 1 NUnit test cases using Current Discovery mode, Explicit run
+REGEN regen_20261016_1631: active 300.000 s, targets 3, longestBelowFair 0.0 s, trend null, co 0.13, ovl 5.55; longestBelowFair 0.0 s, trend null, co 0.58, ovl ; longestBelowFair 298.9 s, trend null, co 0.00, ovl 
+
+NUnit Adapter 5.0.0.0: Test execution complete
+  Passed RegenerateReportsFromDatabaseCopy [5 s]
+  Standard Output Messages:
+ REGEN regen_20261016_1631: active 300.000 s, targets 3, longestBelowFair 0.0 s, trend null, co 0.13, ovl 5.55; longestBelowFair 0.0 s, trend null, co 0.58, ovl ; longestBelowFair 298.9 s, trend null, co 0.00, ovl 
+
+
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 7.4758 Seconds

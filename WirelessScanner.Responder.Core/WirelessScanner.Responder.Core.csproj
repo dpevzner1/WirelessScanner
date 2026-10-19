@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- LAN responder protocol, server and client primitives (DR-0014 stage C). No dependencies, cross-platform:
+       the responder runs on a wired PC, NAS or Raspberry Pi; the app uses the same code as a client. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WirelessScanner.Tests" />
+  </ItemGroup>
+
+</Project>

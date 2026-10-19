@@ -1,0 +1,1816 @@
+{
+  "concepts": [
+    {
+      "term": "feedback",
+      "score": 2464.4505,
+      "document_frequency": 97,
+      "total_mentions": 961,
+      "domains": {
+        "full_stack_web_product_engineering": 105550,
+        "api_engineering": 48190,
+        "software": 46160,
+        "ai_assisted_devops_and_coding": 37880,
+        "ai": 34409,
+        "windows_internals_reverse_engineering": 31641,
+        "data": 30706,
+        "security": 24073,
+        "systems": 21863,
+        "cloud": 17691,
+        "mobile_application_engineering": 16729,
+        "gpu_accelerated_compute_engineering": 14347,
+        "snmp_protocol_engineering": 13791,
+        "devops": 13669,
+        "dos_legacy_pc_systems_engineering": 12813,
+        "embedded_edge_hardware_iot": 11602,
+        "nvidia_cuda_gpu_platform_engineering": 8846,
+        "low_level_game_engine_performance_architecture": 8840,
+        "network_monitoring": 8575,
+        "systems_memory_performance_engineering": 7959,
+        "custom_linux_image_builds": 7661,
+        "product_experience": 7247,
+        "heterogeneous_parallel_portability_engineering": 6525,
+        "linux_kernel_infrastructure": 6191,
+        "amd_rocm_gpu_platform_engineering": 5116,
+        "vector_database_and_rag_engineering": 4376,
+        "arm_embedded_platform_engineering": 4019,
+        "workspace_automation": 2890,
+        "raspberry_pi_provisioning_imaging": 2603,
+        "telemetry_capture_architecture_engineering": 1343,
+        "windows_desktop_app_engineering": 1308,
+        "openclaw_autonomous_agent_engineering": 996,
+        "legacy_game_graphics_modernization_engineering": 762,
+        "amd_xdna_npu_endpoint_engineering": 191
+      },
+      "documents": {
+        "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b": [
+          6,
+          18,
+          39,
+          75,
+          76,
+          90,
+          116,
+          118,
+          127,
+          129,
+          130,
+          131
+        ],
+        "ADVANCED_C_MEMORY_TECHNIQUES__EFFICIENCY_AND_SAFETY_AD_82eb502cac": [
+          9
+        ],
+        "AGENTIC_CODING_WITH_CLAUDE_CODE__THE_EVERYDAY_DEVELOPE_432e5a55e6": [
+          22,
+          42,
+          49,
+          202,
+          314,
+          356
+        ],
+        "AI_DEVOPS__INTEGRATING_MACHINE_INTELLIGENCE_INTO_CONTI_c94e79bb49": [
+          3,
+          8,
+          9,
+          10,
+          11,
+          12,
+          15,
+          17,
+          20,
+          21,
+          23,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          48,
+          56,
+          66
+        ],
+        "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb": [
+          23,
+          60,
+          75
+        ],
+        "ANDROID_DEVELOPMENT_WITH_KOTLIN_AND_JETPACK_COMPOSE_FO_86b62993b4": [
+          15,
+          20,
+          181
+        ],
+        "ANDROID_DEVELOPMENT_WITH_KOTLIN_ZERO_TO_PRO__A_PROJECT_d7f03628e8": [
+          6,
+          105,
+          110,
+          111
+        ],
+        "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785": [
+          22,
+          28,
+          217,
+          533,
+          534,
+          537,
+          548,
+          557,
+          565,
+          568,
+          582,
+          585,
+          587,
+          588,
+          596,
+          603,
+          682,
+          698,
+          778,
+          832,
+          894,
+          939,
+          1090,
+          1103,
+          1105,
+          1107,
+          1131,
+          1136,
+          1144
+        ],
+        "APIS__A_STRATEGY_GUIDE_f3305c5f6b": [
+          10,
+          135,
+          136,
+          167,
+          269,
+          280,
+          335
+        ],
+        "APIs_A_Strategy_Guide_9d4c011e10": [
+          6,
+          62,
+          63,
+          75,
+          119,
+          123,
+          146
+        ],
+        "ARM_ARCHITECTURE_AND_PROGRAMMING_ESSENTIALS__DEFINITIV_c68f9d4b1c": [
+          119,
+          182,
+          190
+        ],
+        "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302": [
+          41,
+          103
+        ],
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416": [
+          403,
+          558,
+          812,
+          847,
+          1228,
+          1349
+        ],
+        "AZURE_CLOUD_ARCHITECTURE_NETWORKING_MASTERY__DESIGN_BU_d200960acd": [
+          33
+        ],
+        "BUILDING_INTELLIGENT_AGENTS_WITH_LANGFLOW_LANGCHAIN_OP_971441db02": [
+          330,
+          373
+        ],
+        "CLAUDE_CODE_MASTERY__BUILD_AUTOMATE_AND_SCALE_PRODUCTI_5502505d66": [
+          142
+        ],
+        "CLEAN_ARCHITECTURE_ROBERT_C._MARTIN_SERIES_1a5c2447be": [
+          599
+        ],
+        "CLEAN_MOBILE_ARCHITECTURE__BECOME_AN_ANDROID_IOS_FLUTT_fad1e9adb6": [
+          58,
+          64,
+          474
+        ],
+        "Coding_with_AI_For_Dummies_dac5c3f997": [
+          90,
+          120,
+          253,
+          322,
+          415,
+          417,
+          434
+        ],
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a": [
+          4,
+          7,
+          51,
+          84,
+          189,
+          190,
+          191,
+          196,
+          198,
+          199,
+          200,
+          249,
+          263,
+          367,
+          400,
+          445,
+          447,
+          458,
+          460,
+          461,
+          464,
+          483,
+          561,
+          576,
+          579,
+          580
+        ],
+        "Creating_Video_Games_Using_PyGame_A_comprehensive_107c43d3b5": [
+          2,
+          125,
+          128,
+          133,
+          137,
+          143,
+          147,
+          152
+        ],
+        "cuda_by_example.book_b7a316f02a": [
+          18,
+          31,
+          267
+        ],
+        "CUDA_C_OPTIMIZATION__CODING_FASTER_GPU_KERNELS_GENERAT_a1cb1bda51": [
+          6
+        ],
+        "Data-Parallel-C-Plus-Plus-Book_d5839bff2a": [
+          23
+        ],
+        "DESIGN_AND_ARCHITECTURE_OF_SNMP_MONITORING_SYSTEM_74472a97bb": [
+          19
+        ],
+        "DesignMachineLEarningSys_8a5b7a1b4e": [
+          229,
+          317,
+          318,
+          320,
+          323,
+          324,
+          325,
+          328,
+          331,
+          336,
+          337
+        ],
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac": [
+          359
+        ],
+        "FULL-STACK_DEVELOPMENT_WITH_DJANGO_AND_JAVASCRIPT__BUI_070cb5ca94": [
+          178,
+          471,
+          590
+        ],
+        "Game_Engine_Black_Book_-_Doom_v1.1_-_Fabien_Sanglard_2_cc893f4e58": [
+          9,
+          329
+        ],
+        "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3": [
+          7,
+          19,
+          29,
+          238,
+          245,
+          274,
+          276
+        ],
+        "GENERATIVE_AI_ON_RASPBERRY_PI_5__BUILD_PRIVATE_LLMS_VO_3d85f7ecf5": [
+          177,
+          192,
+          197,
+          199
+        ],
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c": [
+          30,
+          31,
+          42,
+          81,
+          299,
+          423,
+          424,
+          441,
+          445,
+          447,
+          448,
+          463,
+          467,
+          475,
+          535,
+          556,
+          575,
+          598,
+          606,
+          607,
+          608,
+          611,
+          614,
+          624,
+          630,
+          631,
+          703,
+          705,
+          710,
+          713,
+          795,
+          802,
+          816,
+          821,
+          822,
+          834,
+          873,
+          874,
+          931,
+          968,
+          999,
+          1000,
+          1062,
+          1129,
+          1154
+        ],
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7": [
+          6,
+          61,
+          209,
+          255,
+          300,
+          301,
+          303,
+          304,
+          306,
+          307,
+          308,
+          309,
+          310,
+          311,
+          312,
+          313
+        ],
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492": [
+          10,
+          42,
+          44,
+          58,
+          72,
+          84,
+          85,
+          112,
+          113,
+          127,
+          145,
+          149,
+          200,
+          218,
+          219,
+          260
+        ],
+        "GOOGLE_CLOUD_BLUEPRINT__VISUAL_DIAGRAMS_SERVICE_MAPS_A_7bf48d262c": [
+          255,
+          275,
+          324
+        ],
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616": [
+          19,
+          171,
+          206,
+          246,
+          259,
+          262,
+          274,
+          279,
+          293,
+          299,
+          300,
+          306,
+          309,
+          323,
+          327,
+          331,
+          334,
+          393,
+          455,
+          457,
+          470,
+          575,
+          595,
+          694
+        ],
+        "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517": [
+          179,
+          180,
+          202,
+          213,
+          217,
+          271,
+          274,
+          276,
+          310
+        ],
+        "GPU_ARCHITECTURE__A_DEEP_DIVE_INTO_THE_ARCHITECTURE_PO_624a368c7d": [
+          47
+        ],
+        "GPU_BIT_TRICKS__LLM_KERNEL_ARITHMETIC_OPTIMIZATIONS_6fab82e70b": [
+          11
+        ],
+        "GPU_COMPUTING_511a6888ec": [
+          9
+        ],
+        "GPU_PROGRAMMING_IN_C___STEP-BY-STEP_GUIDE_AND_PROJECTS_2ccd5a5f88": [
+          4
+        ],
+        "GPU_PROGRAMMING_WITH_CUDA_AND_OPENCL__HIGH-PERFORMANCE_ea87e6f0ef": [
+          99
+        ],
+        "HIGH-PERFORMANCE_API_ENGINEERING__SCALABLE_BACKEND_INT_cf9eca75da": [
+          82,
+          102
+        ],
+        "IIS_ESSENTIALS__FROM_INSTALLATION_TO_MAINTENANCE_-_THE_2ad6501ad3": [
+          9,
+          192
+        ],
+        "instinct-mi200-cdna2-instruction-set-architecture_be6428c401": [
+          2,
+          82
+        ],
+        "INTRODUCTION_TO_DESIGN_THINKING_FOR_UX_BEGINNERS__5_ST_0006de75ca": [
+          9,
+          18,
+          22,
+          25,
+          29,
+          31,
+          34,
+          38,
+          40,
+          43,
+          50,
+          53,
+          54,
+          59,
+          60
+        ],
+        "JETPACK_COMPOSE_ANDROID_APP_DEVELOPMENT_2026_EDITION___9932482faa": [
+          66,
+          103,
+          152,
+          153,
+          154,
+          166,
+          212
+        ],
+        "LINUX_KERNEL_DEVELOPMENT__THE_COMPLETE_HANDS-ON_GUIDE__62c8b6ea84": [
+          86,
+          245,
+          248,
+          268
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          180,
+          312,
+          383,
+          528,
+          531,
+          634
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          55,
+          66,
+          67,
+          74,
+          97,
+          102,
+          112,
+          113,
+          118
+        ],
+        "MASTERING_GOOGLE_GEMINI_IN_WORKSPACE__THE_NON-CODER_S__1d1646efa6": [
+          27,
+          127,
+          129,
+          144,
+          152,
+          161
+        ],
+        "MASTERING_LINUX_DEVICE_DRIVER_DEVELOPMENT__WRITE_CUSTO_2305519759": [
+          713,
+          745
+        ],
+        "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b": [
+          235
+        ],
+        "MASTERING_RUST__FROM_BEGINNER_TO_EXPERT__CONCURRENCY_A_b72b1bde22": [
+          314
+        ],
+        "MASTERING_USB_ON_LINUX_MINT_22.3__CREATE_BOOTABLE_DRIV_bf5ef146c1": [
+          111,
+          191
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          214
+        ],
+        "NEW_6__black-book_36cb394ae8": [
+          75,
+          151,
+          254,
+          269
+        ],
+        "NEW_6__pcgpe10a_23e41ff083": [
+          4,
+          5,
+          50,
+          174
+        ],
+        "OLD_NEW_THING_59541c3c88": [
+          47,
+          50,
+          110,
+          309,
+          310,
+          379,
+          409,
+          447,
+          492
+        ],
+        "OpenAI_API_Cookbook_Build_intelligent_application_9d65dc9de5": [
+          25,
+          33,
+          219,
+          225
+        ],
+        "OpenCL_API_9714d26dc8": [
+          518,
+          662
+        ],
+        "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39": [
+          193,
+          230,
+          231,
+          256
+        ],
+        "ORNL_HIP_webinar_20190606_final_d26061464a": [
+          6
+        ],
+        "PowerShell_3_8e30413707": [
+          3,
+          19,
+          21,
+          35
+        ],
+        "PRO_GIT_4af06c65c6": [
+          415,
+          574
+        ],
+        "ProgrammingWindows31_d21b899af8": [
+          130
+        ],
+        "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37": [
+          24
+        ],
+        "RAJA_Tutorial_2hr_2023_FINAL_436a7894a0": [
+          4,
+          121
+        ],
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec": [
+          134,
+          148
+        ],
+        "RDNA3_Beyond-the-current-gen-v4_3f61836530": [
+          2,
+          3
+        ],
+        "REVERSE_ENGINEERING_101__UNLOCK_THE_SECRETS_OF_SOFTWAR_3c3139f1b4": [
+          266
+        ],
+        "RHCSA_LINUX_ADMINISTRATION_MASTERY__THE_COMPLETE_HANDS_1bc29f371a": [
+          521
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          11,
+          34,
+          55,
+          78,
+          126,
+          184,
+          200,
+          242,
+          244,
+          248
+        ],
+        "ROCM_FOR_AMD_RADEON__AI_DEVELOPMENT_ON_CONSUMER_GPUS___253236ea13": [
+          133
+        ],
+        "RooflineVyNoYellow_588c7c4dac": [
+          9
+        ],
+        "RUST_FOR_AI_AND_MACHINE_LEARNING__BUILD_FASTER_SAFER_H_f6dfd38e12": [
+          260,
+          281,
+          311,
+          608,
+          619
+        ],
+        "RUST_PROGRAMMING_FOR_AI_AND_CUDA__MASTER_HIGH-PERFORMA_1731143e11": [
+          7
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          41,
+          56,
+          60,
+          65,
+          89,
+          104,
+          152,
+          196,
+          229,
+          311,
+          338,
+          385
+        ],
+        "SNMP_Engineering__enterprise-numbers_76050893d9": [
+          178,
+          200
+        ],
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2": [
+          71,
+          82,
+          84,
+          151,
+          183,
+          208,
+          209,
+          233,
+          253
+        ],
+        "The.DevOps.Handbook_4a7e71d883": [
+          25,
+          28,
+          30,
+          37,
+          40,
+          44,
+          47,
+          49,
+          52,
+          69,
+          72,
+          73,
+          75,
+          76,
+          78,
+          79,
+          80,
+          91,
+          93,
+          104,
+          113,
+          120,
+          139,
+          143,
+          147,
+          162,
+          163,
+          167,
+          172,
+          181,
+          187,
+          189,
+          191,
+          194,
+          196,
+          197,
+          205,
+          206,
+          209,
+          211,
+          224,
+          228,
+          244,
+          247,
+          260,
+          263,
+          265,
+          266,
+          267,
+          268,
+          291,
+          312,
+          313,
+          314,
+          317,
+          318,
+          319,
+          328,
+          329,
+          332,
+          337,
+          338,
+          341,
+          342,
+          343,
+          345,
+          346,
+          362,
+          364,
+          411,
+          413,
+          416,
+          421,
+          428,
+          449,
+          468,
+          489,
+          504,
+          523,
+          545,
+          561,
+          571,
+          574,
+          577,
+          584,
+          588,
+          589,
+          597
+        ],
+        "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00": [
+          150,
+          470,
+          658,
+          794,
+          809
+        ],
+        "THE_COMPLETE_HOMELAB_GUIDE__BUILD_YOUR_SELF-HOSTED_INF_1b6130de23": [
+          53
+        ],
+        "The_MS-DOS_Encyclopedia_Ray_Duncan_e1722e8aa4": [
+          104
+        ],
+        "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75": [
+          54,
+          64,
+          172
+        ],
+        "THE_SNMP_ESSENTIALS__COMPREHENSIVE_GUIDE_TO_NETWORK_MO_50d4ea6eee": [
+          111,
+          246
+        ],
+        "THE_SSL_TLS_HANDBOOK__ENCRYPTION_CERTIFICATES_AND_SECU_77b27cea2b": [
+          22,
+          568,
+          689,
+          699
+        ],
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6": [
+          2,
+          4,
+          10,
+          12,
+          13,
+          14,
+          16,
+          17,
+          21,
+          22
+        ],
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194": [
+          8,
+          9,
+          14,
+          19,
+          22,
+          28,
+          34,
+          51,
+          58,
+          59,
+          62,
+          64,
+          67,
+          80,
+          82,
+          85,
+          89,
+          91,
+          92,
+          94,
+          97,
+          104,
+          107,
+          114,
+          122,
+          123,
+          133,
+          137,
+          141,
+          142
+        ],
+        "Understanding_Deep_Learning_Building_Machine_Lear_9411ddf3dd": [
+          14,
+          15,
+          63,
+          82,
+          259,
+          269,
+          287,
+          288,
+          420
+        ],
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664": [
+          74,
+          76,
+          78,
+          81,
+          82,
+          83,
+          96,
+          99,
+          115,
+          118,
+          119,
+          120,
+          122,
+          124,
+          127,
+          129,
+          152,
+          156,
+          162,
+          167,
+          168
+        ],
+        "VECTOR_DATABASE_DEVELOPMENT_FOR_DEVELOPERS__DESIGNING__c68e4e1a54": [
+          137,
+          223,
+          227,
+          309,
+          351
+        ],
+        "VIBE_CODING_WITH_GITHUB_COPILOT__MASTER_AGENTIC_MODE_A_12d65acfd9": [
+          10,
+          15,
+          51,
+          72,
+          133,
+          151,
+          159,
+          160,
+          162,
+          219,
+          222,
+          282,
+          300,
+          328,
+          345,
+          352,
+          417,
+          448
+        ],
+        "WINDOWS_INTERNALS_DEVELOPER_REFERENCE_b30e3f3efd": [
+          20
+        ],
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4": [
+          224,
+          238,
+          269,
+          273,
+          400,
+          453,
+          947,
+          965,
+          973,
+          975
+        ],
+        "Writing_AI_Prompts_For_Dummies_c3cfa280e8": [
+          13,
+          77,
+          97,
+          127,
+          131,
+          136,
+          139,
+          141,
+          142,
+          143,
+          152,
+          157,
+          159,
+          176,
+          177,
+          179,
+          193,
+          213,
+          216,
+          222,
+          223,
+          231,
+          235,
+          243,
+          244,
+          247,
+          262,
+          278,
+          298,
+          299,
+          303,
+          304,
+          313,
+          325,
+          336,
+          346
+        ],
+        "WRITING_HIGH-PERFORMANCE_APPLICATIONS_IN_RUST__PROFILI_0b7be6eb59": [
+          134,
+          675
+        ]
+      }
+    },
+    {
+      "term": "feedback loop",
+      "score": 217.2369,
+      "document_frequency": 31,
+      "total_mentions": 66,
+      "domains": {
+        "full_stack_web_product_engineering": 41286,
+        "api_engineering": 20947,
+        "data": 17068,
+        "software": 16548,
+        "ai": 14842,
+        "ai_assisted_devops_and_coding": 14167,
+        "security": 8920,
+        "devops": 8297,
+        "windows_internals_reverse_engineering": 8049,
+        "cloud": 5520,
+        "mobile_application_engineering": 4885,
+        "snmp_protocol_engineering": 4524,
+        "vector_database_and_rag_engineering": 3816,
+        "network_monitoring": 3687,
+        "embedded_edge_hardware_iot": 3344,
+        "gpu_accelerated_compute_engineering": 3198,
+        "custom_linux_image_builds": 3015,
+        "systems": 2801,
+        "systems_memory_performance_engineering": 2239,
+        "amd_rocm_gpu_platform_engineering": 1917,
+        "product_experience": 1785,
+        "nvidia_cuda_gpu_platform_engineering": 1728,
+        "heterogeneous_parallel_portability_engineering": 1610,
+        "linux_kernel_infrastructure": 1592,
+        "arm_embedded_platform_engineering": 728,
+        "openclaw_autonomous_agent_engineering": 701,
+        "windows_desktop_app_engineering": 523,
+        "telemetry_capture_architecture_engineering": 517,
+        "dos_legacy_pc_systems_engineering": 290,
+        "raspberry_pi_provisioning_imaging": 273,
+        "legacy_game_graphics_modernization_engineering": 193,
+        "low_level_game_engine_performance_architecture": 175,
+        "workspace_automation": 161,
+        "amd_xdna_npu_endpoint_engineering": 100
+      },
+      "documents": {
+        "AI_DEVOPS__INTEGRATING_MACHINE_INTELLIGENCE_INTO_CONTI_c94e79bb49": [
+          3,
+          10,
+          23,
+          30,
+          56
+        ],
+        "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb": [
+          23
+        ],
+        "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785": [
+          217,
+          587,
+          698,
+          832,
+          939,
+          1103,
+          1131
+        ],
+        "ARM_ARCHITECTURE_AND_PROGRAMMING_ESSENTIALS__DEFINITIV_c68f9d4b1c": [
+          119
+        ],
+        "BUILDING_INTELLIGENT_AGENTS_WITH_LANGFLOW_LANGCHAIN_OP_971441db02": [
+          330,
+          373
+        ],
+        "CLEAN_ARCHITECTURE_ROBERT_C._MARTIN_SERIES_1a5c2447be": [
+          599
+        ],
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a": [
+          458,
+          461,
+          576
+        ],
+        "DesignMachineLEarningSys_8a5b7a1b4e": [
+          317,
+          318,
+          323,
+          324,
+          331
+        ],
+        "GENERATIVE_AI_ON_RASPBERRY_PI_5__BUILD_PRIVATE_LLMS_VO_3d85f7ecf5": [
+          192
+        ],
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c": [
+          1062
+        ],
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7": [
+          303,
+          310,
+          313
+        ],
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492": [
+          149
+        ],
+        "GOOGLE_CLOUD_BLUEPRINT__VISUAL_DIAGRAMS_SERVICE_MAPS_A_7bf48d262c": [
+          255,
+          324
+        ],
+        "LINUX_KERNEL_DEVELOPMENT__THE_COMPLETE_HANDS-ON_GUIDE__62c8b6ea84": [
+          245
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          312,
+          383,
+          634
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          74,
+          113,
+          118
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          214
+        ],
+        "OLD_NEW_THING_59541c3c88": [
+          110
+        ],
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec": [
+          148
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          184
+        ],
+        "RUST_FOR_AI_AND_MACHINE_LEARNING__BUILD_FASTER_SAFER_H_f6dfd38e12": [
+          311
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          104
+        ],
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2": [
+          233
+        ],
+        "The.DevOps.Handbook_4a7e71d883": [
+          120,
+          187,
+          338
+        ],
+        "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00": [
+          150,
+          794
+        ],
+        "THE_SNMP_ESSENTIALS__COMPREHENSIVE_GUIDE_TO_NETWORK_MO_50d4ea6eee": [
+          246
+        ],
+        "Understanding_Deep_Learning_Building_Machine_Lear_9411ddf3dd": [
+          15
+        ],
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664": [
+          118
+        ],
+        "VECTOR_DATABASE_DEVELOPMENT_FOR_DEVELOPERS__DESIGNING__c68e4e1a54": [
+          223,
+          309
+        ],
+        "VIBE_CODING_WITH_GITHUB_COPILOT__MASTER_AGENTIC_MODE_A_12d65acfd9": [
+          300
+        ],
+        "WRITING_HIGH-PERFORMANCE_APPLICATIONS_IN_RUST__PROFILI_0b7be6eb59": [
+          675
+        ]
+      }
+    }
+  ],
+  "book_index_entries": [
+    {
+      "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+      "document_title": "GENERATIVE AI WITH LANGCHAIN_ BUILD PRODUCTION-READY LLM APPLICATIONS AND ADVANCED AGENTS USING PYTHON, LANGCHAIN, AND LANGGRAPH",
+      "source_index_page": 1154,
+      "term": "reinforcement learning from human: feedback (RLHF)",
+      "pages": [
+        3
+      ],
+      "raw": "feedback (RLHF) 3"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 545,
+      "term": "automated validation test suite: feedback",
+      "pages": [
+        130
+      ],
+      "raw": "feedback, 130"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 561,
+      "term": "feedback: automated build, integration, and test processes",
+      "pages": [
+        30
+      ],
+      "raw": "automated build, integration, and test processes, 30"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 562,
+      "term": "feedback: automated testing",
+      "pages": [
+        126,
+        130
+      ],
+      "raw": "automated testing, 126, 130"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 562,
+      "term": "feedback: error detection",
+      "pages": [
+        28
+      ],
+      "raw": "error detection, 28"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 562,
+      "term": "feedback: ineffective quality controls",
+      "pages": [
+        32,
+        34
+      ],
+      "raw": "ineffective quality controls, 32–34"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 562,
+      "term": "feedback: mechanisms for production telemetry",
+      "pages": [
+        229
+      ],
+      "raw": "mechanisms for production telemetry, 229"
+    },
+    {
+      "document_id": "The.DevOps.Handbook_4a7e71d883",
+      "document_title": "The.DevOps.Handbook",
+      "source_index_page": 562,
+      "term": "feedback: optimizing for downstream work centers",
+      "pages": [
+        34,
+        35
+      ],
+      "raw": "optimizing for downstream work centers, 34–35"
+    }
+  ],
+  "cross_references": [
+    {
+      "source": "feedback",
+      "target": "ui",
+      "relation": "co-occurs",
+      "strength": 19.1901,
+      "shared_documents": [
+        "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+        "INTRODUCTION_TO_DESIGN_THINKING_FOR_UX_BEGINNERS__5_ST_0006de75ca",
+        "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+          "pages": [
+            832
+          ]
+        },
+        {
+          "document_id": "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+          "pages": [
+            4,
+            84,
+            196,
+            400
+          ]
+        },
+        {
+          "document_id": "INTRODUCTION_TO_DESIGN_THINKING_FOR_UX_BEGINNERS__5_ST_0006de75ca",
+          "pages": [
+            25,
+            54
+          ]
+        },
+        {
+          "document_id": "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+          "pages": [
+            64
+          ]
+        },
+        {
+          "document_id": "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+          "pages": [
+            9,
+            22,
+            123,
+            141
+          ]
+        },
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            2,
+            16,
+            17
+          ]
+        },
+        {
+          "document_id": "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+          "pages": [
+            124,
+            127
+          ]
+        },
+        {
+          "document_id": "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4",
+          "pages": [
+            453
+          ]
+        }
+      ]
+    },
+    {
+      "source": "feedback",
+      "target": "book",
+      "relation": "co-occurs",
+      "strength": 18.7895,
+      "shared_documents": [
+        "AGENTIC_CODING_WITH_CLAUDE_CODE__THE_EVERYDAY_DEVELOPE_432e5a55e6",
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+        "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517",
+        "GPU_COMPUTING_511a6888ec",
+        "Game_Engine_Black_Book_-_Doom_v1.1_-_Fabien_Sanglard_2_cc893f4e58",
+        "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3",
+        "OpenAI_API_Cookbook_Build_intelligent_application_9d65dc9de5",
+        "PowerShell_3_8e30413707",
+        "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+        "RUST_PROGRAMMING_FOR_AI_AND_CUDA__MASTER_HIGH-PERFORMA_1731143e11",
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+        "The.DevOps.Handbook_4a7e71d883",
+        "WINDOWS_INTERNALS_DEVELOPER_REFERENCE_b30e3f3efd"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AGENTIC_CODING_WITH_CLAUDE_CODE__THE_EVERYDAY_DEVELOPE_432e5a55e6",
+          "pages": [
+            22,
+            42
+          ]
+        },
+        {
+          "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+          "pages": [
+            31,
+            1129
+          ]
+        },
+        {
+          "document_id": "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+          "pages": [
+            694
+          ]
+        },
+        {
+          "document_id": "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517",
+          "pages": [
+            310
+          ]
+        },
+        {
+          "document_id": "GPU_COMPUTING_511a6888ec",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "document_id": "Game_Engine_Black_Book_-_Doom_v1.1_-_Fabien_Sanglard_2_cc893f4e58",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "document_id": "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_id": "OpenAI_API_Cookbook_Build_intelligent_application_9d65dc9de5",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "document_id": "PowerShell_3_8e30413707",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "document_id": "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "document_id": "RUST_PROGRAMMING_FOR_AI_AND_CUDA__MASTER_HIGH-PERFORMA_1731143e11",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_id": "Security_Automation_with_Python_Practical_Python_aa2f0887f2",
+          "pages": [
+            41
+          ]
+        },
+        {
+          "document_id": "The.DevOps.Handbook_4a7e71d883",
+          "pages": [
+            25,
+            37
+          ]
+        },
+        {
+          "document_id": "WINDOWS_INTERNALS_DEVELOPER_REFERENCE_b30e3f3efd",
+          "pages": [
+            20
+          ]
+        }
+      ]
+    },
+    {
+      "source": "feedback",
+      "target": "users",
+      "relation": "co-occurs",
+      "strength": 17.25,
+      "shared_documents": [
+        "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b",
+        "ANDROID_DEVELOPMENT_WITH_KOTLIN_ZERO_TO_PRO__A_PROJECT_d7f03628e8",
+        "CLEAN_MOBILE_ARCHITECTURE__BECOME_AN_ANDROID_IOS_FLUTT_fad1e9adb6",
+        "DesignMachineLEarningSys_8a5b7a1b4e",
+        "FULL-STACK_DEVELOPMENT_WITH_DJANGO_AND_JAVASCRIPT__BUI_070cb5ca94",
+        "INTRODUCTION_TO_DESIGN_THINKING_FOR_UX_BEGINNERS__5_ST_0006de75ca",
+        "JETPACK_COMPOSE_ANDROID_APP_DEVELOPMENT_2026_EDITION___9932482faa",
+        "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b",
+          "pages": [
+            129
+          ]
+        },
+        {
+          "document_id": "ANDROID_DEVELOPMENT_WITH_KOTLIN_ZERO_TO_PRO__A_PROJECT_d7f03628e8",
+          "pages": [
+            111
+          ]
+        },
+        {
+          "document_id": "CLEAN_MOBILE_ARCHITECTURE__BECOME_AN_ANDROID_IOS_FLUTT_fad1e9adb6",
+          "pages": [
+            64
+          ]
+        },
+        {
+          "document_id": "DesignMachineLEarningSys_8a5b7a1b4e",
+          "pages": [
+            318,
+            323,
+            324,
+            325
+          ]
+        },
+        {
+          "document_id": "FULL-STACK_DEVELOPMENT_WITH_DJANGO_AND_JAVASCRIPT__BUI_070cb5ca94",
+          "pages": [
+            178
+          ]
+        },
+        {
+          "document_id": "INTRODUCTION_TO_DESIGN_THINKING_FOR_UX_BEGINNERS__5_ST_0006de75ca",
+          "pages": [
+            25
+          ]
+        },
+        {
+          "document_id": "JETPACK_COMPOSE_ANDROID_APP_DEVELOPMENT_2026_EDITION___9932482faa",
+          "pages": [
+            103
+          ]
+        },
+        {
+          "document_id": "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+          "pages": [
+            64
+          ]
+        },
+        {
+          "document_id": "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+          "pages": [
+            62,
+            92,
+            141
+          ]
+        },
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            16,
+            17
+          ]
+        }
+      ]
+    },
+    {
+      "source": "feedback",
+      "target": "loop",
+      "relation": "co-occurs",
+      "strength": 16.25,
+      "shared_documents": [
+        "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+        "BUILDING_INTELLIGENT_AGENTS_WITH_LANGFLOW_LANGCHAIN_OP_971441db02",
+        "CLEAN_ARCHITECTURE_ROBERT_C._MARTIN_SERIES_1a5c2447be",
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+        "DesignMachineLEarningSys_8a5b7a1b4e",
+        "GENERATIVE_AI_ON_RASPBERRY_PI_5__BUILD_PRIVATE_LLMS_VO_3d85f7ecf5",
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7",
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "THE_COMPLETE_HOMELAB_GUIDE__BUILD_YOUR_SELF-HOSTED_INF_1b6130de23"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+          "pages": [
+            587,
+            832,
+            1136
+          ]
+        },
+        {
+          "document_id": "BUILDING_INTELLIGENT_AGENTS_WITH_LANGFLOW_LANGCHAIN_OP_971441db02",
+          "pages": [
+            330,
+            373
+          ]
+        },
+        {
+          "document_id": "CLEAN_ARCHITECTURE_ROBERT_C._MARTIN_SERIES_1a5c2447be",
+          "pages": [
+            599
+          ]
+        },
+        {
+          "document_id": "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+          "pages": [
+            461,
+            576
+          ]
+        },
+        {
+          "document_id": "DesignMachineLEarningSys_8a5b7a1b4e",
+          "pages": [
+            323
+          ]
+        },
+        {
+          "document_id": "GENERATIVE_AI_ON_RASPBERRY_PI_5__BUILD_PRIVATE_LLMS_VO_3d85f7ecf5",
+          "pages": [
+            192
+          ]
+        },
+        {
+          "document_id": "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7",
+          "pages": [
+            308,
+            313
+          ]
+        },
+        {
+          "document_id": "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+          "pages": [
+            149
+          ]
+        },
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            383
+          ]
+        },
+        {
+          "document_id": "THE_COMPLETE_HOMELAB_GUIDE__BUILD_YOUR_SELF-HOSTED_INF_1b6130de23",
+          "pages": [
+            53
+          ]
+        }
+      ]
+    },
+    {
+      "source": "feedback",
+      "target": "agents",
+      "relation": "co-occurs",
+      "strength": 15.5906,
+      "shared_documents": [
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7",
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+        "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39",
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+          "pages": [
+            42,
+            607,
+            611,
+            630,
+            795,
+            1000
+          ]
+        },
+        {
+          "document_id": "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7",
+          "pages": [
+            61,
+            311
+          ]
+        },
+        {
+          "document_id": "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492",
+          "pages": [
+            72,
+            113,
+            127,
+            145,
+            218,
+            219
+          ]
+        },
+        {
+          "document_id": "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39",
+          "pages": [
+            193
+          ]
+        },
+        {
+          "document_id": "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2",
+          "pages": [
+            233
+          ]
+        }
+      ]
+    },
+    {
+      "source": "feedback",
+      "target": "learning",
+      "relation": "co-occurs",
+      "strength": 14.0174,
+      "shared_documents": [
+        "AI_DEVOPS__INTEGRATING_MACHINE_INTELLIGENCE_INTO_CONTI_c94e79bb49",
+        "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+        "OpenAI_API_Cookbook_Build_intelligent_application_9d65dc9de5",
+        "The.DevOps.Handbook_4a7e71d883",
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+        "Writing_AI_Prompts_For_Dummies_c3cfa280e8"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AI_DEVOPS__INTEGRATING_MACHINE_INTELLIGENCE_INTO_CONTI_c94e79bb49",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "document_id": "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+          "pages": [
+            1136
+          ]
+        },
+        {
+          "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+          "pages": [
+            1154
+          ]
+        },
+        {
+          "document_id": "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+          "pages": [
+            171,
+            323
+          ]
+        },
+        {
+          "document_id": "OpenAI_API_Cookbook_Build_intelligent_application_9d65dc9de5",
+          "pages": [
+            219
+          ]
+        },
+        {
+          "document_id": "The.DevOps.Handbook_4a7e71d883",
+          "pages": [
+            40,
+            72,
+            364
+          ]
+        },
+        {
+          "document_id": "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+          "pages": [
+            22
+          ]
+        },
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            2
+          ]
+        },
+        {
+          "document_id": "Writing_AI_Prompts_For_Dummies_c3cfa280e8",
+          "pages": [
+            278,
+            299
+          ]
+        }
+      ]
+    },
+    {
+      "source": "feedback",
+      "target": "ux",
+      "relation": "co-occurs",
+      "strength": 13.8505,
+      "shared_documents": [
+        "CLEAN_MOBILE_ARCHITECTURE__BECOME_AN_ANDROID_IOS_FLUTT_fad1e9adb6",
+        "INTRODUCTION_TO_DESIGN_THINKING_FOR_UX_BEGINNERS__5_ST_0006de75ca",
+        "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+        "Writing_AI_Prompts_For_Dummies_c3cfa280e8"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "CLEAN_MOBILE_ARCHITECTURE__BECOME_AN_ANDROID_IOS_FLUTT_fad1e9adb6",
+          "pages": [
+            474
+          ]
+        },
+        {
+          "document_id": "INTRODUCTION_TO_DESIGN_THINKING_FOR_UX_BEGINNERS__5_ST_0006de75ca",
+          "pages": [
+            25,
+            54
+          ]
+        },
+        {
+          "document_id": "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+          "pages": [
+            64
+          ]
+        },
+        {
+          "document_id": "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+          "pages": [
+            9,
+            22,
+            97,
+            123
+          ]
+        },
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            2,
+            16,
+            17
+          ]
+        },
+        {
+          "document_id": "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+          "pages": [
+            124,
+            127
+          ]
+        },
+        {
+          "document_id": "Writing_AI_Prompts_For_Dummies_c3cfa280e8",
+          "pages": [
+            143
+          ]
+        }
+      ]
+    },
+    {
+      "source": "feedback",
+      "target": "please",
+      "relation": "co-occurs",
+      "strength": 11.8224,
+      "shared_documents": [
+        "AGENTIC_CODING_WITH_CLAUDE_CODE__THE_EVERYDAY_DEVELOPE_432e5a55e6",
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+        "Game_Engine_Black_Book_-_Doom_v1.1_-_Fabien_Sanglard_2_cc893f4e58",
+        "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3",
+        "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+        "RAJA_Tutorial_2hr_2023_FINAL_436a7894a0",
+        "WINDOWS_INTERNALS_DEVELOPER_REFERENCE_b30e3f3efd"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AGENTIC_CODING_WITH_CLAUDE_CODE__THE_EVERYDAY_DEVELOPE_432e5a55e6",
+          "pages": [
+            22,
+            42
+          ]
+        },
+        {
+          "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+          "pages": [
+            31,
+            1129
+          ]
+        },
+        {
+          "document_id": "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+          "pages": [
+            694
+          ]
+        },
+        {
+          "document_id": "Game_Engine_Black_Book_-_Doom_v1.1_-_Fabien_Sanglard_2_cc893f4e58",
+          "pages": [
+            9
+          ]
+        },
+        {
+          "document_id": "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_id": "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "document_id": "RAJA_Tutorial_2hr_2023_FINAL_436a7894a0",
+          "pages": [
+            4,
+            121
+          ]
+        },
+        {
+          "document_id": "WINDOWS_INTERNALS_DEVELOPER_REFERENCE_b30e3f3efd",
+          "pages": [
+            20
+          ]
+        }
+      ]
+    }
+  ]
+}

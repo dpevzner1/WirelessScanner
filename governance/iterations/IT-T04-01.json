@@ -1,0 +1,122 @@
+{
+  "id": "IT-T04-01",
+  "task_ids": [
+    "T04"
+  ],
+  "finding_ids": [
+    "F02",
+    "F03"
+  ],
+  "scope": "persistence ordering and schema",
+  "state": "completed",
+  "started_at": "2026-10-15T22:10:00+00:00",
+  "finished_at": "2026-10-15T22:19:00+00:00",
+  "hypothesis": {
+    "claim": "A single FIFO consumer guarantees session-before-sample ordering and removes the FK race",
+    "disconfirming_result": "Ordering test passes even with the baseline fire-and-forget code (test would be insensitive) or FK violations persist with the writer",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [
+      "Channel-based single writer",
+      "Await each write inline",
+      "Locks around DbContext"
+    ],
+    "chosen": "Channel-based single writer",
+    "why": "Ordering by construction, no UI/scan blocking, batching per cycle",
+    "rejected": [
+      "Inline awaits block the loop",
+      "Locks do not order independent tasks"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT",
+      "EV-BL-LOG-0531"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Application/SessionManager.cs",
+      "engine_sha256": "WirelessScanner.Application/OrderedPersistenceWriter.cs",
+      "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0003-fresh-scan-and-persistence-pipeline.md",
+      "test_sha256": "WirelessScanner.Tests/CoreFixTests.cs"
+    }
+  },
+  "change": {
+    "summary": "OrderedPersistenceWriter; SessionManager routes all writes; batched SaveSamplesAsync; SchemaMigrator (user_version 2) using EF GenerateCreateScript",
+    "artifact_evidence_ids": [
+      "EV-T03T05-CHANGE"
+    ],
+    "scope_authority": "DR-0003"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests --no-build",
+      "mutation: restore Task.Run session insert; run SamplesSavedImmediatelyAfterStart"
+    ],
+    "positive": [
+      "SamplesSavedImmediatelyAfterStart_NeverViolateForeignKey",
+      "Upgrade_AddsMissingTables_ToLegacyDatabase_AndIsIdempotent"
+    ],
+    "negative": [
+      "MUT-F02 fails on baseline behaviour",
+      "Writer_PreservesFifoOrder_AndContinuesAfterFailure"
+    ],
+    "regression": [
+      "SessionRepository_DbIntegration_SavesAndCascades",
+      "ExportService tests"
+    ],
+    "result_evidence_ids": [
+      "EV-T03T05-TEST-1",
+      "EV-T04-MUT",
+      "EV-T03T05-TEST-2"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Mutation check proves test sensitivity"
+    ],
+    "what_failed": [],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Drain timeout 10 s on exit may lose a backlog after a hang"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": "TEST-T03T05-2 reran after restoring the mutated file (code changed)"
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-CORE-SCAN-PERSISTENCE"
+    ],
+    "transferable_rule": "Order dependent persistence through one queue; prove the test detects the old bug with a mutation run",
+    "applicability_limits": "Single-process SQLite"
+  },
+  "next_action": {
+    "action": "Reuse writer for saturation cycles",
+    "owner": "Claude Code (implementer)",
+    "resume_condition": "Suite green"
+  }
+}

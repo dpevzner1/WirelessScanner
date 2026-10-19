@@ -1,0 +1,29 @@
+{
+  "version": "1.1.0",
+  "payload": {
+    "version": "1.1.0",
+    "sha256": "98993ea8891212ef3b5653d3dd7bd8275e57194601d3751b68c6134914a116de",
+    "bytes": 84649941,
+    "parts": [
+      "WirelessScanner01.bin",
+      "WirelessScanner02.bin",
+      "WirelessScanner03.bin",
+      "WirelessScanner04.bin",
+      "WirelessScanner05.bin"
+    ],
+    "builtUtc": "2026-10-15T23:35:07.450966+00:00"
+  },
+  "installer_files": [
+    "README.md",
+    "WirelessScanner.Setup.Core.dll",
+    "WirelessScanner.Setup.exe",
+    "WirelessScanner.Setup.exe.config",
+    "WirelessScanner.payload.json",
+    "WirelessScanner01.bin",
+    "WirelessScanner02.bin",
+    "WirelessScanner03.bin",
+    "WirelessScanner04.bin",
+    "WirelessScanner05.bin"
+  ],
+  "largest_file_mb": 20.0
+}

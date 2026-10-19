@@ -1,0 +1,22 @@
+{
+  "in_sync": false,
+  "summary": {
+    "add": 4,
+    "update": 1,
+    "remove": 0,
+    "unmanaged_top_level": 0
+  },
+  "sample": {
+    "add": [
+      "governance/reviews/RV-2026-10-15-BASELINE/executions/GOV-LESSONS.20261015T220016342038Z.stderr.txt",
+      "governance/reviews/RV-2026-10-15-BASELINE/executions/GOV-LESSONS.20261015T220016342038Z.stdout.txt",
+      "governance/reviews/RV-2026-10-15-BASELINE/executions/GOV-VALIDATE.20261015T220011974258Z.stderr.txt",
+      "governance/reviews/RV-2026-10-15-BASELINE/executions/GOV-VALIDATE.20261015T220011974258Z.stdout.txt"
+    ],
+    "update": [
+      "governance/reviews/RV-2026-10-15-BASELINE/ATTESTATION-LEDGER.jsonl"
+    ],
+    "remove": [],
+    "unmanaged_top_level": []
+  }
+}

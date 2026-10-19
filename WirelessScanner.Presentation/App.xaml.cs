@@ -18,21 +18,63 @@ public partial class App : System.Windows.Application
 {
     public static IServiceProvider ServiceProvider { get; private set; } = null!;
 
+    /// <summary>
+    /// Demo mode (WIRELESSSCANNER_DEMO=1): simulated adapter and access points, no elevation required, data kept in a
+    /// separate "demo" data directory. For training, screenshots and UI verification; never for real surveys.
+    /// </summary>
+    public static bool IsDemoMode => Environment.GetEnvironmentVariable("WIRELESSSCANNER_DEMO") == "1";
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
-        if (!IsRunningAsAdministrator())
+        if (IsDemoMode && string.IsNullOrEmpty(Environment.GetEnvironmentVariable(AppPaths.DataDirEnvVar)))
         {
-            MessageBox.Show(
-                "Administrator privileges are required to access raw Wi-Fi telemetry via the Windows WLAN API.\n\n" +
-                "Please restart the application by right-clicking the executable and choosing 'Run as Administrator'.",
-                "Administrator Privilege Required",
-                MessageBoxButton.OK,
-                MessageBoxImage.Warning);
-            
+            Environment.SetEnvironmentVariable(AppPaths.DataDirEnvVar,
+                System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WirelessScanner", "demo"));
+        }
+
+        if (!IsDemoMode && !IsRunningAsAdministrator())
+        {
+            // NFR-04: request elevation through the standard UAC prompt by relaunching this executable elevated.
+            bool relaunched = false;
+            try
+            {
+                var exe = Environment.ProcessPath;
+                if (!string.IsNullOrEmpty(exe) && !e.Args.Contains("--elevated"))
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(exe, "--elevated") { UseShellExecute = true, Verb = "runas" });
+                    relaunched = true;
+                }
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                // the user declined the UAC prompt
+            }
+
+            if (!relaunched)
+            {
+                MessageBox.Show(
+                    "Administrator privileges are required to access raw Wi-Fi telemetry via the Windows WLAN API.\n\n" +
+                    "Start WirelessScanner again and choose 'Yes' in the Windows permission prompt, or right-click it and choose 'Run as administrator'.",
+                    "Administrator Privilege Required",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+
             System.Windows.Application.Current.Shutdown();
             return;
+        }
+
+        // Move pre-DR-0006 data (database/logs/API key next to the exe or in the working directory) to %ProgramData%.
+        try
+        {
+            foreach (var action in AppPaths.MigrateLegacyData()) AppLogger.Info(action);
+            AppLogger.Info($"Data directory: {AppPaths.DataDirectory}");
+        }
+        catch (Exception ex)
+        {
+            AppLogger.Error($"Legacy data migration failed: {ex.Message}", ex);
         }
 
         var serviceCollection = new ServiceCollection();
@@ -44,12 +86,37 @@ public partial class App : System.Windows.Application
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
         mainWindow.Show();
 
+        // GET /api/connection reports the running connection test (DR-0014)
+        if (ServiceProvider.GetService<IRestApiServer>() is RestApiServer api && ServiceProvider.GetService<ConnectionTestViewModel>() is { } connVm)
+            api.ConnectionStatusProvider = () => connVm.ApiStatus();
+
         // Auto-start REST API if configured
         _ = AutoStartApiServerAsync();
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
+        try
+        {
+            // Stop a running saturation test (its partial results are analysed and saved), then drain pending writes.
+            if (ServiceProvider?.GetService<ISaturationTestRunner>() is { IsRunning: true } runner)
+            {
+                runner.StopAsync().Wait(TimeSpan.FromSeconds(15));
+            }
+            if (ServiceProvider?.GetService<IConnectionTestRunner>() is { IsRunning: true } connRunner)
+            {
+                connRunner.StopAsync().Wait(TimeSpan.FromSeconds(15));
+            }
+            (ServiceProvider?.GetService<IScanScheduler>() as IAsyncDisposable)?.DisposeAsync().AsTask().Wait(TimeSpan.FromSeconds(5));
+            ServiceProvider?.GetService<OrderedPersistenceWriter>()?.FlushAsync().Wait(TimeSpan.FromSeconds(10));
+            (ServiceProvider?.GetService<INetworkAdapterProvider>() as IDisposable)?.Dispose();
+            NativePower.KeepAwake(false);
+        }
+        catch (Exception ex)
+        {
+            ServiceProvider?.GetService<IAppLogger>()?.Error($"Error during shutdown drain: {ex.Message}", ex);
+        }
+
         try
         {
             var apiServer = ServiceProvider?.GetService<IRestApiServer>();
@@ -107,7 +174,7 @@ public partial class App : System.Windows.Application
     {
         // DB Context Factory
         services.AddDbContextFactory<WlanDbContext>(options =>
-            options.UseSqlite("Data Source=wireless_scanner.db"));
+            options.UseSqlite(AppPaths.ConnectionString));
 
         // Logger Service
         services.AddSingleton<IAppLogger, SerilogAppLogger>();
@@ -116,17 +183,52 @@ public partial class App : System.Windows.Application
         services.AddSingleton<ISettingsRepository, SettingsRepository>();
         services.AddSingleton<IRestApiServer, RestApiServer>();
 
+        // One ordered persistence queue for the whole app (DR-0003): parents always written before children
+        services.AddSingleton<OrderedPersistenceWriter>();
+
         // Repositories and Managers
         services.AddSingleton<ISessionRepository, SessionRepository>();
-        services.AddSingleton<ISessionManager, SessionManager>();
+        services.AddSingleton<ISessionManager>(sp => new SessionManager(
+            sp.GetRequiredService<ISessionRepository>(), sp.GetRequiredService<IAppLogger>(), sp.GetRequiredService<OrderedPersistenceWriter>()));
         services.AddSingleton<IStatisticsCalculator, StatisticsCalculator>();
         services.AddSingleton<IExportService, ExportService>();
 
+        // Signal Saturation Test (SPEC-SAT-001)
+        services.AddSingleton<ISaturationAnalyzer, SaturationAnalyzer>();
+        services.AddSingleton<ISaturationRepository, SaturationRepository>();
+        services.AddSingleton<ISaturationExportService, SaturationExportService>();
+        // One scan scheduler per app (DR-0011, F18): live view, capture and saturation test share each scan
+        services.AddSingleton<IScanScheduler>(sp => new ScanScheduler(sp.GetRequiredService<INetworkAdapterProvider>(), sp.GetRequiredService<IAppLogger>()));
+        services.AddSingleton<ISaturationTestRunner>(sp => new SaturationTestRunner(
+            sp.GetRequiredService<IScanScheduler>(), sp.GetRequiredService<ISaturationRepository>(),
+            sp.GetRequiredService<ISaturationAnalyzer>(), sp.GetRequiredService<IAppLogger>(), sp.GetRequiredService<OrderedPersistenceWriter>()));
+
         // Core Adapter Services
-        services.AddSingleton<INetworkAdapterProvider, WlanAdapter>();
+        if (IsDemoMode)
+            services.AddSingleton<INetworkAdapterProvider, MockNetworkAdapterProvider>();
+        else
+            services.AddSingleton<INetworkAdapterProvider, WlanAdapter>();
+
+        // Connection test (DR-0014): probes bound to the Wi-Fi interface; simulated in demo mode
+        services.AddSingleton<IConnectionAnalyzer, ConnectionAnalyzer>();
+        services.AddSingleton<IConnectionRepository, ConnectionRepository>();
+        services.AddSingleton<IConnectionExportService, ConnectionExportService>();
+        if (IsDemoMode)
+            services.AddSingleton<IConnectionProber>(sp => new MockConnectionProber(sp.GetRequiredService<INetworkAdapterProvider>()));
+        else
+            services.AddSingleton<IConnectionProber>(sp => new WindowsConnectionProber(sp.GetRequiredService<INetworkAdapterProvider>(), sp.GetRequiredService<IAppLogger>()));
+        services.AddSingleton<IConnectionTestRunner>(sp => new ConnectionTestRunner(sp.GetRequiredService<IConnectionProber>(), sp.GetRequiredService<IConnectionRepository>(),
+            sp.GetRequiredService<IConnectionAnalyzer>(), sp.GetRequiredService<IAppLogger>(), sp.GetRequiredService<OrderedPersistenceWriter>()));
+        services.AddSingleton<ConnectionTestViewModel>(sp => new ConnectionTestViewModel(sp.GetRequiredService<IConnectionProber>(), sp.GetRequiredService<IConnectionTestRunner>(),
+            sp.GetRequiredService<IConnectionRepository>(), sp.GetRequiredService<IConnectionAnalyzer>(), sp.GetRequiredService<IConnectionExportService>(),
+            sp.GetRequiredService<ISettingsRepository>(), sp.GetRequiredService<INetworkAdapterProvider>()));
 
         // Views/ViewModels
         services.AddTransient<MainWindowViewModel>();
+        services.AddSingleton<IGeoLocationProvider, WindowsGeoLocationProvider>();
+        services.AddSingleton<SaturationTestViewModel>(sp => new SaturationTestViewModel(
+            sp.GetRequiredService<INetworkAdapterProvider>(), sp.GetRequiredService<ISaturationTestRunner>(), sp.GetRequiredService<ISaturationRepository>(),
+            sp.GetRequiredService<ISaturationAnalyzer>(), sp.GetRequiredService<ISaturationExportService>(), sp.GetRequiredService<IGeoLocationProvider>()));
         services.AddTransient<MainWindow>();
     }
 }

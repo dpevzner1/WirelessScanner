@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Installer lifecycle logic shared by the .NET Framework 4.8 setup wizard and the .NET 10 test suite (DR-0007). -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>WirelessScanner.Setup.Core</RootNamespace>
+  </PropertyGroup>
+
+</Project>

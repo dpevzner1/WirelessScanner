@@ -1,0 +1,121 @@
+{
+  "id": "IT-T02-01",
+  "task_ids": [
+    "T02"
+  ],
+  "finding_ids": [
+    "F08"
+  ],
+  "scope": "repository sync",
+  "state": "completed",
+  "started_at": "2026-10-15T21:55:00+00:00",
+  "finished_at": "2026-10-15T22:01:00+00:00",
+  "hypothesis": {
+    "claim": "An allow-list mirror with exclusions keeps GitHub Export identical to canonical content without leaking secrets/build output",
+    "disconfirming_result": "--check differs immediately after a sync, or a planted secret is planned for mirroring",
+    "prior_lessons": []
+  },
+  "decision": {
+    "options": [
+      "Allow-list mirror script",
+      "Make main folder the git repo",
+      "Manual copying"
+    ],
+    "chosen": "Allow-list mirror script",
+    "why": "Owner requires separate readiness folder; allow-list prevents accidental secret publication",
+    "rejected": [
+      "Main folder as repo (owner)",
+      "Manual (cause of F08)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": ".gitignore",
+      "engine_sha256": "tools/sync_github_export.py",
+      "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0002-canonical-folder-and-sync.md",
+      "test_sha256": "tools/sync_github_export.py"
+    }
+  },
+  "change": {
+    "summary": "tools/sync_github_export.py with allow-list, exclusions, protected mirror paths and sealed-ledger rule; canonical .gitignore",
+    "artifact_evidence_ids": [
+      "EV-T01-T02-CHANGE"
+    ],
+    "scope_authority": "DR-0002"
+  },
+  "test": {
+    "commands": [
+      "python tools/sync_github_export.py",
+      "python tools/sync_github_export.py --check",
+      "planted-secret dry run"
+    ],
+    "positive": [
+      "--check in_sync after sync"
+    ],
+    "negative": [
+      "planted *.db and api_key.md not planned"
+    ],
+    "regression": [
+      "GitHub Export/.git intact; git status shows only intended changes"
+    ],
+    "result_evidence_ids": [
+      "EV-T02-SYNC-FAIL",
+      "EV-T02-SYNC-PASS",
+      "EV-RV-BASELINE"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Allow-list + exclusion patterns",
+      "Sealed-ledger rule"
+    ],
+    "what_failed": [
+      "First attested check failed: open ledger inside mirrored root (SYNC-CHECK-1)"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "New top-level paths need allow-list updates"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": "SYNC-CHECK-2 reran after a code change (sealed-ledger rule), not unchanged"
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-BASELINE-GOVERNANCE"
+    ],
+    "transferable_rule": "Never place append-only evidence that is still open inside a mirrored/published root",
+    "applicability_limits": "File-level mirrors; not git submodules"
+  },
+  "next_action": {
+    "action": "Run sync at every checkpoint",
+    "owner": "Claude Code (implementer)",
+    "resume_condition": "--check clean"
+  }
+}

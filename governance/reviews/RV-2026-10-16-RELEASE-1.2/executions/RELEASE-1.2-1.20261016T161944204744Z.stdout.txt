@@ -1,0 +1,120 @@
+  Determining projects to restore...
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\WirelessScanner.Tests.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\WirelessScanner.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\WirelessScanner.Tests.csproj]
+  All projects are up-to-date for restore.
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\WirelessScanner.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  WirelessScanner.Setup.Core -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Setup.Core\bin\Release\netstandard2.0\WirelessScanner.Setup.Core.dll
+  WirelessScanner.Domain -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Domain\bin\Release\net10.0\WirelessScanner.Domain.dll
+  WirelessScanner.Application -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Application\bin\Release\net10.0\WirelessScanner.Application.dll
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(701,13): warning CS0618: 'SKPaint.TextSize' is obsolete: 'Use SKFont.Size instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(727,13): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(735,9): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(740,13): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(743,13): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(750,13): warning CS0618: 'SKPaint.TextSize' is obsolete: 'Use SKFont.Size instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(752,13): warning CS0618: 'SKPaint.TextAlign' is obsolete: 'Use SKTextAlign method overloads instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(753,13): warning CS0618: 'SKPaint.FakeBoldText' is obsolete: 'Use SKFont.Embolden instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(755,9): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(850,21): warning CS0618: 'SKPaint.TextSize' is obsolete: 'Use SKFont.Size instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(852,21): warning CS0618: 'SKPaint.FakeBoldText' is obsolete: 'Use SKFont.Embolden instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(865,17): warning CS0618: 'SKPaint.MeasureText(string, ref SKRect)' is obsolete: 'Use SKFont.MeasureText() instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(871,17): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+  WirelessScanner.Infrastructure -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\bin\Release\net10.0\WirelessScanner.Infrastructure.dll
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation_gnif4fao_wpftmp.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\SpectrumView.xaml.cs(328,27): warning CS0108: 'SpectrumView.Name(AccessPoint)' hides inherited member 'FrameworkElement.Name'. Use the new keyword if hiding was intended. [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation_gnif4fao_wpftmp.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\MainWindowViewModel.cs(77,17): warning CS0414: The field 'MainWindowViewModel._selectedSessionSampleCount' is assigned but its value is never used [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation_gnif4fao_wpftmp.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\SpectrumView.xaml.cs(328,27): warning CS0108: 'SpectrumView.Name(AccessPoint)' hides inherited member 'FrameworkElement.Name'. Use the new keyword if hiding was intended. [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\MainWindowViewModel.cs(77,17): warning CS0414: The field 'MainWindowViewModel._selectedSessionSampleCount' is assigned but its value is never used [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj]
+  WirelessScanner.Presentation -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\bin\Release\net10.0-windows10.0.19041.0\WirelessScanner.Presentation.dll
+  WirelessScanner.Tests -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Release\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll
+Test run for C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Tests\bin\Release\net10.0-windows10.0.19041.0\WirelessScanner.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+  Skipped ConcurrentConsumers_OnRealAdapter_ShareScans_WithoutFailures [14 ms]
+  Skipped ScanAsync_OnRealAdapter_ReportsCycleStatusesAndBeaconAges [17 ms]
+  Skipped RenderPreviewPages [< 1 ms]
+  Skipped RealAdapter_SaturationTest_ProducesCompleteReport [< 1 ms]
+
+Passed!  - Failed:     0, Passed:   148, Skipped:     0, Total:   148, Duration: 55 s - WirelessScanner.Tests.dll (net10.0)
+  Determining projects to restore...
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  Restored C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Domain\WirelessScanner.Domain.csproj (in 1.22 sec).
+  Restored C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj (in 1.27 sec).
+  Restored C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Application\WirelessScanner.Application.csproj (in 1.22 sec).
+  Restored C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj (in 1.27 sec).
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  WirelessScanner.Domain -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Domain\bin\Release\net10.0\WirelessScanner.Domain.dll
+  WirelessScanner.Application -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Application\bin\Release\net10.0\WirelessScanner.Application.dll
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(701,13): warning CS0618: 'SKPaint.TextSize' is obsolete: 'Use SKFont.Size instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(727,13): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(735,9): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(740,13): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(743,13): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(750,13): warning CS0618: 'SKPaint.TextSize' is obsolete: 'Use SKFont.Size instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(752,13): warning CS0618: 'SKPaint.TextAlign' is obsolete: 'Use SKTextAlign method overloads instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(753,13): warning CS0618: 'SKPaint.FakeBoldText' is obsolete: 'Use SKFont.Embolden instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(755,9): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(850,21): warning CS0618: 'SKPaint.TextSize' is obsolete: 'Use SKFont.Size instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(852,21): warning CS0618: 'SKPaint.FakeBoldText' is obsolete: 'Use SKFont.Embolden instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(865,17): warning CS0618: 'SKPaint.MeasureText(string, ref SKRect)' is obsolete: 'Use SKFont.MeasureText() instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\ExportService.cs(871,17): warning CS0618: 'SKCanvas.DrawText(string, float, float, SKPaint)' is obsolete: 'Use DrawText(string text, float x, float y, SKTextAlign textAlign, SKFont font, SKPaint paint) instead.' [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj]
+  WirelessScanner.Infrastructure -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\bin\Release\net10.0\WirelessScanner.Infrastructure.dll
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation_rsygbhwd_wpftmp.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\SpectrumView.xaml.cs(328,27): warning CS0108: 'SpectrumView.Name(AccessPoint)' hides inherited member 'FrameworkElement.Name'. Use the new keyword if hiding was intended. [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation_rsygbhwd_wpftmp.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\MainWindowViewModel.cs(77,17): warning CS0414: The field 'MainWindowViewModel._selectedSessionSampleCount' is assigned but its value is never used [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation_rsygbhwd_wpftmp.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\SpectrumView.xaml.cs(328,27): warning CS0108: 'SpectrumView.Name(AccessPoint)' hides inherited member 'FrameworkElement.Name'. Use the new keyword if hiding was intended. [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj]
+C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\MainWindowViewModel.cs(77,17): warning CS0414: The field 'MainWindowViewModel._selectedSessionSampleCount' is assigned but its value is never used [C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj]
+  WirelessScanner.Presentation -> C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\bin\Release\net10.0-windows10.0.19041.0\win-x64\WirelessScanner.Presentation.dll
+  WirelessScanner.Presentation -> C:\Users\demit\Documents\Antigrav\WirelessScanner\artifacts\release\app\
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  WirelessScanner.Setup.Core -> C:\Users\demit\Documents\Antigrav\WirelessScanner\artifacts\release\setup\WirelessScanner.Setup.Core.dll
+  WirelessScanner.Setup -> C:\Users\demit\Documents\Antigrav\WirelessScanner\artifacts\release\setup\WirelessScanner.Setup.exe
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.88
+[0/5] WirelessScanner 1.2.0
+  >> dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj -c Release
+[1/5] Publishing application (self-contained single file)
+  >> dotnet publish WirelessScanner.Presentation/WirelessScanner.Presentation.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -o C:\Users\demit\Documents\Antigrav\WirelessScanner\artifacts\release\app
+[2/5] Zipping application
+[3/5] Building setup wizard (.NET Framework 4.8)
+  >> dotnet build WirelessScanner.Setup/WirelessScanner.Setup.csproj -c Release -p:DebugType=none -o C:\Users\demit\Documents\Antigrav\WirelessScanner\artifacts\release\setup
+[4/5] Splitting payload and writing manifest
+[5/5] Assembling C:\Users\demit\Documents\Antigrav\WirelessScanner\GitHub Export\EXE INSTALLER
+{
+  "version": "1.2.0",
+  "payload": {
+    "version": "1.2.0",
+    "sha256": "c125487e16d3b78d5c3034afdecbb6c5c533a03fb5b8fc0b23edb25c51ce4858",
+    "bytes": 84690839,
+    "parts": [
+      "WirelessScanner01.bin",
+      "WirelessScanner02.bin",
+      "WirelessScanner03.bin",
+      "WirelessScanner04.bin",
+      "WirelessScanner05.bin"
+    ],
+    "builtUtc": "2026-10-16T16:23:41.855330+00:00"
+  },
+  "installer_files": [
+    "README.md",
+    "WirelessScanner.Setup.Core.dll",
+    "WirelessScanner.Setup.exe",
+    "WirelessScanner.Setup.exe.config",
+    "WirelessScanner.payload.json",
+    "WirelessScanner01.bin",
+    "WirelessScanner02.bin",
+    "WirelessScanner03.bin",
+    "WirelessScanner04.bin",
+    "WirelessScanner05.bin"
+  ],
+  "largest_file_mb": 20.0
+}

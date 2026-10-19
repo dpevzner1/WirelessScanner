@@ -1,0 +1,11 @@
+{
+  "snapshot_id": "SNAP-LL-1.5-1",
+  "captured_at": "2026-10-19T00:41:54.803356+00:00",
+  "files": [
+    {
+      "path": "LessonsLearned/records/2026-10-18-connection-test.md",
+      "sha256": "1cecf1ef134c94b0715ecf4570845ace9280addf6c9ef4b056af1b17a70dfe53",
+      "bytes": 10175
+    }
+  ]
+}

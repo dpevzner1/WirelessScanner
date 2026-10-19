@@ -1,0 +1,143 @@
+{
+  "id": "IT-T23-01",
+  "task_ids": [
+    "T23"
+  ],
+  "finding_ids": [
+    "F28"
+  ],
+  "scope": "physical access points (DR-0013 stage-1 MVP)",
+  "state": "completed",
+  "started_at": "2026-10-18T18:46:25+00:00",
+  "finished_at": "2026-10-18T21:32:15+00:00",
+  "hypothesis": {
+    "claim": "Same-radio TSF agreement, WPS UUID and MAC-family rules group the owner's BSSIDs into physical units correctly, and unit selection/tests/reports can be added without changing any existing behaviour",
+    "disconfirming_result": "The owner's router does not form one unit, unrelated OUIs merge, a coincident clock persists as a link, or any existing test/parity row fails",
+    "prior_lessons": [
+      "LL-2026-10-16-LIVE-SURVEY-REDESIGN",
+      "LL-2026-10-16-RELEASE-REPORTS"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Passive inference with confidence + overrides (A+B)",
+      "Management-plane adapters (C)",
+      "Active per-node tests (D)"
+    ],
+    "chosen": "Passive inference with confidence + overrides (A+B)",
+    "why": "Works for any equipment without credentials or measurement-boundary change; owner: 'a unit approximation ... would be a strong MVP'",
+    "rejected": [
+      "C first (vendor-specific, owner equipment unknown)",
+      "D first (disconnects the PC; DR-0004 boundary)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-1.3-TEST"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Application/PhysicalUnitGrouper.cs",
+      "engine_sha256": "WirelessScanner.Application/SaturationAnalyzer.cs",
+      "context_sha256": "docs/decisions/DR-0013-select-by-access-point-and-mesh.md",
+      "test_sha256": "WirelessScanner.Tests/PhysicalUnitTests.cs"
+    }
+  },
+  "change": {
+    "summary": "TSF/WPS capture; PhysicalUnitGrouper with overrides in Settings; NetworkSelection units + SingleUnit/MultipleUnits; explorer Group by Access point with badges, evidence, mesh hint, context menus; units resolved at test start; SAT-ANALYTICS-3 AnalyzeUnit; report schema v3 (_units.csv, PDF 6b, JSON units); demo data; docs; version 1.4.0; privacy redaction of fixtures (PU-6)",
+    "artifact_evidence_ids": [
+      "EV-1.4-CHANGE-2",
+      "EV-1.4-DOCS-2"
+    ],
+    "scope_authority": "Owner 2026-10-18: 'lets go with the proposal, and ensure this is documented throoughly in the project artifacts and read me'"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj (TEST-1.4-FULL-2)",
+      "python governance/reviews/RV-2026-10-18-RELEASE-1.4.0/doc_audit_1_4.py (DOC-AUDIT-1.4-2)",
+      "python tools/build_release.py (RELEASE-1.4.0-2)",
+      "LiveSurvey render with WS_UI_RENDER_OUT"
+    ],
+    "positive": [
+      "OwnersRouter_IsOneUnit_TwoRadios_FourSsids_High",
+      "ThreeSsidsOnOneRadio_GroupByClock_AndOtherBoxIsMeshCandidate",
+      "Explorer_AccessPointView_SelectsUnit_AndTestConfigResolvesItAtStart",
+      "AnalyzeUnit_Availability_Consistency_SsidOnlyOutage",
+      "Reports_CarryUnitSection_InJsonCsvAndPdf_AndNothingExtraWithoutUnits"
+    ],
+    "negative": [
+      "ClockCoincidenceThatDoesNotPersist_DoesNotMerge",
+      "DifferentBands_NeverLinkedByClock",
+      "Family_UnrelatedOuis / Family_GlobalOui_Octet4DiffersIsAnotherBox",
+      "different WPS UUIDs never merge",
+      "no _units.csv without units"
+    ],
+    "regression": [
+      "Full suite 209/209 (parity rows P1-P3)",
+      "Release-config tests 209/209"
+    ],
+    "result_evidence_ids": [
+      "EV-1.4-TEST-2",
+      "EV-1.4-DOCAUDIT-2",
+      "EV-1.4-RELEASE-2"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Measuring the real environment before designing",
+      "Prototype on real data before C#",
+      "Resolve-at-start keeps tests immutable"
+    ],
+    "what_failed": [
+      "Real BSSIDs copied into fixtures/demo/docs (PU-6, corrected before any sync or push)",
+      "Python escape put newlines into a C# literal",
+      "Heredoc abort (LF-S2 again)",
+      "Badge clipped in first render"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Installed-app grouping on the owner's networks unverified (T23-WP6)",
+      "Vendors with other MAC schemes may group only per radio"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [
+      "IT-T14-01",
+      "IT-T16-01"
+    ],
+    "reuse_applied": "Explorer reconcile-in-place and the shared-selection lock from T14/T16",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-18-PHYSICAL-UNITS"
+    ],
+    "transferable_rule": "Inferred identities carry confidence, evidence and a user override, and are frozen per measurement; never copy real identifiers into code or docs",
+    "applicability_limits": "Passive Wi-Fi client measurements"
+  },
+  "next_action": {
+    "action": "Owner installs 1.4.0 and checks Group by: Access point on real networks",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner installs 1.4.0"
+  }
+}

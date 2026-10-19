@@ -1,0 +1,51 @@
+{
+  "snapshot_id": "SNAP-1.4-DOCS-2",
+  "captured_at": "2026-10-18T21:30:41.434977+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "08bb41309dd53365f10b45c01fd2c489c7bb9478f7d7ad381147e0e6c2d80643",
+      "bytes": 9430
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "8b003790757d1942eccaa81c7dda40abfcbdf04dff5066ca675373b64fca8ce3",
+      "bytes": 17294
+    },
+    {
+      "path": "docs/USER_GUIDE.md",
+      "sha256": "b7d22d371054b2d7036f9196d41a120a8c9d0d87c41447fb339f8ff927746ea1",
+      "bytes": 33933
+    },
+    {
+      "path": "docs/TECHNICAL_REFERENCE.md",
+      "sha256": "1e54f98b6cd7c36c1b9e8cd63e64c4eec96591883b1466a55a6d53d95cf95b03",
+      "bytes": 26633
+    },
+    {
+      "path": "docs/SATURATION_TEST_SPEC.md",
+      "sha256": "4726c569b7679db6446663681c937f872bdbd8dac052a51927ef0155c7b2bb64",
+      "bytes": 25122
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "e6b8187dd22d6969aa8e2bd03aaea57c5916b2765f91a46e206077ae814f0d44",
+      "bytes": 11169
+    },
+    {
+      "path": "docs/PARITY_CHECKLIST.md",
+      "sha256": "8b72f831201ce7ae2c0f179df7e15661b4a54ef7c8a3eb23325ff7d8b3152141",
+      "bytes": 11754
+    },
+    {
+      "path": "docs/decisions/DR-0013-select-by-access-point-and-mesh.md",
+      "sha256": "2e815c1d15ee09e120c68125829bca7b40438b4c6d0f2751d2939bc8dcc00927",
+      "bytes": 14809
+    },
+    {
+      "path": "docs/images/ui_ls_explorer_access_points.png",
+      "sha256": "b9552e94ca105f134b1025ae42803fdb991f372fa5471e8b3c713ad58c9576c2",
+      "bytes": 154747
+    }
+  ]
+}

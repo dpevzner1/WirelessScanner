@@ -1,0 +1,13 @@
+{
+  "version": "1.5.0",
+  "sha256": "71d6ccaf6019cadb61a8d88b0e69274f4ba31f7d42b75fae75cacf821e7dedcf",
+  "bytes": 84909742,
+  "parts": [
+    "WirelessScanner01.bin",
+    "WirelessScanner02.bin",
+    "WirelessScanner03.bin",
+    "WirelessScanner04.bin",
+    "WirelessScanner05.bin"
+  ],
+  "builtUtc": "2026-10-19T00:38:13.351732+00:00"
+}

@@ -1,0 +1,45 @@
+# Read-only Wi-Fi scan throttling probe, 2026-10-19T18:15:20Z (tools: adb shell; nothing was changed on the device)
+device: SM-X200 API 34 build X200XXS6DYG6 (serial masked)
+app: versionName=1.5.0
+
+## settings get global wifi_scan_throttle_enabled
+null
+
+## dumpsys wifi | grep -i throttl (counters and config store)
+mWifiLogProto.numExternalForegroundAppOneshotScanRequestsThrottled=114
+mWifiLogProto.numExternalBackgroundAppOneshotScanRequestsThrottled=0
+wifi_scan_throttle_enabled=true
+10-19 13:11:32.715 12793 12793 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:settings get global wifi_scan_throttle_enabled'
+10-19 13:15:28.061 12793 12793 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:settings get global wifi_scan_throttle_enabled'
+
+## cmd wifi help | grep -i throttl (no match means the shell command offers no throttle switch)
+(end)
+
+## logcat WifiScanRequestProxy, last 24 lines (app request cadence while throttled)
+10-19 13:13:05.200  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:10.201  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:15.201  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:25.205  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:30.206  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:35.206  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:40.207  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:45.211  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:50.211  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:13:55.213  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:05.214  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:10.217  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:15.216  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:25.218  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:30.220  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:35.222  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:40.223  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:45.223  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:14:55.226  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:15:00.229  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:15:05.231  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:15:10.234  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:15:15.233  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+10-19 13:15:20.154  1181  1350 I WifiScanRequestProxy: Scan request from com.wirelessscanner.android throttled
+
+## counts in current logcat buffer
+throttled: 53

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -25,6 +26,8 @@
     <ProjectReference Include="..\WirelessScanner.Application\WirelessScanner.Application.csproj" />
     <ProjectReference Include="..\WirelessScanner.Infrastructure\WirelessScanner.Infrastructure.csproj" />
     <ProjectReference Include="..\WirelessScanner.Presentation\WirelessScanner.Presentation.csproj" />
+    <ProjectReference Include="..\WirelessScanner.Setup.Core\WirelessScanner.Setup.Core.csproj" />
+    <ProjectReference Include="..\WirelessScanner.Responder.Core\WirelessScanner.Responder.Core.csproj" />
   </ItemGroup>
 
 </Project>

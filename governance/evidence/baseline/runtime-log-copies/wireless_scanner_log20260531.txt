@@ -1,0 +1,32 @@
+2026-05-31 11:05:06.563 -05:00 [INF] Auto-starting REST API Server...
+2026-05-31 11:05:06.727 -05:00 [INF] REST API Server started on http://localhost:5005/
+2026-05-31 11:11:18.746 -05:00 [INF] REST API Server stopped.
+2026-05-31 11:13:07.013 -05:00 [INF] Auto-starting REST API Server...
+2026-05-31 11:13:07.208 -05:00 [INF] REST API Server started on http://localhost:5005/
+2026-05-31 11:17:53.256 -05:00 [INF] REST API Server stopped.
+2026-05-31 11:23:06.621 -05:00 [INF] Auto-starting REST API Server...
+2026-05-31 11:23:06.826 -05:00 [INF] REST API Server started on http://localhost:5005/
+2026-05-31 11:24:49.265 -05:00 [ERR] SessionManager Error: An error occurred while saving the entity changes. See the inner exception for details.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Microsoft.Data.Sqlite.SqliteException (0x80004005): SQLite Error 19: 'FOREIGN KEY constraint failed'.
+   at Microsoft.Data.Sqlite.SqliteException.ThrowExceptionForRC(Int32 rc, sqlite3 db)
+   at Microsoft.Data.Sqlite.SqliteDataReader.NextResult()
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.Data.Sqlite.SqliteCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at WirelessScanner.Infrastructure.SessionRepository.SaveSampleAsync(TelemetrySample sample, Guid sessionId) in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\SessionRepository.cs:line 71
+   at WirelessScanner.Application.SessionManager.<>c__DisplayClass22_0.<<SaveSample>b__0>d.MoveNext() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Application\SessionManager.cs:line 164
+2026-05-31 11:25:42.113 -05:00 [INF] REST API Server stopped.

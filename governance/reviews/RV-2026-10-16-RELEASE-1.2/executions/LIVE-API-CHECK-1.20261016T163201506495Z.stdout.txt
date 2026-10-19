@@ -1,0 +1,1 @@
+SETUP: REST API is not enabled with a key (REST API CONFIG tab: enable, GENERATE, APPLY & SAVE).

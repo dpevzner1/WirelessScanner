@@ -1,0 +1,21 @@
+{
+  "snapshot_id": "SNAP-LL-SAT-1",
+  "captured_at": "2026-10-15T23:47:12.924925+00:00",
+  "files": [
+    {
+      "path": "LessonsLearned/records/2026-10-15-saturation-release.md",
+      "sha256": "f776bb19a9db73791c14a24a33526a8284728b02d2e0565bc273663a8d514c0e",
+      "bytes": 12777
+    },
+    {
+      "path": "LessonsLearned/records/2026-10-15-baseline-governance.md",
+      "sha256": "1adae86fa986a2badaa83284962d1ba38d6b8e5dad96325ec68277edc43ce879",
+      "bytes": 11630
+    },
+    {
+      "path": "LessonsLearned/lesson-register.json",
+      "sha256": "36911fd7186042bd0a8353fc4b475de71b8fafd40d7f23938629d8ae8e286472",
+      "bytes": 2813
+    }
+  ]
+}

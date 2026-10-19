@@ -1,0 +1,140 @@
+{
+ "id": "IT-T27-02",
+ "task_ids": [
+  "T27",
+  "T30",
+  "T31"
+ ],
+ "finding_ids": [
+  "F30",
+  "F33",
+  "F34"
+ ],
+ "scope": "Android app screens and adaptive layout (b1-b6), device smoke tests, scan-throttling documentation, two-way parity control, signing secrets removed from source, 1.5.0 release APK staged for GitHub with a user install guide",
+ "state": "completed",
+ "started_at": "2026-10-19T13:40:00+00:00",
+ "finished_at": "2026-10-19T18:50:00+00:00",
+ "hypothesis": {
+  "claim": "With the core proven by parity fixtures, the Compose app plus an adaptive layout gives a usable tablet survey tool, and the release can ship without any secret in the repository",
+  "disconfirming_result": "Device smoke test shows cut-off or unusable controls, or the release APK cannot be signed without committed secrets",
+  "prior_lessons": [
+   "LL-2026-10-19-ANDROID-PORT",
+   "LL-2026-10-19-ANDROID-DEVICE-AUTH"
+  ]
+ },
+ "decision": {
+  "options": [
+   "Slide-over network list (B) with three panes only on large screens",
+   "Dedicated networks screen (A)",
+   "Two panes with switcher (C)"
+  ],
+  "chosen": "Slide-over network list (B) with three panes only on large screens",
+  "why": "Owner approved the merge after the C-12 graded proposal; spectrum stays visible while selecting",
+  "rejected": [
+   "Dedicated screen (no live context)",
+   "Bottom sheet (fewest rows)"
+  ]
+ },
+ "reproduction": {
+  "baseline_evidence_ids": [
+   "EV-ANDROID-CORE-PARITY-1",
+   "EV-ANDROID-DEPLOY-GATE-3"
+  ],
+  "files": {
+   "input_sha256": "AndroidApp/docs/NETWORK_SELECTION_PROPOSAL.md",
+   "engine_sha256": "AndroidApp/app/src/main/java/com/wirelessscanner/android/MainActivity.kt",
+   "context_sha256": "docs/decisions/DR-0017-two-way-platform-parity.md",
+   "test_sha256": "tools/build_android_release.py"
+  },
+  "environment": {
+   "os": "Windows 10 Pro 10.0.19045",
+   "jdk": "21",
+   "android_sdk": "platform 36, build-tools latest",
+   "gradle": "wrapper (AndroidApp/gradle/wrapper)",
+   "python": "3.13",
+   "shell": "Git Bash + PowerShell 5.1",
+   "device": "Samsung SM-X200, Android 14 / API 34 (serial masked)"
+  }
+ },
+ "change": {
+  "summary": "Real Wi-Fi app replacing the preview; adaptive layout; right-side network slide-over (multi-select, closes on CLOSE or outside tap, pinned row order); signing secrets moved to local.properties; build_android_release.py; INSTALL_GUIDE.md; WIFI_SCAN_THROTTLING.md; DR-0017; mirror includes AndroidApp source and the ANDROID APK folder",
+  "artifact_evidence_ids": [
+   "EV-ANDROID-RELEASE-1.5.0",
+   "EV-ANDROID-THROTTLE-PROBE-1"
+  ],
+  "scope_authority": "Owner 2026-10-19: implement the actual app; approve the merge layout; remove the password and upload to standard"
+ },
+ "test": {
+  "commands": [
+   "gradlew :core:test :app:assembleRelease",
+   "apksigner verify --print-certs",
+   "tools/android_deploy.ps1 -Install",
+   "adb screencap smoke steps"
+  ],
+  "positive": [
+   "b6 installed, foreground, no FATAL",
+   "multi-select keeps the list open; tap outside closes it",
+   "row order held across two rescans",
+   "release APK byte-identical to b6, same signer as all earlier builds"
+  ],
+  "negative": [
+   "no password in tracked source",
+   "no keystore, APK build output or local-only screenshots in the mirror",
+   "only synthetic MAC addresses in Android sources"
+  ],
+  "regression": [
+   "core 18/18 with 7 parity suites",
+   "control and lessons validators pass"
+  ],
+  "result_evidence_ids": [
+   "EV-ANDROID-DEPLOY-GATE-B6",
+   "EV-ANDROID-RELEASE-1.5.0"
+  ],
+  "reviewer": "Claude Code self-check (not independent)",
+  "independent": false
+ },
+ "outcome": {
+  "verdict": "passed",
+  "what_worked": [
+   "Device gate with read-back hash and screenshots",
+   "Reproducible release build (identical bytes to the tested build)"
+  ],
+  "what_failed": [
+   "Auto-close on selection blocked multi-select (reverted on owner feedback)",
+   "Rows re-sorted under the finger on each rescan (fixed by pinning)",
+   "Scan requests every 5 s while throttled (open, T30-WP2)"
+  ],
+  "new_finding_ids": [
+   "F33",
+   "F34"
+  ],
+  "residual_risk": [
+   "Portrait and full-feature smoke test not finished",
+   "Windows back-fill of the Android layout changes (T31)",
+   "Throttle cadence defect"
+  ]
+ },
+ "effort": {
+  "unknown_reason": "Not measured"
+ },
+ "reuse": {
+  "similar_iteration_ids": [
+   "IT-T27-01"
+  ],
+  "reuse_applied": "build_release.py pattern for the APK folder; reference sideload lessons",
+  "rerun_justification": null
+ },
+ "lessons": {
+  "record_ids": [
+   "LL-2026-10-19-ANDROID-PORT",
+   "LL-2026-10-19-ANDROID-SCAN-THROTTLING"
+  ],
+  "transferable_rule": "Keep signing secrets out of source from the first build, and ship user install instructions next to the binary",
+  "applicability_limits": "Sideloaded Android apps"
+ },
+ "next_action": {
+  "action": "T30-WP2 cadence fix and per-AP age; finish the portrait and full-feature smoke test; T31 Windows back-fill",
+  "owner": "Claude Code",
+  "resume_condition": "Preflight shows device; owner rotates the tablet for portrait"
+ }
+}

@@ -12,11 +12,11 @@ public static class AppLogger
     static AppLogger()
     {
         // Ensure logs directory exists
-        Directory.CreateDirectory("logs");
+        // Logs live under AppPaths.LogsDirectory (DR-0006); never relative to the working directory.
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
-            .WriteTo.File("logs/wireless_scanner_log.txt", 
+            .WriteTo.File(Path.Combine(AppPaths.LogsDirectory, "wireless_scanner_log.txt"), 
                 rollingInterval: RollingInterval.Day, 
                 retainedFileCountLimit: 28) // 28 days = 4 weeks retention
             .CreateLogger();
@@ -54,9 +54,9 @@ public static class AppLogger
         {
             Log.CloseAndFlush(); // Release file locks
             
-            if (Directory.Exists("logs"))
+            if (Directory.Exists(AppPaths.LogsDirectory))
             {
-                var files = Directory.GetFiles("logs");
+                var files = Directory.GetFiles(AppPaths.LogsDirectory);
                 foreach (var f in files)
                 {
                     try { File.Delete(f); } catch { }
@@ -66,7 +66,7 @@ public static class AppLogger
             // Re-initialize
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.File("logs/wireless_scanner_log.txt", 
+                .WriteTo.File(Path.Combine(AppPaths.LogsDirectory, "wireless_scanner_log.txt"), 
                     rollingInterval: RollingInterval.Day, 
                     retainedFileCountLimit: 28)
                 .CreateLogger();

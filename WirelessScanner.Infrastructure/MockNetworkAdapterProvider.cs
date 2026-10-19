@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WirelessScanner.Domain;
 
@@ -25,11 +26,19 @@ public class MockNetworkAdapterProvider : INetworkAdapterProvider
 
         _mockAPs = new List<AccessPoint>
         {
-            new("8C:5A:25:04:91:B0", "PlantOps", "ap-ops-01.local", "5 GHz", 36, 80, -52, -95, 43, 85, "WPA3-Enterprise", "Infrastructure", "Cisco Systems", new[] { "54", "150", "300", "867" }, DateTime.UtcNow),
-            new("8C:5A:25:04:91:B1", "PlantOps", "ap-ops-02.local", "2.4 GHz", 6, 20, -68, -95, 27, 64, "WPA3-Enterprise", "Infrastructure", "Cisco Systems", new[] { "11", "54", "150" }, DateTime.UtcNow),
-            new("A0:B1:C2:D3:E4:01", "Facilities-IoT", "iot-gateway-01", "2.4 GHz", 1, 20, -74, -92, 18, 52, "WPA2-PSK", "Infrastructure", "Hewlett Packard", new[] { "11", "54" }, DateTime.UtcNow),
-            new("A0:B1:C2:D3:E4:02", "Facilities-IoT", "iot-gateway-02", "5 GHz", 149, 40, -82, -94, 12, 36, "WPA2-PSK", "Infrastructure", "Hewlett Packard", new[] { "54", "300" }, DateTime.UtcNow),
-            new("00:17:88:A1:B2:C3", "Guest-Portal", null, "2.4 GHz", 11, 20, -58, -90, 32, 70, "Open", "Infrastructure", "Philips Lighting", new[] { "11", "54" }, DateTime.UtcNow)
+            new("8C:5A:25:04:91:B0", "PlantOps", "ap-ops-01.local", "5 GHz", 36, 80, -52, null, 43, 85, "WPA2-Enterprise", "Infrastructure", "Cisco Systems", new[] { "54", "150", "300", "867" }, DateTime.UtcNow),
+            new("8C:5A:25:04:91:B1", "PlantOps", "ap-ops-02.local", "2.4 GHz", 6, 20, -68, null, 27, 64, "WPA2-Enterprise", "Infrastructure", "Cisco Systems", new[] { "11", "54", "150" }, DateTime.UtcNow),
+            new("A0:B1:C2:D3:E4:01", "Facilities-IoT", "iot-gateway-01", "2.4 GHz", 1, 20, -74, null, 18, 52, "WPA2-Personal", "Infrastructure", "Hewlett Packard", new[] { "11", "54" }, DateTime.UtcNow),
+            new("A0:B1:C2:D3:E4:02", "Facilities-IoT", "iot-gateway-02", "5 GHz", 149, 40, -82, null, 12, 36, "WPA2-Personal", "Infrastructure", "Hewlett Packard", new[] { "54", "300" }, DateTime.UtcNow),
+            new("00:17:88:A1:B2:C3", "Guest-Portal", null, "2.4 GHz", 11, 20, -58, null, 32, 70, "Open", "Infrastructure", "Philips Lighting", new[] { "11", "54" }, DateTime.UtcNow),
+            // Demo for physical units (DR-0013): one router, 2 radios (octet 4 = radio, last nibble = SSID), 4 SSIDs incl. hidden;
+            // BSSIDs of one radio share a TSF clock offset. Plus a mesh node broadcasting the same "Home" SSID.
+            new("9A:3C:5E:1F:42:70", "Home", null, "2.4 GHz", 6, 20, -45, null, 50, 90, "WPA3-Personal", "Infrastructure", "Unknown Vendor", null, DateTime.UtcNow) { TsfOffsetMs = 81_000_000.2 },
+            new("9A:3C:5E:1F:42:73", "Home-IoT", null, "2.4 GHz", 6, 20, -46, null, 49, 88, "WPA2-Personal", "Infrastructure", "Unknown Vendor", null, DateTime.UtcNow) { TsfOffsetMs = 81_000_000.5 },
+            new("9A:3C:5E:26:42:70", "Home", null, "5 GHz", 149, 80, -50, null, 45, 80, "WPA3-Personal", "Infrastructure", "Unknown Vendor", null, DateTime.UtcNow) { TsfOffsetMs = 81_000_950.1 },
+            new("9A:3C:5E:26:42:74", "Home-Guest", null, "5 GHz", 149, 80, -51, null, 44, 78, "WPA2-Personal", "Infrastructure", "Unknown Vendor", null, DateTime.UtcNow) { TsfOffsetMs = 81_000_950.6 },
+            new("9A:3C:5E:26:42:76", "<Hidden SSID>", null, "5 GHz", 149, 80, -52, null, 43, 76, "WPA2-Personal", "Infrastructure", "Unknown Vendor", null, DateTime.UtcNow) { TsfOffsetMs = 81_000_950.9 },
+            new("3C:5D:7E:19:61:43", "Home", null, "5 GHz", 44, 80, -71, null, 24, 58, "WPA3-Personal", "Infrastructure", "Unknown Vendor", null, DateTime.UtcNow) { TsfOffsetMs = 3_700_000.0 }
         };
     }
 
@@ -46,7 +55,7 @@ public class MockNetworkAdapterProvider : INetworkAdapterProvider
             int offset = _random.Next(-3, 4);
             int newRSSI = Math.Clamp(ap.RSSI + offset, -100, -30);
             int newQuality = Math.Clamp(2 * (newRSSI + 100), 0, 100);
-            int snr = newRSSI - (ap.NoiseFloor ?? -95);
+            int snr = newRSSI - WlanAdapter.AssumedNoiseFloorDbm; // estimated, see DR-0004
 
             return ap with
             {
@@ -58,6 +67,24 @@ public class MockNetworkAdapterProvider : INetworkAdapterProvider
         }).ToList();
 
         return Task.FromResult<IEnumerable<AccessPoint>>(updatedAPs);
+    }
+
+    /// <summary>Optional fault injection for tests/demos: return a status for a given 1-based cycle number.</summary>
+    public Func<int, ScanCycleStatus>? CycleStatusOverride { get; set; }
+    private int _cycleCount;
+
+    public async Task<ScanCycleResult> ScanAsync(Guid interfaceId, TimeSpan timeout, CancellationToken cancellationToken = default)
+    {
+        var requested = DateTime.UtcNow;
+        int n = Interlocked.Increment(ref _cycleCount);
+        var status = CycleStatusOverride?.Invoke(n) ?? ScanCycleStatus.Fresh;
+        if (status == ScanCycleStatus.Failed)
+        {
+            return ScanCycleResult.Failure(requested, "1168", WlanErrorText.Describe(1168));
+        }
+        var list = (await GetAccessPointsAsync(interfaceId)).Select(ap => ap with { BeaconAgeMs = 50 }).ToList();
+        return new ScanCycleResult(status, requested, DateTime.UtcNow, (DateTime.UtcNow - requested).TotalMilliseconds, list,
+            status == ScanCycleStatus.Stale ? "scan_timeout" : null, status == ScanCycleStatus.Stale ? "Simulated stale cycle" : null);
     }
 
     public Task TriggerHardwareScanAsync(Guid interfaceId)

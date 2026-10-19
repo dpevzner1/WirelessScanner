@@ -1,0 +1,10 @@
+source WirelessScanner.Application/ScanScheduler.cs sha256 7c5ebd27082af2a88d5cd0c0357535fa048785a4b97e5c7dc63433d61c6c4215
+mutant: replace '_inflight ??= RunScanAsync(id);' -> '_inflight = RunScanAsync(id);'
+$ dotnet build WirelessScanner.Tests/WirelessScanner.Tests.csproj -v q
+$ dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj --no-build --filter FullyQualifiedName~SingleFlight_ConcurrentRequestsShareOneProviderScan
+  Failed SingleFlight_ConcurrentRequestsShareOneProviderScan [153 ms]
+Failed!  - Failed:     1, Passed:     0, Skipped:     0, Total:     1, Duration: 153 ms - WirelessScanner.Tests.dll (net10.0)
+RESULT: mutant KILLED (tests detect the defect)
+restored WirelessScanner.Application/ScanScheduler.cs sha256 7c5ebd27082af2a88d5cd0c0357535fa048785a4b97e5c7dc63433d61c6c4215 (identical)
+$ dotnet build WirelessScanner.Tests/WirelessScanner.Tests.csproj -v q
+rebuild of original: ok

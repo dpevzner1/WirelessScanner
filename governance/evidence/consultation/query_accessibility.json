@@ -1,0 +1,762 @@
+{
+  "concepts": [
+    {
+      "term": "accessibility",
+      "score": 5987.5291,
+      "document_frequency": 52,
+      "total_mentions": 2028,
+      "domains": {
+        "full_stack_web_product_engineering": 51769,
+        "api_engineering": 26376,
+        "windows_internals_reverse_engineering": 24183,
+        "software": 21353,
+        "ai": 18309,
+        "ai_assisted_devops_and_coding": 18099,
+        "security": 14861,
+        "data": 13100,
+        "snmp_protocol_engineering": 12186,
+        "cloud": 11322,
+        "systems": 11120,
+        "gpu_accelerated_compute_engineering": 10792,
+        "mobile_application_engineering": 9457,
+        "nvidia_cuda_gpu_platform_engineering": 9253,
+        "devops": 8753,
+        "embedded_edge_hardware_iot": 8076,
+        "network_monitoring": 7939,
+        "product_experience": 4886,
+        "systems_memory_performance_engineering": 4254,
+        "custom_linux_image_builds": 3706,
+        "linux_kernel_infrastructure": 3557,
+        "arm_embedded_platform_engineering": 3022,
+        "vector_database_and_rag_engineering": 2552,
+        "workspace_automation": 2298,
+        "heterogeneous_parallel_portability_engineering": 2205,
+        "raspberry_pi_provisioning_imaging": 1955,
+        "amd_rocm_gpu_platform_engineering": 1946,
+        "windows_desktop_app_engineering": 1727,
+        "dos_legacy_pc_systems_engineering": 891,
+        "telemetry_capture_architecture_engineering": 577,
+        "openclaw_autonomous_agent_engineering": 487,
+        "low_level_game_engine_performance_architecture": 346,
+        "legacy_game_graphics_modernization_engineering": 324,
+        "amd_xdna_npu_endpoint_engineering": 11
+      },
+      "documents": {
+        "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b": [
+          5,
+          11,
+          12,
+          18,
+          48,
+          49,
+          55,
+          75,
+          76
+        ],
+        "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb": [
+          27
+        ],
+        "ANDROID_DEVELOPMENT_WITH_KOTLIN_ZERO_TO_PRO__A_PROJECT_d7f03628e8": [
+          36
+        ],
+        "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785": [
+          875
+        ],
+        "ARM_ARCHITECTURE__THE_COMPLETE_GUIDE_TO_CORTEX-M_AND_C_1a8c91f402": [
+          324
+        ],
+        "ARM_ARCHITECTURE_AND_PROGRAMMING_ESSENTIALS__DEFINITIV_c68f9d4b1c": [
+          93
+        ],
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416": [
+          91,
+          133,
+          1131
+        ],
+        "BUILDING_INTELLIGENT_AGENTS_WITH_LANGFLOW_LANGCHAIN_OP_971441db02": [
+          45,
+          46,
+          47,
+          494
+        ],
+        "CLEAN_ARCHITECTURE_ROBERT_C._MARTIN_SERIES_1a5c2447be": [
+          593
+        ],
+        "Coding_with_AI_For_Dummies_dac5c3f997": [
+          11,
+          352,
+          353,
+          365
+        ],
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a": [
+          3,
+          11,
+          13,
+          56,
+          88,
+          92,
+          93,
+          94,
+          124,
+          160,
+          161,
+          162,
+          164,
+          168,
+          170,
+          180,
+          253,
+          258,
+          263,
+          266,
+          268,
+          269,
+          286,
+          292,
+          403,
+          404,
+          448,
+          535,
+          540,
+          544,
+          577
+        ],
+        "Creating_Video_Games_Using_PyGame_A_comprehensive_107c43d3b5": [
+          164
+        ],
+        "CUDA_C_Programming_Guide_793b33dd1f": [
+          12,
+          394,
+          398,
+          400,
+          418,
+          580
+        ],
+        "CUDA_PROGRAMMING_FUNDAMENTALS__DEFINITIVE_REFERENCE_FO_c9914d8f9f": [
+          11,
+          15
+        ],
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac": [
+          19,
+          408
+        ],
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c": [
+          44,
+          45,
+          91,
+          675,
+          749,
+          945,
+          1020,
+          1081
+        ],
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492": [
+          156,
+          157,
+          171,
+          265,
+          273,
+          275
+        ],
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616": [
+          257,
+          319
+        ],
+        "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4": [
+          75
+        ],
+        "JETPACK_COMPOSE_ANDROID_APP_DEVELOPMENT_2026_EDITION___9932482faa": [
+          56,
+          57,
+          85,
+          86,
+          100,
+          101,
+          108,
+          110
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          631
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          9,
+          11,
+          113
+        ],
+        "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b": [
+          6,
+          24,
+          30,
+          33,
+          54,
+          67,
+          69,
+          86,
+          119,
+          124,
+          170,
+          251
+        ],
+        "MASTERING_RUST__FROM_BEGINNER_TO_EXPERT__CONCURRENCY_A_b72b1bde22": [
+          105,
+          256
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          124
+        ],
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785": [
+          80
+        ],
+        "OLD_NEW_THING_59541c3c88": [
+          16,
+          70,
+          237,
+          347,
+          435,
+          441,
+          442,
+          552,
+          558,
+          584
+        ],
+        "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39": [
+          18,
+          36
+        ],
+        "RAJA_Tutorial_2hr_2023_FINAL_436a7894a0": [
+          35
+        ],
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec": [
+          9,
+          19,
+          114,
+          140
+        ],
+        "RHCSA_LINUX_ADMINISTRATION_MASTERY__THE_COMPLETE_HANDS_1bc29f371a": [
+          128
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          10,
+          16,
+          38,
+          39,
+          230
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          191
+        ],
+        "SNMP_Engineering__enterprise-numbers_76050893d9": [
+          481
+        ],
+        "SNMP_Engineering__rfc2576_717ebf4888": [
+          9
+        ],
+        "SNMP_Engineering__rfc3584_fe3bcdc4bf": [
+          10
+        ],
+        "SNMP_Engineering__ZabixMIB_8eb5216e21": [
+          7
+        ],
+        "Solomon_-_Inside_Windows_NT_2ed_1998_b0031d19a0": [
+          86
+        ],
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2": [
+          140
+        ],
+        "The.DevOps.Handbook_4a7e71d883": [
+          79
+        ],
+        "THE_NO_BULL_MAME_ARCADE_BUILDER_S_GUIDE_-OR-_HOW_TO_BU_1b39c2d879": [
+          205
+        ],
+        "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75": [
+          172
+        ],
+        "THE_SNMP_ESSENTIALS__COMPREHENSIVE_GUIDE_TO_NETWORK_MO_50d4ea6eee": [
+          104
+        ],
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6": [
+          7,
+          9,
+          10,
+          19,
+          22
+        ],
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194": [
+          10,
+          51,
+          53,
+          129,
+          130,
+          133,
+          134,
+          141
+        ],
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664": [
+          95,
+          96,
+          104,
+          132,
+          134,
+          141,
+          142,
+          144,
+          145,
+          146,
+          147,
+          148,
+          161,
+          162,
+          166
+        ],
+        "VIBE_CODING_WITH_GITHUB_COPILOT__MASTER_AGENTIC_MODE_A_12d65acfd9": [
+          68,
+          418,
+          423
+        ],
+        "Webinar-Slides-DPC-Part-1-An-Introduction-to-the-New-P_30cddad2b8": [
+          21
+        ],
+        "webinar050-raja_8e055e2058": [
+          12
+        ],
+        "WINDOWS_INTERNALS_DEVELOPER_REFERENCE_b30e3f3efd": [
+          937,
+          1032
+        ],
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4": [
+          15,
+          48,
+          91,
+          100,
+          102,
+          111,
+          125,
+          167,
+          458,
+          467,
+          472,
+          520,
+          532,
+          533,
+          578,
+          584,
+          591,
+          598,
+          617,
+          622,
+          785,
+          864,
+          922,
+          923,
+          924,
+          937,
+          939,
+          943,
+          944,
+          946,
+          959,
+          960,
+          992
+        ],
+        "Writing_AI_Prompts_For_Dummies_c3cfa280e8": [
+          55,
+          138
+        ]
+      }
+    }
+  ],
+  "book_index_entries": [],
+  "cross_references": [
+    {
+      "source": "accessibility",
+      "target": "ux",
+      "relation": "co-occurs",
+      "strength": 29.7,
+      "shared_documents": [
+        "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b",
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+        "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+        "Writing_AI_Prompts_For_Dummies_c3cfa280e8"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b",
+          "pages": [
+            75
+          ]
+        },
+        {
+          "document_id": "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+          "pages": [
+            3,
+            124
+          ]
+        },
+        {
+          "document_id": "THE_PRINCIPLES_OF_UI_UX_DESIGN__MASTER_THE_PRINCIPLES__e421164f75",
+          "pages": [
+            172
+          ]
+        },
+        {
+          "document_id": "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+          "pages": [
+            10,
+            51
+          ]
+        },
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            7,
+            9,
+            10,
+            19,
+            22
+          ]
+        },
+        {
+          "document_id": "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+          "pages": [
+            95,
+            96,
+            104,
+            132,
+            134,
+            141,
+            142,
+            144,
+            145,
+            146,
+            147,
+            148,
+            161,
+            162,
+            166
+          ]
+        },
+        {
+          "document_id": "Writing_AI_Prompts_For_Dummies_c3cfa280e8",
+          "pages": [
+            138
+          ]
+        }
+      ]
+    },
+    {
+      "source": "accessibility",
+      "target": "android",
+      "relation": "co-occurs",
+      "strength": 20.0,
+      "shared_documents": [
+        "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b",
+        "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb",
+        "ANDROID_DEVELOPMENT_WITH_KOTLIN_ZERO_TO_PRO__A_PROJECT_d7f03628e8",
+        "JETPACK_COMPOSE_ANDROID_APP_DEVELOPMENT_2026_EDITION___9932482faa"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b",
+          "pages": [
+            5,
+            11,
+            12,
+            18,
+            48,
+            49,
+            55,
+            75,
+            76
+          ]
+        },
+        {
+          "document_id": "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "document_id": "ANDROID_DEVELOPMENT_WITH_KOTLIN_ZERO_TO_PRO__A_PROJECT_d7f03628e8",
+          "pages": [
+            36
+          ]
+        },
+        {
+          "document_id": "JETPACK_COMPOSE_ANDROID_APP_DEVELOPMENT_2026_EDITION___9932482faa",
+          "pages": [
+            56,
+            57,
+            85,
+            86,
+            100,
+            101,
+            108,
+            110
+          ]
+        }
+      ]
+    },
+    {
+      "source": "accessibility",
+      "target": "raspberry pi",
+      "relation": "co-occurs",
+      "strength": 16.5246,
+      "shared_documents": [
+        "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b",
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b",
+          "pages": [
+            6,
+            24,
+            30,
+            33,
+            54,
+            67,
+            69,
+            86,
+            119,
+            124,
+            170,
+            251
+          ]
+        },
+        {
+          "document_id": "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec",
+          "pages": [
+            9,
+            19,
+            114,
+            140
+          ]
+        }
+      ]
+    },
+    {
+      "source": "accessibility",
+      "target": "experience",
+      "relation": "co-occurs",
+      "strength": 15.8108,
+      "shared_documents": [
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4",
+        "Writing_AI_Prompts_For_Dummies_c3cfa280e8"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            9,
+            19
+          ]
+        },
+        {
+          "document_id": "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+          "pages": [
+            95,
+            96,
+            134,
+            141,
+            142,
+            144,
+            145,
+            148,
+            161,
+            162,
+            166
+          ]
+        },
+        {
+          "document_id": "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4",
+          "pages": [
+            458
+          ]
+        },
+        {
+          "document_id": "Writing_AI_Prompts_For_Dummies_c3cfa280e8",
+          "pages": [
+            138
+          ]
+        }
+      ]
+    },
+    {
+      "source": "accessibility",
+      "target": "flashing",
+      "relation": "co-occurs",
+      "strength": 13.4127,
+      "shared_documents": [
+        "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b",
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b",
+          "pages": [
+            6,
+            24,
+            30,
+            33,
+            54,
+            67,
+            69,
+            86,
+            119,
+            124,
+            170,
+            251
+          ]
+        },
+        {
+          "document_id": "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+          "pages": [
+            142
+          ]
+        }
+      ]
+    },
+    {
+      "source": "accessibility",
+      "target": "color",
+      "relation": "co-occurs",
+      "strength": 12.8333,
+      "shared_documents": [
+        "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb",
+        "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+        "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb",
+          "pages": [
+            27
+          ]
+        },
+        {
+          "document_id": "COMPREHENSIVE_GUIDE_TO_WINUI_DEVELOPMENT__DEFINITIVE_R_d196c3904a",
+          "pages": [
+            88,
+            92,
+            162
+          ]
+        },
+        {
+          "document_id": "UI_UX_DESIGN_FOR_BEGINNERS__A_STEP-BY-STEP_GUIDE_TO_DE_9c04d86194",
+          "pages": [
+            51,
+            130
+          ]
+        },
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_id": "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+          "pages": [
+            95,
+            96,
+            142,
+            161,
+            166
+          ]
+        }
+      ]
+    },
+    {
+      "source": "accessibility",
+      "target": "cuda",
+      "relation": "co-occurs",
+      "strength": 11.6044,
+      "shared_documents": [
+        "CUDA_C_Programming_Guide_793b33dd1f",
+        "CUDA_PROGRAMMING_FUNDAMENTALS__DEFINITIVE_REFERENCE_FO_c9914d8f9f",
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133",
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d",
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "CUDA_C_Programming_Guide_793b33dd1f",
+          "pages": [
+            12,
+            394,
+            398,
+            400,
+            418,
+            580
+          ]
+        },
+        {
+          "document_id": "CUDA_PROGRAMMING_FUNDAMENTALS__DEFINITIVE_REFERENCE_FO_c9914d8f9f",
+          "pages": [
+            11,
+            15
+          ]
+        },
+        {
+          "document_id": "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133",
+          "pages": [
+            124
+          ]
+        },
+        {
+          "document_id": "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d",
+          "pages": [
+            10
+          ]
+        },
+        {
+          "document_id": "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2",
+          "pages": [
+            140
+          ]
+        }
+      ]
+    },
+    {
+      "source": "accessibility",
+      "target": "beginners",
+      "relation": "co-occurs",
+      "strength": 11.3667,
+      "shared_documents": [
+        "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "UI___UX_DESIGN_FOR_BEGINNERS___MASTER_THE_FUNDAMENTALS_2664b16dc6",
+          "pages": [
+            7,
+            10
+          ]
+        },
+        {
+          "document_id": "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664",
+          "pages": [
+            95,
+            96,
+            134,
+            141,
+            145,
+            148,
+            161,
+            162,
+            166
+          ]
+        }
+      ]
+    }
+  ]
+}

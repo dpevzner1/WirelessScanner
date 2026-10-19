@@ -1,0 +1,130 @@
+{
+  "id": "IT-T17-01",
+  "task_ids": [
+    "T17"
+  ],
+  "finding_ids": [
+    "F18",
+    "F19",
+    "F20"
+  ],
+  "scope": "parity verification, documentation, trail",
+  "state": "completed",
+  "started_at": "2026-10-16T15:21:01+00:00",
+  "finished_at": "2026-10-16T15:37:09+00:00",
+  "hypothesis": {
+    "claim": "Every 1.1 capability is proven present in 1.2 and every documentation claim matches the code",
+    "disconfirming_result": "A parity row has no existing proof, or a doc claim has no implementation",
+    "prior_lessons": [
+      "LL-2026-10-15-SATURATION-RELEASE"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Write missing tests",
+      "Mark rows Observed"
+    ],
+    "chosen": "Write missing tests",
+    "why": "Validated rows need automated proof",
+    "rejected": [
+      "Weaker labels for testable behaviour"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-DESIGN-REDESIGN",
+      "EV-T12-DOCS"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "docs/PARITY_CHECKLIST.md",
+      "engine_sha256": "docs/USER_GUIDE.md",
+      "context_sha256": "docs/STATUS.md",
+      "test_sha256": "WirelessScanner.Tests/LiveSurveyTests.cs"
+    }
+  },
+  "change": {
+    "summary": "Parity checklist 42/42 Validated; README, CHANGELOG 1.2.0, USER_GUIDE, TECHNICAL_REFERENCE, STATUS, SATURATION_TEST_SPEC, DR status; lesson record; evidence snapshots; tools/mutation_check.py",
+    "artifact_evidence_ids": [
+      "EV-T17-DOCS",
+      "EV-LL-REDESIGN-1"
+    ],
+    "scope_authority": "Owner: 'ensure no current features, capabilities, or capacity is lost'; documentation requirement 2026-10-15"
+  },
+  "test": {
+    "commands": [
+      "grep each cited test name",
+      "DOC-AUDIT-REDESIGN-1",
+      "python tools/validate_lessons_learned.py",
+      "python tools/ws_control.py validate",
+      "python tools/sync_github_export.py --check"
+    ],
+    "positive": [
+      "42 rows Validated, each proof exists"
+    ],
+    "negative": [
+      "3 rows lacked tests -> written",
+      "Stale backlog label found -> renamed"
+    ],
+    "regression": [
+      "Full suite 148/148"
+    ],
+    "result_evidence_ids": [
+      "EV-T13-T17-TEST",
+      "EV-T17-DOCS"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Proof-exists check before closing"
+    ],
+    "what_failed": [
+      "Backticks in a double-quoted shell string erased a name in the spec (fixed)",
+      "Lesson end time first written ahead of the clock (corrected before registration)"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Owner review of docs pending",
+      "1.2 release build pending approval"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [
+      "IT-T12-01"
+    ],
+    "reuse_applied": "Doc-audit step from IT-T12",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-16-LIVE-SURVEY-REDESIGN"
+    ],
+    "transferable_rule": "Close redesigns with a proof-per-row parity table and a doc-vs-code audit",
+    "applicability_limits": "Any project"
+  },
+  "next_action": {
+    "action": "Owner review; reviewer assignment",
+    "owner": "demitri.pevzner",
+    "resume_condition": "Owner availability"
+  }
+}

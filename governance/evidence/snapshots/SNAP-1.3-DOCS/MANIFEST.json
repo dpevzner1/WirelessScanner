@@ -1,0 +1,41 @@
+{
+  "snapshot_id": "SNAP-1.3-DOCS",
+  "captured_at": "2026-10-16T20:08:46.857122+00:00",
+  "files": [
+    {
+      "path": "docs/decisions/DR-0012-report-precision-and-provenance.md",
+      "sha256": "b034978b725ac52ed246da0372cf61ab398d8d081eb8815e369dcaae6c0c4174",
+      "bytes": 6058
+    },
+    {
+      "path": "docs/SATURATION_TEST_SPEC.md",
+      "sha256": "58d2f8747c378626165c2d3160bcba8ffb03a55d956359cbe653a1a6dec833a8",
+      "bytes": 21211
+    },
+    {
+      "path": "docs/USER_GUIDE.md",
+      "sha256": "fa1173d0e525c95cca37a802167df5a89e05c071310ae252d39cd84482d9366f",
+      "bytes": 27565
+    },
+    {
+      "path": "docs/TECHNICAL_REFERENCE.md",
+      "sha256": "f8ecd0ebda8c67fc74e6b9ceb5a8b0da531548a8cb00607cc7f52f922602214d",
+      "bytes": 19423
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "5d30227e55d8e29d5b6266722a880b2e6fc7827c1b5f9d4f67abd64afccf0f17",
+      "bytes": 9085
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "3c1e044a6722be29860c6198961ddb9d637d3e3adb8552744c46107cccca32b3",
+      "bytes": 12179
+    },
+    {
+      "path": "branding/README.md",
+      "sha256": "8639ca8d7ba5c04d43c940bd5971a6543fbc20a95f2b507ea5dcc180e981cd63",
+      "bytes": 1907
+    }
+  ]
+}

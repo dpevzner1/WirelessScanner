@@ -1,0 +1,81 @@
+{
+  "snapshot_id": "SNAP-1.5-DOCS",
+  "captured_at": "2026-10-19T00:41:52.932486+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "51d4f0fe14df60920db0c5804bb985aa7ad2727f815dd9a10c44350ade9feaee",
+      "bytes": 13167
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "cb0850e40ce12bfe2b7671654f23a9e4dfb19fd26b7f6d315f6273c222ecd57c",
+      "bytes": 21265
+    },
+    {
+      "path": "docs/USER_GUIDE.md",
+      "sha256": "cc12786218c1b103852876bdeba238021e0ee0180b363cc534422e89bb1baad3",
+      "bytes": 45718
+    },
+    {
+      "path": "docs/TECHNICAL_REFERENCE.md",
+      "sha256": "bbea76088cffd209dcbf71be83aa758cfe7504633f502b31930f4dfd74626c65",
+      "bytes": 33559
+    },
+    {
+      "path": "docs/CONNECTION_TEST_SPEC.md",
+      "sha256": "740322a2b3963af7a5802ff839a57df53b29f2b8ce1be92116dd014f63a54fd1",
+      "bytes": 15111
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "70b0e0f7b0b383b9c2265103fd9dc9139aeaf68ae720ef0e078f57de3a3ae929",
+      "bytes": 13080
+    },
+    {
+      "path": "docs/PARITY_CHECKLIST.md",
+      "sha256": "32e9f3d934da0d854f46421e7e02523e64a619f3cb91a5de30a08078eed719e5",
+      "bytes": 12721
+    },
+    {
+      "path": "docs/decisions/DR-0014-connection-quality-testing.md",
+      "sha256": "bd0bbd2970ebad832d5b8476742aa8bc17affb320ae4084d056c971afae1fe12",
+      "bytes": 16358
+    },
+    {
+      "path": "docs/consultation/ENGINE_CONSULTATION_LOG.md",
+      "sha256": "3fb7bba2b8751a997e933ae7b10231dd41059ae89ec1dfc9694dafd4c3e8415e",
+      "bytes": 8102
+    },
+    {
+      "path": "docs/images/ui_conn_setup.png",
+      "sha256": "89f6daf1791c27925559c6c9661b4a05912cac3b8c29b2a0de85a2b32eed69d1",
+      "bytes": 160337
+    },
+    {
+      "path": "docs/images/ui_conn_running.png",
+      "sha256": "68a997b0d5cb3a0c190408cb113242624f1599346af03a5b17bb31a6047d8eb7",
+      "bytes": 159725
+    },
+    {
+      "path": "docs/images/ui_conn_results.png",
+      "sha256": "1a09f3eabbd9b8e8d11ac4ca2ca8cc6424d5a5d70d9bbb78fedef655f32e4709",
+      "bytes": 165280
+    },
+    {
+      "path": "docs/images/ui_settings_test_servers.png",
+      "sha256": "724723cce0cba40599b1e9fc45f4fa790b7d439f27d022075b7a7b02da8c3570",
+      "bytes": 95992
+    },
+    {
+      "path": "docs/images/ui_history_connection_tests.png",
+      "sha256": "1b97b150218dd810d977de7328578bee28d440d038f78f513bd398f45c6ae6a0",
+      "bytes": 84551
+    },
+    {
+      "path": "docs/images/ui_api_settings.png",
+      "sha256": "d4f4919a8580c6d01c544cbb5d35eda60776f86e4891829a8b06617d12f7bbb0",
+      "bytes": 97375
+    }
+  ]
+}

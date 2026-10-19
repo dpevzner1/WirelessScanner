@@ -1,0 +1,26 @@
+{
+  "snapshot_id": "SNAP-T17-DOCS-2",
+  "captured_at": "2026-10-16T16:01:47.822360+00:00",
+  "files": [
+    {
+      "path": "docs/PARITY_CHECKLIST.md",
+      "sha256": "ff6c082f8811294bbc50340a6ddbbe8f4fef370eca10348347f35d7a6fdd5484",
+      "bytes": 10993
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "7fdc56ecf74fd0f1694bb4d50aa99afe96ce5493b997c9a55cd60c454c9b385c",
+      "bytes": 8119
+    },
+    {
+      "path": "docs/decisions/DR-0010-network-explorer-and-spectrum.md",
+      "sha256": "f47b8d3848e77a339e38330992e8e9d1470ca54650201429140aa3181b766e04",
+      "bytes": 4556
+    },
+    {
+      "path": "docs/decisions/DR-0011-saturation-in-live-survey.md",
+      "sha256": "6807c2033c5adee47ec4b8bc0a788e29abf22d43b6a1c3c4db5d4263de2436c2",
+      "bytes": 4599
+    }
+  ]
+}

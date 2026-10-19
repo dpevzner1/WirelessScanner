@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "standard": "LessonsLearned/ITERATIVE_DOCUMENTATION_STANDARD.md",
+  "template": "LessonsLearned/templates/LESSON_RECORD_TEMPLATE.md",
+  "records": [
+    {
+      "lesson_id": "LL-2026-10-15-BASELINE-GOVERNANCE",
+      "title": "Baseline audit and adoption of full engine governance",
+      "task": "Audit WirelessScanner, adopt the DevOps engine's full governance model, design the saturation test",
+      "project": "WirelessScanner",
+      "components": [
+        "governance",
+        "documentation",
+        "engine consultation",
+        "saturation test design"
+      ],
+      "observed_from": "2026-10-15T20:30:00Z",
+      "observed_to": null,
+      "local_date": "2026-10-15",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-15T22:10:00Z",
+      "status": "observed",
+      "document": "LessonsLearned/records/2026-10-15-baseline-governance.md",
+      "related_run_ids": [
+        "BL-2026-10-15",
+        "RV-2026-10-15-BASELINE"
+      ]
+    },
+    {
+      "lesson_id": "LL-2026-10-15-CORE-SCAN-PERSISTENCE",
+      "title": "Fresh scan cycles, ordered persistence and honest measurement semantics",
+      "task": "Control tasks T03, T04, T05",
+      "project": "WirelessScanner",
+      "components": [
+        "WlanAdapter",
+        "OrderedPersistenceWriter",
+        "SessionManager",
+        "SchemaMigrator",
+        "MainWindowViewModel",
+        "ExportService",
+        "Tests"
+      ],
+      "observed_from": "2026-10-15T22:06:00Z",
+      "observed_to": "2026-10-15T22:20:00Z",
+      "local_date": "2026-10-15",
+      "timezone": "America/Chicago",
+      "updated_at": "2026-10-15T22:25:00Z",
+      "status": "validated",
+      "document": "LessonsLearned/records/2026-10-15-core-scan-persistence.md",
+      "related_run_ids": [
+        "RV-2026-10-15-IMPL"
+      ]
+    }
+  ]
+}

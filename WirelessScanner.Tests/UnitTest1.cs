@@ -447,6 +447,11 @@ public class MockNetworkAdapterProvider : INetworkAdapterProvider
     public Task<IEnumerable<AccessPoint>> GetAccessPointsAsync(Guid interfaceId) =>
         Task.FromResult<IEnumerable<AccessPoint>>(AccessPoints);
     public Task TriggerHardwareScanAsync(Guid interfaceId) => Task.CompletedTask;
+    public ScanCycleStatus NextStatus { get; set; } = ScanCycleStatus.Fresh;
+    public Task<ScanCycleResult> ScanAsync(Guid interfaceId, TimeSpan timeout, System.Threading.CancellationToken cancellationToken = default) =>
+        Task.FromResult(NextStatus == ScanCycleStatus.Failed
+            ? ScanCycleResult.Failure(DateTime.UtcNow, "1168", WlanErrorText.Describe(1168))
+            : new ScanCycleResult(NextStatus, DateTime.UtcNow, DateTime.UtcNow, 1, AccessPoints.ToList()));
     public Task<WiredInterfaceStats> GetWiredStatsAsync(Guid interfaceId) =>
         Task.FromResult(new WiredInterfaceStats(0, "0.0.0.0", "Down", 0));
     public event Action? HardwareChanged { add { } remove { } }
@@ -497,6 +502,7 @@ public class MockRestApiServer : IRestApiServer
     public bool IsRunning { get; set; }
     public int Port { get; set; } = 5005;
     public string ApiKey { get; set; } = "";
+    public string? LastError { get; set; }
     public Task StartAsync(int port, string apiKey)
     {
         IsRunning = true;
@@ -509,7 +515,8 @@ public class MockRestApiServer : IRestApiServer
         IsRunning = false;
         return Task.CompletedTask;
     }
-    public void UpdateLiveAccessPoints(IEnumerable<AccessPoint> accessPoints) {}
+    public int LiveUpdates { get; private set; }
+    public void UpdateLiveAccessPoints(IEnumerable<AccessPoint> accessPoints) => LiveUpdates++;
 }
 
 public class MockSettingsRepository : ISettingsRepository
@@ -558,9 +565,11 @@ public class ViewModelTests
         viewModel.ApiPort = "9999";
         viewModel.ApiEnabled = true;
 
-        // Path where it should be saved
-        string expectedDir = Path.Combine(AppContext.BaseDirectory, "API");
+        // Path where it should be saved (1.3: the user chooses it in a Save dialog; the hook answers for the test)
+        string expectedDir = AppPaths.ApiDirectory;
         string expectedPath = Path.Combine(expectedDir, "api_key.md");
+        Directory.CreateDirectory(expectedDir);
+        viewModel.ApiKeySaveDialog = _ => expectedPath;
 
         if (File.Exists(expectedPath))
         {
@@ -611,7 +620,9 @@ public class ViewModelTests
         viewModel.GenerateApiKeyCommand.Execute(null);
         string key = viewModel.ApiKey;
 
-        string expectedPath = Path.Combine(AppContext.BaseDirectory, "API", "api_key.md");
+        string expectedPath = Path.Combine(AppPaths.ApiDirectory, "api_key.md");
+        Directory.CreateDirectory(AppPaths.ApiDirectory);
+        viewModel.ApiKeySaveDialog = _ => expectedPath;
         viewModel.ExportApiKeyCommand.Execute(null);
         Assert.That(File.Exists(expectedPath), Is.True);
 

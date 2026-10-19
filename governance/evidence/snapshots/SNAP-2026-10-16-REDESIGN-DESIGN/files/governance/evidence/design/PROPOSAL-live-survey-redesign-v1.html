@@ -1,0 +1,553 @@
+<title>Live Survey Redesign</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: long-form proposal on an obsidian page; each proposal pairs a "today" strip with a live, linked mockup of the WirelessScanner window. */
+:root {
+  color-scheme: dark;
+  --ink: #0a0907;          /* app obsidian */
+  --panel: #12100d;
+  --panel-2: #1a1712;
+  --rule: #3a2a17;
+  --amber: #ff7a1a;        /* app chrome accent (kept) */
+  --amber-dim: #a8551c;
+  --text: #f1ebe2;
+  --text-2: #c2b5a3;
+  --muted: #8a7d6b;
+  /* data identity: validated categorical slots, dark steps (surface #0b0b0d, adjacent pairs pass; first 3 pass all-pairs) */
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --context: #5b5246;      /* unfocused networks */
+  /* status (fixed) */
+  --good: #0ca30c; --warning: #fab219; --serious: #ec835a; --critical: #d03b3b;
+  --seq-1: #184f95; --seq-2: #256abf; --seq-3: #3987e5; --seq-4: #6da7ec; --seq-5: #b7d3f6;
+  --f-display: "Barlow Semi Condensed", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", Consolas, "Cascadia Mono", monospace;
+}
+body { background: var(--ink); color: var(--text); font: 400 15px/1.55 var(--f-body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 40px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 56px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: .01em; }
+h1 { font-size: clamp(30px, 4.2vw, 46px); font-weight: 700; line-height: 1.05; }
+h2 { font-size: 28px; font-weight: 700; }
+h3 { font-size: 18px; font-weight: 600; color: var(--text); }
+p { margin: 0; max-width: 68ch; color: var(--text-2); }
+.eyebrow { font: 600 12px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--amber); }
+.lede { font-size: 17px; color: var(--text-2); max-width: 70ch; }
+header.top { display: grid; gap: 16px; border-bottom: 1px solid var(--rule); padding-bottom: 28px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font: 400 12.5px var(--f-mono); color: var(--muted); }
+.meta b { color: var(--text-2); font-weight: 600; }
+section { display: grid; gap: 22px; }
+.sec-head { display: grid; gap: 10px; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.note { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; display: grid; gap: 8px; min-width: 0; }
+.note h3 { font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: var(--amber); }
+.note ul { margin: 0; padding-left: 18px; color: var(--text-2); display: grid; gap: 4px; }
+.today { border-left: 3px solid var(--critical); }
+.why { font-size: 13px; color: var(--muted); }
+code, .mono { font-family: var(--f-mono); font-size: .9em; }
+.scroller { overflow-x: auto; border-radius: 10px; }
+
+/* ---- app window frame ---- */
+.win { min-width: 940px; background: #050403; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; font-family: "Segoe UI", var(--f-body); }
+.win-bar { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--rule); }
+.win-bar .dot { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffb070, var(--amber)); }
+.win-bar .title { font: 700 15px var(--f-display); letter-spacing: .06em; color: var(--amber); }
+.win-bar .right { margin-left: auto; font: 600 11px var(--f-mono); color: var(--amber-dim); }
+.win-body { display: grid; grid-template-columns: 360px 1fr; gap: 14px; padding: 14px; }
+.pane { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; min-width: 0; display: grid; gap: 10px; align-content: start; }
+.pane-title { display: flex; align-items: center; gap: 8px; font: 700 12px var(--f-display); letter-spacing: .1em; text-transform: uppercase; color: var(--amber); }
+.pane-title .count { margin-left: auto; font: 500 11px var(--f-mono); color: var(--muted); letter-spacing: 0; text-transform: none; }
+
+/* ---- network explorer ---- */
+.search { display: flex; gap: 8px; }
+.search input { flex: 1; min-width: 0; background: var(--panel-2); border: 1px solid var(--rule); color: var(--text); border-radius: 6px; padding: 7px 10px; font: 13px var(--f-body); }
+.search input:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
+select { background: var(--panel-2); color: var(--text-2); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 8px; font: 12px var(--f-body); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--rule); background: transparent; color: var(--text-2); border-radius: 999px; padding: 3px 10px; font: 500 12px var(--f-body); cursor: pointer; }
+.chip[aria-pressed="true"] { background: #2a1a0a; border-color: var(--amber); color: var(--text); }
+.list { display: grid; gap: 2px; max-height: 360px; overflow-y: auto; padding-right: 4px; scrollbar-color: var(--rule) transparent; scrollbar-width: thin; }
+.grp { border-radius: 6px; }
+.row { display: grid; grid-template-columns: 18px 16px 1fr auto; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 6px; cursor: pointer; }
+.row:hover { background: var(--panel-2); }
+.row.ap { grid-template-columns: 18px 16px 1fr auto; padding-left: 30px; }
+.row.focused { background: #1d150c; }
+.caret { width: 16px; height: 16px; border: 0; background: none; color: var(--muted); cursor: pointer; padding: 0; font-size: 11px; }
+.cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--muted); display: grid; place-items: center; font-size: 11px; color: #000; }
+.cb.on { background: var(--amber); border-color: var(--amber); }
+.cb.mixed { background: var(--amber-dim); border-color: var(--amber-dim); }
+.name { display: grid; min-width: 0; }
+.name .l1 { display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: 13.5px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.name .l2 { display: flex; gap: 6px; align-items: center; font: 11px var(--f-mono); color: var(--muted); white-space: nowrap; overflow: hidden; }
+.sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.tag { font: 600 10px var(--f-mono); border: 1px solid var(--rule); border-radius: 4px; padding: 0 4px; color: var(--text-2); }
+.sig { display: grid; justify-items: end; gap: 2px; font: 600 12px var(--f-mono); color: var(--text); font-variant-numeric: tabular-nums; }
+.bars { display: flex; gap: 2px; align-items: end; height: 12px; }
+.bars i { width: 4px; border-radius: 1px; background: #3a3127; }
+.tier { font: 600 9.5px var(--f-mono); letter-spacing: .06em; }
+.spark { width: 54px; height: 16px; }
+.sel-bar { display: grid; gap: 6px; border-top: 1px solid var(--rule); padding-top: 10px; }
+.scope { font: 12.5px var(--f-body); color: var(--text-2); }
+.scope b { color: var(--text); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { border: 1px solid var(--amber); background: transparent; color: var(--text); border-radius: 6px; padding: 7px 12px; font: 600 12.5px var(--f-body); cursor: pointer; }
+.btn.primary { background: var(--amber); color: #120a03; }
+.btn.ghost { border-color: var(--rule); color: var(--text-2); }
+
+/* ---- spectrum ---- */
+.spec-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.seg button { background: transparent; color: var(--text-2); border: 0; padding: 5px 12px; font: 600 12px var(--f-body); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: #2a1a0a; color: var(--amber); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font: 12px var(--f-body); color: var(--text-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+svg text { font-family: var(--f-mono); }
+.tooltip { position: absolute; pointer-events: none; background: #1f1912; border: 1px solid var(--amber-dim); border-radius: 6px; padding: 8px 10px; font: 12px var(--f-body); color: var(--text); box-shadow: 0 8px 24px rgb(0 0 0 / .5); min-width: 170px; }
+.tooltip .mono { color: var(--text-2); }
+.chart-wrap { position: relative; }
+
+/* ---- unified layout mockup ---- */
+.modebar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--rule); }
+.drawer { background: var(--panel); border: 1px solid var(--amber-dim); border-radius: 8px; padding: 12px; display: grid; gap: 10px; align-content: start; }
+.field { display: grid; gap: 4px; font: 11px var(--f-body); color: var(--muted); }
+.field .val { background: var(--panel-2); border: 1px solid var(--rule); border-radius: 5px; padding: 6px 8px; font: 12.5px var(--f-body); color: var(--text); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; }
+.tile { border: 1.5px solid; border-radius: 6px; padding: 8px 10px; display: grid; gap: 2px; background: #0e0c09; }
+.tile .big { font: 700 24px var(--f-display); font-variant-numeric: tabular-nums; }
+.tile .lbl { font: 600 10px var(--f-mono); letter-spacing: .08em; }
+.tile .sm { font: 11px var(--f-mono); color: var(--muted); }
+table.map { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 640px; }
+table.map th, table.map td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.map th { font: 600 11px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+table.map td:first-child { color: var(--text); font-weight: 600; white-space: nowrap; }
+table.map td { color: var(--text-2); }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; counter-reset: s; }
+.flow div { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; font-size: 13.5px; color: var(--text-2); display: grid; gap: 4px; }
+.flow div b { color: var(--text); font-family: var(--f-display); font-size: 15px; }
+.flow div::before { counter-increment: s; content: "STEP " counter(s); font: 600 10.5px var(--f-mono); letter-spacing: .12em; color: var(--amber); }
+.callout { border: 1px solid var(--critical); background: #1c0d0b; border-radius: 8px; padding: 14px 16px; display: grid; gap: 6px; }
+.callout h3 { color: #ff9b8a; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; }
+.q { display: grid; gap: 10px; }
+.q div { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; }
+.q div span { font: 600 12px var(--f-mono); color: var(--amber); padding-top: 2px; }
+@media (max-width: 640px) { body { font-size: 14.5px; } .wrap { gap: 44px; } }
+@media (prefers-reduced-motion: no-preference) { .row, .chip, .btn { transition: background .12s, border-color .12s; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">WirelessScanner 1.1 · design proposal · no code changed</span>
+    <h1>Live Survey redesign: network explorer, spectrum, and saturation in one place</h1>
+    <p class="lede">Three proposals for the next iteration. The mockups below are interactive and linked. Tick networks in the explorer: the spectrum recolours, the scope summary updates, and the saturation drawer shows what would be tested. Everything uses simulated networks.</p>
+    <div class="meta"><span><b>Prepared</b> 2026-10-15</span><span><b>For</b> project owner</span><span><b>Engine consultation</b> C-04, C-05 (UI/UX rules), C-03 (telemetry semantics)</span><span><b>Palette</b> validated on the app's #0b0b0d surface</span></div>
+  </header>
+
+  <!-- ============ A. NETWORK EXPLORER ============ -->
+  <section id="explorer">
+    <div class="sec-head">
+      <span class="eyebrow">Proposal A</span>
+      <h2>Replace the card list with a grouped network explorer</h2>
+      <p>Today the left panel is a single column of text cards. Each one repeats "SSID:", "CH", "RSSI" and "Qual" in the same orange, with a small checkbox and a separate SSID/AP mode switch. Scanning 30+ networks means reading every line.</p>
+    </div>
+    <div class="cols">
+      <div class="note today"><h3>Today</h3><ul>
+        <li>Flat list; every row has the same weight, so no scan path</li>
+        <li>Signal is a number buried in a text line; no visual meter or tier</li>
+        <li>A separate SSID/AP switch changes what a tick means</li>
+        <li>No search, sort, band filter, or count of what is selected</li>
+        <li>Selection colour is not linked to the graph</li></ul></div>
+      <div class="note"><h3>Proposed</h3><ul>
+        <li><b>Grouped by SSID</b> with expandable BSSID rows. A tri-state checkbox on the group selects every AP of that network</li>
+        <li><b>Signal meter, value and tier label</b> on every row, plus a 60-second sparkline</li>
+        <li><b>Chips</b> for band, security and tier, plus "selected only"; search; sort by signal, name or channel</li>
+        <li><b>Identity swatch</b>: a selected network gets the same colour here, on the spectrum, on tiles and in reports</li>
+        <li><b>Sticky footer</b> states the resulting scope in plain words and holds the actions</li></ul></div>
+    </div>
+    <p class="why">Engine C-04/C-05: grouping related items (Gestalt), fewer simultaneous decisions (Hick's law, so chips sit in one row and details stay collapsed), visible system status (selection summary), and colour never as the only signal (tier labels).</p>
+  </section>
+
+  <!-- ============ B. SPECTRUM ============ -->
+  <section id="spectrum">
+    <div class="sec-head">
+      <span class="eyebrow">Proposal B</span>
+      <h2>Make the spectrum truthful, readable and focused</h2>
+      <p>Today every AP is drawn as an identical parabola, coloured only by signal tier. Twenty networks therefore share three or four hues, labels collide, and a 20 MHz AP looks the same as an 80 MHz one.</p>
+    </div>
+    <div class="cols">
+      <div class="note today"><h3>Today</h3><ul>
+        <li>One colour per tier, so networks are indistinguishable from each other</li>
+        <li>Parabolas don't match real OFDM channels, which are flat-topped and as wide as the channel width</li>
+        <li>Overlapping labels in crowded channels; no hover detail</li>
+        <li>No view of congestion, DFS channels or 6 GHz</li></ul></div>
+      <div class="note"><h3>Proposed</h3><ul>
+        <li><b>Focus and context</b>: up to 3 focused networks in full identity colour with labels; all others drawn as quiet outlines</li>
+        <li><b>Width-true channel masks</b> (20/40/80/160 MHz, flat top, sloped skirts)</li>
+        <li><b>Signal bands</b> −67/−70/−80 dBm, the same bands as the saturation charts</li>
+        <li><b>Congestion strip</b> under the axis, with a "least busy" channel marker; DFS shading; band tabs 2.4 / 5 / 6 GHz</li>
+        <li><b>Hover tooltip</b>, plus a <b>waterfall</b> view (channel × time) for spotting intermittent interference</li></ul></div>
+    </div>
+    <p class="why">Colour rule (validated): the 8-colour identity palette passes all checks for adjacent pairs on the app's black. With overlapping shapes (every pair can touch), only the first 3 colours stay distinguishable for colour-blind viewers. So: at most 3 focused networks, always direct-labelled, plus hover. Networks selected after the first three stay as outlines (still selected and captured) until a coloured one is unticked, so colours never jump between networks.</p>
+  </section>
+
+  <!-- ============ LINKED MOCKUP (A + B) ============ -->
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Interactive mockup · Proposals A and B together</span>
+      <h3>Tick networks on the left; hover the spectrum; switch band and view</h3>
+    </div>
+    <div class="scroller">
+      <div class="win" role="img" aria-label="Mockup of the redesigned Live Survey tab">
+        <div class="win-bar"><span class="dot"></span><span class="title">WIRELESS SPECTRAL SCANNER</span>
+          <span class="right">LIVE SURVEY · REST API · HISTORY</span></div>
+        <div class="win-body">
+          <!-- explorer -->
+          <div class="pane">
+            <div class="pane-title">Networks <span class="count" id="ex-count"></span></div>
+            <div class="search">
+              <input id="ex-search" type="search" placeholder="Search SSID, BSSID, vendor" aria-label="Search networks">
+              <select id="ex-sort" aria-label="Sort networks"><option value="sig">Signal</option><option value="name">Name</option><option value="ch">Channel</option></select>
+            </div>
+            <div class="chips" id="ex-chips">
+              <button class="chip" data-f="2.4" aria-pressed="false">2.4 GHz</button>
+              <button class="chip" data-f="5" aria-pressed="false">5 GHz</button>
+              <button class="chip" data-f="fair" aria-pressed="false">Fair or better</button>
+              <button class="chip" data-f="secure" aria-pressed="false">Secured</button>
+              <button class="chip" data-f="sel" aria-pressed="false">Selected only</button>
+            </div>
+            <div class="list" id="ex-list"></div>
+            <div class="sel-bar">
+              <div class="scope" id="ex-scope"></div>
+              <div class="actions"><button class="btn primary" id="go-sat">Saturation test…</button><button class="btn">Capture session…</button><button class="btn ghost" id="ex-clear">Clear</button></div>
+            </div>
+          </div>
+          <!-- spectrum -->
+          <div class="pane">
+            <div class="spec-head">
+              <div class="pane-title" style="margin-right:auto">RF spectrum</div>
+              <div class="seg" id="band-seg"><button aria-pressed="true" data-b="2.4">2.4 GHz</button><button aria-pressed="false" data-b="5">5 GHz</button><button aria-pressed="false" data-b="6" title="Shown when the adapter reports 6 GHz">6 GHz</button></div>
+              <div class="seg" id="view-seg"><button aria-pressed="true" data-v="spec">Spectrum</button><button aria-pressed="false" data-v="fall">Waterfall</button><button aria-pressed="false" data-v="grid">Grid</button></div>
+            </div>
+            <div class="legend" id="legend"></div>
+            <div class="chart-wrap" id="chart-wrap"><svg id="chart" viewBox="0 0 760 360" width="100%" role="img" aria-label="Spectrum chart"></svg><div class="tooltip" id="tip" hidden></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ C. SATURATION INSIDE LIVE SURVEY ============ -->
+  <section id="unify">
+    <div class="sec-head">
+      <span class="eyebrow">Proposal C</span>
+      <h2>Move the saturation test into Live Survey, driven by the same selection</h2>
+      <p>Today the saturation tab has its own adapter picker, its own DISCOVER scan, its own scope menu and its own table of networks. The same networks are selected twice, with different rules. One selection should drive everything: what you see, what you capture, and what you test.</p>
+    </div>
+
+    <div class="flow">
+      <div><b>Select</b>Tick SSIDs or individual APs in the explorer. The footer states the scope in words.</div>
+      <div><b>Choose a mode</b>The mode switch shows <i>Monitor</i>, <i>Capture session</i> or <i>Saturation test</i>. Saturation opens a drawer with "how long" and "where" (with geolocation).</div>
+      <div><b>Run</b>The spectrum area gains a <i>Test</i> view with tiles and a timeline. Explorer rows show live badges: NOT SEEN, DROP, CH CHANGE.</div>
+      <div><b>Review</b>Results open in the same drawer; reports export from there. Past tests join capture sessions in History.</div>
+    </div>
+
+    <div class="scroller">
+      <div class="win" role="img" aria-label="Mockup of Live Survey running a saturation test">
+        <div class="win-bar"><span class="dot"></span><span class="title">WIRELESS SPECTRAL SCANNER</span><span class="right">LIVE SURVEY · REST API · HISTORY</span></div>
+        <div class="modebar">
+          <div class="seg" id="mode-seg"><button aria-pressed="false" data-m="mon">Monitor</button><button aria-pressed="false" data-m="cap">Capture session</button><button aria-pressed="true" data-m="sat">Saturation test</button></div>
+          <span class="mono" style="color:var(--text-2);font-size:12px" id="mode-status"></span>
+          <span style="margin-left:auto" class="mono" id="mode-right"></span>
+        </div>
+        <div class="win-body" style="grid-template-columns: 300px 1fr 280px">
+          <div class="pane">
+            <div class="pane-title">Networks <span class="count">read-only while testing</span></div>
+            <div class="list" id="run-list" style="max-height:none"></div>
+          </div>
+          <div class="pane">
+            <div class="spec-head"><div class="pane-title" style="margin-right:auto">Test · Stock room B</div>
+              <div class="seg"><button aria-pressed="true">Tiles &amp; timeline</button><button aria-pressed="false">Spectrum</button><button aria-pressed="false">Events</button></div></div>
+            <div style="height:6px;background:#241a10;border-radius:3px;overflow:hidden"><div style="width:42%;height:100%;background:var(--amber)"></div></div>
+            <div class="mono" style="font-size:12px;color:var(--text-2)">Elapsed 00:25:12 · remaining 00:34:48 · 302 scans: 291 fresh · 11 stale · 0 failed</div>
+            <div class="tiles" id="run-tiles"></div>
+            <svg id="run-chart" viewBox="0 0 560 170" width="100%" aria-label="Test timeline"></svg>
+          </div>
+          <div class="drawer" id="drawer"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head"><h3>How the shared selection maps to test scope (no separate scope menu)</h3></div>
+    <div class="scroller">
+      <table class="map">
+        <thead><tr><th>You tick…</th><th>Saturation scope</th><th>Behaviour</th><th>Live view and capture</th></tr></thead>
+        <tbody>
+          <tr><td>A whole SSID group</td><td>SSID</td><td>Follows every BSSID of that SSID, including ones that appear mid-test. Reports "strongest AP" changes</td><td>Same networks focused and captured</td></tr>
+          <tr><td>Individual AP rows</td><td>Fixed BSSIDs</td><td>Exactly those radios; absence counts as a dropout from the first scan</td><td>Same</td></tr>
+          <tr><td>A group plus extra single APs</td><td>Mixed (new)</td><td>Both rules at once. The footer reads "1 SSID (3 APs, follows new) + 1 AP"</td><td>Same</td></tr>
+          <tr><td>Nothing</td><td>All visible</td><td>Asks for confirmation first ("test all 37 networks?"), since reports get large</td><td>Everything shown, nothing captured until confirmed</td></tr>
+          <tr><td>A hidden network</td><td>Fixed BSSID</td><td>Hidden SSIDs can only be followed by BSSID; the group checkbox is disabled with a tooltip</td><td>Same</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cols">
+      <div class="note"><h3>What changes in the app</h3><ul>
+        <li>The SATURATION TEST tab is removed; its setup becomes the Live Survey drawer, and its history joins HISTORY / LOGS</li>
+        <li>The DISCOVER step disappears: Live Survey is always scanning</li>
+        <li>The SSID/AP mode switch disappears: the tree replaces it</li>
+        <li>Capture sessions and saturation tests share the selection, the adapter and the scan loop</li>
+        <li>While a test runs, the selection is locked (read-only) so the scope can't drift; markers stay available</li></ul></div>
+      <div class="note"><h3>What stays the same</h3><ul>
+        <li>The analytics (SAT-ANALYTICS-1), storage, reports, geolocation and REST API</li>
+        <li>Fresh-scan rules and STALE/FAILED handling</li>
+        <li>The amber-on-obsidian look of the app chrome. Data colour is the only new colour system</li></ul></div>
+    </div>
+
+    <div class="callout">
+      <h3>Found while preparing this: concurrent scans clash</h3>
+      <p>Live Survey (<code>MainWindowViewModel</code>), the saturation runner and DISCOVER each call <code>ScanAsync</code> on the same adapter instance. The adapter keeps one pending-scan slot per interface, so a second concurrent call replaces the first, and the first waits out its 6-second timeout and is recorded as STALE. A saturation test running while Live Survey scans can therefore lose fresh cycles in the app. The 15-minute hardware run used its own adapter instance, so it didn't hit this. Proposal C fixes it structurally with <b>one scan scheduler</b> that every view subscribes to. This would be logged as finding F18 before any change.</p>
+    </div>
+  </section>
+
+  <!-- ============ DECISIONS ============ -->
+  <section>
+    <div class="sec-head"><span class="eyebrow">Decisions needed before implementation</span><h2>Questions for you</h2></div>
+    <div class="q">
+      <div><span>Q1</span><p><b>Approve the merge (C)?</b> This removes the SATURATION TEST tab. Alternative: keep the tab but have it read the Live Survey selection (less disruptive, but still two places to look).</p></div>
+      <div><span>Q2</span><p><b>Allow "Mixed" scope</b> (SSID groups plus single APs in one test)? It needs a small analytics-neutral change to how targets are tracked.</p></div>
+      <div><span>Q3</span><p><b>Focus limit of 3 coloured networks</b> on the spectrum (validated for colour-blind readers), with the rest as outlines? Or allow up to 8 with mandatory labels and hover?</p></div>
+      <div><span>Q4</span><p><b>Waterfall view</b> now or later? It needs per-scan history kept in memory for the live view (about 60 scans × channels).</p></div>
+      <div><span>Q5</span><p><b>Fix F18 first</b> as a standalone change (shared scan scheduler), even if the redesign is scheduled later? It is a data-quality bug.</p></div>
+    </div>
+    <p class="why">On approval, the governance trail gets: consultation entry C-07, decision records (explorer and spectrum design, tab merge), finding F18, then tasks with tests and UI render evidence, the same as T03–T12.</p>
+  </section>
+</div>
+
+<script>
+(() => {
+  const SERIES = ['--s1','--s2','--s3'];   // all-pairs-safe identity slots for overlapping marks
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  // Simulated networks (fictional names). width in MHz.
+  const NETS = [
+    { ssid:'PlantOps', sec:'WPA2-Enterprise', vendor:'Cisco', aps:[
+      { b:'8C:5A:25:04:91:B0', band:'5', ch:36,  w:80, rssi:-52 },
+      { b:'8C:5A:25:04:91:B1', band:'2.4', ch:6, w:20, rssi:-61 },
+      { b:'8C:5A:25:04:91:B4', band:'5', ch:149, w:40, rssi:-66 } ]},
+    { ssid:'WH-Scanners', sec:'WPA2/WPA3', vendor:'Ubiquiti', aps:[
+      { b:'04:18:D6:3A:10:02', band:'2.4', ch:6, w:20, rssi:-64 },
+      { b:'04:18:D6:3A:10:05', band:'5', ch:44, w:20, rssi:-70 } ]},
+    { ssid:'Guest-Portal', sec:'Open', vendor:'Philips', aps:[
+      { b:'00:17:88:A1:B2:C3', band:'2.4', ch:11, w:20, rssi:-57 } ]},
+    { ssid:'Facilities-IoT', sec:'WPA2-Personal', vendor:'HPE', aps:[
+      { b:'A0:B1:C2:D3:E4:01', band:'2.4', ch:1, w:20, rssi:-72 },
+      { b:'A0:B1:C2:D3:E4:02', band:'5', ch:149, w:20, rssi:-81 } ]},
+    { ssid:'Breakroom-TV', sec:'WPA2-Personal', vendor:'TP-Link', aps:[
+      { b:'50:D4:F7:11:22:33', band:'2.4', ch:11, w:20, rssi:-75 } ]},
+    { ssid:'<Hidden SSID>', sec:'WPA2-Personal', vendor:'Unknown', hidden:true, aps:[
+      { b:'4A:AF:97:02:9C:56', band:'2.4', ch:3, w:40, rssi:-79 } ]},
+    { ssid:'Dock-Cameras', sec:'WPA2-Personal', vendor:'ASUSTek', aps:[
+      { b:'70:8B:CD:44:55:66', band:'5', ch:100, w:80, rssi:-68 } ]},
+  ];
+  NETS.forEach(n => n.aps.forEach(a => { a.ssid = n.ssid; a.spark = Array.from({length:12}, (_, i) => a.rssi + Math.round(Math.sin(i * 1.3 + a.ch) * 2 + (i === 8 && a.rssi < -70 ? -6 : 0))); }));
+  const ALL = NETS.flatMap(n => n.aps);
+  const state = { sel: new Set(['8C:5A:25:04:91:B0','8C:5A:25:04:91:B1','8C:5A:25:04:91:B4','00:17:88:A1:B2:C3']), focusOrder: ['PlantOps','Guest-Portal'], open: new Set(['PlantOps']), filters: new Set(), q:'', sort:'sig', band:'2.4', view:'spec' };
+
+  const tierOf = r => r >= -55 ? ['EXCELLENT','--good'] : r >= -67 ? ['GOOD','--good'] : r >= -70 ? ['FAIR','--warning'] : r >= -80 ? ['WEAK','--serious'] : ['UNUSABLE','--critical'];
+  const barsFor = r => { const n = r >= -55 ? 4 : r >= -67 ? 3 : r >= -75 ? 2 : 1; return [0,1,2,3].map(i => `<i style="height:${4 + i * 3}px;${i < n ? 'background:var(--text-2)' : ''}"></i>`).join(''); };
+  const spark = (vals, color) => { const lo = Math.min(...vals) - 1, hi = Math.max(...vals) + 1; const pts = vals.map((v, i) => `${(i / (vals.length - 1) * 52 + 1).toFixed(1)},${(15 - (v - lo) / (hi - lo) * 13).toFixed(1)}`).join(' '); return `<svg class="spark" viewBox="0 0 54 16"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5"/></svg>`; };
+
+  // colour follows the entity (SSID), assigned by focus order, never by rank
+  function colorOf(ssid) { const i = state.focusOrder.indexOf(ssid); return i >= 0 && i < 3 ? css(SERIES[i]) : null; }
+  function groupState(n) { const k = n.aps.filter(a => state.sel.has(a.b)).length; return k === 0 ? 'off' : k === n.aps.length ? 'on' : 'mixed'; }
+  function syncFocus() {
+    // a network is "focused" if any of its APs is selected; keep stable order, cap colour at 3
+    const selectedSsids = NETS.filter(n => n.aps.some(a => state.sel.has(a.b))).map(n => n.ssid);
+    state.focusOrder = state.focusOrder.filter(s => selectedSsids.includes(s));
+    selectedSsids.forEach(s => { if (!state.focusOrder.includes(s)) state.focusOrder.push(s); });
+  }
+  function visible(n) {
+    const q = state.q.toLowerCase();
+    return n.aps.filter(a =>
+      (!state.filters.has('2.4') || a.band === '2.4') && (!state.filters.has('5') || a.band === '5') &&
+      (!state.filters.has('fair') || a.rssi >= -70) && (!state.filters.has('secure') || n.sec !== 'Open') &&
+      (!state.filters.has('sel') || state.sel.has(a.b)) &&
+      (!q || n.ssid.toLowerCase().includes(q) || a.b.toLowerCase().includes(q) || n.vendor.toLowerCase().includes(q)));
+  }
+  function scopeText() {
+    const parts = []; let singles = 0;
+    NETS.forEach(n => { const g = groupState(n); if (g === 'on' && !n.hidden) parts.push(n); else singles += n.aps.filter(a => state.sel.has(a.b)).length; });
+    const apsInGroups = parts.reduce((s, n) => s + n.aps.length, 0);
+    if (!parts.length && !singles) return '<b>Nothing selected</b>: the live view shows everything; a test would ask before covering all networks.';
+    const g = parts.length ? `<b>${parts.length} SSID${parts.length > 1 ? 's' : ''}</b> (${apsInGroups} APs, follows new APs)` : '';
+    const s = singles ? `<b>${singles} AP${singles > 1 ? 's' : ''}</b> (fixed)` : '';
+    return 'Scope: ' + [g, s].filter(Boolean).join(' + ') + (parts.length && singles ? ' · <span class="mono">mixed</span>' : '');
+  }
+
+  function renderExplorer() {
+    syncFocus();
+    const list = document.getElementById('ex-list');
+    let nets = NETS.map(n => ({ n, aps: visible(n) })).filter(x => x.aps.length);
+    const best = x => Math.max(...x.aps.map(a => a.rssi));
+    nets.sort(state.sort === 'name' ? (a, b) => a.n.ssid.localeCompare(b.n.ssid) : state.sort === 'ch' ? (a, b) => Math.min(...a.aps.map(p => p.ch)) - Math.min(...b.aps.map(p => p.ch)) : (a, b) => best(b) - best(a));
+    list.innerHTML = nets.map(({ n, aps }) => {
+      const gs = groupState(n), color = colorOf(n.ssid), open = state.open.has(n.ssid), r = best({ aps }), [t, tc] = tierOf(r);
+      const head = `<div class="row ${gs !== 'off' ? 'focused' : ''}" data-g="${n.ssid}">
+        <button class="caret" data-toggle="${n.ssid}" aria-label="${open ? 'Collapse' : 'Expand'} ${n.ssid}">${open ? '▾' : '▸'}</button>
+        <span class="cb ${gs}" role="checkbox" aria-checked="${gs === 'mixed' ? 'mixed' : gs === 'on'}" data-gcb="${n.ssid}" title="${n.hidden ? 'Hidden networks can only be followed by BSSID' : 'Select every AP of this network'}" style="${n.hidden ? 'opacity:.4' : ''}">${gs === 'on' ? '✓' : gs === 'mixed' ? '–' : ''}</span>
+        <span class="name"><span class="l1">${color ? `<span class="sw" style="background:${color}"></span>` : (gs !== 'off' ? `<span class="sw" style="border:1.5px solid var(--context)"></span>` : '')}${n.ssid}</span>
+          <span class="l2">${n.aps.length} AP${n.aps.length > 1 ? 's' : ''} · <span class="tag">${n.sec}</span> · ${[...new Set(n.aps.map(a => a.band + ' GHz'))].join(' / ')}</span></span>
+        <span class="sig"><span><span class="bars">${barsFor(r)}</span></span>${r} dBm<span class="tier" style="color:var(${tc})">${t}</span></span></div>`;
+      const kids = open ? aps.map(a => { const [at, atc] = tierOf(a.rssi), on = state.sel.has(a.b); return `<div class="row ap ${on ? 'focused' : ''}" data-ap="${a.b}">
+        <span></span><span class="cb ${on ? 'on' : ''}" role="checkbox" aria-checked="${on}">${on ? '✓' : ''}</span>
+        <span class="name"><span class="l1" style="font-weight:500;font-family:var(--f-mono);font-size:12px">${a.b}</span><span class="l2">ch ${a.ch} · ${a.band} GHz · ${a.w} MHz ${spark(a.spark, color || css('--text-2'))}</span></span>
+        <span class="sig">${a.rssi}<span class="tier" style="color:var(${atc})">${at}</span></span></div>`; }).join('') : '';
+      return `<div class="grp">${head}${kids}</div>`;
+    }).join('') || '<p class="why" style="padding:10px">No networks match these filters. Clear a chip or the search.</p>';
+    const total = ALL.length, sel = state.sel.size;
+    document.getElementById('ex-count').textContent = `${NETS.length} SSIDs · ${total} APs · ${sel} selected`;
+    document.getElementById('ex-scope').innerHTML = scopeText();
+    renderChart(); renderUnified();
+  }
+
+  document.getElementById('ex-list').addEventListener('click', e => {
+    const t = e.target.closest('[data-toggle]'); if (t) { const s = t.dataset.toggle; state.open.has(s) ? state.open.delete(s) : state.open.add(s); return renderExplorer(); }
+    const g = e.target.closest('[data-gcb]'); if (g) { const n = NETS.find(x => x.ssid === g.dataset.gcb); if (n.hidden) return; const on = groupState(n) !== 'on'; n.aps.forEach(a => on ? state.sel.add(a.b) : state.sel.delete(a.b)); state.open.add(n.ssid); return renderExplorer(); }
+    const ap = e.target.closest('[data-ap]'); if (ap) { const b = ap.dataset.ap; state.sel.has(b) ? state.sel.delete(b) : state.sel.add(b); return renderExplorer(); }
+    const row = e.target.closest('[data-g]'); if (row) { const s = row.dataset.g; state.open.has(s) ? state.open.delete(s) : state.open.add(s); renderExplorer(); }
+  });
+  document.getElementById('ex-chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; const f = c.dataset.f; state.filters.has(f) ? state.filters.delete(f) : state.filters.add(f); c.setAttribute('aria-pressed', state.filters.has(f)); renderExplorer(); });
+  document.getElementById('ex-search').addEventListener('input', e => { state.q = e.target.value; renderExplorer(); });
+  document.getElementById('ex-sort').addEventListener('change', e => { state.sort = e.target.value; renderExplorer(); });
+  document.getElementById('ex-clear').addEventListener('click', () => { state.sel.clear(); renderExplorer(); });
+  document.getElementById('go-sat').addEventListener('click', () => document.getElementById('unify').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+  const seg = (id, key, after) => document.getElementById(id).addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', x === b)); state[key] = b.dataset[key === 'band' ? 'b' : 'v']; after(); });
+  seg('band-seg', 'band', renderChart); seg('view-seg', 'view', renderChart);
+
+  // ---------- spectrum ----------
+  const W = 760, H = 360, L = 46, R = 14, T = 16, B = 70;
+  function bandAxis() {
+    if (state.band === '2.4') return { lo: 2401, hi: 2483, ticks: [1,2,3,4,5,6,7,8,9,10,11,12,13].map(c => ({ c, f: 2407 + 5 * c })), dfs: null, f: a => 2407 + 5 * a.ch };
+    if (state.band === '5') return { lo: 5170, hi: 5835, ticks: [36,52,64,100,116,132,149,165].map(c => ({ c, f: 5000 + 5 * c })), dfs: [5250, 5730], f: a => 5000 + 5 * a.ch + (a.w === 80 ? 30 : a.w === 40 ? 10 : 0) };
+    return { lo: 5945, hi: 6425, ticks: [1,17,33,49,65,81,97].map(c => ({ c, f: 5950 + 5 * c })), dfs: null, f: () => 0 };
+  }
+  function renderChart() {
+    const svg = document.getElementById('chart'), ax = bandAxis(), pw = W - L - R, ph = H - T - B;
+    const X = f => L + (f - ax.lo) / (ax.hi - ax.lo) * pw, Y = d => T + (-25 - d) / (-25 + 95) * ph;
+    const aps = ALL.filter(a => a.band === state.band);
+    const ink2 = css('--text-2'), muted = css('--muted'), rule = css('--rule');
+    let s = '';
+    // signal bands
+    [[-67, -70, 'rgba(250,178,25,.07)'], [-70, -80, 'rgba(236,131,90,.09)'], [-80, -95, 'rgba(208,59,59,.10)']].forEach(([a, b, c]) => s += `<rect x="${L}" y="${Y(a)}" width="${pw}" height="${Y(b) - Y(a)}" fill="${c}"/>`);
+    if (ax.dfs) s += `<rect x="${X(ax.dfs[0])}" y="${T}" width="${X(ax.dfs[1]) - X(ax.dfs[0])}" height="${ph}" fill="rgba(144,133,233,.06)"/><text x="${X(ax.dfs[0]) + 6}" y="${T + 12}" font-size="10" fill="${muted}">DFS (radar may force channel changes)</text>`;
+    for (let d = -30; d >= -90; d -= 10) s += `<line x1="${L}" x2="${L + pw}" y1="${Y(d)}" y2="${Y(d)}" stroke="${rule}" stroke-width="1"/><text x="${L - 6}" y="${Y(d) + 3}" font-size="10" text-anchor="end" fill="${muted}">${d}</text>`;
+    s += `<text x="${L - 6}" y="${T - 4}" font-size="9.5" text-anchor="end" fill="${muted}">dBm</text>`;
+    [['-67', -67], ['-70', -70], ['-80', -80]].forEach(([l, d]) => s += `<text x="${L + pw - 4}" y="${Y(d) - 3}" font-size="9" text-anchor="end" fill="${muted}">${l}</text>`);
+
+    if (state.band === '6') {
+      s += `<text x="${L + pw / 2}" y="${T + ph / 2}" font-size="13" text-anchor="middle" fill="${ink2}">No 6 GHz networks reported by this adapter.</text><text x="${L + pw / 2}" y="${T + ph / 2 + 18}" font-size="11" text-anchor="middle" fill="${muted}">The tab stays visible so a 6E adapter can use it.</text>`;
+    } else if (state.view === 'fall') {
+      s += waterfall(ax, X, pw, ph);
+    } else if (state.view === 'grid') {
+      s += `<text x="${L + pw / 2}" y="${T + ph / 2}" font-size="12" text-anchor="middle" fill="${ink2}">Grid view: the existing telemetry grid, with the same identity swatches and tier labels.</text>`;
+    } else {
+      const ordered = aps.slice().sort((a, b) => (colorOf(a.ssid) ? 1 : 0) - (colorOf(b.ssid) ? 1 : 0));
+      ordered.forEach(a => {
+        const c = colorOf(a.ssid), fc = ax.f(a), half = a.w / 2, skirt = Math.min(6, a.w * .15);
+        const x0 = X(fc - half - skirt), x1 = X(fc - half + skirt * .4), x2 = X(fc + half - skirt * .4), x3 = X(fc + half + skirt);
+        const y0 = Y(-95), y1 = Y(a.rssi);
+        const d = `M${x0},${y0} C${x0 + (x1 - x0) * .6},${y0} ${x1 - (x1 - x0) * .3},${y1} ${x1},${y1} L${x2},${y1} C${x2 + (x3 - x2) * .3},${y1} ${x3 - (x3 - x2) * .6},${y0} ${x3},${y0}`;
+        const stroke = c || css('--context');
+        s += `<path d="${d} Z" fill="${c ? c : 'transparent'}" fill-opacity="${c ? .14 : 0}" stroke="${stroke}" stroke-width="${c ? 2 : 1.2}" stroke-dasharray="${c ? '' : '3 3'}" data-tip="${a.b}" style="cursor:crosshair"/>`;
+      });
+      // direct labels for focused, simple collision avoidance by stacking
+      const used = [];
+      aps.filter(a => colorOf(a.ssid)).sort((a, b) => b.rssi - a.rssi).forEach(a => {
+        const x = X(ax.f(a)); let y = Y(a.rssi) - 8;
+        while (used.some(u => Math.abs(u.x - x) < 110 && Math.abs(u.y - y) < 13)) y -= 13;
+        used.push({ x, y });
+        s += `<text x="${x}" y="${y}" font-size="11" text-anchor="middle" fill="${css('--text')}"><tspan fill="${colorOf(a.ssid)}">■</tspan> ${a.ssid} ${a.rssi}</text>`;
+      });
+    }
+    // congestion strip (sequential, one hue)
+    if (state.band !== '6') {
+      const sy = H - B + 26, cells = ax.ticks.length > 9 ? ax.ticks : null;
+      const chans = state.band === '2.4' ? [...Array(13)].map((_, i) => i + 1) : [36,40,44,48,52,56,60,64,100,104,108,112,116,120,124,128,132,136,140,144,149,153,157,161,165];
+      const f = c => state.band === '2.4' ? 2407 + 5 * c : 5000 + 5 * c;
+      const load = chans.map(c => aps.reduce((sum, a) => { const fc = ax.f(a); return sum + (Math.abs(fc - f(c)) < a.w / 2 + 2 ? Math.max(0, (a.rssi + 95) / 45) : 0); }, 0));
+      const max = Math.max(...load, .01), ramp = ['--seq-1','--seq-2','--seq-3','--seq-4','--seq-5'];
+      const pref = state.band === '2.4' ? [1, 6, 11] : chans;
+      const bestCh = pref.reduce((b, c) => load[chans.indexOf(c)] < load[chans.indexOf(b)] ? c : b, pref[0]);
+      chans.forEach((c, i) => { const x = X(f(c) - 2.5), w = Math.max(2, X(f(c) + 2.5) - x - 1.5); const lvl = load[i] / max; const col = load[i] === 0 ? css('--panel-2') : css(ramp[Math.min(4, Math.floor(lvl * 4.99))]); s += `<rect x="${x}" y="${sy}" width="${w}" height="12" rx="2" fill="${col}"><title>ch ${c}: relative load ${(lvl * 100).toFixed(0)}%</title></rect>`; });
+      s += `<text x="${L}" y="${sy - 5}" font-size="10" fill="${muted}">Channel load (overlap × signal)</text>`;
+      const bx = X(f(bestCh));
+      s += `<path d="M${bx},${sy + 15} l-5,8 h10 z" fill="${css('--good')}"/><text x="${bx + 8}" y="${sy + 23}" font-size="10" fill="${css('--good')}">least busy: ch ${bestCh}</text>`;
+    }
+    ax.ticks.forEach(t => s += `<text x="${X(t.f)}" y="${H - B + 14}" font-size="10" text-anchor="middle" fill="${muted}">${t.c}</text>`);
+    svg.innerHTML = s;
+    // legend
+    const foc = state.focusOrder.slice(0, 3);
+    document.getElementById('legend').innerHTML = (foc.length ? foc.map(sid => `<span><i class="sw" style="background:${colorOf(sid)}"></i>${sid}</span>`).join('') : '<span>No networks focused: tick one on the left</span>') +
+      `<span><i class="sw" style="border:1.5px dashed var(--context)"></i>other networks</span>` + (state.focusOrder.length > 3 ? `<span class="mono" style="color:var(--warning)">+${state.focusOrder.length - 3} selected shown as outlines (colour limit 3)</span>` : '');
+  }
+  function waterfall(ax, X, pw, ph) {
+    let s = ''; const rows = 30, rh = ph / rows, aps = ALL.filter(a => a.band === state.band);
+    const chans = state.band === '2.4' ? [...Array(13)].map((_, i) => i + 1) : [36,40,44,48,52,56,60,64,100,104,108,112,116,120,124,128,132,136,140,144,149,153,157,161,165];
+    const f = c => state.band === '2.4' ? 2407 + 5 * c : 5000 + 5 * c, ramp = ['--seq-1','--seq-2','--seq-3','--seq-4','--seq-5'];
+    for (let r = 0; r < rows; r++) chans.forEach(c => {
+      const strongest = aps.filter(a => Math.abs(ax.f(a) - f(c)) < a.w / 2 + 2).map(a => a.rssi + Math.round(Math.sin(r * .7 + c) * 3) - (c === 11 && r % 9 < 2 ? 25 : 0));
+      if (!strongest.length) return; const v = Math.max(...strongest), lvl = Math.max(0, Math.min(1, (v + 90) / 45));
+      const x = X(f(c) - 2.5), w = Math.max(2, X(f(c) + 2.5) - x - 1);
+      s += `<rect x="${x}" y="${T + r * rh}" width="${w}" height="${rh - 1}" fill="${css(ramp[Math.min(4, Math.floor(lvl * 4.99))])}"/>`;
+    });
+    s += `<text x="${L + 4}" y="${T + 11}" font-size="10" fill="${css('--text-2')}">now</text><text x="${L + 4}" y="${T + ph - 3}" font-size="10" fill="${css('--text-2')}">−2.5 min</text>`;
+    if (state.band === '2.4') s += `<text x="${X(2462) + 8}" y="${T + 9 * rh}" font-size="10" fill="${css('--warning')}">◂ periodic gaps on ch 11</text>`;
+    return s;
+  }
+  // tooltip
+  const wrap = document.getElementById('chart-wrap'), tip = document.getElementById('tip');
+  wrap.addEventListener('mousemove', e => {
+    const p = e.target.closest('[data-tip]'); if (!p) { tip.hidden = true; return; }
+    const a = ALL.find(x => x.b === p.dataset.tip), [t, tc] = tierOf(a.rssi), rect = wrap.getBoundingClientRect();
+    tip.innerHTML = `<b>${a.ssid}</b><div class="mono">${a.b}</div><div>ch ${a.ch} · ${a.w} MHz · ${a.band} GHz</div><div><b>${a.rssi} dBm</b> <span style="color:var(${tc})">${t}</span></div><div class="mono" style="font-size:11px">SNR est. ~${a.rssi + 95} dB · click to focus</div>`;
+    tip.hidden = false; tip.style.left = Math.min(rect.width - 190, e.clientX - rect.left + 14) + 'px'; tip.style.top = (e.clientY - rect.top + 10) + 'px';
+  });
+  wrap.addEventListener('mouseleave', () => tip.hidden = true);
+  wrap.addEventListener('click', e => { const p = e.target.closest('[data-tip]'); if (!p) return; const b = p.dataset.tip; state.sel.has(b) ? state.sel.delete(b) : state.sel.add(b); renderExplorer(); });
+
+  // ---------- unified mockup (C) ----------
+  function renderUnified() {
+    const selAps = ALL.filter(a => state.sel.has(a.b));
+    const badges = ['', 'DROP −12 dB', '', 'NOT SEEN', 'CH 149 → 153'];
+    document.getElementById('run-list').innerHTML = selAps.length ? selAps.map((a, i) => { const c = colorOf(a.ssid) || css('--context'); const bd = badges[i % badges.length];
+      return `<div class="row ap focused" style="padding-left:8px;cursor:default"><span></span><span class="sw" style="background:${c}"></span><span class="name"><span class="l1">${a.ssid}</span><span class="l2">${a.b} · ch ${a.ch}</span></span><span class="sig">${a.rssi}${bd ? `<span class="tier" style="color:var(--serious)">${bd}</span>` : '<span class="tier" style="color:var(--good)">STABLE</span>'}</span></div>`; }).join('') : '<p class="why">Select networks in the explorer above to see them here.</p>';
+    document.getElementById('run-tiles').innerHTML = selAps.slice(0, 4).map((a, i) => { const [t, tc] = tierOf(a.rssi); const c = colorOf(a.ssid) || css('--context');
+      return `<div class="tile" style="border-color:${c}"><span class="sm">${a.ssid} · ${a.b.slice(-5)}</span><span class="big">${a.rssi} dBm</span><span class="lbl" style="color:var(${tc})">${t}</span><span class="sm">σ ${(1 + i * .7).toFixed(1)} dB · avail ${i === 1 ? '96.1' : '100'}% · grade ${['A','C','B','A'][i]}</span></div>`; }).join('');
+    // timeline
+    const svg = document.getElementById('run-chart'); let s = ''; const w = 560, h = 170, l = 34, t = 8, pw = w - l - 8, ph = h - t - 22, Y = d => t + (-40 - d) / 50 * ph;
+    [[-67,-70,'rgba(250,178,25,.08)'],[-70,-80,'rgba(236,131,90,.1)'],[-80,-90,'rgba(208,59,59,.11)']].forEach(([a,b,c]) => s += `<rect x="${l}" y="${Y(a)}" width="${pw}" height="${Y(b)-Y(a)}" fill="${c}"/>`);
+    for (let d = -40; d >= -90; d -= 10) s += `<text x="${l-5}" y="${Y(d)+3}" font-size="9.5" text-anchor="end" fill="${css('--muted')}">${d}</text>`;
+    selAps.slice(0, 3).forEach((a, k) => { const c = colorOf(a.ssid) || css('--context'); let pts = '';
+      for (let i = 0; i <= 60; i++) { let v = a.rssi + Math.sin(i * .5 + k) * 1.6; if (k === 1 && i > 22 && i < 28) v -= 12; pts += `${(l + i / 60 * pw).toFixed(1)},${Y(v).toFixed(1)} `; }
+      s += `<polyline points="${pts}" fill="none" stroke="${c}" stroke-width="2"/>`; });
+    const mx = l + 40 / 60 * pw; s += `<line x1="${mx}" x2="${mx}" y1="${t}" y2="${t+ph}" stroke="${css('--text-2')}" stroke-dasharray="3 3"/><text x="${mx+4}" y="${t+10}" font-size="10" fill="${css('--text-2')}">forklift charging</text>`;
+    s += `<text x="${l}" y="${h-4}" font-size="9.5" fill="${css('--muted')}">00:00</text><text x="${l+pw}" y="${h-4}" font-size="9.5" text-anchor="end" fill="${css('--muted')}">00:25</text>`;
+    svg.innerHTML = s;
+    document.getElementById('drawer').innerHTML = `<div class="pane-title">Saturation test</div>
+      <div class="scope">${scopeText()}</div>
+      <div class="field">How long<span class="val">1 hour · every 5 s (≈720 scans)</span></div>
+      <div class="field">Where<span class="val">Stock room B · Plant 2 / floor 1</span></div>
+      <div class="field">Geolocation<span class="val mono">41.878113, −87.629799 (±15 m) · DETECT</span></div>
+      <div class="field">Thresholds<span class="val">Defaults (drop 8 dB · dropout 2 scans) ▸</span></div>
+      <div class="field">Add marker<span class="val" style="color:var(--muted)">e.g. door closed…</span></div>
+      <div class="actions"><button class="btn">❚❚ Pause</button><button class="btn">■ Stop…</button></div>`;
+    const m = document.getElementById('mode-seg').querySelector('[aria-pressed="true"]').dataset.m;
+    document.getElementById('mode-status').textContent = m === 'sat' ? '● TESTING · selection locked' : m === 'cap' ? '● RECORDING' : 'Watching all networks';
+    document.getElementById('mode-right').textContent = 'Last scan FRESH · 1.1 s · 37 APs';
+    document.getElementById('mode-right').style.cssText = 'font-size:11.5px;color:var(--muted)';
+  }
+  document.getElementById('mode-seg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; [...e.currentTarget.children].forEach(x => x.setAttribute('aria-pressed', x === b)); renderUnified(); });
+
+  renderExplorer();
+})();
+</script>

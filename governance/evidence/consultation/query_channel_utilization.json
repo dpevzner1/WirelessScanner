@@ -1,0 +1,1462 @@
+{
+  "concepts": [
+    {
+      "term": "channel",
+      "score": 2580.8211,
+      "document_frequency": 21,
+      "total_mentions": 724,
+      "domains": {
+        "full_stack_web_product_engineering": 18477,
+        "api_engineering": 11566,
+        "software": 9846,
+        "ai_assisted_devops_and_coding": 6936,
+        "data": 6801,
+        "security": 5372,
+        "ai": 4746,
+        "systems": 4571,
+        "windows_internals_reverse_engineering": 4030,
+        "gpu_accelerated_compute_engineering": 3081,
+        "arm_embedded_platform_engineering": 3080,
+        "heterogeneous_parallel_portability_engineering": 2877,
+        "embedded_edge_hardware_iot": 2689,
+        "devops": 2294,
+        "snmp_protocol_engineering": 1957,
+        "custom_linux_image_builds": 1485,
+        "openclaw_autonomous_agent_engineering": 1469,
+        "mobile_application_engineering": 1359,
+        "low_level_game_engine_performance_architecture": 1330,
+        "linux_kernel_infrastructure": 1319,
+        "dos_legacy_pc_systems_engineering": 1207,
+        "network_monitoring": 1145,
+        "systems_memory_performance_engineering": 1088,
+        "product_experience": 1014,
+        "cloud": 954,
+        "windows_desktop_app_engineering": 566,
+        "amd_rocm_gpu_platform_engineering": 506,
+        "telemetry_capture_architecture_engineering": 455,
+        "nvidia_cuda_gpu_platform_engineering": 343,
+        "legacy_game_graphics_modernization_engineering": 317,
+        "raspberry_pi_provisioning_imaging": 165,
+        "workspace_automation": 149,
+        "amd_xdna_npu_endpoint_engineering": 120,
+        "vector_database_and_rag_engineering": 54
+      },
+      "documents": {
+        "amd-cdna-3-white-paper_268caead96": [
+          10
+        ],
+        "APIS__A_STRATEGY_GUIDE_f3305c5f6b": [
+          54,
+          61,
+          62,
+          74,
+          77,
+          85,
+          159,
+          371
+        ],
+        "APIs_A_Strategy_Guide_9d4c011e10": [
+          27,
+          30,
+          36,
+          37,
+          40,
+          163
+        ],
+        "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302": [
+          124,
+          155,
+          157,
+          160,
+          161,
+          162,
+          163,
+          164,
+          226,
+          229,
+          231,
+          232,
+          233,
+          236,
+          245,
+          251,
+          299
+        ],
+        "CLAUDE_CODE_MASTERY__BUILD_AUTOMATE_AND_SCALE_PRODUCTI_5502505d66": [
+          272,
+          273,
+          274,
+          506
+        ],
+        "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3": [
+          66,
+          96,
+          97,
+          222,
+          226,
+          227,
+          229,
+          267
+        ],
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7": [
+          125,
+          203,
+          218,
+          219,
+          225,
+          226,
+          227,
+          229,
+          285
+        ],
+        "MASTERING_LINUX_DEVICE_DRIVER_DEVELOPMENT__WRITE_CUSTO_2305519759": [
+          297,
+          303,
+          304,
+          314,
+          334,
+          341,
+          344,
+          345,
+          346,
+          347,
+          348,
+          360,
+          366,
+          410,
+          503,
+          582,
+          583,
+          584,
+          611
+        ],
+        "NEW_6__pcgpe10a_23e41ff083": [
+          4,
+          26,
+          27,
+          34,
+          48,
+          101,
+          104,
+          112,
+          118,
+          119,
+          120,
+          147,
+          150,
+          151,
+          153,
+          154,
+          157
+        ],
+        "OpenCL_API_9714d26dc8": [
+          81,
+          191,
+          192,
+          193,
+          194,
+          195,
+          198,
+          203,
+          204,
+          205,
+          206,
+          207,
+          210,
+          214,
+          215,
+          217,
+          219,
+          222,
+          224,
+          234,
+          238,
+          239,
+          240,
+          340,
+          362,
+          366,
+          457,
+          512,
+          536,
+          565,
+          625,
+          628,
+          629,
+          657
+        ],
+        "OpenCL_C_83aef620cd": [
+          4,
+          171,
+          195,
+          197,
+          200,
+          203,
+          206,
+          209,
+          212,
+          214,
+          230,
+          231,
+          234,
+          235,
+          312,
+          314,
+          315,
+          316,
+          317,
+          318,
+          319,
+          321,
+          322,
+          323,
+          324,
+          325,
+          327,
+          329
+        ],
+        "OPENCLAW__YOUR_FIRST_AI_AGENT__A_COMPLETE_BEGINNER_S_G_a01a4d5b9d": [
+          21,
+          22,
+          24,
+          33,
+          38,
+          52
+        ],
+        "OPENCLAW__YOUR_FIRST_AI_EMPLOYEE__BUILD_9_INCOME-GENER_b690cdc95b": [
+          30,
+          38,
+          63,
+          73,
+          96,
+          138,
+          163
+        ],
+        "OPENCLAW_THE_COMPLETE_TUTORIAL_GUIDE__SET_UP_YOUR_PERS_a72fd2b02f": [
+          3,
+          12,
+          33,
+          35,
+          44,
+          49,
+          83,
+          107,
+          114,
+          115
+        ],
+        "RUST_FOR_AI_AND_MACHINE_LEARNING__BUILD_FASTER_SAFER_H_f6dfd38e12": [
+          24,
+          25,
+          350,
+          351,
+          352,
+          353,
+          446,
+          524,
+          525,
+          528,
+          533,
+          660,
+          673
+        ],
+        "SNMP_Engineering__PRTGsnmpSensorModules_7f176f022d": [
+          1
+        ],
+        "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00": [
+          308,
+          309,
+          311,
+          365,
+          366,
+          367,
+          368,
+          369,
+          371,
+          372,
+          374,
+          375,
+          389,
+          390,
+          391,
+          392,
+          421,
+          423,
+          426,
+          427,
+          445,
+          460,
+          468,
+          476,
+          652,
+          796,
+          807
+        ],
+        "THE_SSL_TLS_HANDBOOK__ENCRYPTION_CERTIFICATES_AND_SECU_77b27cea2b": [
+          15,
+          25,
+          40,
+          51,
+          72,
+          81,
+          110,
+          144,
+          155,
+          158,
+          246,
+          247,
+          258,
+          275,
+          364,
+          384,
+          392,
+          439,
+          485,
+          611,
+          613,
+          624,
+          633,
+          635,
+          638,
+          639,
+          652,
+          654,
+          674,
+          677,
+          688
+        ],
+        "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56": [
+          32,
+          47,
+          52,
+          57,
+          81,
+          91,
+          92,
+          94,
+          142,
+          143,
+          144,
+          146,
+          148,
+          156,
+          157,
+          158,
+          189,
+          191,
+          194,
+          197,
+          200,
+          211,
+          212,
+          236,
+          249,
+          257,
+          274,
+          284,
+          307
+        ],
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4": [
+          40,
+          687,
+          711,
+          712,
+          714,
+          716,
+          717,
+          719,
+          720,
+          730,
+          731,
+          732,
+          792,
+          804,
+          806,
+          828,
+          846,
+          847,
+          848,
+          849,
+          862,
+          919,
+          990,
+          996,
+          1005
+        ]
+      }
+    },
+    {
+      "term": "utilization",
+      "score": 1985.6151,
+      "document_frequency": 29,
+      "total_mentions": 595,
+      "domains": {
+        "full_stack_web_product_engineering": 18215,
+        "gpu_accelerated_compute_engineering": 10294,
+        "software": 9425,
+        "api_engineering": 9134,
+        "windows_internals_reverse_engineering": 6845,
+        "cloud": 6742,
+        "data": 6420,
+        "amd_rocm_gpu_platform_engineering": 6140,
+        "nvidia_cuda_gpu_platform_engineering": 5961,
+        "snmp_protocol_engineering": 4433,
+        "heterogeneous_parallel_portability_engineering": 4209,
+        "network_monitoring": 4106,
+        "devops": 3776,
+        "ai": 3295,
+        "security": 3032,
+        "systems_memory_performance_engineering": 3023,
+        "ai_assisted_devops_and_coding": 2677,
+        "embedded_edge_hardware_iot": 1679,
+        "custom_linux_image_builds": 1537,
+        "mobile_application_engineering": 1533,
+        "systems": 1363,
+        "arm_embedded_platform_engineering": 1319,
+        "linux_kernel_infrastructure": 1052,
+        "telemetry_capture_architecture_engineering": 860,
+        "vector_database_and_rag_engineering": 464,
+        "amd_xdna_npu_endpoint_engineering": 187,
+        "product_experience": 178,
+        "openclaw_autonomous_agent_engineering": 174,
+        "low_level_game_engine_performance_architecture": 73,
+        "raspberry_pi_provisioning_imaging": 51,
+        "legacy_game_graphics_modernization_engineering": 46,
+        "dos_legacy_pc_systems_engineering": 23,
+        "workspace_automation": 10,
+        "windows_desktop_app_engineering": 3
+      },
+      "documents": {
+        "ACCELERATED_COMPUTING_WITH_HIP_f345622999": [
+          42,
+          66,
+          101,
+          151,
+          158,
+          200,
+          237,
+          238,
+          239
+        ],
+        "AMD-ROCm-XDNA-AIdomain_7eb771fd71": [
+          3
+        ],
+        "ARM_ARCHITECTURE_AND_PROGRAMMING_ESSENTIALS__DEFINITIV_c68f9d4b1c": [
+          17,
+          50,
+          54,
+          82,
+          144,
+          154,
+          194,
+          202
+        ],
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416": [
+          61,
+          95,
+          160,
+          208,
+          211,
+          214,
+          219,
+          220,
+          362,
+          366,
+          376,
+          453,
+          547,
+          575,
+          582,
+          583,
+          774,
+          776,
+          782,
+          806,
+          807,
+          835,
+          897,
+          906,
+          911,
+          912,
+          913,
+          916,
+          918,
+          1088,
+          1089,
+          1093,
+          1098,
+          1100,
+          1101,
+          1102,
+          1103,
+          1109,
+          1207,
+          1257,
+          1292,
+          1308,
+          1324
+        ],
+        "CUDA_C_Best_Practices_Guide_375338c023": [
+          12,
+          61,
+          109
+        ],
+        "CUDA_PROGRAMMING_FROM_BASICS_TO_ADVANCED_f659c636b6": [
+          17,
+          22,
+          23,
+          24,
+          25,
+          28,
+          33,
+          48,
+          55,
+          92,
+          95,
+          99,
+          107,
+          110,
+          111,
+          112,
+          113
+        ],
+        "CUDA_PROGRAMMING_FUNDAMENTALS__DEFINITIVE_REFERENCE_FO_c9914d8f9f": [
+          32,
+          46,
+          51,
+          55,
+          58,
+          69,
+          71,
+          76,
+          77,
+          79,
+          84,
+          85,
+          89,
+          93,
+          94,
+          99,
+          104,
+          119,
+          128,
+          145,
+          152,
+          153,
+          164,
+          187,
+          194,
+          203,
+          214
+        ],
+        "DESIGN_AND_ARCHITECTURE_OF_SNMP_MONITORING_SYSTEM_74472a97bb": [
+          21,
+          75,
+          76
+        ],
+        "GOOGLE_CLOUD_BLUEPRINT__VISUAL_DIAGRAMS_SERVICE_MAPS_A_7bf48d262c": [
+          56,
+          57,
+          67,
+          184,
+          185,
+          196,
+          220
+        ],
+        "GPU_ARCHITECTURE__A_DEEP_DIVE_INTO_THE_ARCHITECTURE_PO_624a368c7d": [
+          11,
+          59
+        ],
+        "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4": [
+          70,
+          89,
+          108,
+          109,
+          111,
+          119,
+          178,
+          182,
+          194
+        ],
+        "GPU_PROGRAMMING_WITH_CUDA_AND_OPENCL__HIGH-PERFORMANCE_ea87e6f0ef": [
+          28,
+          34,
+          39,
+          46,
+          56,
+          63,
+          70,
+          76,
+          81,
+          83,
+          91,
+          97
+        ],
+        "HIGH-PERFORMANCE_API_ENGINEERING__SCALABLE_BACKEND_INT_cf9eca75da": [
+          13,
+          53,
+          63,
+          88
+        ],
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd": [
+          402,
+          486,
+          537,
+          546,
+          561,
+          638,
+          722,
+          723,
+          937,
+          980,
+          981,
+          1167,
+          1228,
+          1229,
+          1230
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          40,
+          44,
+          76,
+          114
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          7,
+          9,
+          41,
+          47,
+          57,
+          61,
+          81,
+          85,
+          87,
+          88,
+          93,
+          111,
+          121,
+          123,
+          128,
+          138,
+          141,
+          162,
+          169,
+          177,
+          178,
+          187,
+          189,
+          190,
+          193,
+          194,
+          195,
+          203,
+          213,
+          214,
+          219
+        ],
+        "NEW_Telemetry__TelemetryResources_77a2740837": [
+          6,
+          7,
+          8
+        ],
+        "PrometheusGrafanaDashboardMetrics_f0ecc3eb74": [
+          2
+        ],
+        "RDNA3_Beyond-the-current-gen-v4_3f61836530": [
+          5
+        ],
+        "RDNA_Architecture_public_4293788522": [
+          15
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          39,
+          43,
+          44,
+          47,
+          48,
+          54,
+          56,
+          65,
+          75,
+          76,
+          95,
+          99,
+          104,
+          140,
+          141,
+          162,
+          164,
+          174,
+          181,
+          191,
+          209,
+          216,
+          217,
+          219,
+          234,
+          239,
+          240
+        ],
+        "ROCM_FOR_AMD_RADEON__AI_DEVELOPMENT_ON_CONSUMER_GPUS___253236ea13": [
+          26,
+          171,
+          175,
+          179,
+          182,
+          278,
+          302
+        ],
+        "SNMP_Engineering__SNMPengineeringSynapsis_bf168ce634": [
+          1
+        ],
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2": [
+          53,
+          92,
+          123,
+          130,
+          142,
+          146,
+          147,
+          150,
+          157,
+          160,
+          163,
+          199,
+          203,
+          224,
+          226,
+          227,
+          229,
+          238
+        ],
+        "Telemetry-Capture-Architecture-Engineering_b3e94eb3b8": [
+          4
+        ],
+        "THE_ARM_MULTICORE_ENGINEERING_HANDBOOK__ARCHITECTING_R_c181e1f382": [
+          34,
+          73,
+          90
+        ],
+        "THE_SNMP_ESSENTIALS__COMPREHENSIVE_GUIDE_TO_NETWORK_MO_50d4ea6eee": [
+          39,
+          44,
+          56,
+          98,
+          107,
+          112,
+          161,
+          174,
+          187,
+          188,
+          193,
+          201,
+          210,
+          212,
+          214,
+          216,
+          217,
+          221,
+          225,
+          237,
+          245,
+          246,
+          258,
+          261,
+          267,
+          269,
+          275,
+          297,
+          303,
+          306,
+          320,
+          335,
+          348,
+          360,
+          367,
+          376,
+          383,
+          391
+        ]
+      }
+    },
+    {
+      "term": "channels",
+      "score": 621.2739,
+      "document_frequency": 9,
+      "total_mentions": 148,
+      "domains": {
+        "full_stack_web_product_engineering": 5384,
+        "amd_rocm_gpu_platform_engineering": 3923,
+        "gpu_accelerated_compute_engineering": 3353,
+        "ai_assisted_devops_and_coding": 3257,
+        "heterogeneous_parallel_portability_engineering": 2641,
+        "ai": 2076,
+        "software": 2035,
+        "api_engineering": 1907,
+        "windows_internals_reverse_engineering": 1632,
+        "data": 1524,
+        "snmp_protocol_engineering": 1288,
+        "openclaw_autonomous_agent_engineering": 1182,
+        "network_monitoring": 894,
+        "dos_legacy_pc_systems_engineering": 853,
+        "low_level_game_engine_performance_architecture": 781,
+        "embedded_edge_hardware_iot": 692,
+        "security": 617,
+        "devops": 603,
+        "cloud": 534,
+        "nvidia_cuda_gpu_platform_engineering": 534,
+        "systems": 519,
+        "systems_memory_performance_engineering": 499,
+        "linux_kernel_infrastructure": 481,
+        "custom_linux_image_builds": 367,
+        "mobile_application_engineering": 338,
+        "product_experience": 184,
+        "workspace_automation": 134,
+        "telemetry_capture_architecture_engineering": 75,
+        "raspberry_pi_provisioning_imaging": 53,
+        "vector_database_and_rag_engineering": 46,
+        "legacy_game_graphics_modernization_engineering": 19,
+        "arm_embedded_platform_engineering": 14,
+        "amd_xdna_npu_endpoint_engineering": 1
+      },
+      "documents": {
+        "ACCELERATED_COMPUTING_WITH_HIP_f345622999": [
+          73,
+          74,
+          82,
+          136,
+          137,
+          138,
+          139
+        ],
+        "amd-cdna-3-white-paper_268caead96": [
+          10
+        ],
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7": [
+          5,
+          11,
+          30,
+          94,
+          123,
+          202,
+          203,
+          218,
+          227,
+          229,
+          232,
+          283,
+          350
+        ],
+        "NEW_6__pcgpe10a_23e41ff083": [
+          26,
+          34,
+          47,
+          51,
+          213
+        ],
+        "OPENCLAW__YOUR_FIRST_AI_AGENT__A_COMPLETE_BEGINNER_S_G_a01a4d5b9d": [
+          2,
+          10,
+          14,
+          15,
+          25,
+          32,
+          34
+        ],
+        "OPENCLAW_THE_COMPLETE_TUTORIAL_GUIDE__SET_UP_YOUR_PERS_a72fd2b02f": [
+          2,
+          14,
+          28,
+          37,
+          48,
+          49,
+          52,
+          53,
+          92,
+          108,
+          115
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          136,
+          173,
+          232,
+          244
+        ],
+        "SNMP_Engineering__PRTGsnmpSensorModules_7f176f022d": [
+          1
+        ],
+        "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56": [
+          42,
+          82,
+          142,
+          156,
+          158,
+          160,
+          164,
+          193,
+          202,
+          272,
+          284
+        ]
+      }
+    },
+    {
+      "term": "utilization.",
+      "score": 382.9962,
+      "document_frequency": 6,
+      "total_mentions": 85,
+      "domains": {
+        "gpu_accelerated_compute_engineering": 6515,
+        "full_stack_web_product_engineering": 4967,
+        "amd_rocm_gpu_platform_engineering": 3468,
+        "software": 3201,
+        "heterogeneous_parallel_portability_engineering": 2891,
+        "windows_internals_reverse_engineering": 2768,
+        "nvidia_cuda_gpu_platform_engineering": 2578,
+        "api_engineering": 1926,
+        "data": 1587,
+        "devops": 919,
+        "custom_linux_image_builds": 510,
+        "cloud": 498,
+        "systems_memory_performance_engineering": 493,
+        "ai": 483,
+        "network_monitoring": 393,
+        "mobile_application_engineering": 344,
+        "ai_assisted_devops_and_coding": 324,
+        "linux_kernel_infrastructure": 296,
+        "security": 292,
+        "embedded_edge_hardware_iot": 290,
+        "snmp_protocol_engineering": 196,
+        "systems": 128,
+        "telemetry_capture_architecture_engineering": 77,
+        "legacy_game_graphics_modernization_engineering": 29,
+        "low_level_game_engine_performance_architecture": 25,
+        "vector_database_and_rag_engineering": 24,
+        "product_experience": 24,
+        "arm_embedded_platform_engineering": 14,
+        "dos_legacy_pc_systems_engineering": 9,
+        "amd_xdna_npu_endpoint_engineering": 3,
+        "raspberry_pi_provisioning_imaging": 1
+      },
+      "documents": {
+        "ACCELERATED_COMPUTING_WITH_HIP_f345622999": [
+          48,
+          55,
+          67,
+          141,
+          208,
+          209,
+          265,
+          266
+        ],
+        "CUDA_PROGRAMMING_FUNDAMENTALS__DEFINITIVE_REFERENCE_FO_c9914d8f9f": [
+          29,
+          45,
+          51,
+          54,
+          60,
+          131
+        ],
+        "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4": [
+          37,
+          55,
+          78,
+          84,
+          107,
+          110,
+          122,
+          159,
+          179
+        ],
+        "GPU_PROGRAMMING_WITH_CUDA_AND_OPENCL__HIGH-PERFORMANCE_ea87e6f0ef": [
+          35,
+          46,
+          63,
+          79
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          23,
+          26,
+          35,
+          87,
+          89,
+          107,
+          125,
+          134,
+          156,
+          161,
+          165
+        ],
+        "ROCM_DEEP_DIVE__DEFINITIVE_REFERENCE_FOR_DEVELOPERS_AN_aab6eaab7d": [
+          98,
+          102,
+          129,
+          157,
+          181
+        ]
+      }
+    },
+    {
+      "term": "gpu utilization",
+      "score": 213.5463,
+      "document_frequency": 5,
+      "total_mentions": 46,
+      "domains": {
+        "full_stack_web_product_engineering": 3688,
+        "gpu_accelerated_compute_engineering": 2208,
+        "api_engineering": 2043,
+        "data": 1927,
+        "software": 1750,
+        "nvidia_cuda_gpu_platform_engineering": 1655,
+        "ai_assisted_devops_and_coding": 1222,
+        "ai": 1178,
+        "windows_internals_reverse_engineering": 903,
+        "devops": 738,
+        "vector_database_and_rag_engineering": 399,
+        "cloud": 370,
+        "custom_linux_image_builds": 366,
+        "security": 352,
+        "systems_memory_performance_engineering": 270,
+        "network_monitoring": 231,
+        "mobile_application_engineering": 225,
+        "systems": 199,
+        "openclaw_autonomous_agent_engineering": 166,
+        "heterogeneous_parallel_portability_engineering": 152,
+        "amd_rocm_gpu_platform_engineering": 152,
+        "linux_kernel_infrastructure": 147,
+        "telemetry_capture_architecture_engineering": 133,
+        "embedded_edge_hardware_iot": 113,
+        "snmp_protocol_engineering": 67,
+        "product_experience": 32,
+        "raspberry_pi_provisioning_imaging": 28,
+        "low_level_game_engine_performance_architecture": 15,
+        "legacy_game_graphics_modernization_engineering": 10,
+        "arm_embedded_platform_engineering": 7,
+        "amd_xdna_npu_endpoint_engineering": 4,
+        "dos_legacy_pc_systems_engineering": 2
+      },
+      "documents": {
+        "CUDA_PROGRAMMING_FROM_BASICS_TO_ADVANCED_f659c636b6": [
+          22,
+          111
+        ],
+        "MODERN_GPU_PROGRAMMING_WITH_RUST_AND_CUDA_13__MASTERIN_127f1da133": [
+          190
+        ],
+        "PrometheusGrafanaDashboardMetrics_f0ecc3eb74": [
+          2
+        ],
+        "SOVEREIGN_SILICON__THE_COMPLETE_GUIDE_TO_BUILDING_PRIV_c639e862a2": [
+          224
+        ]
+      }
+    },
+    {
+      "term": "npu utilization",
+      "score": 11.3149,
+      "document_frequency": 1,
+      "total_mentions": 2,
+      "domains": {},
+      "documents": {}
+    }
+  ],
+  "book_index_entries": [
+    {
+      "document_id": "ProgrammingWindows31_d21b899af8",
+      "document_title": "ProgrammingWindows31",
+      "source_index_page": 1468,
+      "term": "Channel After Touch MIDI message",
+      "pages": [
+        1349
+      ],
+      "raw": "Channel After Touch MIDI message, 1349"
+    },
+    {
+      "document_id": "ProgrammingWindows31_d21b899af8",
+      "document_title": "ProgrammingWindows31",
+      "source_index_page": 1468,
+      "term": "Channel Mode Local Control MIDI: message",
+      "pages": [
+        1349
+      ],
+      "raw": "message, 1349"
+    },
+    {
+      "document_id": "ProgrammingWindows31_d21b899af8",
+      "document_title": "ProgrammingWindows31",
+      "source_index_page": 1468,
+      "term": "Channel Mode Local Control MIDI: brushes from bitmaps",
+      "pages": [
+        674
+      ],
+      "raw": "brushes from bitmaps, 674, 675-76, 676-77"
+    },
+    {
+      "document_id": "Writing_AI_Prompts_For_Dummies_c3cfa280e8",
+      "document_title": "Writing AI Prompts For Dummies",
+      "source_index_page": 355,
+      "term": "O: omnichannel approach",
+      "pages": [
+        130
+      ],
+      "raw": "omnichannel approach, 130"
+    },
+    {
+      "document_id": "Solomon_-_Inside_Windows_NT_2ed_1998_b0031d19a0",
+      "document_title": "Solomon_-_Inside_Windows_NT_2ed_1998",
+      "source_index_page": 535,
+      "term": "page directory and page directory entries: process memory utilization",
+      "pages": [
+        244,
+        245
+      ],
+      "raw": "process memory utilization, 243-44, 244, 245"
+    },
+    {
+      "document_id": "Solomon_-_Inside_Windows_NT_2ed_1998_b0031d19a0",
+      "document_title": "Solomon_-_Inside_Windows_NT_2ed_1998",
+      "source_index_page": 545,
+      "term": "Performance Monitor: memory utilization experiment",
+      "pages": [
+        244,
+        245
+      ],
+      "raw": "memory utilization experiment, 243-44, 244, 245"
+    },
+    {
+      "document_id": "Solomon_-_Inside_Windows_NT_2ed_1998_b0031d19a0",
+      "document_title": "Solomon_-_Inside_Windows_NT_2ed_1998",
+      "source_index_page": 546,
+      "term": "processes, data structures, continued: memory utilization experiment",
+      "pages": [
+        244,
+        245
+      ],
+      "raw": "memory utilization experiment, 243-44, 244, 245"
+    },
+    {
+      "document_id": "Solomon_-_Inside_Windows_NT_2ed_1998_b0031d19a0",
+      "document_title": "Solomon_-_Inside_Windows_NT_2ed_1998",
+      "source_index_page": 550,
+      "term": "Task Manager: memory utilization experiment",
+      "pages": [
+        244
+      ],
+      "raw": "memory utilization experiment, 243-44, 244,"
+    }
+  ],
+  "cross_references": [
+    {
+      "source": "distribution",
+      "target": "channel",
+      "relation": "co-occurs",
+      "strength": 4.3077,
+      "shared_documents": [
+        "APIS__A_STRATEGY_GUIDE_f3305c5f6b",
+        "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3",
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "APIS__A_STRATEGY_GUIDE_f3305c5f6b",
+          "pages": [
+            62
+          ]
+        },
+        {
+          "document_id": "Game_Engine_Black_Book_-_Wolfenstein_3D_v2.1_-_Fabien__d975f63ea3",
+          "pages": [
+            97
+          ]
+        },
+        {
+          "document_id": "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4",
+          "pages": [
+            40,
+            862
+          ]
+        }
+      ]
+    },
+    {
+      "source": "represent",
+      "target": "channel",
+      "relation": "co-occurs",
+      "strength": 3.2308,
+      "shared_documents": [
+        "APIS__A_STRATEGY_GUIDE_f3305c5f6b",
+        "APIs_A_Strategy_Guide_9d4c011e10",
+        "OpenCL_API_9714d26dc8"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "APIS__A_STRATEGY_GUIDE_f3305c5f6b",
+          "pages": [
+            61
+          ]
+        },
+        {
+          "document_id": "APIs_A_Strategy_Guide_9d4c011e10",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "document_id": "OpenCL_API_9714d26dc8",
+          "pages": [
+            192
+          ]
+        }
+      ]
+    },
+    {
+      "source": "efficiency",
+      "target": "utilization",
+      "relation": "co-occurs",
+      "strength": 6.72,
+      "shared_documents": [
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+        "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4",
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+        "RUST_PROGRAMMING_FOR_AI_AND_CUDA__MASTER_HIGH-PERFORMA_1731143e11"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+          "pages": [
+            220
+          ]
+        },
+        {
+          "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+          "pages": [
+            982
+          ]
+        },
+        {
+          "document_id": "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616",
+          "pages": [
+            450
+          ]
+        },
+        {
+          "document_id": "GPU_PROGRAMMING_FOR_HIGH-PERFORMANCE_COMPUTING__PARALL_aec74fc9d4",
+          "pages": [
+            194
+          ]
+        },
+        {
+          "document_id": "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd",
+          "pages": [
+            402
+          ]
+        },
+        {
+          "document_id": "RUST_PROGRAMMING_FOR_AI_AND_CUDA__MASTER_HIGH-PERFORMA_1731143e11",
+          "pages": [
+            71
+          ]
+        }
+      ]
+    },
+    {
+      "source": "optimize",
+      "target": "utilization",
+      "relation": "co-occurs",
+      "strength": 6.5455,
+      "shared_documents": [
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+        "AZURE_CLOUD_ARCHITECTURE_NETWORKING_MASTERY__DESIGN_BU_d200960acd",
+        "CUDA_PROGRAMMING_FROM_BASICS_TO_ADVANCED_f659c636b6",
+        "OPTIMIZING_MEMORY_MANAGEMENT_IN_C___A_BEGINNER_S_GUIDE_ebf08e9f9a"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+          "pages": [
+            1292,
+            1308
+          ]
+        },
+        {
+          "document_id": "AZURE_CLOUD_ARCHITECTURE_NETWORKING_MASTERY__DESIGN_BU_d200960acd",
+          "pages": [
+            523,
+            567
+          ]
+        },
+        {
+          "document_id": "CUDA_PROGRAMMING_FROM_BASICS_TO_ADVANCED_f659c636b6",
+          "pages": [
+            99
+          ]
+        },
+        {
+          "document_id": "OPTIMIZING_MEMORY_MANAGEMENT_IN_C___A_BEGINNER_S_GUIDE_ebf08e9f9a",
+          "pages": [
+            413
+          ]
+        }
+      ]
+    },
+    {
+      "source": "send",
+      "target": "channel",
+      "relation": "co-occurs",
+      "strength": 11.2069,
+      "shared_documents": [
+        "CLAUDE_CODE_MASTERY__BUILD_AUTOMATE_AND_SCALE_PRODUCTI_5502505d66",
+        "LINUX_BASH_INTERMEDIATE_GUIDE__SSH_DOCKER_NGINX_ADVANC_bb425e4672",
+        "NEW_6__pcgpe10a_23e41ff083",
+        "OPENCLAW_THE_COMPLETE_TUTORIAL_GUIDE__SET_UP_YOUR_PERS_a72fd2b02f",
+        "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00",
+        "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56",
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "CLAUDE_CODE_MASTERY__BUILD_AUTOMATE_AND_SCALE_PRODUCTI_5502505d66",
+          "pages": [
+            273
+          ]
+        },
+        {
+          "document_id": "LINUX_BASH_INTERMEDIATE_GUIDE__SSH_DOCKER_NGINX_ADVANC_bb425e4672",
+          "pages": [
+            24
+          ]
+        },
+        {
+          "document_id": "NEW_6__pcgpe10a_23e41ff083",
+          "pages": [
+            26,
+            151
+          ]
+        },
+        {
+          "document_id": "OPENCLAW_THE_COMPLETE_TUTORIAL_GUIDE__SET_UP_YOUR_PERS_a72fd2b02f",
+          "pages": [
+            35
+          ]
+        },
+        {
+          "document_id": "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00",
+          "pages": [
+            372,
+            390,
+            427
+          ]
+        },
+        {
+          "document_id": "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56",
+          "pages": [
+            143,
+            158
+          ]
+        },
+        {
+          "document_id": "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4",
+          "pages": [
+            712
+          ]
+        }
+      ]
+    },
+    {
+      "source": "channel",
+      "target": "arm architecture",
+      "relation": "co-occurs",
+      "strength": 7.2059,
+      "shared_documents": [
+        "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302",
+          "pages": [
+            161,
+            162,
+            163,
+            229,
+            231,
+            232,
+            233
+          ]
+        }
+      ]
+    },
+    {
+      "source": "channel",
+      "target": "await",
+      "relation": "co-occurs",
+      "strength": 5.6667,
+      "shared_documents": [
+        "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+        "RUST_FOR_AI_AND_MACHINE_LEARNING__BUILD_FASTER_SAFER_H_f6dfd38e12",
+        "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00",
+        "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "API_ENGINEERING_WITH_PYTHON_AND_FASTAPI__BACKEND_SERVI_39fec7b785",
+          "pages": [
+            807
+          ]
+        },
+        {
+          "document_id": "RUST_FOR_AI_AND_MACHINE_LEARNING__BUILD_FASTER_SAFER_H_f6dfd38e12",
+          "pages": [
+            528
+          ]
+        },
+        {
+          "document_id": "THE_COMPLETE_GUIDE_TO_RUST_PROJECT_ARCHITECTURE__DESIG_352f355b00",
+          "pages": [
+            426,
+            427
+          ]
+        },
+        {
+          "document_id": "WINUI_3_AND_WINDOWS_APP_SDK__MODERN_DESKTOP_APP_DEVELO_ec79ab5ef4",
+          "pages": [
+            714
+          ]
+        }
+      ]
+    },
+    {
+      "source": "channel",
+      "target": "conversion",
+      "relation": "co-occurs",
+      "strength": 5.5357,
+      "shared_documents": [
+        "MASTERING_LINUX_DEVICE_DRIVER_DEVELOPMENT__WRITE_CUSTO_2305519759",
+        "OpenCL_API_9714d26dc8",
+        "OpenCL_C_83aef620cd"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "MASTERING_LINUX_DEVICE_DRIVER_DEVELOPMENT__WRITE_CUSTO_2305519759",
+          "pages": [
+            582,
+            583
+          ]
+        },
+        {
+          "document_id": "OpenCL_API_9714d26dc8",
+          "pages": [
+            536
+          ]
+        },
+        {
+          "document_id": "OpenCL_C_83aef620cd",
+          "pages": [
+            4,
+            324
+          ]
+        }
+      ]
+    }
+  ]
+}

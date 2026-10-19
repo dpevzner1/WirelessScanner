@@ -1,217 +1,168 @@
 # WirelessScanner
 
-A high-performance Windows desktop application built in C# .NET 10 and WPF to perform Wi-Fi signal analysis, live channel spectrum mapping, telemetry logging, and reporting. 
+A Windows desktop tool for **Wi‑Fi signal analysis, site surveys and signal saturation testing**, built with C# / .NET 10 and WPF on the Windows Native Wi‑Fi API (`wlanapi.dll`). It is for network engineers, IT and facilities teams, and field surveyors.
 
-Designed for network engineers, DevOps administrators, and field site surveyors, this utility wraps the native Windows WLAN API (`wlanapi.dll`) to scan, analyze, persist, and export raw wireless network telemetry.
+**Version 1.5** · Windows 10 (2004+) / 11 x64 · administrator rights required · MIT licence  
+Repository: https://github.com/dpevzner1/WirelessScanner
 
----
+![Live Survey: grouped network explorer, identity-coloured spectrum, load strip and DFS shading](docs/images/ui_ls_monitor_selected.png)
 
-## Installation & Repository
+## What it does
 
-The official source code repository is hosted on GitHub:  
-👉 **[https://github.com/dpevzner1/WirelessScanner](https://github.com/dpevzner1/WirelessScanner)**
+| Feature | Summary | Status* |
+| --- | --- | --- |
+| **Live survey** | Every AP with RSSI, estimated SNR, link quality, band/channel/width, security (incl. WPA3, OWE, Enterprise), vendor. Grouped network explorer (search, filters, sparklines, whole-SSID or per-AP selection); width-true 2.4/5/6 GHz spectrum with identity colours, DFS shading, channel load and least-busy channel; 60-scan waterfall; telemetry grid | Validated (tests, UI renders) · Observed (hardware) |
+| **Access-point (hardware) view** *(new in 1.4)* | Group the explorer by **physical access point** instead of by SSID: the app infers which BSSIDs, SSIDs and radios one router or AP broadcasts, shows a confidence badge (High / Medium / Single / Manual) with its evidence, flags **mesh node / extender candidates** (the same SSID on different units), and lets you rename, split or merge units. Select a whole unit to view, capture or test **every SSID it broadcasts**. See [Access points (hardware view)](#access-points-hardware-view) | Validated (tests, UI render) · grouping rules derived from a live inventory of 20 real BSSIDs |
+| **Connection test** *(new in 1.5)* | Checks the connection the PC is **already on**, end to end: Wi‑Fi link, router, ISP, internet, DNS and web. Small probes bound to Wi‑Fi; the connection is never changed. It shows **where** problems happen (each outage and latency spike is attributed to a part of the path), with use verdicts (browsing / streaming / calls / gaming), a voice estimate, Wi‑Fi retries and roams. Optional: **speed and bufferbloat** (stage B) and **two-way per-direction Wi‑Fi tests** against a LAN responder (stage C). See [Connection test](#connection-test) | Validated (tests, UI renders) · Observed (45 s on the owner's real connection) · two-way on real Wi‑Fi: Blocked (needs a wired responder) |
+| **Fresh-scan acquisition** | Each cycle requests a new Windows scan and waits for completion; cached repeats are never recorded as new data. One shared scheduler: live view, capture and saturation test never start competing scans | Validated · Observed on Intel AC 7265 |
+| **Capture sessions** | Roaming (walk-through, per-zone) and stationary sessions; ordered, loss-free persistence | Validated |
+| **Signal saturation test** | A Live Survey mode: leave the laptop in place for minutes to 24 h, for the networks selected in the explorer (APs, SSIDs, whole physical access points, or a mix). Measures drops, peaks, dropouts, channel changes, strongest-AP changes, RSSI variation, trend, threshold exposure and co-channel load per AP or SSID, with markers, pause/resume and a stability grade | Validated · 15-min hardware run Observed |
+| **Geolocation** | Latitude/longitude (manual or Windows Location), building, floor and zone on every saturation report and CSV row | Validated (detection with the real Windows Location service: Blocked pending owner check) |
+| **Reports** | PDF (charts, findings, methodology, provenance, full appendix), CSV bundle (incl. missing/stale rows; `_units.csv` for access-point tests), JSON (schema v3). Access-point tests add per-unit availability, per-radio SSID consistency and SSID-only outages | Validated |
+| **History** | Search sessions and tests by name and date, re-open and re-export, delete | Validated |
+| **REST API** | Localhost, `X-API-Key` header, `/api/status`, `/live`, `/sessions`, `/sessions/{id}`, `/stats`, `/connection`, `/connection/tests` | Validated |
+| **Installer** | Guided install, update, repair, downgrade warning, modify shortcuts, uninstall with data retention; integrity-checked payload; no prerequisites | Logic validated; running the installer end to end: Blocked pending owner approval |
 
-### Installation from GitHub via PowerShell
+\* Evidence labels: see [docs/STATUS.md](docs/STATUS.md) and [docs/PROJECT_CONVENTIONS.md](docs/PROJECT_CONVENTIONS.md).
 
-#### Option A: Build and Run from Source
-To clone, build, and launch this application on a new system using Git in an Administrator PowerShell console, execute the following:
+## Quick start
 
-1. **Clone the repository**:
-   ```powershell
-   git clone https://github.com/dpevzner1/WirelessScanner.git
-   cd WirelessScanner
-   ```
+**Install a release:** download every file from the `EXE INSTALLER` folder of the latest release into one folder and run `WirelessScanner.Setup.exe`. See [`EXE INSTALLER/README.md`](EXE%20INSTALLER/README.md).
 
-2. **Restore dependencies & build the solution**:
-   ```powershell
-   dotnet build
-   ```
-
-3. **Run the WPF desktop application**:
-   ```powershell
-   dotnet run --project WirelessScanner.Presentation/WirelessScanner.Presentation.csproj
-   ```
-
-4. **Package as a self-contained executable (optional)**:
-   ```powershell
-   ./publish.bat
-   ```
-
-#### Option B: Download and Run Pre-compiled Executable Directly
-A pre-compiled, standalone, self-contained single-file executable (`WirelessScannerCompiled.zip`) is included directly in this repository. No .NET SDK installation is required.
-
-1. **Clone the repository**:
-   ```powershell
-   git clone https://github.com/dpevzner1/WirelessScanner.git
-   cd WirelessScanner
-   ```
-
-2. **Extract the compiled executable**:
-   ```powershell
-   Expand-Archive -Path .\WirelessScannerCompiled.zip -DestinationPath .\WirelessScannerApp -Force
-   cd WirelessScannerApp
-   ```
-
-3. **Launch with Administrator privileges** (required to access raw Wi-Fi adapter hardware telemetry):
-   ```powershell
-   Start-Process .\WirelessScanner.Presentation.exe -Verb RunAs
-   ```
-
-#### Option C: Guided Setup Wizard (Recommended for end users)
-A full Windows installer wizard is provided in the **`EXE INSTALLER/`** subfolder of this repository.
-It reassembles the split application payload, installs to `Program Files`, creates Desktop and Start Menu
-shortcuts, and registers the application in Windows Add/Remove Programs — with full uninstall support.
-
-1. **Clone the repository**:
-   ```powershell
-   git clone https://github.com/dpevzner1/WirelessScanner.git
-   cd WirelessScanner
-   ```
-
-2. **Navigate to the installer folder**:
-   ```powershell
-   cd "EXE INSTALLER"
-   ```
-
-3. **Right-click** `WirelessScanner.Setup.exe` → **Run as Administrator** and follow the wizard.
-
-> The wizard merges the split `.bin` files, extracts all application files, creates shortcuts,
-> and registers WirelessScanner in **Settings → Apps** for clean uninstall support.
-
----
-
-## About the Application
-
-WirelessScanner functions as a professional-grade site survey and diagnosis tool. It allows users to execute real-time wireless environment scans to analyze channel allocation, signal congestion, and signal decay trends.
-
-The application operates in two scan modes:
-* **Stationary Saturation Mode**: Continuous background scanning of a fixed location to analyze signal stability, jitter, and interference over time.
-* **Roaming Survey Mode**: Multi-point telemetry capture where surveyors walk a facility and label measurements with specific location/zone tags to build signal coverage maps.
-
----
-
-## How It Functions
-
-1. **Direct Hardware Querying**: Accesses raw Wi-Fi adapter frame metrics directly via the Windows Native Wifi API (WLAN API).
-2. **STA Thread Scan Worker**: Launches scans inside a dedicated Single-Threaded Apartment (STA) thread, preventing the main UI or processing threads from blocking during hardware polling.
-3. **Thread-Safe Telemetry Queue**: Dispatches captured frame samples via a high-performance C# `System.Threading.Channels` queue to background database-writing tasks.
-4. **WAL SQLite Storage**: Stores telemetry samples in an SQLite database. Write-Ahead Logging (WAL) is enabled by default to prevent database locks and ensure concurrent, low-latency writes.
-5. **Decimated Rendering**: To handle massive timeline graphs efficiently, the charting UI downsamples data points if the capture session exceeds 1,000 records, maintaining UI responsiveness.
-
----
-
-## Key Benefits
-
-* **Native & Lightweight**: Packaged as a self-contained, single-file release with zero dependencies or third-party framework prerequisites.
-* **DevOps HUD Styling**: Designed with a high-contrast, amber-tinted Obsidian HUD dashboard optimized for high readability in field settings or server closets.
-* **API Integration Ready**: Includes a lightweight HTTP background API, making it easy to script, pull metrics, or stream live data to external monitoring consoles.
-* **Interactive Legending & Filtering**: Allows users to filter graphs and data grids dynamically by checking or unchecking specific SSIDs/APs in the UI or report compiler.
-
----
-
-## Telemetry Capture & Export Capabilities
-
-### 1. Telemetry Metrics Captured
-The scanner records and logs the following detailed attributes for every scanned frame:
-* **SSID**: Service Set Identifier (supporting hidden networks).
-* **BSSID**: Access Point MAC address.
-* **RSSI**: Received Signal Strength Indicator (measured in dBm).
-* **Frequency Band**: Active band (2.4 GHz or 5 GHz) and channel width (20/40/80/160 MHz).
-* **Channel**: The specific operating channel index.
-* **SNR**: Signal-to-Noise Ratio (calculated in dB).
-* **Signal Quality**: Overall connection quality percentage (0% to 100%).
-* **Jitter**: High-precision variation in packet transmission times (calculated in milliseconds).
-* **Survey Zone**: Location-tagged labels assigned during roaming survey captures.
-* **Timestamp**: High-precision localized time marking.
-
-### 2. Export Capabilities & Formats
-Users can selectively filter telemetry by Access Points and export data into multiple standard formats:
-* **CSV**: Generates clean, spreadsheet-compatible CSV spreadsheets containing session metadata headers and raw telemetry rows.
-* **JSON**: Compiles structured JSON payloads including duration, unique client counts, signal thresholds, and raw metrics arrays.
-* **PDF**: Exports a formal executive-summary report containing metadata cards, average metrics tables, custom-painted SkiaSharp timeline graphs (with translucent signal-strength color overlays), and a complete tabular sample log appendix.
-
----
-
-## Getting Started
-
-### Prerequisites
-* **Windows OS** (WLAN API dependency)
-* **.NET 10 SDK**
-* **Administrator Privileges** (required to access raw Wi-Fi adapter hardware telemetry)
-
-### How to Run Locally (Alternative)
-If you already have the source code downloaded, you can build and run locally using:
+**Build from source** (.NET 10 SDK):
 ```powershell
-dotnet run --project WirelessScanner.Presentation/WirelessScanner.Presentation.csproj
-```
-
-### Running Unit Tests
-To run the automated test suite:
-```powershell
+git clone https://github.com/dpevzner1/WirelessScanner.git
+cd WirelessScanner
+dotnet build WirelessScanner.slnx
 dotnet test WirelessScanner.Tests/WirelessScanner.Tests.csproj
+dotnet run --project WirelessScanner.Presentation/WirelessScanner.Presentation.csproj   # prompts for elevation
 ```
+To try it without Wi‑Fi hardware or elevation: `$env:WIRELESSSCANNER_DEMO="1"` (simulated data).
 
----
-
-## REST API Interface
-
-The application runs a lightweight background REST API server (`RestApiServer`) to expose live Wi-Fi scanner metrics, past sessions, and telemetry logs to developer tools and scripts.
-
-### 1. Configuration
-The API server auto-starts on application launch if configured in the SQLite settings database (`wireless_scanner.db`) with the following fields:
-* `ApiEnabled`: Set to `"true"` to start the server.
-* `ApiPort`: The port to listen on (defaults to `5005` if unspecified).
-* `ApiKey`: The static secret key used to authenticate requests.
-
-*Note: Your API key and port mappings are stored locally in the SQLite settings database (`wireless_scanner.db`) on first launch.*
-
-### 2. Authentication
-All API requests must authenticate using one of the following methods:
-* **HTTP Header**: Include `X-API-Key: YOUR_API_KEY` in the request headers.
-* **Query Parameter**: Append `?api_key=YOUR_API_KEY` to the URL query string.
-
-### 3. API Endpoints
-* **`GET /api/status`**
-  Returns server health status and port.
-* **`GET /api/live`**
-  Returns a real-time list of all currently scanned Wi-Fi Access Points.
-* **`GET /api/sessions`**
-  Returns a list of all historical capture sessions stored in the local database.
-* **`GET /api/sessions/{id}`**
-  Retrieves metadata and all telemetry timeline samples for a specific capture session ID.
-* **`GET /api/stats`**
-  Returns database telemetry statistics, including total sessions, total samples, and database file size.
-
-### 4. Integration Examples
-
-#### cURL:
-```bash
-curl -H "X-API-Key: ws_live_f1cf3cf16f25a3dd6e060c9db085a27a" http://localhost:5005/api/live
+**REST API example** (enable it on *SETTINGS → REST API* and generate your own key):
+```powershell
+Invoke-RestMethod -Uri http://localhost:5005/api/live -Headers @{ "X-API-Key" = "<your key>" }
 ```
+> If you used release 1.0, regenerate your API key: the 1.0 README published a working example key.
 
-#### Python:
-```python
-import requests
+## Documentation
 
-url = "http://localhost:5005/api/live"
-headers = {
-    "X-API-Key": "ws_live_f1cf3cf16f25a3dd6e060c9db085a27a"
-}
+| Document | For |
+| --- | --- |
+| [User Guide](docs/USER_GUIDE.md) | Every screen, setting, export, the API, troubleshooting |
+| [Saturation Test Specification](docs/SATURATION_TEST_SPEC.md) | Measurement model, analytics definitions, UX design, acceptance criteria |
+| [Connection Test Specification](docs/CONNECTION_TEST_SPEC.md) | Probes, attribution rules, analytics definitions, speed and two-way tests, responder protocol, acceptance criteria |
+| [Technical Reference](docs/TECHNICAL_REFERENCE.md) | Architecture, threading, data model, file locations, installer, build and release |
+| [Status](docs/STATUS.md) | Evidence state of every requirement and feature |
+| [Changelog](CHANGELOG.md) | What changed, including breaking changes |
+| [Decisions](docs/decisions/) | DR-0001 … DR-0017 (DR-0013: access-point grouping; DR-0014: connection test; DR-0015: Android port; DR-0016: SSID categories, future; DR-0017: two-way Windows ↔ Android parity, hard control) |
+| [Parity checklist](docs/PARITY_CHECKLIST.md) | Proof that the 1.2 redesign kept every 1.1 feature |
+| [Android app](AndroidApp/README.md) | The Android tablet port (DR-0015): UX spec, parity matrix, build and sideload |
+| [Project conventions](docs/PROJECT_CONVENTIONS.md) | Documentation, evidence trail, engine consultation, repository sync |
+| [Lessons learned](LessonsLearned/) | What was tried, what failed, and why |
+| [PLAN/](PLAN/) | Original May 2026 design baseline (historical) |
 
-response = requests.get(url, headers=headers)
-print(response.json())
-```
+## Android tablet app
 
----
+`AndroidApp/` is a native Kotlin + Compose port of 1.5.0 for Android tablets (DR-0015). It uses the tablet's own Wi‑Fi and is sideloaded.
+- **Features:** the same four Live Survey modes, views, history, exports, REST API and responder role.
+- **Exports:** PDF/CSV/JSON through *Share or send* (email or any app) or *Save a copy* (any cloud provider).
+- **Same results as Windows:** the analytics come from a Kotlin `core` module that is checked against fixtures generated from the C# code.
+- **Two-way parity:** changes to either app are carried to the other (DR-0017).
+- **Download:** [`ANDROID APK`](ANDROID%20APK/) (`WirelessScanner-Android-1.5.0.apk`, with SHA-256). **Install guide for users:** [AndroidApp/docs/INSTALL_GUIDE.md](AndroidApp/docs/INSTALL_GUIDE.md). No password or account is needed.
+- **Documents:**
+  - [Android README](AndroidApp/README.md);
+  - [parity matrix](AndroidApp/docs/PARITY_MATRIX.md);
+  - [UX spec](AndroidApp/docs/UX_SPEC.md);
+  - [deployment](AndroidApp/docs/DEPLOYMENT.md);
+  - [Wi‑Fi scan throttling](AndroidApp/docs/WIFI_SCAN_THROTTLING.md). Android allows 4 scans per 2 minutes unless *Developer options → Wi‑Fi scan throttling* is turned off.
 
-## Visual Signal Strength Mapping (RSSI Tiers)
+## Access points (hardware view)
 
-To prevent color confusion and blockage overlap in live capture graphs and exported reports, the application implements a standard, high-contrast, semi-transparent color overlay scheme:
+![Explorer grouped by access point: one unit selected and expanded, confidence badges](docs/images/ui_ls_explorer_access_points.png)
 
-* **Excellent Signal (RSSI >= -55 dBm)**: Emerald Green (`#00FF66`)
-* **Fair/Good Signal (-55 dBm to -70 dBm)**: Vibrant Amber/Gold (`#FFBB33`)
-* **Weak/Poor Signal (RSSI < -70 dBm)**: Crimson Red (`#FF3300`)
+Windows reports every BSSID (one network name on one radio) separately and never says which ones come from the same box. Since 1.4 the explorer can **group by physical access point** (`GROUP BY: Access point`). One row is one router or AP, with every radio and SSID it broadcasts, including hidden ones.
 
-### Graph Transparency & Blending
-* **Live Curves**: Overlapping active channel spectrum curves are drawn with low-opacity fills (`alpha = 0x18`) so they blend where they intersect instead of blocking other charts.
-* **Timeline Timelines (WPF & PDF Report)**: Historical timeline line charts calculate average session RSSI to color their trace lines, and draw matching semi-transparent area shapes underneath with low opacity (`alpha = 0x15`). When lines intersect, their background shadings stack additively to show transparent overlays.
+**How a unit is recognised** (passive; nothing is sent to the access points):
+
+| Evidence | What it shows | Confidence |
+| --- | --- | --- |
+| **Radio clock (TSF).** Every beacon carries the radio's timer. BSSIDs whose timer offset agrees within **5 ms** in the same band, and keeps agreeing over scans, share one radio. Separate radios and separate boxes differ by seconds or more | Several SSIDs on **one radio** | High |
+| **WPS device identity.** The same WPS UUID-E; manufacturer and model are shown when advertised | One device | High |
+| **MAC-address family.** Addresses that differ only in the bits vendors use for "virtual" BSSIDs (locally-administered bit, SSID index in the last digit, radio index in the 4th byte for locally-administered schemes) | Radios / SSIDs of one device | Medium |
+| **Your correction** (rename, *This is a separate device*, *Belongs to access point…*, *Reset to automatic grouping*) | Always wins; saved with your settings | Manual |
+
+A unit that shares a visible SSID with another unit is labelled a **mesh node or extender candidate**.
+
+**What you can do with it:**
+- Tick a unit to show, capture or **saturation-test every SSID and radio of that one device** (scope *Single access point*), or tick several units, e.g. the nodes of a mesh (*Multiple access points*). Units can be mixed with SSIDs and single APs.
+- The unit's members are **fixed when a test starts**, so regrouping later never changes what a test measured.
+- Reports add an **Access points** section (PDF 6b, `_units.csv`, JSON `units`), per unit:
+  - **on-air %**: how often at least one member was heard;
+  - **best mean signal**;
+  - per radio, **SSID consistency**: SSIDs on one radio share one transmitter, so a gap of more than 3 dB means wrong grouping or SSID-specific power settings;
+  - per radio, **SSID-only outage**: an SSID missing while its radio is on air is a service problem, not coverage.
+
+**Limits:**
+- Grouping is an inference and is always labelled with its confidence and evidence.
+- Hidden backhaul links between mesh nodes cannot be measured from a client; only their visibility is.
+- Management-plane data (real backhaul rates, controller inventories) is out of scope for this release (DR-0013, stage 3).
+
+## Connection test
+
+![Connection test: connection path, timelines and event feed](docs/images/ui_conn_running.png)
+
+**What it is.** Live Survey's fourth mode, **⇄ CONNECTION TEST**. It checks the connection this PC is already associated and authenticated to, **end to end**, and shows **where** a problem happens. The saturation test listens to the radio; the connection test sends small probes over your connection (about 10 kbit/s).
+
+**Rules:**
+- **No connection changes.** The test never connects, disconnects or roams.
+- **Wi‑Fi only.** Every probe is bound to the Wi‑Fi adapter, even when Ethernet is also connected.
+- **Approved targets only.** Outbound targets are the router, the ISP hop, **Cloudflare / Google / Quad9** (editable) and your DNS servers.
+
+| Part of the path | Measured with | Every (Light) |
+| --- | --- | --- |
+| Wi‑Fi link | Signal, PHY rate, driver frame retries, roams, disconnects | 1 s |
+| Router | ICMP echo to the gateway | 1 s |
+| ISP | First public hop after the router (found automatically) | 2 s |
+| Internet | TCP connect to port 443 (primary) + ICMP, each target | 2 s |
+| DNS | One query to each of your resolvers | 10 s |
+| Web | Small HTTPS request (time to first byte) | 30 s |
+
+**Results:**
+- **Verdicts** for browsing, streaming, video calls and gaming.
+- **Where problems happened.** Each outage (≥ 3 failed rounds) and latency spike is attributed to the first failing part upstream. *Router 2 · Internet 1* means two problems at home, one beyond the ISP.
+- **Per-segment statistics:** loss, availability, p50/p95/p99, jitter.
+- **A voice-quality estimate.**
+- **Wi‑Fi retries and roams.**
+- **Timelines** on one time axis.
+- **Exports:** PDF, CSV (`_probes.csv`, `_segments.csv`, …), JSON (`connection_report.v1`) and `GET /api/connection`.
+
+**Run it together with a saturation test.** One tick starts a saturation test of the connected access point on the same timeline.
+
+**Optional stages** (SETTINGS → TEST SERVERS):
+- **B, speed and responsiveness.** Download and upload capacity plus the **bufferbloat grade** (how much delay grows under load), against your LAN responder or an HTTP server you control. No public provider is preset.
+- **C, two-way Wi‑Fi tests.** Run the included `WirelessScanner.Responder` on a wired machine (PC, NAS, Raspberry Pi). It measures loss, reordering and delay variation **upstream and downstream separately**, a call-quality estimate each way, and the pure Wi‑Fi capacity. Traffic is authenticated with a pairing key.
+
+Definitions and thresholds: [CONNECTION_TEST_SPEC.md](docs/CONNECTION_TEST_SPEC.md). Decision: [DR-0014](docs/decisions/DR-0014-connection-quality-testing.md).
+
+## Signal tiers used throughout
+
+| Tier | RSSI | Colour |
+| --- | --- | --- |
+| Excellent | ≥ −55 dBm | green |
+| Good | −67 to −55 dBm | green |
+| Fair | −70 to −67 dBm | amber |
+| Weak | −80 to −70 dBm | orange |
+| Unusable | < −80 dBm | red |
+
+Colour is never the only signal: every tier is also labelled in text.
+
+## Measurement limits
+- RSSI and link quality are reported by the adapter driver and are not calibrated against an RF instrument; compare results from the same adapter.
+- The Windows API exposes no noise floor, so SNR is an **estimate** (RSSI − assumed −95 dBm).
+- "RSSI variation" is the scan-to-scan change in dB, not network latency jitter.
+- The saturation test does not measure throughput, latency or packet loss; the **connection test** does, as round trips over the current connection (one-way delay needs synchronised clocks; stage C gives per-direction loss and delay variation).
+- Which BSSIDs belong to one physical access point is **inferred** (radio clock, WPS identity, MAC family), never reported by Windows; every grouping shows its confidence and evidence and can be corrected.
+
+## Planned features
+- **GROUP BY Category** ([DR-0016](docs/decisions/DR-0016-ssid-categories.md), proposed). Sort SSIDs into categories (Corporate, Guest, IoT, Neighbours, Hidden …) in the network list, then select or filter a whole category at once. Planned for the Windows and Android apps together.

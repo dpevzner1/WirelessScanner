@@ -1,0 +1,48 @@
+2026-05-30 12:53:04.020 -05:00 [INF] Auto-starting REST API Server...
+2026-05-30 12:53:04.197 -05:00 [ERR] Failed to start REST API Server on port 5005: Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+System.Net.HttpListenerException (183): Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+   at System.Net.HttpListener.AddPrefixCore(String registeredPrefix)
+   at System.Net.HttpListener.AddAllPrefixes()
+   at System.Net.HttpListener.Start()
+   at WirelessScanner.Infrastructure.RestApiServer.StartAsync(Int32 port, String apiKey) in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\RestApiServer.cs:line 56
+2026-05-30 12:53:04.226 -05:00 [ERR] Error during REST API Server auto-start: Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+System.Net.HttpListenerException (183): Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+   at System.Net.HttpListener.AddPrefixCore(String registeredPrefix)
+   at System.Net.HttpListener.AddAllPrefixes()
+   at System.Net.HttpListener.Start()
+   at WirelessScanner.Infrastructure.RestApiServer.StartAsync(Int32 port, String apiKey) in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\RestApiServer.cs:line 56
+   at WirelessScanner.Presentation.App.AutoStartApiServerAsync() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\App.xaml.cs:line 89
+2026-05-30 13:31:44.756 -05:00 [INF] Auto-starting REST API Server...
+2026-05-30 13:31:44.899 -05:00 [ERR] Failed to start REST API Server on port 5005: Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+System.Net.HttpListenerException (183): Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+   at System.Net.HttpListener.AddPrefixCore(String registeredPrefix)
+   at System.Net.HttpListener.AddAllPrefixes()
+   at System.Net.HttpListener.Start()
+   at WirelessScanner.Infrastructure.RestApiServer.StartAsync(Int32 port, String apiKey) in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\RestApiServer.cs:line 56
+2026-05-30 13:31:44.934 -05:00 [ERR] Error during REST API Server auto-start: Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+System.Net.HttpListenerException (183): Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+   at System.Net.HttpListener.AddPrefixCore(String registeredPrefix)
+   at System.Net.HttpListener.AddAllPrefixes()
+   at System.Net.HttpListener.Start()
+   at WirelessScanner.Infrastructure.RestApiServer.StartAsync(Int32 port, String apiKey) in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\RestApiServer.cs:line 56
+   at WirelessScanner.Presentation.App.AutoStartApiServerAsync() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\App.xaml.cs:line 89
+2026-05-30 14:12:50.980 -05:00 [INF] Auto-starting REST API Server...
+2026-05-30 14:12:51.228 -05:00 [ERR] Failed to start REST API Server on port 5005: Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+System.Net.HttpListenerException (183): Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+   at System.Net.HttpListener.AddPrefixCore(String registeredPrefix)
+   at System.Net.HttpListener.AddAllPrefixes()
+   at System.Net.HttpListener.Start()
+   at WirelessScanner.Infrastructure.RestApiServer.StartAsync(Int32 port, String apiKey) in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\RestApiServer.cs:line 56
+2026-05-30 14:12:51.255 -05:00 [ERR] Error during REST API Server auto-start: Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+System.Net.HttpListenerException (183): Failed to listen on prefix 'http://localhost:5005/' because it conflicts with an existing registration on the machine.
+   at System.Net.HttpListener.AddPrefixCore(String registeredPrefix)
+   at System.Net.HttpListener.AddAllPrefixes()
+   at System.Net.HttpListener.Start()
+   at WirelessScanner.Infrastructure.RestApiServer.StartAsync(Int32 port, String apiKey) in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Infrastructure\RestApiServer.cs:line 56
+   at WirelessScanner.Presentation.App.AutoStartApiServerAsync() in C:\Users\demit\Documents\Antigrav\WirelessScanner\WirelessScanner.Presentation\App.xaml.cs:line 89
+2026-05-30 14:14:26.459 -05:00 [INF] Auto-starting REST API Server...
+2026-05-30 14:14:26.608 -05:00 [INF] REST API Server started on http://localhost:5005/
+2026-05-30 14:18:01.510 -05:00 [INF] REST API Server stopped.
+2026-05-30 16:44:44.662 -05:00 [INF] Auto-starting REST API Server...
+2026-05-30 16:44:44.850 -05:00 [INF] REST API Server started on http://localhost:5005/
+2026-05-30 16:47:05.009 -05:00 [INF] REST API Server stopped.

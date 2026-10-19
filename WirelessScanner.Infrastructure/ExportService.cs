@@ -1,3 +1,4 @@
+using System.Globalization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -61,40 +62,42 @@ public class ExportService : IExportService
         await writer.WriteLineAsync($"# Facility: {EscapeCsvField(session.FacilityName)}");
         await writer.WriteLineAsync($"# Scope: {EscapeCsvField(scope)}");
         await writer.WriteLineAsync($"# Notes: {EscapeCsvField(notes)}");
-        await writer.WriteLineAsync($"# Capture Mode: {(session.Mode == CaptureSessionMode.Stationary ? "Stationary Saturation" : "Roaming Survey")}");
+        await writer.WriteLineAsync($"# Capture Mode: {(session.Mode == CaptureSessionMode.Stationary ? "Stationary Capture" : "Roaming Survey")}");
         await writer.WriteLineAsync($"# Interface: {EscapeCsvField(session.InterfaceName)}");
-        await writer.WriteLineAsync($"# Start Time: {session.StartTime:yyyy-MM-dd HH:mm:ss}");
-        await writer.WriteLineAsync($"# End Time: {(session.EndTime?.ToString("yyyy-MM-dd HH:mm:ss") ?? "Active")}");
+        await writer.WriteLineAsync($"# Start Time (UTC): {session.StartTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)} | local {SaturationExportService.LocalWithOffset(session.StartTime)}");
+        await writer.WriteLineAsync($"# End Time (UTC): {(session.EndTime.HasValue ? session.EndTime.Value.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture) + " | local " + SaturationExportService.LocalWithOffset(session.EndTime.Value) : "Active")}");
+        await writer.WriteLineAsync($"# Generated: {DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)} UTC by WirelessScanner {SaturationExportService.GeneratorVersion()}");
+        await writer.WriteLineAsync("# Timestamps are UTC. SNR is ESTIMATED (RSSI - assumed -95 dBm floor). RSSI_Variation_dB = |change from the previous sample| in dB.");
         await writer.WriteLineAsync("#");
 
         // Column headers
         var headers = new List<string>();
-        if (f.Time) headers.Add("Timestamp");
+        if (f.Time) headers.Add("Timestamp_UTC");
         if (f.Zone) headers.Add("SurveyPoint");
         if (f.BSSID) headers.Add("BSSID");
         if (f.SSID) headers.Add("SSID");
         if (f.Band) headers.Add("Band");
         if (f.Channel) headers.Add("Channel");
         if (f.RSSI) headers.Add("RSSI");
-        if (f.SNR) headers.Add("SNR");
+        if (f.SNR) headers.Add("SNR_Estimated_dB");
         if (f.Quality) headers.Add("Quality");
-        if (f.Jitter) headers.Add("Jitter");
+        if (f.Jitter) headers.Add("RSSI_Variation_dB");
 
         await writer.WriteLineAsync(string.Join(",", headers));
 
         foreach (var s in samples)
         {
             var values = new List<string>();
-            if (f.Time) values.Add(s.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            if (f.Time) values.Add(s.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
             if (f.Zone) values.Add(EscapeCsvField(s.SurveyPoint));
             if (f.BSSID) values.Add(EscapeCsvField(s.BSSID));
             if (f.SSID) values.Add(EscapeCsvField(s.SSID));
             if (f.Band) values.Add(EscapeCsvField(s.Band));
-            if (f.Channel) values.Add(s.Channel.ToString());
-            if (f.RSSI) values.Add(s.RSSI.ToString());
-            if (f.SNR) values.Add(s.SNR.ToString());
-            if (f.Quality) values.Add(s.Quality.ToString());
-            if (f.Jitter) values.Add(s.Jitter.ToString("F3"));
+            if (f.Channel) values.Add(s.Channel.ToString(CultureInfo.InvariantCulture));
+            if (f.RSSI) values.Add(s.RSSI.ToString(CultureInfo.InvariantCulture));
+            if (f.SNR) values.Add(s.SNR.ToString(CultureInfo.InvariantCulture));
+            if (f.Quality) values.Add(s.Quality.ToString(CultureInfo.InvariantCulture));
+            if (f.Jitter) values.Add(s.Jitter.ToString("F3", CultureInfo.InvariantCulture));
 
             await writer.WriteLineAsync(string.Join(",", values));
         }
@@ -146,9 +149,9 @@ public class ExportService : IExportService
             if (f.Band) dict["Band"] = s.Band;
             if (f.Channel) dict["Channel"] = s.Channel;
             if (f.RSSI) dict["RSSI"] = s.RSSI;
-            if (f.SNR) dict["SNR"] = s.SNR;
+            if (f.SNR) dict["SnrEstimatedDb"] = s.SNR;
             if (f.Quality) dict["Quality"] = s.Quality;
-            if (f.Jitter) dict["Jitter"] = s.Jitter;
+            if (f.Jitter) dict["RssiVariationDb"] = s.Jitter;
             return dict;
         }).ToList();
 
@@ -172,7 +175,7 @@ public class ExportService : IExportService
             ["InterfaceName"] = session.InterfaceName,
             ["StartTime"] = session.StartTime,
             ["EndTime"] = session.EndTime,
-            ["Mode"] = session.Mode == CaptureSessionMode.Stationary ? "Stationary Saturation" : "Roaming Survey",
+            ["Mode"] = session.Mode == CaptureSessionMode.Stationary ? "Stationary Capture" : "Roaming Survey",
             ["Status"] = session.Status.ToString()
         };
 
@@ -209,21 +212,21 @@ public class ExportService : IExportService
         var f = fields ?? new ExportFields();
         using var writer = new StreamWriter(filePath, false, Encoding.UTF8);
         await writer.WriteLineAsync("# Multi-Session Export");
-        await writer.WriteLineAsync($"# Generated: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+        await writer.WriteLineAsync($"# Generated: {DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)} UTC by WirelessScanner {SaturationExportService.GeneratorVersion()}");
         await writer.WriteLineAsync($"# Sessions Included: {sessionIds.Count()}");
         await writer.WriteLineAsync("#");
 
         var headers = new List<string> { "SessionName", "Facility", "Scope", "Notes", "CaptureMode" };
-        if (f.Time) headers.Add("Timestamp");
+        if (f.Time) headers.Add("Timestamp_UTC");
         if (f.Zone) headers.Add("SurveyPoint");
         if (f.BSSID) headers.Add("BSSID");
         if (f.SSID) headers.Add("SSID");
         if (f.Band) headers.Add("Band");
         if (f.Channel) headers.Add("Channel");
         if (f.RSSI) headers.Add("RSSI");
-        if (f.SNR) headers.Add("SNR");
+        if (f.SNR) headers.Add("SNR_Estimated_dB");
         if (f.Quality) headers.Add("Quality");
-        if (f.Jitter) headers.Add("Jitter");
+        if (f.Jitter) headers.Add("RSSI_Variation_dB");
 
         await writer.WriteLineAsync(string.Join(",", headers));
 
@@ -247,7 +250,7 @@ public class ExportService : IExportService
                 scope = parts[0];
                 notes = parts[1];
             }
-            string modeText = session.Mode == CaptureSessionMode.Stationary ? "Stationary Saturation" : "Roaming Survey";
+            string modeText = session.Mode == CaptureSessionMode.Stationary ? "Stationary Capture" : "Roaming Survey";
 
             foreach (var s in samples)
             {
@@ -259,16 +262,16 @@ public class ExportService : IExportService
                     EscapeCsvField(notes),
                     EscapeCsvField(modeText)
                 };
-                if (f.Time) values.Add(s.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                if (f.Time) values.Add(s.Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
                 if (f.Zone) values.Add(EscapeCsvField(s.SurveyPoint));
                 if (f.BSSID) values.Add(EscapeCsvField(s.BSSID));
                 if (f.SSID) values.Add(EscapeCsvField(s.SSID));
                 if (f.Band) values.Add(EscapeCsvField(s.Band));
-                if (f.Channel) values.Add(s.Channel.ToString());
-                if (f.RSSI) values.Add(s.RSSI.ToString());
-                if (f.SNR) values.Add(s.SNR.ToString());
-                if (f.Quality) values.Add(s.Quality.ToString());
-                if (f.Jitter) values.Add(s.Jitter.ToString("F3"));
+                if (f.Channel) values.Add(s.Channel.ToString(CultureInfo.InvariantCulture));
+                if (f.RSSI) values.Add(s.RSSI.ToString(CultureInfo.InvariantCulture));
+                if (f.SNR) values.Add(s.SNR.ToString(CultureInfo.InvariantCulture));
+                if (f.Quality) values.Add(s.Quality.ToString(CultureInfo.InvariantCulture));
+                if (f.Jitter) values.Add(s.Jitter.ToString("F3", CultureInfo.InvariantCulture));
 
                 await writer.WriteLineAsync(string.Join(",", values));
             }
@@ -316,9 +319,9 @@ public class ExportService : IExportService
                 if (f.Band) dict["Band"] = s.Band;
                 if (f.Channel) dict["Channel"] = s.Channel;
                 if (f.RSSI) dict["RSSI"] = s.RSSI;
-                if (f.SNR) dict["SNR"] = s.SNR;
+                if (f.SNR) dict["SnrEstimatedDb"] = s.SNR;
                 if (f.Quality) dict["Quality"] = s.Quality;
-                if (f.Jitter) dict["Jitter"] = s.Jitter;
+                if (f.Jitter) dict["RssiVariationDb"] = s.Jitter;
                 return dict;
             }).ToList();
 
@@ -341,7 +344,7 @@ public class ExportService : IExportService
                 ["InterfaceName"] = session.InterfaceName,
                 ["StartTime"] = session.StartTime,
                 ["EndTime"] = session.EndTime,
-                ["Mode"] = session.Mode == CaptureSessionMode.Stationary ? "Stationary Saturation" : "Roaming Survey",
+                ["Mode"] = session.Mode == CaptureSessionMode.Stationary ? "Stationary Capture" : "Roaming Survey",
                 ["Status"] = session.Status.ToString()
             };
 
@@ -458,7 +461,7 @@ public class ReportDocument : IDocument
                 subCol.Item().PaddingTop(5).Text($"Notes (Export): {_metadata.Notes}");
                 subCol.Item().PaddingTop(5).Text($"Facility Name: {_session.FacilityName}");
                 subCol.Item().Text($"Scope: {scope}");
-                subCol.Item().Text($"Capture Mode: {(_session.Mode == CaptureSessionMode.Stationary ? "Stationary Saturation" : "Roaming Survey")}");
+                subCol.Item().Text($"Capture Mode: {(_session.Mode == CaptureSessionMode.Stationary ? "Stationary Capture" : "Roaming Survey")}");
                 if (!string.IsNullOrWhiteSpace(sessionNotes))
                 {
                     subCol.Item().Text($"Session Notes: {sessionNotes}");
@@ -523,7 +526,7 @@ public class ReportDocument : IDocument
                     header.Cell().Background("#16161A").Padding(3).Text("Max").Bold().FontColor(Colors.White).FontSize(8);
                     header.Cell().Background("#16161A").Padding(3).Text("Mean").Bold().FontColor(Colors.White).FontSize(8);
                     header.Cell().Background("#16161A").Padding(3).Text("StdDev").Bold().FontColor(Colors.White).FontSize(8);
-                    header.Cell().Background("#16161A").Padding(3).Text("Jitt").Bold().FontColor(Colors.White).FontSize(8);
+                    header.Cell().Background("#16161A").Padding(3).Text("Var dB").Bold().FontColor(Colors.White).FontSize(8);
                 });
 
                 var grouped = _samples.GroupBy(s => s.BSSID);
@@ -641,9 +644,9 @@ public class ReportDocument : IDocument
                         if (_fields.Band) header.Cell().Background("#16161A").Padding(3).Text("Band").Bold().FontColor(Colors.White).FontSize(8);
                         if (_fields.Channel) header.Cell().Background("#16161A").Padding(3).Text("Ch").Bold().FontColor(Colors.White).FontSize(8);
                         if (_fields.RSSI) header.Cell().Background("#16161A").Padding(3).Text("RSSI").Bold().FontColor(Colors.White).FontSize(8);
-                        if (_fields.SNR) header.Cell().Background("#16161A").Padding(3).Text("SNR").Bold().FontColor(Colors.White).FontSize(8);
+                        if (_fields.SNR) header.Cell().Background("#16161A").Padding(3).Text("SNR est.").Bold().FontColor(Colors.White).FontSize(8);
                         if (_fields.Quality) header.Cell().Background("#16161A").Padding(3).Text("Qual").Bold().FontColor(Colors.White).FontSize(8);
-                        if (_fields.Jitter) header.Cell().Background("#16161A").Padding(3).Text("Jitt").Bold().FontColor(Colors.White).FontSize(8);
+                        if (_fields.Jitter) header.Cell().Background("#16161A").Padding(3).Text("Var dB").Bold().FontColor(Colors.White).FontSize(8);
                         if (_fields.Zone) header.Cell().Background("#16161A").Padding(3).Text("Zone").Bold().FontColor(Colors.White).FontSize(8);
                     });
 
@@ -656,9 +659,9 @@ public class ReportDocument : IDocument
                         if (_fields.Band) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text(sample.Band).FontSize(8);
                         if (_fields.Channel) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text(sample.Channel.ToString()).FontSize(8);
                         if (_fields.RSSI) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text($"{sample.RSSI} dBm").FontSize(8);
-                        if (_fields.SNR) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text($"{sample.SNR} dB").FontSize(8);
+                        if (_fields.SNR) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text($"~{sample.SNR} dB").FontSize(8);
                         if (_fields.Quality) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text($"{sample.Quality}%").FontSize(8);
-                        if (_fields.Jitter) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text($"{sample.Jitter:F1} ms").FontSize(8);
+                        if (_fields.Jitter) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text($"{sample.Jitter:F1} dB").FontSize(8);
                         if (_fields.Zone) table.Cell().BorderBottom(1).BorderColor("#E5E7EB").Padding(3).Text(sample.SurveyPoint).FontSize(8);
                     }
                 });

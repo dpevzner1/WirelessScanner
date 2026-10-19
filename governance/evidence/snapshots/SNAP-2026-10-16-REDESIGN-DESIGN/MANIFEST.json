@@ -1,0 +1,26 @@
+{
+  "snapshot_id": "SNAP-2026-10-16-REDESIGN-DESIGN",
+  "captured_at": "2026-10-16T14:38:00.111986+00:00",
+  "files": [
+    {
+      "path": "governance/evidence/design/PROPOSAL-live-survey-redesign-v1.html",
+      "sha256": "73a815c07eddfab3a23ac465c5d8876ddac2f3c3816aee25a895f2a022742f67",
+      "bytes": 49533
+    },
+    {
+      "path": "docs/decisions/DR-0010-network-explorer-and-spectrum.md",
+      "sha256": "7e9d96f20bc543198dc80fe63bb33c4b6332d0eb8e6353dd51a2487dc69a633a",
+      "bytes": 4369
+    },
+    {
+      "path": "docs/decisions/DR-0011-saturation-in-live-survey.md",
+      "sha256": "72ce0ae3925cb5d97f7782d58aa77fbfb7f334b8602800942a65307571f3219b",
+      "bytes": 4414
+    },
+    {
+      "path": "docs/PARITY_CHECKLIST.md",
+      "sha256": "4ec3214879a7c623d7fc8260115d37e584d5a955dcd3fa1543a2b7ddaf6f33af",
+      "bytes": 6489
+    }
+  ]
+}

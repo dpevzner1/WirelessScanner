@@ -1,0 +1,36 @@
+{
+  "snapshot_id": "SNAP-T06-UI",
+  "captured_at": "2026-10-15T23:47:03.112105+00:00",
+  "files": [
+    {
+      "path": "docs/images/ui_1_setup_invalid.png",
+      "sha256": "6df4e673450d52629e24d47587276868f23e28b18ffccf4880da142d2449f652",
+      "bytes": 83984
+    },
+    {
+      "path": "docs/images/ui_1_setup_ready.png",
+      "sha256": "ccff92fc80993b9bff0e8b0227b0e52bd92e7d3a1b2a536a8952a31d63362d82",
+      "bytes": 82776
+    },
+    {
+      "path": "docs/images/ui_2_running.png",
+      "sha256": "0cc43575736e4165b68bfaecc02ec23c4f0dad47907d5426347deeef53e1d611",
+      "bytes": 148727
+    },
+    {
+      "path": "docs/images/ui_3_results.png",
+      "sha256": "e701378be48b294c8b1301eecabf5a5825c634a7c30d4655483ea84e448ba92a",
+      "bytes": 90689
+    },
+    {
+      "path": "docs/images/report_page1.png",
+      "sha256": "beb02a458a23e14ff02d3809e525819413831023abd26f24af7d687196a11c72",
+      "bytes": 128586
+    },
+    {
+      "path": "docs/images/report_page3_target.png",
+      "sha256": "a3021a095238c71919c3adc76f0889263b4811c2df17c58ae49986a11b9c0814",
+      "bytes": 99375
+    }
+  ]
+}

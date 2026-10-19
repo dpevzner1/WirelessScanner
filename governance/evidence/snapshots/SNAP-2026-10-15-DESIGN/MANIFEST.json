@@ -1,0 +1,38 @@
+{
+  "snapshot_id": "SNAP-2026-10-15-DESIGN",
+  "captured_at": "2026-10-15T22:02:53.530483+00:00",
+  "files": [
+    {
+      "path": "docs/PROJECT_CONVENTIONS.md",
+      "sha256": "a19733e8cd491525f7652a03cf9efc4ea3e654d5d3dc3f97e963025215c43656"
+    },
+    {
+      "path": "docs/consultation/ENGINE_CONSULTATION_LOG.md",
+      "sha256": "14bcf0f2426e16c561c9a5a196a95969d651182bef2f7c6fa886d5eb491805e4"
+    },
+    {
+      "path": "docs/SATURATION_TEST_SPEC.md",
+      "sha256": "7a6cb3e0c0e5ff5ebb82cee610156049083b0f18df394e3925aedb745e934e4d"
+    },
+    {
+      "path": "docs/decisions/DR-0001-governance-adoption.md",
+      "sha256": "d1016a73d8a22ec95b266b4b2c7a28d915d094e1a924963654ec2501a04bf41b"
+    },
+    {
+      "path": "docs/decisions/DR-0002-canonical-folder-and-sync.md",
+      "sha256": "7ab123da1b18bf8c0f457b1e148b88cbc48b7e92d0567e6388b6d8308e9e4045"
+    },
+    {
+      "path": "docs/decisions/DR-0003-fresh-scan-and-persistence-pipeline.md",
+      "sha256": "667fb80ab28c93db532d82a72177f1ed34f6e3c070dd8d47e843151286371d7f"
+    },
+    {
+      "path": "docs/decisions/DR-0004-saturation-test-measurement-model.md",
+      "sha256": "e32045f4a8065cf355e5091ba4c100f9e2447de686d46ab94bb9a59007d16d26"
+    },
+    {
+      "path": "docs/decisions/DR-0005-saturation-test-ux.md",
+      "sha256": "ed8df42d9437fbe1f920b212d43469bfd0f04b9349e5e615e93f535128672dc1"
+    }
+  ]
+}

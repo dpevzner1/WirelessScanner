@@ -1,0 +1,125 @@
+{
+  "id": "IT-T03-01",
+  "task_ids": [
+    "T03"
+  ],
+  "finding_ids": [
+    "F01",
+    "F13"
+  ],
+  "scope": "scan acquisition",
+  "state": "completed",
+  "started_at": "2026-10-15T22:06:00+00:00",
+  "finished_at": "2026-10-15T22:20:00+00:00",
+  "hypothesis": {
+    "claim": "Waiting for the ACM scan_complete notification after WlanScan yields fresh BSS lists, and beacon age (ullHostTimestamp as FILETIME) identifies cached entries",
+    "disconfirming_result": "Real adapter never delivers scan_complete (all cycles stale) or beacon ages implausible",
+    "prior_lessons": [
+      "LL-2026-10-15-BASELINE-GOVERNANCE"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Notification-driven scan",
+      "Poll list until newest timestamp changes",
+      "Keep cached reads"
+    ],
+    "chosen": "Notification-driven scan",
+    "why": "Documented completion contract; beacon age kept as secondary freshness signal",
+    "rejected": [
+      "Polling (ambiguous when nothing new is heard)",
+      "Cached reads (F01)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Infrastructure/WlanAdapter.cs",
+      "engine_sha256": "WirelessScanner.Domain/ScanCycle.cs",
+      "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0003-fresh-scan-and-persistence-pipeline.md",
+      "test_sha256": "WirelessScanner.Tests/HardwareProbeTests.cs"
+    }
+  },
+  "change": {
+    "summary": "ScanAsync with WlanRegisterNotification, persistent handle, error mapping (WlanErrorText), beacon age; VM loop captures only fresh entries",
+    "artifact_evidence_ids": [
+      "EV-T03T05-CHANGE"
+    ],
+    "scope_authority": "DR-0003"
+  },
+  "test": {
+    "commands": [
+      "dotnet test WirelessScanner.Tests --no-build",
+      "dotnet test WirelessScanner.Tests --no-build --filter Category=Hardware"
+    ],
+    "positive": [
+      "FreshCycle_StoresOneSamplePerAp",
+      "HW-PROBE-1 4/4 Fresh"
+    ],
+    "negative": [
+      "StaleCycle_WithUnknownBeaconAge_IsNotStoredAsSample",
+      "FailedCycle_StoresNothing_AndReportsReason"
+    ],
+    "regression": [
+      "Original 20 tests pass"
+    ],
+    "result_evidence_ids": [
+      "EV-T03T05-TEST-1",
+      "EV-T03-HW-1"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Notification path confirmed on Intel AC 7265",
+      "Beacon age plausible (median 0.6-3.4 s)"
+    ],
+    "what_failed": [
+      "PATCH-1 heredoc abort (tooling, not product)"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "Single adapter",
+      "Throttling while connected not observed"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": null,
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-CORE-SCAN-PERSISTENCE"
+    ],
+    "transferable_rule": "Never treat a cached sensor read as a new sample; require an acquisition confirmation or a source timestamp",
+    "applicability_limits": "Windows Native Wi-Fi API; other providers need their own freshness signal"
+  },
+  "next_action": {
+    "action": "Use ScanAsync in the saturation runner (T06)",
+    "owner": "Claude Code (implementer)",
+    "resume_condition": "Suite green"
+  }
+}

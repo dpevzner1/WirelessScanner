@@ -1,0 +1,15 @@
+{
+  "in_sync": true,
+  "summary": {
+    "add": 0,
+    "update": 0,
+    "remove": 0,
+    "unmanaged_top_level": 0
+  },
+  "sample": {
+    "add": [],
+    "update": [],
+    "remove": [],
+    "unmanaged_top_level": []
+  }
+}

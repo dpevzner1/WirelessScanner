@@ -1,0 +1,147 @@
+{
+  "schema": "project_remediation_control.v2",
+  "project_id": "REPLACE_PROJECT_ID",
+  "updated_at": "2026-10-11T20:30:19.572698+00:00",
+  "purpose": "Reusable evidence-linked finding -> correction -> retest -> lesson trail",
+  "scope": {
+    "authorized": [
+      "engine consultation remediation and explicit assessments",
+      "source-to-RAG domain scope and evidence documentation"
+    ],
+    "manual_opt_in": [
+      "local_model",
+      "vector_database_tests"
+    ],
+    "production_publication": false,
+    "automatic_monitoring": false
+  },
+  "coverage_statement": "All nine known baseline gaps mapped; exhaustive unknown defects not established. Expand after each actual retest.",
+  "limitations": [
+    "Evidence hashes and linked events detect accidental drift; this is not a signed or tamper-proof ledger.",
+    "Control validation proves record completeness, not semantic truth or competence.",
+    "Owner placeholders require accountable assignment before task closure.",
+    "No runtime code or engine behavior is remediated by this control."
+  ],
+  "control_contract": {
+    "version": "2.0.0",
+    "authority": "docs/PROJECT_REMEDIATION_AUDIT_STANDARD.md",
+    "validator": "tools/validate_project_remediation_control.py",
+    "mandatory_checkpoints": [
+      "before starting a task",
+      "before rerunning a test",
+      "after each material change or failure",
+      "before task closure",
+      "before qualification"
+    ],
+    "required_role_assignments": [
+      "implementation_owner",
+      "verification_reviewer",
+      "independent_qualification_reviewer"
+    ],
+    "enforcement_boundary": "Manual execution guard and auditable artifact validation; not automatically hooked into every engine command or CI. Record use at checkpoints.",
+    "tamper_boundary": "Hash continuity plus retained snapshots detect accidental drift; separate signed governance required for trusted attestation."
+  },
+  "audit_dimensions": [
+    "scope_and_authority",
+    "fact_and_claim_provenance",
+    "root_cause_and_hypotheses",
+    "task_acceptance_and_dependencies",
+    "change_and_configuration_identity",
+    "reproducibility_and_test_coverage",
+    "raw_failure_and_recovery_evidence",
+    "independent_review_and_closure",
+    "drift_and_regressions",
+    "duplication_and_effort",
+    "optimization_and_lessons",
+    "residual_risk_and_resume"
+  ],
+  "optimization": {
+    "measurement_policy": "Actual recorded inputs only; missing or historical effort stays null. Counters over retained baseline are not improvement measurements.",
+    "metrics": [
+      {
+        "id": "duplicate_reexecution",
+        "definition": "Repeated identical input+engine+context+test with no changed hypothesis",
+        "unit": "count",
+        "value": null,
+        "evidence_ids": [],
+        "unknown_reason": "Iteration measurements not yet recorded."
+      },
+      {
+        "id": "rework_fraction",
+        "definition": "Corrective effort / total recorded effort in the same time/work scope",
+        "unit": "fraction",
+        "value": null,
+        "evidence_ids": [],
+        "unknown_reason": "Iteration measurements not yet recorded."
+      },
+      {
+        "id": "time_to_reproduce",
+        "definition": "Actual time from investigation start to reproducible finding",
+        "unit": "seconds",
+        "value": null,
+        "evidence_ids": [],
+        "unknown_reason": "Iteration measurements not yet recorded."
+      },
+      {
+        "id": "time_to_verified_closure",
+        "definition": "Actual time from finding observation to evidence-backed closure",
+        "unit": "seconds",
+        "value": null,
+        "evidence_ids": [],
+        "unknown_reason": "Iteration measurements not yet recorded."
+      },
+      {
+        "id": "regression_rate",
+        "definition": "Newly failing previously passing cases / eligible matched cases",
+        "unit": "fraction",
+        "value": null,
+        "evidence_ids": [],
+        "unknown_reason": "Iteration measurements not yet recorded."
+      },
+      {
+        "id": "clarification_recurrence",
+        "definition": "Repeated requests for already supplied decision facts / evaluated requests",
+        "unit": "fraction",
+        "value": null,
+        "evidence_ids": [],
+        "unknown_reason": "Iteration measurements not yet recorded."
+      },
+      {
+        "id": "independent_case_success",
+        "definition": "Independent whole-case passes / all required whole cases",
+        "unit": "fraction",
+        "value": null,
+        "evidence_ids": [],
+        "unknown_reason": "Iteration measurements not yet recorded."
+      }
+    ],
+    "review_questions": [
+      "Which failures recur and share root cause?",
+      "Which attempts repeat unchanged assumptions?",
+      "What was the smallest successful correction and its regressions?",
+      "Where did missing evidence, interface assumptions or unclear ownership waste work?",
+      "What scope or control prevented a false completion claim?",
+      "What lesson should transfer and under what limits?"
+    ],
+    "improvement_proposals": []
+  },
+  "baseline": {
+    "run_id": "REPLACE_BASELINE",
+    "status": "not_qualified",
+    "evidence_id": "REPLACE_EVIDENCE_ID",
+    "immutable": true
+  },
+  "evidence": [],
+  "findings": [],
+  "tasks": [],
+  "events": [],
+  "iterations": [],
+  "audit_reviews": [],
+  "qualification": {
+    "state": "not_qualified",
+    "expertise_claim_allowed": false,
+    "target": {},
+    "independent_review_required": true,
+    "independent_review_evidence": []
+  }
+}

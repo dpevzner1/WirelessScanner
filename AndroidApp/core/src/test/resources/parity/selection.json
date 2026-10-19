@@ -1,0 +1,510 @@
+{
+  "aps": [
+    {
+      "bssid": "02:00:00:00:02:01",
+      "ssid": "Alpha",
+      "band": "5 GHz",
+      "channel": 36,
+      "channelWidth": 80,
+      "rssi": -50,
+      "snr": 45,
+      "quality": 100,
+      "securityType": "WPA2-Personal",
+      "vendorOui": "Synthetic Vendor",
+      "beaconAgeMs": 100,
+      "phyType": "802.11ax",
+      "beaconIntervalTu": 100,
+      "centerFrequencyMhz": 5180,
+      "stationCount": 4,
+      "channelUtilizationPct": 34.5,
+      "tsfOffsetMs": null,
+      "wpsManufacturer": null,
+      "wpsModel": null,
+      "wpsModelNumber": null,
+      "wpsDeviceName": null,
+      "wpsUuid": null
+    },
+    {
+      "bssid": "02:00:00:00:02:02",
+      "ssid": "Alpha",
+      "band": "2.4 GHz",
+      "channel": 1,
+      "channelWidth": 20,
+      "rssi": -60,
+      "snr": 35,
+      "quality": 80,
+      "securityType": "WPA2-Personal",
+      "vendorOui": "Synthetic Vendor",
+      "beaconAgeMs": 100,
+      "phyType": "802.11n",
+      "beaconIntervalTu": 100,
+      "centerFrequencyMhz": 2412,
+      "stationCount": null,
+      "channelUtilizationPct": null,
+      "tsfOffsetMs": null,
+      "wpsManufacturer": null,
+      "wpsModel": null,
+      "wpsModelNumber": null,
+      "wpsDeviceName": null,
+      "wpsUuid": null
+    },
+    {
+      "bssid": "02:00:00:00:02:03",
+      "ssid": "Beta",
+      "band": "5 GHz",
+      "channel": 44,
+      "channelWidth": 40,
+      "rssi": -45,
+      "snr": 50,
+      "quality": 100,
+      "securityType": "WPA2-Personal",
+      "vendorOui": "Synthetic Vendor",
+      "beaconAgeMs": 100,
+      "phyType": "802.11ax",
+      "beaconIntervalTu": 100,
+      "centerFrequencyMhz": 5220,
+      "stationCount": null,
+      "channelUtilizationPct": null,
+      "tsfOffsetMs": null,
+      "wpsManufacturer": null,
+      "wpsModel": null,
+      "wpsModelNumber": null,
+      "wpsDeviceName": null,
+      "wpsUuid": null
+    },
+    {
+      "bssid": "02:00:00:00:02:04",
+      "ssid": "Gamma",
+      "band": "5 GHz",
+      "channel": 149,
+      "channelWidth": 80,
+      "rssi": -70,
+      "snr": 25,
+      "quality": 60,
+      "securityType": "WPA2-Personal",
+      "vendorOui": "Synthetic Vendor",
+      "beaconAgeMs": 100,
+      "phyType": "802.11ax",
+      "beaconIntervalTu": 100,
+      "centerFrequencyMhz": 5745,
+      "stationCount": null,
+      "channelUtilizationPct": null,
+      "tsfOffsetMs": null,
+      "wpsManufacturer": null,
+      "wpsModel": null,
+      "wpsModelNumber": null,
+      "wpsDeviceName": null,
+      "wpsUuid": null
+    },
+    {
+      "bssid": "02:00:00:00:02:05",
+      "ssid": "",
+      "band": "5 GHz",
+      "channel": 149,
+      "channelWidth": 80,
+      "rssi": -40,
+      "snr": 55,
+      "quality": 100,
+      "securityType": "WPA2-Personal",
+      "vendorOui": "Synthetic Vendor",
+      "beaconAgeMs": 100,
+      "phyType": "802.11ax",
+      "beaconIntervalTu": 100,
+      "centerFrequencyMhz": 5745,
+      "stationCount": null,
+      "channelUtilizationPct": null,
+      "tsfOffsetMs": null,
+      "wpsManufacturer": null,
+      "wpsModel": null,
+      "wpsModelNumber": null,
+      "wpsDeviceName": null,
+      "wpsUuid": null
+    },
+    {
+      "bssid": "02:00:00:00:02:06",
+      "ssid": "Delta",
+      "band": "2.4 GHz",
+      "channel": 11,
+      "channelWidth": 20,
+      "rssi": -80,
+      "snr": 15,
+      "quality": 40,
+      "securityType": "WPA2-Personal",
+      "vendorOui": "Synthetic Vendor",
+      "beaconAgeMs": 100,
+      "phyType": "802.11n",
+      "beaconIntervalTu": 100,
+      "centerFrequencyMhz": 2462,
+      "stationCount": null,
+      "channelUtilizationPct": null,
+      "tsfOffsetMs": null,
+      "wpsManufacturer": null,
+      "wpsModel": null,
+      "wpsModelNumber": null,
+      "wpsDeviceName": null,
+      "wpsUuid": null
+    }
+  ],
+  "steps": [
+    {
+      "op": "empty",
+      "ok": true,
+      "scope": "AllVisible",
+      "describe": "Nothing selected: everything is shown and captured; a saturation test would ask before covering all networks.",
+      "focus": [],
+      "ssids": [],
+      "bssids": [],
+      "matches": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "states": [
+        "None",
+        "None",
+        "None"
+      ],
+      "slots": [
+        1,
+        1,
+        0,
+        2,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "toggleGroup Alpha",
+      "ok": true,
+      "scope": "SingleSsid",
+      "describe": "1 SSID (2 APs now, follows new APs)",
+      "focus": [
+        "Alpha"
+      ],
+      "ssids": [
+        "Alpha"
+      ],
+      "bssids": [],
+      "matches": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "states": [
+        "All",
+        "None",
+        "None"
+      ],
+      "slots": [
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "toggleAp Alpha 02:00:00:00:02:02",
+      "ok": true,
+      "scope": "SingleAp",
+      "describe": "1 AP (fixed)",
+      "focus": [
+        "Alpha"
+      ],
+      "ssids": [],
+      "bssids": [
+        "02:00:00:00:02:01"
+      ],
+      "matches": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "states": [
+        "Partial",
+        "None",
+        "None"
+      ],
+      "slots": [
+        0,
+        0,
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "toggleAp Beta",
+      "ok": true,
+      "scope": "MultipleAps",
+      "describe": "2 APs (fixed)",
+      "focus": [
+        "Alpha",
+        "Beta"
+      ],
+      "ssids": [],
+      "bssids": [
+        "02:00:00:00:02:01",
+        "02:00:00:00:02:03"
+      ],
+      "matches": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "states": [
+        "Partial",
+        "All",
+        "None"
+      ],
+      "slots": [
+        0,
+        0,
+        1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "toggleGroup hidden",
+      "ok": false,
+      "scope": "MultipleAps",
+      "describe": "2 APs (fixed)",
+      "focus": [
+        "Alpha",
+        "Beta"
+      ],
+      "ssids": [],
+      "bssids": [
+        "02:00:00:00:02:01",
+        "02:00:00:00:02:03"
+      ],
+      "matches": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "states": [
+        "Partial",
+        "All",
+        "None"
+      ],
+      "slots": [
+        0,
+        0,
+        1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "toggleGroup Gamma",
+      "ok": true,
+      "scope": "Mixed",
+      "describe": "1 SSID (1 AP now, follows new APs) \u002B 2 APs (fixed) \u00B7 mixed",
+      "focus": [
+        "Alpha",
+        "Beta",
+        "Gamma"
+      ],
+      "ssids": [
+        "Gamma"
+      ],
+      "bssids": [
+        "02:00:00:00:02:01",
+        "02:00:00:00:02:03"
+      ],
+      "matches": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "states": [
+        "Partial",
+        "All",
+        "All"
+      ],
+      "slots": [
+        0,
+        0,
+        1,
+        2,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "locked toggle Delta",
+      "ok": false,
+      "scope": "Mixed",
+      "describe": "1 SSID (1 AP now, follows new APs) \u002B 2 APs (fixed) \u00B7 mixed",
+      "focus": [
+        "Alpha",
+        "Beta",
+        "Gamma"
+      ],
+      "ssids": [
+        "Gamma"
+      ],
+      "bssids": [
+        "02:00:00:00:02:01",
+        "02:00:00:00:02:03"
+      ],
+      "matches": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "states": [
+        "Partial",
+        "All",
+        "All"
+      ],
+      "slots": [
+        0,
+        0,
+        1,
+        2,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "toggleAp Alpha 02:00:00:00:02:02 again",
+      "ok": true,
+      "scope": "Mixed",
+      "describe": "1 SSID (1 AP now, follows new APs) \u002B 3 APs (fixed) \u00B7 mixed",
+      "focus": [
+        "Alpha",
+        "Beta",
+        "Gamma"
+      ],
+      "ssids": [
+        "Gamma"
+      ],
+      "bssids": [
+        "02:00:00:00:02:01",
+        "02:00:00:00:02:02",
+        "02:00:00:00:02:03"
+      ],
+      "matches": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "states": [
+        "All",
+        "All",
+        "All"
+      ],
+      "slots": [
+        0,
+        0,
+        1,
+        2,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "toggleGroup Alpha (full)",
+      "ok": true,
+      "scope": "Mixed",
+      "describe": "1 SSID (1 AP now, follows new APs) \u002B 1 AP (fixed) \u00B7 mixed",
+      "focus": [
+        "Beta",
+        "Gamma"
+      ],
+      "ssids": [
+        "Gamma"
+      ],
+      "bssids": [
+        "02:00:00:00:02:03"
+      ],
+      "matches": [
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "states": [
+        "None",
+        "All",
+        "All"
+      ],
+      "slots": [
+        -1,
+        -1,
+        0,
+        1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "op": "clear",
+      "ok": true,
+      "scope": "AllVisible",
+      "describe": "Nothing selected: everything is shown and captured; a saturation test would ask before covering all networks.",
+      "focus": [],
+      "ssids": [],
+      "bssids": [],
+      "matches": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "states": [
+        "None",
+        "None",
+        "None"
+      ],
+      "slots": [
+        1,
+        1,
+        0,
+        2,
+        -1,
+        -1
+      ]
+    }
+  ],
+  "autoFocus": [
+    "Beta",
+    "Alpha",
+    "Gamma"
+  ]
+}

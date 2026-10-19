@@ -1,0 +1,157 @@
+{
+  "cases": [
+    {
+      "name": "open",
+      "band": "2.4 GHz",
+      "privacy": false,
+      "ie": "010482848B96",
+      "security": "Open",
+      "width": null,
+      "rates": [
+        "1.0",
+        "2.0",
+        "5.5",
+        "11.0"
+      ],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "wep",
+      "band": "2.4 GHz",
+      "privacy": true,
+      "ie": "010182",
+      "security": "WEP",
+      "width": null,
+      "rates": [
+        "1.0"
+      ],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "wpa2psk ht40",
+      "band": "2.4 GHz",
+      "privacy": true,
+      "ie": "30120100000FAC040100000FAC040100000FAC023D05060700000032030C1218",
+      "security": "WPA2-Personal",
+      "width": 40,
+      "rates": [
+        "6.0",
+        "9.0",
+        "12.0"
+      ],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "wpa3 vht80 bssload wps",
+      "band": "5 GHz",
+      "privacy": true,
+      "ie": "30120100000FAC040100000FAC040100000FAC083D022405C003012A000B050700801027DD4A0050F2041021001253796E746865746963204E6574776F726B73102300074761746577617910240007534E2D323130001011000220201047001000112233445566778899AABBCCDDEEFF",
+      "security": "WPA3-Personal",
+      "width": 80,
+      "rates": [],
+      "bssLoad": {
+        "stations": 7,
+        "utilizationPct": 50.2,
+        "admissionCapacity": 10000
+      },
+      "wps": {
+        "manufacturer": "Synthetic Networks",
+        "model": "Gateway",
+        "modelNumber": "SN-210",
+        "deviceName": null,
+        "uuid": "00112233-4455-6677-8899-aabbccddeeff"
+      }
+    },
+    {
+      "name": "transition vht160",
+      "band": "5 GHz",
+      "privacy": true,
+      "ie": "30160100000FAC040100000FAC040200000FAC02000FAC08C003012A32",
+      "security": "WPA2/WPA3-Personal",
+      "width": 160,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "enterprise 80\u002B80",
+      "band": "5 GHz",
+      "privacy": true,
+      "ie": "30120100000FAC040100000FAC040100000FAC01C003012A6A",
+      "security": "WPA2-Enterprise",
+      "width": 160,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "suiteb",
+      "band": "5 GHz",
+      "privacy": true,
+      "ie": "30120100000FAC040100000FAC040100000FAC0C",
+      "security": "WPA3-Enterprise-192",
+      "width": null,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "owe",
+      "band": "5 GHz",
+      "privacy": false,
+      "ie": "30120100000FAC040100000FAC040100000FAC12",
+      "security": "OWE (Enhanced Open)",
+      "width": null,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "wpa1",
+      "band": "2.4 GHz",
+      "privacy": true,
+      "ie": "DD060050F2010100",
+      "security": "WPA-Personal",
+      "width": null,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "rsn unknown akm",
+      "band": "2.4 GHz",
+      "privacy": true,
+      "ie": "30020100",
+      "security": "WPA2 (unknown AKM)",
+      "width": null,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "he6 160",
+      "band": "6 GHz",
+      "privacy": true,
+      "ie": "30120100000FAC040100000FAC040100000FAC08FF0C240000023FFCFF25030F0001",
+      "security": "WPA3-Personal",
+      "width": 160,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    },
+    {
+      "name": "truncated",
+      "band": "5 GHz",
+      "privacy": true,
+      "ie": "30140100",
+      "security": "WEP",
+      "width": null,
+      "rates": [],
+      "bssLoad": null,
+      "wps": null
+    }
+  ]
+}

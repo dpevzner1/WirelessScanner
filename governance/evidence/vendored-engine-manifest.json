@@ -1,0 +1,98 @@
+{
+  "schema": "wirelessscanner.vendored_engine_artifacts.v1",
+  "engine_root": "C:\\Users\\demit\\Documents\\Antigrav\\DevOpsAgent",
+  "captured_at": "2026-10-15T21:49:04.424923+00:00",
+  "policy": "Verbatim read-only copies; never edit in place. Re-vendor and re-hash to update.",
+  "artifacts": [
+    {
+      "source": "tools/validate_project_remediation_control.py",
+      "copy": "tools/validate_project_remediation_control.py",
+      "sha256": "3f48f6d0d537436fe8182f0e2acf39416afa4e7667a37d4e3d95213de5888d5d",
+      "byte_identical": true
+    },
+    {
+      "source": "tools/remediation_audit_rules.py",
+      "copy": "tools/remediation_audit_rules.py",
+      "sha256": "b27c0801c0e2cfe0dcc8d78b5b9708c10b409b71fad269d8e12c5acf01b31259",
+      "byte_identical": true
+    },
+    {
+      "source": "tools/validate_lessons_learned.py",
+      "copy": "tools/validate_lessons_learned.py",
+      "sha256": "997b3872abea9ba6ab8ad180b749cde16134124e99a10bdec8c4ac44828b1f18",
+      "byte_identical": true
+    },
+    {
+      "source": "tools/review_attestation.py",
+      "copy": "tools/review_attestation.py",
+      "sha256": "3c9927760bcad5d2e3b82d373cfdeaadb7035b757eba6bc355756a4514e11d43",
+      "byte_identical": true
+    },
+    {
+      "source": "config/pipeline/project-remediation-control.v2.schema.json",
+      "copy": "config/pipeline/project-remediation-control.v2.schema.json",
+      "sha256": "36a33e80d6ba98236999853eeb64fd5b0615070362ea40a31f8be2627e1054df",
+      "byte_identical": true
+    },
+    {
+      "source": "config/pipeline/review-attestation-record.v1.schema.json",
+      "copy": "config/pipeline/review-attestation-record.v1.schema.json",
+      "sha256": "0862459a7381b0a15072affcda7851628ebb65e7b25f4ed2144fbd92d8f09a28",
+      "byte_identical": true
+    },
+    {
+      "source": "LessonsLearned/ITERATIVE_DOCUMENTATION_STANDARD.md",
+      "copy": "LessonsLearned/ITERATIVE_DOCUMENTATION_STANDARD.md",
+      "sha256": "f28388829a62403559673de8427dbf9b63856a41c1a78059ef71c4cbcefc0fd1",
+      "byte_identical": true
+    },
+    {
+      "source": "docs/PROJECT_REMEDIATION_AUDIT_STANDARD.md",
+      "copy": "docs/standards/PROJECT_REMEDIATION_AUDIT_STANDARD.md",
+      "sha256": "8376b98ec5c73d847bc1bfb7433a353a0747e6da6108b0d5f2ba52906ecfc6c1",
+      "byte_identical": true
+    },
+    {
+      "source": "docs/REVIEW_ATTESTATION_STANDARD.md",
+      "copy": "docs/standards/REVIEW_ATTESTATION_STANDARD.md",
+      "sha256": "4fc8808819bcde76cd2ebe29915f1cb65db124a127589d0774c8e6fad25e178b",
+      "byte_identical": true
+    },
+    {
+      "source": "LessonsLearned/templates/LESSON_RECORD_TEMPLATE.md",
+      "copy": "LessonsLearned/templates/LESSON_RECORD_TEMPLATE.md",
+      "sha256": "82a82e9ae456b5c0742756497086f2c846b58738d03ae93d25ea9d356ee16cf6",
+      "byte_identical": true
+    },
+    {
+      "source": "LessonsLearned/templates/DECISION_RECORD_TEMPLATE.md",
+      "copy": "LessonsLearned/templates/DECISION_RECORD_TEMPLATE.md",
+      "sha256": "39edb2196c07921e9eb16def16c263bb669d15eca345becd67a812a6b3574fa1",
+      "byte_identical": true
+    },
+    {
+      "source": "LessonsLearned/templates/QUALITY_GATE_CHECKLIST.md",
+      "copy": "LessonsLearned/templates/QUALITY_GATE_CHECKLIST.md",
+      "sha256": "317e43f6bd484f1a6e4463548c5d326a75611fe5995c68ba5851a5a9b4bd429c",
+      "byte_identical": true
+    },
+    {
+      "source": "LessonsLearned/templates/RELEASE_APPROVAL_CHECKLIST.md",
+      "copy": "LessonsLearned/templates/RELEASE_APPROVAL_CHECKLIST.md",
+      "sha256": "0fe9724b408c6076e20bc2935ac118f2e2a73077d3019cb8943a9e3c61685ab4",
+      "byte_identical": true
+    },
+    {
+      "source": "LessonsLearned/templates/REMEDIATION_ITERATION.v2.json",
+      "copy": "LessonsLearned/templates/REMEDIATION_ITERATION.v2.json",
+      "sha256": "accb19251a13e07723133928da326ddc34aa8dd3e6deb49ab92a99da3bfbf254",
+      "byte_identical": true
+    },
+    {
+      "source": "LessonsLearned/templates/project-remediation-control.v2.json",
+      "copy": "LessonsLearned/templates/project-remediation-control.v2.json",
+      "sha256": "97cd33a7baf064c706b40fd7519c46b11a995d1bab6e5a33b8e03eddb8ca0866",
+      "byte_identical": true
+    }
+  ]
+}

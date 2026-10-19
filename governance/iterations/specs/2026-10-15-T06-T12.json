@@ -1,0 +1,72 @@
+[
+  {
+    "id": "IT-T06-01", "task_ids": ["T06"], "finding_ids": ["F10"], "scope": "saturation test", "state": "completed",
+    "started_at": "2026-10-15T22:25:00+00:00", "finished_at": "2026-10-15T23:15:00+00:00",
+    "hypothesis": {"claim": "A pure versioned analyzer over fresh-scan cycles, a background runner and a three-step UI satisfy SPEC-SAT-001 SAT-AC-01..10", "disconfirming_result": "Known-answer series give wrong events/statistics, noise triggers events, or a real 15-min run fails to complete", "prior_lessons": ["LL-2026-10-15-CORE-SCAN-PERSISTENCE"]},
+    "decision": {"options": ["Dedicated tab + pure analyzer", "Extend stationary session dialog"], "chosen": "Dedicated tab + pure analyzer", "why": "DR-0004/DR-0005; testability and UX", "rejected": ["Dialog extension (no room for scope/duration/thresholds/results)"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT", "EV-SPEC-SAT"], "files": {"input_sha256": "WirelessScanner.Application/SaturationAnalyzer.cs", "engine_sha256": "WirelessScanner.Application/SaturationTestRunner.cs", "context_sha256": "docs/SATURATION_TEST_SPEC.md", "test_sha256": "WirelessScanner.Tests/SaturationTests.cs"}},
+    "change": {"summary": "Saturation domain, analyzer SAT-ANALYTICS-1, builder/tracker, runner, repository (4 tables), PDF/CSV/JSON exports, SaturationTestView/ViewModel, UI render + preview tests, UX fixes", "artifact_evidence_ids": ["EV-T06-T12-CHANGE"], "scope_authority": "Owner request 2026-10-15; DR-0004, DR-0005"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build", "dotnet test hwbin/WirelessScanner.Tests.dll --filter Category=HardwareSaturation (15 min)", "UiRenderTests / ReportPreviewTests visual review"], "positive": ["Drop/peak/dropout/channel/strongest-AP known answers", "Hardware 15-min run Completed"], "negative": ["Noise below threshold -> no events", "Missing/unknown never in statistics", "Short series -> no trend finding"], "regression": ["All prior tests"], "result_evidence_ids": ["EV-T06-TEST", "EV-T06-HW", "EV-T06-UI"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Known-answer analytics", "Background hardware run from copied binaries", "In-process UI render review"], "what_failed": ["3 first-run test failures (1 real trend defect fixed)", "PDF preview license exception", "computer-use declined by owner"], "new_finding_ids": [], "residual_risk": ["Single adapter/location", "No usability study"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": "Fresh-scan + ordered writer from IT-T03/T04", "rerun_justification": null},
+    "lessons": {"record_ids": ["LL-2026-10-15-SATURATION-RELEASE"], "transferable_rule": "Make analytics pure and versioned; verify with known-answer AND negative series; validate visuals by rendering", "applicability_limits": "Windows WLAN client-side RSSI"},
+    "next_action": {"action": "Owner verifies DETECT and runs a usability walkthrough", "owner": "demitri.pevzner", "resume_condition": "Owner availability"}
+  },
+  {
+    "id": "IT-T07-01", "task_ids": ["T07"], "finding_ids": ["F04"], "scope": "data location", "state": "completed",
+    "started_at": "2026-10-15T23:00:00+00:00", "finished_at": "2026-10-15T23:05:00+00:00",
+    "hypothesis": {"claim": "Central AppPaths under ProgramData with copy-only migration removes working-directory dependence without data loss", "disconfirming_result": "Paths vary with working directory or migration overwrites existing data", "prior_lessons": []},
+    "decision": {"options": ["ProgramData", "LocalAppData", "Exe folder"], "chosen": "ProgramData", "why": "Elevated machine-wide tool; survives uninstall", "rejected": ["LocalAppData (splits data per user)", "Exe folder (Program Files, removed on uninstall)"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT"], "files": {"input_sha256": "WirelessScanner.Infrastructure/AppPaths.cs", "engine_sha256": "WirelessScanner.Infrastructure/AppLogger.cs", "context_sha256": "docs/decisions/DR-0006-data-location.md", "test_sha256": "WirelessScanner.Tests/AppPathsTests.cs"}},
+    "change": {"summary": "AppPaths; DbContext/logger/API/VM use it; startup migration; test isolation fixture", "artifact_evidence_ids": ["EV-T06-T12-CHANGE"], "scope_authority": "DR-0006"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build"], "positive": ["Paths_AreUnderDataDirectory_IndependentOfWorkingDirectory"], "negative": ["Migration_CopiesLegacyDbOnce_AndNeverOverwrites"], "regression": ["API key tests now use AppPaths"], "result_evidence_ids": ["EV-T06T09-TEST"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Env override enables portable use and isolated tests"], "what_failed": [], "new_finding_ids": [], "residual_risk": ["Real 1.0 upgrade not exercised"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": null, "rerun_justification": null},
+    "lessons": {"record_ids": ["LL-2026-10-15-SATURATION-RELEASE"], "transferable_rule": "Persistent state needs one path authority and copy-only migration", "applicability_limits": "Single-machine desktop apps"},
+    "next_action": {"action": "Verify upgrade from 1.0 during installer VM run", "owner": "demitri.pevzner", "resume_condition": "VM run approved"}
+  },
+  {
+    "id": "IT-T08-01", "task_ids": ["T08"], "finding_ids": ["F05"], "scope": "REST API security", "state": "completed",
+    "started_at": "2026-10-15T23:05:00+00:00", "finished_at": "2026-10-15T23:10:00+00:00",
+    "hypothesis": {"claim": "Header-only constant-time auth, no wildcard CORS and actionable start errors close F05 without breaking header-based clients", "disconfirming_result": "Query key accepted, wildcard CORS returned, or header clients fail", "prior_lessons": []},
+    "decision": {"options": ["Header-only", "Keep query key"], "chosen": "Header-only", "why": "Engine C-03 pushback on query-string secrets", "rejected": ["Query key (leaks to logs/history)"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT"], "files": {"input_sha256": "WirelessScanner.Infrastructure/RestApiServer.cs", "engine_sha256": "WirelessScanner.Domain/IRestApiServer.cs", "context_sha256": "docs/decisions/DR-0008-rest-api-security.md", "test_sha256": "WirelessScanner.Tests/ApiTests.cs"}},
+    "change": {"summary": "FixedTimeEquals, query key rejected, AllowedOrigin CORS, no-store, generic 500, LastError surfaced in UI, README key removed", "artifact_evidence_ids": ["EV-T06-T12-CHANGE"], "scope_authority": "DR-0008"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build --filter ApiTests"], "positive": ["Header key 200"], "negative": ["Query key 401", "Evil origin no CORS", "Prefix key rejected"], "regression": ["Live/stats endpoints"], "result_evidence_ids": ["EV-T06T09-TEST"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Port-conflict test reproduces the logged 1.0 failure"], "what_failed": [], "new_finding_ids": [], "residual_risk": ["1.0 key still valid until owner regenerates"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": null, "rerun_justification": null},
+    "lessons": {"record_ids": ["LL-2026-10-15-SATURATION-RELEASE"], "transferable_rule": "Never document real secrets; keys only in headers; compare in constant time", "applicability_limits": "Local HTTP APIs"},
+    "next_action": {"action": "Owner regenerates API key", "owner": "demitri.pevzner", "resume_condition": "Owner action"}
+  },
+  {
+    "id": "IT-T09-01", "task_ids": ["T09"], "finding_ids": ["F06"], "scope": "installer lifecycle", "state": "completed",
+    "started_at": "2026-10-15T23:15:00+00:00", "finished_at": "2026-10-15T23:40:00+00:00",
+    "hypothesis": {"claim": "A tested netstandard core plus a net48 wizard delivers update/repair/downgrade/modify/uninstall with data retention, integrity checks and no prerequisites", "disconfirming_result": "Core tests fail on stale removal, zip-slip, integrity or data preservation; release pipeline cannot produce <=20 MB parts", "prior_lessons": []},
+    "decision": {"options": ["net48 wizard + tested core", "Self-contained .NET setup", "MSI/MSIX"], "chosen": "net48 wizard + tested core", "why": "No prerequisite, small, testable logic", "rejected": ["Self-contained setup (~70 MB extra)", "MSI/MSIX (signing/toolchain decisions deferred)"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT"], "files": {"input_sha256": "WirelessScanner.Setup/Program.cs", "engine_sha256": "WirelessScanner.Setup.Core/InstallerCore.cs", "context_sha256": "docs/decisions/DR-0007-installer-lifecycle.md", "test_sha256": "WirelessScanner.Tests/InstallerCoreTests.cs"}},
+    "change": {"summary": "Setup.Core (VersionPolicy, PayloadAssembler, PackageExtractor+manifest, DataSafety, ShortcutPlanner, InstallPaths); net48 wizard with maintenance modes; build_release.py; LiveCharts and PDB removal", "artifact_evidence_ids": ["EV-T06-T12-CHANGE"], "scope_authority": "Owner request 2026-10-15; DR-0007"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build --filter InstallerCoreTests", "python tools/build_release.py --skip-tests"], "positive": ["Upgrade removes stale files", "Payload verifies"], "negative": ["Corrupt/missing part rejected", "Zip-slip entry skipped", "Unmanaged files untouched", "Dangerous folders rejected"], "regression": ["Full suite 108/108"], "result_evidence_ids": ["EV-T06T09-TEST", "EV-T09-RELEASE"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Core extraction made logic testable", "Release size regression caught by summary"], "what_failed": ["Text/Form.Text name clash", "System.Text.Json dependency bloat", "Test split bug", "84 MB PDB in first payload"], "new_finding_ids": [], "residual_risk": ["Installer never executed end-to-end"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": null, "rerun_justification": "RELEASE-1 is the second release build after removing LiveCharts/PDB (changed inputs)"},
+    "lessons": {"record_ids": ["LL-2026-10-15-SATURATION-RELEASE"], "transferable_rule": "Keep installer decisions in a testable library; verify payload integrity; never delete what you did not install", "applicability_limits": "Custom WinForms installers"},
+    "next_action": {"action": "Owner-approved VM run of the installer checklist", "owner": "demitri.pevzner", "resume_condition": "Approval and a test VM"}
+  },
+  {
+    "id": "IT-T12-01", "task_ids": ["T10", "T11", "T12", "T01"], "finding_ids": ["F07", "F11", "F12"], "scope": "tests, hygiene, documentation", "state": "completed",
+    "started_at": "2026-10-15T23:40:00+00:00", "finished_at": "2026-10-16T00:10:00+00:00",
+    "hypothesis": {"claim": "Every feature can be documented with an evidence label and every doc claim matches the code", "disconfirming_result": "A doc claim has no implementation or test", "prior_lessons": ["LL-2026-10-15-BASELINE-GOVERNANCE"]},
+    "decision": {"options": ["Fix code to match intended docs", "Weaken docs"], "chosen": "Fix code where cheap (elevation, API version); mark the rest Not implemented", "why": "Truthful docs without silently dropping requirements", "rejected": ["Claiming unbuilt features"]},
+    "reproduction": {"baseline_evidence_ids": ["EV-BL-AUDIT"], "files": {"input_sha256": "docs/USER_GUIDE.md", "engine_sha256": "docs/STATUS.md", "context_sha256": "docs/PROJECT_CONVENTIONS.md", "test_sha256": "WirelessScanner.Tests/UiRenderTests.cs"}},
+    "change": {"summary": "README, CHANGELOG, USER_GUIDE, TECHNICAL_REFERENCE, STATUS, DR-0006..0009, PLAN banners; UAC self-elevation; API version; label renames; Class1 stubs removed", "artifact_evidence_ids": ["EV-T06-T12-CHANGE", "EV-T12-DOCS"], "scope_authority": "Owner: 'ensure all of this app's features, functions, and relevant details are well documented'"},
+    "test": {"commands": ["dotnet test WirelessScanner.Tests --no-build", "doc-vs-code audit"], "positive": ["108/108 after doc-driven fixes"], "negative": ["Audit found 2 false claims -> fixed in code"], "regression": ["Full suite"], "result_evidence_ids": ["EV-FINAL-TEST"], "reviewer": "Claude Code self-check (not independent)", "independent": false},
+    "outcome": {"verdict": "passed", "what_worked": ["Doc audit as verification"], "what_failed": [], "new_finding_ids": [], "residual_risk": ["Docs need owner review"]},
+    "effort": {"unknown_reason": "Not measured"},
+    "reuse": {"similar_iteration_ids": [], "reuse_applied": null, "rerun_justification": "TEST-FINAL-1 reran after code changes from the doc audit"},
+    "lessons": {"record_ids": ["LL-2026-10-15-SATURATION-RELEASE"], "transferable_rule": "Audit every documentation claim against code before release; mark unbuilt scope explicitly", "applicability_limits": "Any project"},
+    "next_action": {"action": "Owner review of documentation and decisions", "owner": "demitri.pevzner", "resume_condition": "Owner availability"}
+  }
+]

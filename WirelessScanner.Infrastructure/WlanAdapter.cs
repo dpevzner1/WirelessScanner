@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Collections.Concurrent;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WirelessScanner.Domain;
 
 namespace WirelessScanner.Infrastructure;
 
-public class WlanAdapter : INetworkAdapterProvider
+public class WlanAdapter : INetworkAdapterProvider, IDisposable
 {
     private readonly IAppLogger _logger;
 
@@ -65,6 +67,34 @@ public class WlanAdapter : INetworkAdapterProvider
         bool bSecurityEnabled,
         IntPtr pReserved,
         out IntPtr ppWlanBssList);
+
+    // Scan-completion notifications (DR-0003). ACM source; codes 7 = scan_complete, 8 = scan_fail.
+    private const uint WLAN_NOTIFICATION_SOURCE_ACM = 0x00000008;
+    private const uint WLAN_NOTIFICATION_ACM_SCAN_COMPLETE = 7;
+    private const uint WLAN_NOTIFICATION_ACM_SCAN_FAIL = 8;
+
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    private delegate void WlanNotificationCallback(IntPtr pNotificationData, IntPtr pContext);
+
+    [DllImport("wlanapi.dll", SetLastError = true)]
+    private static extern uint WlanRegisterNotification(
+        IntPtr hClientHandle,
+        uint dwNotifSource,
+        bool bIgnoreDuplicate,
+        WlanNotificationCallback? funcCallback,
+        IntPtr pCallbackContext,
+        IntPtr pReserved,
+        out uint pdwPrevNotifSource);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct WLAN_NOTIFICATION_DATA
+    {
+        public uint NotificationSource;
+        public uint NotificationCode;
+        public Guid InterfaceGuid;
+        public uint dwDataSize;
+        public IntPtr pData;
+    }
 
     [StructLayout(LayoutKind.Sequential)]
     private struct WLAN_INTERFACE_INFO_LIST
@@ -165,6 +195,182 @@ public class WlanAdapter : INetworkAdapterProvider
         { "D8:EC:5E", "Cisco Systems" },
         { "E8:9F:80", "TP-Link" }
     };
+
+    #region Fresh scan cycles (DR-0003, findings F01/F13)
+
+    private readonly object _handleLock = new();
+    private IntPtr _notifyHandle = IntPtr.Zero;
+    private WlanNotificationCallback? _callback; // rooted for the lifetime of the registration
+    private readonly ConcurrentDictionary<Guid, TaskCompletionSource<(bool Ok, uint Reason)>> _pendingScans = new();
+    private bool _disposed;
+
+    private IntPtr EnsureNotificationHandle()
+    {
+        lock (_handleLock)
+        {
+            if (_disposed) throw new ObjectDisposedException(nameof(WlanAdapter));
+            if (_notifyHandle != IntPtr.Zero) return _notifyHandle;
+
+            uint result = WlanOpenHandle(2, IntPtr.Zero, out _, out IntPtr handle);
+            if (result != 0) throw new WlanApiException("WlanOpenHandle", result);
+
+            _callback = OnNotification;
+            result = WlanRegisterNotification(handle, WLAN_NOTIFICATION_SOURCE_ACM, true, _callback, IntPtr.Zero, IntPtr.Zero, out _);
+            if (result != 0)
+            {
+                WlanCloseHandle(handle, IntPtr.Zero);
+                _callback = null;
+                throw new WlanApiException("WlanRegisterNotification", result);
+            }
+            _notifyHandle = handle;
+            return handle;
+        }
+    }
+
+    private void OnNotification(IntPtr pData, IntPtr pContext)
+    {
+        try
+        {
+            var data = Marshal.PtrToStructure<WLAN_NOTIFICATION_DATA>(pData);
+            if (data.NotificationSource != WLAN_NOTIFICATION_SOURCE_ACM) return;
+            if (data.NotificationCode != WLAN_NOTIFICATION_ACM_SCAN_COMPLETE && data.NotificationCode != WLAN_NOTIFICATION_ACM_SCAN_FAIL) return;
+            if (!_pendingScans.TryGetValue(data.InterfaceGuid, out var tcs)) return;
+
+            uint reason = 0;
+            if (data.NotificationCode == WLAN_NOTIFICATION_ACM_SCAN_FAIL && data.pData != IntPtr.Zero && data.dwDataSize >= 4)
+            {
+                reason = (uint)Marshal.ReadInt32(data.pData);
+            }
+            tcs.TrySetResult((data.NotificationCode == WLAN_NOTIFICATION_ACM_SCAN_COMPLETE, reason));
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"WLAN notification callback error: {ex.Message}", ex);
+        }
+    }
+
+    private readonly ConcurrentDictionary<Guid, Task<ScanCycleResult>> _inflightScans = new();
+
+    /// <summary>
+    /// Concurrent callers for the same interface join the scan already in flight (finding F18): previously a second
+    /// call overwrote the first caller's pending-scan slot, so the first timed out as STALE. The shared scan runs
+    /// with its own timeout; an individual caller's cancellation only stops that caller waiting.
+    /// </summary>
+    public Task<ScanCycleResult> ScanAsync(Guid interfaceId, TimeSpan timeout, CancellationToken cancellationToken = default)
+    {
+        while (true)
+        {
+            if (_inflightScans.TryGetValue(interfaceId, out var existing)) return existing.WaitAsync(cancellationToken);
+            var tcs = new TaskCompletionSource<ScanCycleResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+            if (!_inflightScans.TryAdd(interfaceId, tcs.Task)) continue;
+            _ = RunSharedScanAsync(interfaceId, timeout, tcs);
+            return tcs.Task.WaitAsync(cancellationToken);
+        }
+    }
+
+    private async Task RunSharedScanAsync(Guid interfaceId, TimeSpan timeout, TaskCompletionSource<ScanCycleResult> tcs)
+    {
+        try
+        {
+            tcs.TrySetResult(await ScanCoreAsync(interfaceId, timeout, CancellationToken.None));
+        }
+        catch (Exception ex)
+        {
+            tcs.TrySetResult(ScanCycleResult.Failure(DateTime.UtcNow, "provider_exception", ex.Message));
+        }
+        finally
+        {
+            _inflightScans.TryRemove(new KeyValuePair<Guid, Task<ScanCycleResult>>(interfaceId, tcs.Task));
+        }
+    }
+
+    private async Task<ScanCycleResult> ScanCoreAsync(Guid interfaceId, TimeSpan timeout, CancellationToken cancellationToken)
+    {
+        var requested = DateTime.UtcNow;
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        IntPtr handle;
+        try
+        {
+            handle = await Task.Run(EnsureNotificationHandle, cancellationToken);
+        }
+        catch (WlanApiException ex)
+        {
+            _logger.Error($"Scan cycle setup failed: {ex.Message}", ex);
+            return ScanCycleResult.Failure(requested, ex.Code.ToString(), ex.Message);
+        }
+
+        var tcs = new TaskCompletionSource<(bool Ok, uint Reason)>(TaskCreationOptions.RunContinuationsAsynchronously);
+        _pendingScans[interfaceId] = tcs;
+        try
+        {
+            uint scanResult = await Task.Run(() =>
+            {
+                Guid g = interfaceId;
+                return WlanScan(handle, ref g, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            }, cancellationToken);
+
+            if (scanResult != 0)
+            {
+                _logger.Warn($"WlanScan failed for {interfaceId}: {WlanErrorText.Describe(scanResult)}");
+                return ScanCycleResult.Failure(requested, scanResult.ToString(), WlanErrorText.Describe(scanResult));
+            }
+
+            var completed = await Task.WhenAny(tcs.Task, Task.Delay(timeout, cancellationToken));
+            cancellationToken.ThrowIfCancellationRequested();
+
+            ScanCycleStatus status;
+            string? code = null, message = null;
+            if (completed == tcs.Task && tcs.Task.Result.Ok)
+            {
+                status = ScanCycleStatus.Fresh;
+            }
+            else if (completed == tcs.Task)
+            {
+                status = ScanCycleStatus.Stale;
+                code = "scan_fail";
+                message = $"Driver reported scan failure (WLAN reason code {tcs.Task.Result.Reason}); list may be cached.";
+            }
+            else
+            {
+                status = ScanCycleStatus.Stale;
+                code = "scan_timeout";
+                message = $"No scan-complete notification within {timeout.TotalSeconds:F0} s (scan throttled or busy); list may be cached.";
+            }
+
+            try
+            {
+                var list = await Task.Run(() => ReadBssList(handle, interfaceId), cancellationToken);
+                return new ScanCycleResult(status, requested, DateTime.UtcNow, sw.Elapsed.TotalMilliseconds, list, code, message);
+            }
+            catch (WlanApiException ex)
+            {
+                return ScanCycleResult.Failure(requested, ex.Code.ToString(), ex.Message);
+            }
+        }
+        finally
+        {
+            _pendingScans.TryRemove(new KeyValuePair<Guid, TaskCompletionSource<(bool Ok, uint Reason)>>(interfaceId, tcs));
+        }
+    }
+
+    public void Dispose()
+    {
+        lock (_handleLock)
+        {
+            if (_disposed) return;
+            _disposed = true;
+            if (_notifyHandle != IntPtr.Zero)
+            {
+                WlanRegisterNotification(_notifyHandle, 0, true, null, IntPtr.Zero, IntPtr.Zero, out _);
+                WlanCloseHandle(_notifyHandle, IntPtr.Zero);
+                _notifyHandle = IntPtr.Zero;
+            }
+            _callback = null;
+        }
+        GC.SuppressFinalize(this);
+    }
+
+    #endregion
 
     public Task<IEnumerable<NetworkInterfaceInfo>> GetInterfacesAsync()
     {
@@ -271,37 +477,255 @@ public class WlanAdapter : INetworkAdapterProvider
         });
     }
 
-    public Task<IEnumerable<AccessPoint>> GetAccessPointsAsync(Guid interfaceId)
+    [DllImport("wlanapi.dll", SetLastError = true)]
+    private static extern uint WlanQueryInterface(IntPtr hClientHandle, ref Guid pInterfaceGuid, uint opCode, IntPtr pReserved,
+        out uint pdwDataSize, out IntPtr ppData, IntPtr pWlanOpcodeValueType);
+
+    private const uint WlanIntfOpcodeCurrentConnection = 7;
+    private const uint WlanIntfOpcodeChannelNumber = 8;
+    private const uint WlanIntfOpcodeStatistics = 0x10000101;
+    private const uint WlanIntfOpcodeRssi = 0x10000102;
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    private struct WLAN_ASSOCIATION_ATTRIBUTES
     {
-        var apList = new List<AccessPoint>();
+        public DOT11_SSID dot11Ssid;
+        public uint dot11BssType;
+        public DOT11_MAC_ADDRESS dot11Bssid;
+        public uint dot11PhyType;
+        public uint uDot11PhyIndex;
+        public uint wlanSignalQuality;
+        public uint ulRxRate; // kbps
+        public uint ulTxRate; // kbps
+    }
 
-        uint negotiatedVersion;
-        IntPtr clientHandle = IntPtr.Zero;
-        IntPtr ppBssList = IntPtr.Zero;
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    private struct WLAN_CONNECTION_ATTRIBUTES
+    {
+        public uint isState;
+        public uint wlanConnectionMode;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+        public string strProfileName;
+        public WLAN_ASSOCIATION_ATTRIBUTES wlanAssociationAttributes;
+        // WLAN_SECURITY_ATTRIBUTES follows; not needed
+    }
 
+    internal static string InterfaceStateName(uint state) => state switch
+    {
+        0 => "not ready", 1 => "connected", 2 => "ad hoc network formed", 3 => "disconnecting", 4 => "disconnected",
+        5 => "associating", 6 => "discovering", 7 => "authenticating", _ => $"state {state}"
+    };
+
+    /// <summary>The PC's own association on this adapter (DR-0012): SSID, BSSID, PHY, signal quality, rx/tx rate and channel.</summary>
+    public Task<ClientConnectionInfo?> GetConnectionInfoAsync(Guid interfaceId) => Task.Run(() =>
+    {
+        IntPtr handle = IntPtr.Zero, data = IntPtr.Zero;
         try
         {
-            uint result = WlanOpenHandle(2, IntPtr.Zero, out negotiatedVersion, out clientHandle);
-            if (result != 0)
+            if (WlanOpenHandle(2, IntPtr.Zero, out _, out handle) != 0) return null;
+            Guid guid = interfaceId;
+            uint r = WlanQueryInterface(handle, ref guid, WlanIntfOpcodeCurrentConnection, IntPtr.Zero, out _, out data, IntPtr.Zero);
+            if (r != 0 || data == IntPtr.Zero)
+                return (ClientConnectionInfo?)new ClientConnectionInfo { Connected = false, State = r == 0x0000139F ? "disconnected" : $"unavailable (error {r})" };
+            var c = Marshal.PtrToStructure<WLAN_CONNECTION_ATTRIBUTES>(data);
+            var a = c.wlanAssociationAttributes;
+            string bssid = FormatMacAddress(a.dot11Bssid.ucDot11MacAddress);
+            string? ssid = a.dot11Ssid.uSSIDLength == 0 ? null : Encoding.UTF8.GetString(a.dot11Ssid.ucSSID, 0, (int)Math.Min(a.dot11Ssid.uSSIDLength, 32));
+            int? channel = null; string? band = null;
+            try
             {
-                throw new InvalidOperationException($"WlanOpenHandle failed with error code {result}");
+                var match = ReadBssList(handle, interfaceId).FirstOrDefault(ap => string.Equals(ap.BSSID, bssid, StringComparison.OrdinalIgnoreCase));
+                if (match != null) { channel = match.Channel; band = match.Band; }
             }
+            catch (WlanApiException) { /* channel stays unknown */ }
+            return new ClientConnectionInfo
+            {
+                Connected = c.isState == 1,
+                State = InterfaceStateName(c.isState),
+                Ssid = ssid,
+                Bssid = bssid,
+                PhyType = PhyName(a.dot11PhyType),
+                SignalQualityPct = (int)a.wlanSignalQuality,
+                RxRateMbps = a.ulRxRate / 1000.0,
+                TxRateMbps = a.ulTxRate / 1000.0,
+                Channel = channel,
+                Band = band
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.Warn($"Could not read the current connection: {ex.Message}");
+            return null;
+        }
+        finally
+        {
+            if (data != IntPtr.Zero) WlanFreeMemory(data);
+            if (handle != IntPtr.Zero) WlanCloseHandle(handle, IntPtr.Zero);
+        }
+    });
 
+    /// <summary>
+    /// Connection test link sample (DR-0014): current association (opcode 7), RSSI in dBm (msm opcode rssi), channel (opcode 8) and
+    /// WLAN_STATISTICS frame counters (msm opcode statistics) when the driver supports them. No scan, no BSS list; about 1 ms.
+    /// </summary>
+    public Task<WlanLinkReading?> ReadLinkAsync(Guid interfaceId) => Task.Run(() =>
+    {
+        IntPtr handle = IntPtr.Zero;
+        try
+        {
+            if (WlanOpenHandle(2, IntPtr.Zero, out _, out handle) != 0) return null;
+            Guid guid = interfaceId;
+            IntPtr data = IntPtr.Zero;
+            uint r = WlanQueryInterface(handle, ref guid, WlanIntfOpcodeCurrentConnection, IntPtr.Zero, out _, out data, IntPtr.Zero);
+            if (r != 0 || data == IntPtr.Zero)
+                return (WlanLinkReading?)new WlanLinkReading { Connected = false, State = r == 0x0000139F ? "disconnected" : $"unavailable (error {r})" };
+            WlanLinkReading reading;
+            try
+            {
+                var c = Marshal.PtrToStructure<WLAN_CONNECTION_ATTRIBUTES>(data);
+                var a = c.wlanAssociationAttributes;
+                reading = new WlanLinkReading
+                {
+                    Connected = c.isState == 1,
+                    State = InterfaceStateName(c.isState),
+                    Ssid = a.dot11Ssid.uSSIDLength == 0 ? null : Encoding.UTF8.GetString(a.dot11Ssid.ucSSID, 0, (int)Math.Min(a.dot11Ssid.uSSIDLength, 32)),
+                    Bssid = FormatMacAddress(a.dot11Bssid.ucDot11MacAddress),
+                    PhyType = PhyName(a.dot11PhyType),
+                    SignalQualityPct = (int)a.wlanSignalQuality,
+                    RxRateMbps = a.ulRxRate / 1000.0,
+                    TxRateMbps = a.ulTxRate / 1000.0
+                };
+            }
+            finally { WlanFreeMemory(data); }
+
+            int? QueryInt(uint opcode)
+            {
+                IntPtr p = IntPtr.Zero;
+                try
+                {
+                    if (WlanQueryInterface(handle, ref guid, opcode, IntPtr.Zero, out uint size, out p, IntPtr.Zero) != 0 || p == IntPtr.Zero || size < 4) return null;
+                    return Marshal.ReadInt32(p);
+                }
+                finally { if (p != IntPtr.Zero) WlanFreeMemory(p); }
+            }
+            int? rssi = QueryInt(WlanIntfOpcodeRssi);
+            if (rssi is not (< 0 and > -128) && reading.Connected && reading.Bssid != null)
+            {
+                // Some drivers do not support the RSSI opcode: use the associated BSS entry (cached list, no new scan).
+                try { rssi = ReadBssList(handle, interfaceId).FirstOrDefault(a => string.Equals(a.BSSID, reading.Bssid, StringComparison.OrdinalIgnoreCase))?.RSSI; }
+                catch (WlanApiException) { }
+            }
+            int? channel = QueryInt(WlanIntfOpcodeChannelNumber);
+            WlanFrameCounters? counters = null;
+            IntPtr stats = IntPtr.Zero;
+            try
+            {
+                if (WlanQueryInterface(handle, ref guid, WlanIntfOpcodeStatistics, IntPtr.Zero, out uint statSize, out stats, IntPtr.Zero) == 0 && stats != IntPtr.Zero)
+                {
+                    var bytes = new byte[statSize];
+                    Marshal.Copy(stats, bytes, 0, (int)statSize);
+                    counters = ParseWlanStatistics(bytes);
+                }
+            }
+            finally { if (stats != IntPtr.Zero) WlanFreeMemory(stats); }
+            return reading with { Rssi = rssi is int v && v < 0 && v > -128 ? v : null, Channel = channel is int ch && ch > 0 && ch < 256 ? ch : null, Counters = counters };
+        }
+        catch (Exception ex)
+        {
+            _logger.Warn($"Could not read the Wi-Fi link: {ex.Message}");
+            return null;
+        }
+        finally
+        {
+            if (handle != IntPtr.Zero) WlanCloseHandle(handle, IntPtr.Zero);
+        }
+    });
+
+    /// <summary>
+    /// WLAN_STATISTICS: 3 ULONGLONG (handshake failures, TKIP countermeasures, reserved), 2 × WLAN_MAC_FRAME_STATISTICS (12 ULONGLONG each),
+    /// DWORD dwNumberOfPhys (padded to 8), then dwNumberOfPhys × WLAN_PHY_FRAME_STATISTICS (18 ULONGLONG). Counters are summed over PHYs.
+    /// PHY layout: tx, mcast tx, failed, retry, multiple retry, max tx lifetime exceeded, tx fragment, RTS ok, RTS fail, ACK failure,
+    /// rx, mcast rx, promiscuous rx, max rx lifetime exceeded, duplicate, rx fragment, promiscuous fragment, FCS error. Null when absent.
+    /// </summary>
+    internal static WlanFrameCounters? ParseWlanStatistics(byte[] b)
+    {
+        const int phyOffset = 3 * 8 + 2 * 12 * 8 + 8;   // 224
+        const int phySize = 18 * 8;
+        if (b.Length < phyOffset) return null;
+        uint phys = BitConverter.ToUInt32(b, 3 * 8 + 2 * 12 * 8);
+        if (phys == 0 || phys > 64 || b.Length < phyOffset + phys * phySize) return null;
+        ulong tx = 0, retry = 0, failed = 0, ack = 0, rx = 0, fcs = 0;
+        for (int i = 0; i < phys; i++)
+        {
+            int o = phyOffset + i * phySize;
+            ulong U(int field) => BitConverter.ToUInt64(b, o + field * 8);
+            tx += U(0); failed += U(2); retry += U(3); ack += U(9); rx += U(10); fcs += U(17);
+        }
+        return tx == 0 && rx == 0 ? null : new WlanFrameCounters(tx, retry, failed, ack, rx, fcs);
+    }
+
+    /// <summary>
+    /// Driver version/date/provider from the network adapter class key whose NetCfgInstanceId is this interface (DR-0012).
+    /// Read-only registry access; null when not found.
+    /// </summary>
+    public AdapterDriverInfo? GetDriverInfo(Guid interfaceId)
+    {
+        try
+        {
+            const string classKey = @"SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}";
+            using var root = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(classKey);
+            if (root == null) return null;
+            foreach (var name in root.GetSubKeyNames())
+            {
+                using var k = root.OpenSubKey(name);
+                if (k?.GetValue("NetCfgInstanceId") is string id && Guid.TryParse(id, out var g) && g == interfaceId)
+                    return new AdapterDriverInfo(k.GetValue("DriverVersion") as string, k.GetValue("DriverDate") as string,
+                        k.GetValue("ProviderName") as string, k.GetValue("DriverDesc") as string);
+            }
+        }
+        catch (Exception ex) when (ex is System.Security.SecurityException or UnauthorizedAccessException or System.IO.IOException)
+        {
+            _logger.Warn($"Could not read adapter driver information: {ex.Message}");
+        }
+        return null;
+    }
+
+    public Task<IEnumerable<AccessPoint>> GetAccessPointsAsync(Guid interfaceId)
+    {
+        IntPtr clientHandle = IntPtr.Zero;
+        try
+        {
+            uint result = WlanOpenHandle(2, IntPtr.Zero, out _, out clientHandle);
+            if (result != 0) throw new WlanApiException("WlanOpenHandle", result);
+            return Task.FromResult<IEnumerable<AccessPoint>>(ReadBssList(clientHandle, interfaceId));
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"Error scanning access points: {ex.Message}", ex);
+            throw;
+        }
+        finally
+        {
+            if (clientHandle != IntPtr.Zero) WlanCloseHandle(clientHandle, IntPtr.Zero);
+        }
+    }
+
+    /// <summary>Reads the BSS list for an interface using an open client handle. Throws WlanApiException on API errors.</summary>
+    private List<AccessPoint> ReadBssList(IntPtr clientHandle, Guid interfaceId)
+    {
+        var apList = new List<AccessPoint>();
+        IntPtr ppBssList = IntPtr.Zero;
+        try
+        {
             Guid guid = interfaceId;
             // 3 = dot11_BSS_type_any
-            result = WlanGetNetworkBssList(clientHandle, ref guid, IntPtr.Zero, 3, false, IntPtr.Zero, out ppBssList);
-            if (result != 0)
-            {
-                throw new InvalidOperationException($"WlanGetNetworkBssList failed with error code {result}");
-            }
-
-            if (ppBssList == IntPtr.Zero)
-            {
-                return Task.FromResult<IEnumerable<AccessPoint>>(apList);
-            }
+            uint result = WlanGetNetworkBssList(clientHandle, ref guid, IntPtr.Zero, 3, false, IntPtr.Zero, out ppBssList);
+            if (result != 0) throw new WlanApiException("WlanGetNetworkBssList", result);
+            if (ppBssList == IntPtr.Zero) return apList;
 
             var bssList = Marshal.PtrToStructure<WLAN_BSS_LIST>(ppBssList);
             int entrySize = Marshal.SizeOf<WLAN_BSS_ENTRY>();
+            var nowUtc = DateTime.UtcNow;
 
             for (int i = 0; i < bssList.dwNumberOfItems; i++)
             {
@@ -311,11 +735,10 @@ public class WlanAdapter : INetworkAdapterProvider
                 string bssid = FormatMacAddress(entry.dot11Bssid.ucDot11MacAddress);
                 string ssid = entry.dot11Ssid.uSSIDLength == 0
                     ? "<Hidden SSID>"
-                    : Encoding.UTF8.GetString(entry.dot11Ssid.ucSSID, 0, (int)entry.dot11Ssid.uSSIDLength);
+                    : Encoding.UTF8.GetString(entry.dot11Ssid.ucSSID, 0, (int)Math.Min(entry.dot11Ssid.uSSIDLength, 32));
 
                 var (channel, band) = GetChannelAndBand(entry.ulChCenterFrequency);
 
-                // Copy IE bytes
                 byte[] ieBytes = Array.Empty<byte>();
                 if (entry.ulIeSize > 0 && entry.ulIeOffset > 0)
                 {
@@ -323,14 +746,7 @@ public class WlanAdapter : INetworkAdapterProvider
                     Marshal.Copy(IntPtr.Add(entryPtr, (int)entry.ulIeOffset), ieBytes, 0, (int)entry.ulIeSize);
                 }
 
-                int? channelWidth = ParseChannelWidth(ieBytes, band);
-                string security = ParseSecurity(ieBytes, entry.usCapabilityInformation);
-                string vendor = ResolveVendor(bssid);
-                string[] rates = ParseRates(ieBytes).ToArray();
-
                 int rssi = entry.lRssi;
-                int noiseFloor = -95;
-                int snr = rssi - noiseFloor;
 
                 apList.Add(new AccessPoint(
                     BSSID: bssid,
@@ -338,37 +754,140 @@ public class WlanAdapter : INetworkAdapterProvider
                     Hostname: null,
                     Band: band,
                     Channel: channel,
-                    ChannelWidth: channelWidth,
+                    ChannelWidth: ParseChannelWidth(ieBytes, band),
                     RSSI: rssi,
-                    NoiseFloor: noiseFloor,
-                    SNR: snr,
+                    // The WLAN API exposes no noise floor: it is UNAVAILABLE, and SNR is an ESTIMATE against
+                    // the assumed floor below (DR-0004, finding F09). Never present either as a measurement.
+                    NoiseFloor: null,
+                    SNR: rssi - AssumedNoiseFloorDbm,
                     Quality: (int)entry.uLinkQuality,
-                    SecurityType: security,
+                    SecurityType: ParseSecurity(ieBytes, entry.usCapabilityInformation),
                     NetworkType: "Infrastructure",
-                    VendorOUI: vendor,
-                    SupportedRates: rates,
-                    LastSeen: DateTime.UtcNow
-                ));
+                    VendorOUI: ResolveVendor(bssid),
+                    SupportedRates: ParseRates(ieBytes).ToArray(),
+                    LastSeen: nowUtc,
+                    BeaconAgeMs: BeaconAgeMs(entry.ullHostTimestamp, nowUtc)
+                )
+                {
+                    PhyType = PhyName(entry.dot11BssPhyType),
+                    BeaconIntervalTu = entry.usBeaconPeriod > 0 ? entry.usBeaconPeriod : null,
+                    CenterFrequencyMhz = entry.ulChCenterFrequency > 0 ? entry.ulChCenterFrequency / 1000.0 : null,
+                    TsfOffsetMs = TsfOffsetMs(entry.ullTimestamp, entry.ullHostTimestamp),
+                }.WithBssLoad(ParseBssLoad(ieBytes)).WithWps(ParseWps(ieBytes)));
             }
-        }
-        catch (Exception ex)
-        {
-            _logger.Error($"Error scanning access points: {ex.Message}", ex);
-            throw;
         }
         finally
         {
-            if (ppBssList != IntPtr.Zero)
-            {
-                WlanFreeMemory(ppBssList);
-            }
-            if (clientHandle != IntPtr.Zero)
-            {
-                WlanCloseHandle(clientHandle, IntPtr.Zero);
-            }
+            if (ppBssList != IntPtr.Zero) WlanFreeMemory(ppBssList);
         }
+        return apList;
+    }
 
-        return Task.FromResult<IEnumerable<AccessPoint>>(apList);
+    /// <summary>
+    /// TSF (microseconds, the AP radio's timer) minus host receive time (FILETIME, 100 ns since 1601), in ms.
+    /// Same radio -> same value within milliseconds (DR-0013). Null when either timestamp is missing.
+    /// </summary>
+    internal static double? TsfOffsetMs(ulong tsfMicroseconds, ulong hostFileTime) =>
+        tsfMicroseconds == 0 || hostFileTime == 0 ? null : tsfMicroseconds / 1000.0 - hostFileTime / 10_000.0;
+
+    public sealed record WpsInfo(string? Manufacturer, string? Model, string? ModelNumber, string? DeviceName, string? Uuid);
+
+    /// <summary>
+    /// WPS element (221, OUI 00:50:F2, type 4): big-endian TLVs. 0x1021 Manufacturer, 0x1023 Model Name, 0x1024 Model Number,
+    /// 0x1011 Device Name, 0x1047 UUID-E (16 bytes). Null when absent.
+    /// </summary>
+    internal static WpsInfo? ParseWps(byte[] ieBytes)
+    {
+        int offset = 0;
+        while (offset + 2 <= ieBytes.Length)
+        {
+            byte id = ieBytes[offset];
+            byte len = ieBytes[offset + 1];
+            int body = offset + 2;
+            if (body + len > ieBytes.Length) break;
+            if (id == 221 && len >= 4 && ieBytes[body] == 0x00 && ieBytes[body + 1] == 0x50 && ieBytes[body + 2] == 0xF2 && ieBytes[body + 3] == 0x04)
+            {
+                string? mfr = null, model = null, number = null, name = null, uuid = null;
+                for (int t = body + 4; t + 4 <= body + len;)
+                {
+                    int type = (ieBytes[t] << 8) | ieBytes[t + 1], l = (ieBytes[t + 2] << 8) | ieBytes[t + 3];
+                    if (t + 4 + l > body + len) break;
+                    string Text() => Encoding.UTF8.GetString(ieBytes, t + 4, l).Trim('\0', ' ');
+                    switch (type)
+                    {
+                        case 0x1021: mfr = Text(); break;
+                        case 0x1023: model = Text(); break;
+                        case 0x1024: number = Text(); break;
+                        case 0x1011: name = Text(); break;
+                        case 0x1047 when l == 16: uuid = new Guid(ieBytes.AsSpan(t + 4, 16), bigEndian: true).ToString(); break;
+                    }
+                    t += 4 + l;
+                }
+                static string? N(string? v) => string.IsNullOrWhiteSpace(v) ? null : v;
+                return new WpsInfo(N(mfr), N(model), N(number), N(name), uuid);
+            }
+            offset = body + len;
+        }
+        return null;
+    }
+
+    /// <summary>DOT11_PHY_TYPE -> 802.11 standard name (null = unknown/any).</summary>
+    internal static string? PhyName(uint phy) => phy switch
+    {
+        1 => "802.11 FHSS",
+        2 => "802.11 DSSS",
+        3 => "802.11 IR",
+        4 => "802.11a",
+        5 => "802.11b",
+        6 => "802.11g",
+        7 => "802.11n",
+        8 => "802.11ac",
+        9 => "802.11ad",
+        10 => "802.11ax",
+        11 => "802.11be",
+        _ => null
+    };
+
+    /// <summary>
+    /// BSS Load element (ID 11, length 5): station count (uint16 LE), channel utilization (0-255 = share of time the AP
+    /// sensed the medium busy), available admission capacity (uint16 LE, units of 32 us/s). Null when not advertised.
+    /// </summary>
+    internal static (int Stations, double UtilizationPct, int AdmissionCapacity)? ParseBssLoad(byte[] ieBytes)
+    {
+        int offset = 0;
+        while (offset + 2 <= ieBytes.Length)
+        {
+            byte id = ieBytes[offset];
+            byte len = ieBytes[offset + 1];
+            int body = offset + 2;
+            if (body + len > ieBytes.Length) break;
+            if (id == 11 && len >= 5)
+                return (ieBytes[body] | (ieBytes[body + 1] << 8), Math.Round(ieBytes[body + 2] * 100.0 / 255.0, 1), ieBytes[body + 3] | (ieBytes[body + 4] << 8));
+            offset = body + len;
+        }
+        return null;
+    }
+
+    /// <summary>Assumed noise floor used only to ESTIMATE SNR; never reported as a measurement.</summary>
+    public const int AssumedNoiseFloorDbm = WirelessScannerConstants.AssumedNoiseFloorDbm;
+
+    /// <summary>
+    /// ullHostTimestamp is documented as 100-ns intervals since 1601-01-01 (FILETIME, UTC).
+    /// Returns null when the value is implausible so callers treat freshness as unknown.
+    /// </summary>
+    internal static double? BeaconAgeMs(ulong hostTimestamp, DateTime nowUtc)
+    {
+        if (hostTimestamp == 0 || hostTimestamp > (ulong)DateTime.MaxValue.ToFileTimeUtc()) return null;
+        try
+        {
+            var seen = DateTime.FromFileTimeUtc((long)hostTimestamp);
+            var age = (nowUtc - seen).TotalMilliseconds;
+            return age is < -60_000 or > 86_400_000 ? null : Math.Max(0, age);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return null;
+        }
     }
 
     public async Task<WiredInterfaceStats> GetWiredStatsAsync(Guid interfaceId)
@@ -428,7 +947,7 @@ public class WlanAdapter : INetworkAdapterProvider
     }
 
     #region Helper Methods
- 
+
     private static bool IsVirtualOrFilter(NetworkInterface ni)
     {
         string[] filterKeywords = {
@@ -454,7 +973,7 @@ public class WlanAdapter : INetworkAdapterProvider
         return string.Join(":", macBytes.Select(b => b.ToString("X2")));
     }
 
-    private static (int Channel, string Band) GetChannelAndBand(uint frequencyKHz)
+    internal static (int Channel, string Band) GetChannelAndBand(uint frequencyKHz)
     {
         double freqMHz = frequencyKHz / 1000.0;
         if (freqMHz >= 2412 && freqMHz <= 2484)
@@ -469,101 +988,150 @@ public class WlanAdapter : INetworkAdapterProvider
         }
         else if (freqMHz >= 5955 && freqMHz <= 7115)
         {
-            int channel = (int)((freqMHz - 5940) / 5);
+            // 6 GHz: channel = (f - 5950) / 5, so 5955 MHz = channel 1 (finding F15; was 5940)
+            int channel = (int)((freqMHz - 5950) / 5);
             return (channel, "6 GHz");
         }
         return (0, "Unknown");
     }
 
-    private static int? ParseChannelWidth(byte[] ieBytes, string band)
+    /// <summary>
+    /// Operating channel width in MHz from the beacon's OPERATION elements (finding F16):
+    /// HT Operation (61), VHT Operation (192), HE Operation 6 GHz info (255/ext 36).
+    /// Returns null when no operation element is present (unknown), never a guessed value.
+    /// </summary>
+    internal static int? ParseChannelWidth(byte[] ieBytes, string band)
     {
-        int? width = 20;
+        int? width = null;
+        int? vhtWidth = null;
+        int? he6Width = null;
         int offset = 0;
 
-        while (offset < ieBytes.Length - 1)
+        while (offset + 2 <= ieBytes.Length)
         {
             byte id = ieBytes[offset];
             byte len = ieBytes[offset + 1];
-            if (offset + 2 + len > ieBytes.Length) break;
+            int body = offset + 2;
+            if (body + len > ieBytes.Length) break;
 
-            if (id == 45 && len >= 2)
+            if (id == 61 && len >= 2)
             {
-                byte htCapInfo = ieBytes[offset + 2];
-                if ((htCapInfo & 0x02) != 0)
+                // HT Operation: byte0 primary channel; byte1 bits0-1 secondary channel offset, bit2 STA channel width
+                byte info = ieBytes[body + 1];
+                bool fortyMhz = (info & 0x03) != 0 && (info & 0x04) != 0;
+                width = Math.Max(width ?? 0, fortyMhz ? 40 : 20);
+            }
+            else if (id == 192 && len >= 3)
+            {
+                // VHT Operation: byte0 channel width (0 = 20/40, 1 = 80/160/80+80, 2 = 160 deprecated, 3 = 80+80 deprecated)
+                byte chWidth = ieBytes[body];
+                byte ccfs0 = ieBytes[body + 1];
+                byte ccfs1 = ieBytes[body + 2];
+                vhtWidth = chWidth switch
                 {
-                    width = 40;
+                    1 when ccfs1 != 0 && Math.Abs(ccfs1 - ccfs0) == 8 => 160,
+                    1 when ccfs1 != 0 && Math.Abs(ccfs1 - ccfs0) > 16 => 160, // 80+80 reported as 160 MHz total
+                    1 => 80,
+                    2 or 3 => 160,
+                    _ => null
+                };
+            }
+            else if (id == 255 && len >= 7 && ieBytes[body] == 36)
+            {
+                // HE Operation (extension 36): params (3 bytes LE) after the ext id
+                int p = body + 1;
+                int parameters = ieBytes[p] | (ieBytes[p + 1] << 8) | (ieBytes[p + 2] << 16);
+                int cursor = p + 3 + 1 + 2; // params + BSS color + basic HE-MCS/NSS
+                if ((parameters & (1 << 14)) != 0) cursor += 3; // VHT Operation Information present
+                if ((parameters & (1 << 15)) != 0) cursor += 1; // Co-Hosted BSS present
+                if ((parameters & (1 << 17)) != 0 && cursor + 5 <= body + len)
+                {
+                    int control = ieBytes[cursor + 1] & 0x03;
+                    he6Width = control switch { 0 => 20, 1 => 40, 2 => 80, _ => 160 };
                 }
             }
-            else if (id == 192 && len >= 2)
-            {
-                byte vhtOperationInfo = ieBytes[offset + 2];
-                if (vhtOperationInfo == 1) width = 80;
-                else if (vhtOperationInfo == 2) width = 160;
-            }
 
-            offset += 2 + len;
+            offset = body + len;
         }
 
-        if (band == "6 GHz")
-        {
-            return width == 20 ? 80 : width;
-        }
-
-        return width;
+        if (band == "6 GHz") return he6Width;
+        return vhtWidth is int v && v > (width ?? 0) ? v : width;
     }
 
-    private static string ParseSecurity(byte[] ieBytes, ushort capabilityInfo)
+    private static readonly Dictionary<byte, string> AkmNames = new()
+    {
+        [1] = "802.1X", [2] = "PSK", [3] = "FT-802.1X", [4] = "FT-PSK", [5] = "802.1X-SHA256", [6] = "PSK-SHA256",
+        [8] = "SAE", [9] = "FT-SAE", [11] = "802.1X-SuiteB", [12] = "802.1X-SuiteB-192", [13] = "FT-802.1X-SHA384",
+        [18] = "OWE", [24] = "SAE-EXT-KEY", [25] = "FT-SAE-EXT-KEY"
+    };
+
+    /// <summary>
+    /// Security label from the capability Privacy bit plus RSN (48) and WPA vendor (221) elements, using the
+    /// advertised AKM suites (finding F17): Enterprise (802.1X) is no longer mislabelled as PSK.
+    /// </summary>
+    internal static string ParseSecurity(byte[] ieBytes, ushort capabilityInfo)
     {
         bool isPrivacy = (capabilityInfo & 0x0010) != 0;
-        if (!isPrivacy) return "Open";
-
+        var akms = new HashSet<byte>();
         bool hasRsn = false;
         bool hasWpa = false;
-        bool isWpa3 = false;
 
         int offset = 0;
-        while (offset < ieBytes.Length - 1)
+        while (offset + 2 <= ieBytes.Length)
         {
             byte id = ieBytes[offset];
             byte len = ieBytes[offset + 1];
-            if (offset + 2 + len > ieBytes.Length) break;
+            int body = offset + 2;
+            if (body + len > ieBytes.Length) break;
 
-            if (id == 48)
+            if (id == 48 && len >= 2)
             {
                 hasRsn = true;
-                for (int i = 0; i < len - 3; i++)
+                // version(2) group(4) pairwise count(2) pairwise list(4n) AKM count(2) AKM list(4m)
+                int c = body + 2 + 4;
+                if (c + 2 <= body + len)
                 {
-                    if (ieBytes[offset + 2 + i] == 0x00 &&
-                        ieBytes[offset + 2 + i + 1] == 0x0F &&
-                        ieBytes[offset + 2 + i + 2] == 0xAC &&
-                        ieBytes[offset + 2 + i + 3] == 0x08)
+                    int pairwise = ieBytes[c] | (ieBytes[c + 1] << 8);
+                    c += 2 + 4 * pairwise;
+                    if (c + 2 <= body + len)
                     {
-                        isWpa3 = true;
-                        break;
+                        int akmCount = ieBytes[c] | (ieBytes[c + 1] << 8);
+                        c += 2;
+                        for (int i = 0; i < akmCount && c + 4 <= body + len; i++, c += 4)
+                        {
+                            if (ieBytes[c] == 0x00 && ieBytes[c + 1] == 0x0F && ieBytes[c + 2] == 0xAC)
+                            {
+                                akms.Add(ieBytes[c + 3]);
+                            }
+                        }
                     }
                 }
             }
-            else if (id == 221 && len >= 4)
+            else if (id == 221 && len >= 4 && ieBytes[body] == 0x00 && ieBytes[body + 1] == 0x50 && ieBytes[body + 2] == 0xF2 && ieBytes[body + 3] == 0x01)
             {
-                if (ieBytes[offset + 2] == 0x00 &&
-                    ieBytes[offset + 2 + 1] == 0x50 &&
-                    ieBytes[offset + 2 + 2] == 0xF2 &&
-                    ieBytes[offset + 2 + 3] == 0x01)
-                {
-                    hasWpa = true;
-                }
+                hasWpa = true;
             }
 
-            offset += 2 + len;
+            offset = body + len;
         }
 
-        if (isWpa3) return "WPA3-PSK";
-        if (hasRsn) return "WPA2-PSK";
-        if (hasWpa) return "WPA-PSK";
-        return "WEP";
+        bool sae = akms.Contains(8) || akms.Contains(9) || akms.Contains(24) || akms.Contains(25);
+        bool psk = akms.Contains(2) || akms.Contains(4) || akms.Contains(6);
+        bool dot1x = akms.Contains(1) || akms.Contains(3) || akms.Contains(5) || akms.Contains(13);
+
+        if (akms.Contains(18)) return "OWE (Enhanced Open)";
+        if (!isPrivacy && !hasRsn && !hasWpa) return "Open";
+        if (akms.Contains(12) || akms.Contains(11)) return "WPA3-Enterprise-192";
+        if (sae && psk) return "WPA2/WPA3-Personal";
+        if (sae) return "WPA3-Personal";
+        if (dot1x) return hasRsn ? "WPA2-Enterprise" : "WPA-Enterprise";
+        if (psk) return "WPA2-Personal";
+        if (hasRsn) return "WPA2 (unknown AKM)";
+        if (hasWpa) return "WPA-Personal";
+        return isPrivacy ? "WEP" : "Open";
     }
 
-    private static List<string> ParseRates(byte[] ieBytes)
+    internal static List<string> ParseRates(byte[] ieBytes)
     {
         var rates = new List<string>();
         int offset = 0;
@@ -601,4 +1169,11 @@ public class WlanAdapter : INetworkAdapterProvider
     }
 
     #endregion
+}
+
+/// <summary>A WLAN API call returned a non-zero Win32 error code.</summary>
+public sealed class WlanApiException : Exception
+{
+    public uint Code { get; }
+    public WlanApiException(string api, uint code) : base($"{api}: {WlanErrorText.Describe(code)}") => Code = code;
 }

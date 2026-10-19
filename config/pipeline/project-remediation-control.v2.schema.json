@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reusable project remediation audit control v2",
+  "type": "object",
+  "required": [
+    "schema",
+    "project_id",
+    "baseline",
+    "scope",
+    "control_contract",
+    "evidence",
+    "findings",
+    "tasks",
+    "events",
+    "qualification",
+    "iterations",
+    "optimization",
+    "audit_reviews",
+    "audit_dimensions"
+  ],
+  "properties": {
+    "schema": {
+      "const": "project_remediation_control.v2"
+    },
+    "iterations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "task_ids",
+          "finding_ids",
+          "scope",
+          "state",
+          "started_at",
+          "finished_at",
+          "hypothesis",
+          "decision",
+          "reproduction",
+          "change",
+          "test",
+          "outcome",
+          "effort",
+          "reuse",
+          "lessons",
+          "next_action"
+        ],
+        "properties": {}
+      }
+    },
+    "audit_reviews": {
+      "type": "array"
+    },
+    "audit_dimensions": {
+      "type": "array",
+      "minItems": 12
+    },
+    "optimization": {
+      "type": "object",
+      "required": [
+        "measurement_policy",
+        "metrics",
+        "review_questions",
+        "improvement_proposals"
+      ],
+      "properties": {}
+    },
+    "tasks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "sequence",
+          "depends_on",
+          "finding_ids",
+          "status",
+          "owner",
+          "accomplishes",
+          "acceptance",
+          "work_packages",
+          "verification_plan",
+          "risk_and_resume"
+        ],
+        "properties": {
+          "work_packages": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "action",
+                "exit_check",
+                "status",
+                "evidence_ids"
+              ],
+              "properties": {}
+            }
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "priority",
+          "title",
+          "status",
+          "evidence",
+          "task_ids",
+          "analysis"
+        ],
+        "properties": {
+          "analysis": {
+            "type": "object",
+            "required": [
+              "symptom",
+              "reproduction",
+              "impact",
+              "root_cause",
+              "cause_confidence",
+              "contributing_conditions",
+              "rejected_explanations",
+              "counterexample_or_disconfirmation",
+              "recurrence_signature",
+              "lesson_ids"
+            ],
+            "properties": {}
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "path",
+          "sha256",
+          "scope",
+          "kind",
+          "producer",
+          "captured_at",
+          "claim_limit"
+        ],
+        "properties": {}
+      }
+    }
+  }
+}

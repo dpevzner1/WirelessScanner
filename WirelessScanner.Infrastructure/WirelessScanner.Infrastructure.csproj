@@ -1,8 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <ProjectReference Include="..\WirelessScanner.Domain\WirelessScanner.Domain.csproj" />
     <ProjectReference Include="..\WirelessScanner.Application\WirelessScanner.Application.csproj" />
+    <ProjectReference Include="..\WirelessScanner.Responder.Core\WirelessScanner.Responder.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,5 +18,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="WirelessScanner.Tests" />
+  </ItemGroup>
 
 </Project>

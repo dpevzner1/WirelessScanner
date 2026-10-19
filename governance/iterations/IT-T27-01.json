@@ -1,0 +1,134 @@
+{
+  "id": "IT-T27-01",
+  "task_ids": [
+    "T27"
+  ],
+  "finding_ids": [
+    "F30"
+  ],
+  "scope": "Android port: design, core port with C# parity fixtures, preview build on the tablet",
+  "state": "completed",
+  "started_at": "2026-10-19T02:42:03+00:00",
+  "finished_at": "2026-10-19T13:27:33+00:00",
+  "hypothesis": {
+    "claim": "A pure Kotlin core reproduces every Windows analytic, report and protocol result exactly, so the Android platform layer only supplies data",
+    "disconfirming_result": "Any parity fixture differs, or core needs Android APIs",
+    "prior_lessons": [
+      "LL-2026-10-18-CONNECTION-TEST",
+      "LL-2026-10-18-PHYSICAL-UNITS"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Native Kotlin + Compose with JVM core",
+      "Cross-platform UI",
+      "WebView wrapper"
+    ],
+    "chosen": "Native Kotlin + Compose with JVM core",
+    "why": "Owner choice; Wi-Fi APIs and lifecycle are native; core testable without a device",
+    "rejected": [
+      "Cross-platform UI (Wi-Fi APIs still native)",
+      "WebView (no Wi-Fi access)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-1.5-RELEASE"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "WirelessScanner.Tests/AndroidParityFixtures.cs",
+      "engine_sha256": "AndroidApp/core/src/main/kotlin/com/wirelessscanner/core/analytics/SaturationAnalyzer.kt",
+      "context_sha256": "docs/decisions/DR-0015-android-port.md",
+      "test_sha256": "AndroidApp/core/src/test/kotlin/com/wirelessscanner/core/parity/ParityTests.kt"
+    }
+  },
+  "change": {
+    "summary": "core module (domain, analytics, selection, runtime, responder, report, api, ie, net, forms), C# fixture generator, preview app, UX spec, parity matrix",
+    "artifact_evidence_ids": [
+      "EV-ANDROID-CORE-PARITY-1",
+      "EV-ANDROID-DEPLOY-GATE-3"
+    ],
+    "scope_authority": "Owner 2026-10-19: create the Android APK, all features one for one"
+  },
+  "test": {
+    "commands": [
+      "dotnet test --filter Category=AndroidParity",
+      "gradlew :core:test",
+      "tools/android_deploy.ps1 -Install"
+    ],
+    "positive": [
+      "7 parity suites equal C#",
+      "preview2 installed, foreground, visible"
+    ],
+    "negative": [
+      "tampered UDP packet rejected",
+      "wrong responder key rejected",
+      "API key in query refused",
+      "unauthorized device: install blocked"
+    ],
+    "regression": [
+      "Windows suite unaffected (fixture test is explicit)"
+    ],
+    "result_evidence_ids": [
+      "EV-ANDROID-CORE-PARITY-1",
+      "EV-ANDROID-DEPLOY-GATE-3"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "C#-generated fixtures with exact JSON-tree comparison"
+    ],
+    "what_failed": [
+      "JSON redaction too broad (fixed)",
+      "lazy LINQ in the fixture generator (fixed)",
+      "null strings round-tripped as empty (fixed)",
+      "black-screen preview (fixed)"
+    ],
+    "new_finding_ids": [
+      "F32"
+    ],
+    "residual_risk": [
+      "Platform layer and screens not built"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured"
+  },
+  "reuse": {
+    "similar_iteration_ids": [
+      "IT-T24-01"
+    ],
+    "reuse_applied": "Windows analytics and protocols ported unchanged; reference export/UX lessons",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-19-ANDROID-PORT"
+    ],
+    "transferable_rule": "Let the source implementation generate parity answers and snapshot them eagerly",
+    "applicability_limits": "Ports between runtimes"
+  },
+  "next_action": {
+    "action": "Build the Android platform layer and screens",
+    "owner": "Claude Code",
+    "resume_condition": "Preflight shows device"
+  }
+}

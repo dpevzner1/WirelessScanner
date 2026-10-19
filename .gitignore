@@ -26,3 +26,13 @@ api_key.txt
 
 # Logs
 *.log
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Local Claude/agent state
+.claude/
+
+# Release build products
+artifacts/

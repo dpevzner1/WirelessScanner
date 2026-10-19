@@ -1,0 +1,128 @@
+# Status — WirelessScanner 1.5 (2026-10-18)
+
+Evidence labels follow [`PROJECT_CONVENTIONS.md` §3](PROJECT_CONVENTIONS.md):
+- **Validated**: automated test or recorded harness;
+- **Observed**: seen in a real run, not under an approved test;
+- **Designed**: implemented or documented, awaiting environment, review or approval;
+- **Blocked**: requires evidence or authority that doesn't exist yet;
+- **Not implemented**: backlog.
+
+This file is a human-readable projection of `config/pipeline/wirelessscanner-remediation-control.json`. When they disagree, the control file wins and this file must be fixed.
+
+**Test suite:** 249/249 passing (`RV-2026-10-18-RELEASE-1.5.0`, step TEST-1.5-FULL-1). **Independent review:** Blocked (no reviewer assigned).
+
+**Releases:**
+- **1.3.0:** built; installed by the owner; REST API verified live (12/12).
+- **1.3.1:** built; never installed. Its fixes ship in 1.4.0.
+- **1.4.0:** physical access points (DR-0013). Built in `RV-2026-10-18-RELEASE-1.4.0`; never installed. Its features ship in 1.5.0.
+- **1.5.0:** connection test, stages A, B and C (DR-0014).
+  - Built in `RV-2026-10-18-RELEASE-1.5.0`.
+  - Installation and live review pending the owner.
+
+**1.2 redesign parity:** every 1.1 Live Survey and Saturation Test capability is accounted for in [`PARITY_CHECKLIST.md`](PARITY_CHECKLIST.md) (42 rows, all Validated).
+
+## Original requirements (PLAN/01_PROJECT_SCOPE.md)
+
+| ID | Requirement | State | Evidence / note |
+| --- | --- | --- | --- |
+| FR-01 | Enumerate adapters; PnP refresh; active selection | Validated (enumeration, selection) · Observed (PnP refresh in code; not exercised) | `WM_DEVICECHANGE` → reload |
+| FR-01 | Wired fallback mode | **Not implemented** | Wired adapters are filtered out of the list; the 1.0 fake-RSSI path was removed (F09). Backlog |
+| FR-02 | SSID / AP modes, tracking selection | Validated | 1.2: grouped explorer (whole SSIDs or single APs, one shared selection); `NetworkSelectionTests`, `NetworkExplorerTests`, legacy filtering tests |
+| FR-03 | BSSID, SSID, band, channel, width, RSSI, quality, security, vendor, last seen | Validated (parsers, vectors) · Observed (hardware HW-PROBE-1) | F15–F17 fixed |
+| FR-03 | SNR | Validated as **estimated** | The noise floor is unavailable from the API |
+| FR-03 | Hostname; network type (mesh/ad-hoc) | **Not implemented** | Not exposed by the WLAN API: hostname is always empty and network type is always "Infrastructure" |
+| FR-03 | Supported rates | Validated (parser) | Available in `/api/live`; not shown in the UI grid |
+| FR-04 | Band filter (2.4 / 5 / all) | Validated (1.2) | Explorer chips 2.4/5/6 GHz and spectrum band selector All/2.4/5/6; `Groups_TriState_Hidden_Filters_Search_Sort`, `SpectrumBands_AllShows6GhzOnlyWhenHeard` |
+| FR-05 | Start / pause / stop sessions, searchable metadata, database size | Validated (lifecycle, search) · Observed (database size display) | — |
+| FR-06 | Roaming survey with survey points | Validated (capture) | The zone is set at session start |
+| FR-07 | Stationary monitoring: min, max, mean, σ, jitter | Validated, superseded by the **Saturation Test** | See SAT-AC below |
+| FR-08 | Signal timeline, channel map, AP detail, health metrics | Validated (history timeline, spectrum and waterfall renders, `SpectrumLayoutTests`) · Observed (UI) | 1.2: width-true channel map with load strip, least-busy channel, DFS shading, waterfall |
+| FR-08 | Band balance chart; mesh radar chart | **Not implemented** | Backlog |
+| FR-09/10 | CSV / JSON export | Validated | Headers renamed in 1.1 (see CHANGELOG) |
+| FR-11 | PDF with cover details, statistics, timeline, sample table | Validated | Band-balance and radar pages not implemented |
+| NFR-01 | Standalone executable, no prerequisites | Validated (self-contained publish, net48 setup builds) · **Blocked** (installer end-to-end run needs owner approval) | RELEASE-1 |
+| NFR-02 | DPI-aware, responsive layout | Designed | No DPI matrix test (100–200%) yet |
+| NFR-03 | Scan cycle ≤ 2 s, responsive UI, 100+ APs | **Deliberate deviation (DR-0003):** a 5 s interval, because Windows cannot deliver fresh data faster · Observed: scans take 1.0–3.5 s · Designed: 100+ APs (37 seen on hardware) | — |
+| NFR-04 | Portable; administrator elevation prompt | Validated (data-directory override) · Designed (UAC relaunch, not run in automation) | — |
+| NFR-05 | No data loss; atomic exports | Validated (ordering + mutation check; saturation exports atomic) · **Designed** (1.0 session exports still write directly) | Backlog (see Open follow-ups) |
+| Retention | Purge sessions by age | Designed (repository method only) · **Not implemented** (no UI) | Backlog |
+
+## Saturation test acceptance (SPEC-SAT-001 §10)
+
+| ID | State | Evidence |
+| --- | --- | --- |
+| SAT-AC-01 Fresh scan per cycle; cycle status recorded | Validated · Observed | Runner tests; HW-SAT-1 (159 fresh / 16 stale / 0 failed in 15 min) |
+| SAT-AC-02 Missing and stale never numeric | Validated | Builder and analyzer tests; CSV includes missing rows |
+| SAT-AC-03 Event detection, including negatives | Validated | Drop, peak, dropout, channel change, strongest-AP; noise produces no events |
+| SAT-AC-04 Statistics match hand-computed values | Validated | Percentiles, σ, availability, exposure, slope |
+| SAT-AC-05 Runs for its duration without blocking the UI; keep-awake | Validated (runner, pause excludes time) · Observed (15-min hardware run) | — |
+| SAT-AC-06 Exports complete | Validated | PDF, 5 CSV files, JSON; visual review of the PDF render |
+| SAT-AC-07 Setup validation | Validated | `SaturationViewModelTests` |
+| SAT-AC-08 Results survive restart | Validated | Repository round-trip and re-analysis |
+| SAT-AC-09 Text labels with colour; confirmation on stop | Validated | Tile labels and stop-confirmation tests; UI render review |
+| SAT-AC-10 Hardware ≥ 15 min with a known AP | **Observed** | HW-SAT-1: 15 min on Intel AC 7265, grade A, σ 0.86 dB, availability 100% (redacted summary in `governance/evidence/hardware/`) |
+| Geolocation in all exports | Validated | `GeoTagTests` |
+| Geolocation DETECT with the real Windows Location service | **Blocked** | Owner to verify on their machine (location permission) |
+| Usability study with real users | **Blocked** | Owner to arrange |
+
+## Remediation findings (baseline 2026-10-15)
+
+| Finding | State |
+| --- | --- |
+| F01 fresh scans · F02 write race · F03 UI-thread scanning | Validated (implemented; awaiting independent review) |
+| F04 data location | Validated |
+| F05 API security | Validated (code). **Owner action:** regenerate the API key published in 1.0 |
+| F06 installer lifecycle | Validated (core logic, 12 tests) · Blocked (end-to-end run) |
+| F07 docs vs code | Validated (this documentation set); continuous |
+| F08 repository sync | Validated |
+| F09 sentinel values · F14 units · F15 6 GHz · F16 width · F17 security | Validated |
+| F10 saturation test | Validated / Observed (above) |
+| F11 clutter | Validated (stubs, LiveCharts and PDB removed) · `publish/*.exe.old` and `publish/libSkiaSharp.pdb` remain in the owner's local folder (not deleted without approval) |
+| F12 test gaps | Validated (20 → 108 tests) |
+| F13 adapter loss | Validated |
+| F18 concurrent scans clash on the shared adapter | Validated (`SingleFlight_…`; mutation checks MUT-F18-1/-2 kill the old behaviour) · Observed (HW-F18-1/-2: 3 concurrent requests → 1 scan; live + test 8/8 and 7/7 fresh, 0 failed) |
+| F19 duplicated, outdated selection UX | Validated (explorer + shared selection, parity checklist) · usability with real users: Blocked (owner to arrange) |
+| F20 monotone, geometrically inaccurate spectrum | Validated (`SpectrumLayoutTests`, renders) |
+| F21 legacy list echoed whole-SSID selections as BSSIDs (live finding) | Validated (regression test; fix in 1.3.0) |
+| F22 setup ignored the Apps & features entry when detecting an install | Validated (`InstallDetectorTests` incl. read-only probe of the real registry) · installer run of 1.3.0: Blocked pending the owner running it |
+| F23 app icon missing (borrowed icon in setup, none in the app) | Designed (assets and pipeline; setup icon replaced) · **Blocked**: embedding in the app is quarantined by Malwarebytes ML (owner decision) |
+| F24 report precision/completeness (active time, exposure, trend, neighbours, provenance, chart legibility) | Validated (`ReportPrecisionTests`; live report regenerated from a DB copy and reviewed) |
+| F25 version mismatch (API/PDF said 1.1.0 on 1.2.0) | Validated (single `Directory.Build.props`) |
+| F26 capture CSV culture-dependent / unlabelled UTC | Validated (`SessionCsv_IsCultureInvariant_AndLabelsUtc`) |
+| F27 REST API settings screen showed "Stopped" while running; EXPORT appeared to do nothing; key shown in full (live use of 1.3.0) | Validated (`ApiSettingsScreenTests`; fixed in 1.3.1, shipped in 1.4.0) · live re-check: Blocked pending the owner installing 1.4.0 |
+| F28 no selection or test by physical access point (all SSIDs of one router, mesh nodes) | Validated (`PhysicalUnitTests`, `PhysicalUnitIntegrationTests`, access-point render; grouping rules derived from the owner's live inventory of 20 BSSIDs) · Observed on hardware with the probe only · grouping in the installed app: Blocked pending the owner |
+| F29 no way to measure connection / internet quality over the current Wi-Fi connection | Validated (stage A: `ConnectionAnalyzerTests`, `ConnectionRunnerTests`, `ConnectionProberTests`, `ConnectionUiTests`, renders; stage B: `SpeedTest_PausesRegularProbes_…`, loopback throughput; stage C: `ResponderTests` on loopback) · Observed (45 s real run on the owner's connection: 189/190 probes answered, association unchanged; ISP-hop discovery and RSSI fallback fixed after that run) · two-way on real Wi-Fi: Blocked (needs a wired responder) |
+
+## Physical access points (1.4, DR-0013)
+
+| Capability | State |
+| --- | --- |
+| TSF offset and WPS (manufacturer, model, UUID-E) captured per BSSID | Validated (parser tests) · Observed (probe on the owner's adapter: same-radio offsets within 1 ms) |
+| Grouping: radio clock, WPS identity, MAC family; confidence and evidence; mesh candidates | Validated (fixtures from the owner's environment: router → 1 unit, 2 radios, 4 SSIDs; 3 SSIDs on one radio; Arris and D-Link families; no false merge across OUIs; coincidence outvoted; bands never clock-linked) |
+| Corrections (rename, split, move, reset) persisted in Settings and winning | Validated |
+| Explorer *Group by: Access point*; unit selection; `SingleUnit` / `MultipleUnits` / Mixed scopes; membership fixed at test start | Validated (integration tests, render) |
+| SAT-ANALYTICS-3 unit summaries; report schema v3 (`_units.csv`, PDF 6b, JSON `units`) | Validated |
+| Use on the owner's real networks in the installed build | Blocked pending the owner installing 1.4.0 |
+| Later stages (IEEE OUI registry update, AP-family rule pack, mesh analytics, node-position survey, active tests, management-plane adapters) | Not implemented (DR-0013 stages; owner decision) |
+
+## Connection test (1.5, DR-0014)
+
+| Capability | State |
+| --- | --- |
+| Stage A: segmented probes bound to Wi-Fi (router, ISP hop, internet TCP+ICMP, DNS, web), link sampling (RSSI, rates, driver frame counters, roams), gaps | Validated · Observed (real connection, 45 s) |
+| Outage and spike attribution, verdicts, voice estimate, totals reconcile | Validated (known-answer tests) |
+| Connection never changed; refuses to start without Wi-Fi | Validated · Observed (association unchanged in the real run) |
+| Mode, drawer, centre stage, history, SETTINGS → TEST SERVERS, CONNECTED badge, linked saturation test, `GET /api/connection` | Validated (UI tests, renders, API test) |
+| Stage B: speed and bufferbloat against the LAN responder or a custom HTTP server | Validated (scripted and loopback) · against a real server: Blocked (owner to choose or run one) |
+| Stage C: responder (protocol, authentication, two-way stream, throughput) | Validated (loopback) · on real Wi-Fi with a wired responder: Blocked (owner device) |
+| Public speed-test providers | Not implemented by decision (owner to choose; some publish results with the IP address) |
+
+## Open follow-ups
+- **Owner, after installing 1.5.0:**
+  1. Regenerate the API key (GENERATE, then APPLY), then start a capture so the live API checks can run (`tools/api_smoke.py`).
+  2. Switch the explorer to **Group by: Access point** and confirm your router shows as one unit.
+  3. Run a 15-minute **Connection test** and review the results and the PDF.
+  4. Optional: run `WirelessScanner.Responder` on a wired machine, pair it, and run a two-way test.
+- Assign a verification reviewer and an independent qualification reviewer.
+- Owner: run the installer end to end on a test machine or VM; verify DETECT; regenerate the 1.0 API key.
+- Backlog (was labelled "T-13" in 1.1, not the control task T13): make 1.0 session exports atomic; band-balance and radar charts; purge UI; wired-adapter view.

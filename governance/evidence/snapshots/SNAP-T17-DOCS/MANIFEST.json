@@ -1,0 +1,51 @@
+{
+  "snapshot_id": "SNAP-T17-DOCS",
+  "captured_at": "2026-10-16T15:32:48.947585+00:00",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "1436ce9abe5046833ffe715fb268abeeee810754d27ae5f4bfd655a9fbdc6801",
+      "bytes": 5614
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "491f66f1b5c7eea8fb83a2f40a577347505640d19d22b63063e1a60f37fcd513",
+      "bytes": 7219
+    },
+    {
+      "path": "docs/USER_GUIDE.md",
+      "sha256": "9db953cda802de130343fd9e382bdb6efe48e35e164a1fb03a93980d0e0886d1",
+      "bytes": 25106
+    },
+    {
+      "path": "docs/TECHNICAL_REFERENCE.md",
+      "sha256": "ad7cd929508c3604abf0de2914ea836e718328920911e3cb4103e9f35df42352",
+      "bytes": 16200
+    },
+    {
+      "path": "docs/STATUS.md",
+      "sha256": "b8f7d2e66c72d9cef4736a82c70e5ee6d057a67966b0972b63a534f2a5f1d004",
+      "bytes": 8103
+    },
+    {
+      "path": "docs/SATURATION_TEST_SPEC.md",
+      "sha256": "adc21d5124bbff8a20d8eb0b964c61bd3285ee3402b6caffe2d618e3de5c6f9f",
+      "bytes": 17453
+    },
+    {
+      "path": "docs/PARITY_CHECKLIST.md",
+      "sha256": "e4384f776267df6e4e675491ab296b9ea2b113ed6a900609eae19e1444de2fac",
+      "bytes": 10729
+    },
+    {
+      "path": "docs/decisions/DR-0010-network-explorer-and-spectrum.md",
+      "sha256": "578e63257f299354f2c1c20cfad4cdf342b4694d605b366235a5b42dcedd1af8",
+      "bytes": 4466
+    },
+    {
+      "path": "docs/decisions/DR-0011-saturation-in-live-survey.md",
+      "sha256": "df4a145dc6d9b96340408356f35de569b13d44b6493954aeecdd95cb026f79c2",
+      "bytes": 4511
+    }
+  ]
+}

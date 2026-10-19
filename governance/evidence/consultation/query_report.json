@@ -1,0 +1,1271 @@
+{
+  "concepts": [
+    {
+      "term": "report",
+      "score": 1704.8797,
+      "document_frequency": 34,
+      "total_mentions": 528,
+      "domains": {
+        "full_stack_web_product_engineering": 24724,
+        "ai_assisted_devops_and_coding": 15184,
+        "ai": 12055,
+        "api_engineering": 9724,
+        "data": 8402,
+        "security": 7759,
+        "software": 7215,
+        "windows_internals_reverse_engineering": 5682,
+        "snmp_protocol_engineering": 5381,
+        "systems": 4782,
+        "cloud": 4215,
+        "dos_legacy_pc_systems_engineering": 4184,
+        "devops": 4160,
+        "network_monitoring": 3769,
+        "arm_embedded_platform_engineering": 3708,
+        "systems_memory_performance_engineering": 3674,
+        "low_level_game_engine_performance_architecture": 3586,
+        "openclaw_autonomous_agent_engineering": 3109,
+        "embedded_edge_hardware_iot": 2830,
+        "mobile_application_engineering": 2425,
+        "amd_rocm_gpu_platform_engineering": 1862,
+        "custom_linux_image_builds": 1408,
+        "gpu_accelerated_compute_engineering": 1382,
+        "linux_kernel_infrastructure": 1269,
+        "product_experience": 1146,
+        "heterogeneous_parallel_portability_engineering": 978,
+        "nvidia_cuda_gpu_platform_engineering": 794,
+        "workspace_automation": 692,
+        "telemetry_capture_architecture_engineering": 534,
+        "raspberry_pi_provisioning_imaging": 304,
+        "vector_database_and_rag_engineering": 167,
+        "amd_xdna_npu_endpoint_engineering": 90,
+        "legacy_game_graphics_modernization_engineering": 72,
+        "windows_desktop_app_engineering": 13
+      },
+      "documents": {
+        "ARM_ARCHITECTURE_FOR_EDGE_AI__PROGRAMMING_ARMV9_CORTEX_cc581fa302": [
+          40,
+          77,
+          177,
+          185,
+          248,
+          252,
+          253,
+          265,
+          284,
+          305,
+          330,
+          364,
+          376,
+          379
+        ],
+        "Coding_with_AI_For_Dummies_dac5c3f997": [
+          9,
+          11,
+          75,
+          208,
+          209,
+          210,
+          211,
+          213,
+          222,
+          249,
+          250,
+          251,
+          253,
+          266,
+          270,
+          271,
+          321,
+          325,
+          327,
+          328,
+          329,
+          423
+        ],
+        "DESIGN_AND_ARCHITECTURE_OF_SNMP_MONITORING_SYSTEM_74472a97bb": [
+          27,
+          30
+        ],
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7": [
+          31,
+          35,
+          37,
+          149,
+          161,
+          213,
+          219,
+          225,
+          252,
+          309,
+          320,
+          323
+        ],
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492": [
+          79,
+          99,
+          100,
+          101,
+          218,
+          232,
+          233,
+          238,
+          240,
+          246
+        ],
+        "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517": [
+          22,
+          51,
+          74,
+          76,
+          80,
+          81,
+          88,
+          106,
+          170,
+          172,
+          173,
+          174,
+          185,
+          251,
+          289,
+          291,
+          292,
+          302,
+          303,
+          304
+        ],
+        "HIGH-PERFORMANCE_MEMORY_MANAGEMENT__A_PRACTICAL_GUIDE__b488e19ddd": [
+          301,
+          400,
+          402,
+          452,
+          453,
+          480,
+          621,
+          622,
+          814,
+          845,
+          846,
+          849,
+          853,
+          994,
+          995,
+          998,
+          999,
+          1022,
+          1030,
+          1036,
+          1037,
+          1042,
+          1043,
+          1044,
+          1046,
+          1250,
+          1261,
+          1264,
+          1343,
+          1495,
+          1529,
+          1533,
+          1569,
+          1570,
+          1593,
+          1638,
+          1805,
+          1868
+        ],
+        "LINUX__LINUX_ADMINISTRATION__LINUX_ADMIN_FOR_ABSOLUTE__eec96f3f2e": [
+          14,
+          15,
+          102,
+          103,
+          104,
+          112,
+          199
+        ],
+        "LINUX_KERNEL_DEVELOPMENT__THE_COMPLETE_HANDS-ON_GUIDE__62c8b6ea84": [
+          31,
+          78,
+          79,
+          87,
+          172,
+          173,
+          180,
+          204,
+          206,
+          210,
+          224,
+          228
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          153,
+          450,
+          451,
+          454,
+          481,
+          482,
+          483,
+          500,
+          501,
+          502,
+          505,
+          508,
+          526,
+          527,
+          528,
+          601,
+          660,
+          662
+        ],
+        "MASTERING_GOOGLE_GEMINI_IN_WORKSPACE__THE_NON-CODER_S__1d1646efa6": [
+          12,
+          17,
+          69,
+          80,
+          127,
+          140
+        ],
+        "OPENCLAW__YOUR_FIRST_AI_EMPLOYEE__BUILD_9_INCOME-GENER_b690cdc95b": [
+          33,
+          73,
+          81,
+          83,
+          96,
+          105,
+          155,
+          156,
+          161,
+          162,
+          167,
+          168,
+          171,
+          173,
+          205,
+          230,
+          265
+        ],
+        "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39": [
+          13,
+          15,
+          53,
+          104,
+          106,
+          157,
+          158,
+          165,
+          168,
+          191,
+          206,
+          227,
+          254
+        ],
+        "OPENCLAW_THE_COMPLETE_TUTORIAL_GUIDE__SET_UP_YOUR_PERS_a72fd2b02f": [
+          67,
+          78,
+          79,
+          111
+        ],
+        "OPENCLAW_WITH_OLLAMA_LOCAL_AI__101_THINGS_TO_KNOW_-_RU_cd74f55b94": [
+          20,
+          29,
+          44,
+          469,
+          576,
+          579,
+          627,
+          629,
+          630,
+          651
+        ],
+        "PowerShell_3_8e30413707": [
+          10,
+          38,
+          379,
+          380,
+          392,
+          417,
+          429,
+          539,
+          544,
+          554,
+          586
+        ],
+        "ROCM_FOR_AMD_RADEON__AI_DEVELOPMENT_ON_CONSUMER_GPUS___253236ea13": [
+          47,
+          61,
+          75,
+          92,
+          95,
+          116,
+          190,
+          270,
+          273,
+          275,
+          276,
+          279,
+          284,
+          285,
+          286
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          42,
+          80,
+          137,
+          138,
+          139,
+          141,
+          142,
+          145,
+          200,
+          280
+        ],
+        "SNMP_Engineering__LibreNMS_e63d4ec109": [
+          6
+        ],
+        "SNMP_Engineering__rfc2572_049a01840c": [
+          4
+        ],
+        "SNMP_Engineering__rfc2863_61b2192b98": [
+          5
+        ],
+        "SNMP_Engineering__rfc3414_727e7fbeb2": [
+          6
+        ],
+        "SNMP_Engineering__rfc3512_dfa9205bdf": [
+          9,
+          10
+        ],
+        "SNMP_Engineering__WiresharkSNMPreference_003ad4918f": [
+          1
+        ],
+        "The.DevOps.Handbook_4a7e71d883": [
+          176,
+          217,
+          227,
+          229,
+          263,
+          287,
+          345,
+          346,
+          378,
+          426,
+          429,
+          451,
+          485,
+          490,
+          520,
+          536,
+          542,
+          595
+        ],
+        "THE_ARM_MULTICORE_ENGINEERING_HANDBOOK__ARCHITECTING_R_c181e1f382": [
+          66,
+          81,
+          95
+        ],
+        "THE_LITTLE_HANDBOOK_OF_WINDOWS_MEMORY_ANALYSIS__JUST_S_b831c5be12": [
+          8,
+          22,
+          164
+        ],
+        "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56": [
+          57,
+          111,
+          124,
+          148,
+          211,
+          225,
+          228,
+          246,
+          247,
+          248
+        ],
+        "Undocumented_DOS_bc294b09f3": [
+          34,
+          136,
+          241,
+          323,
+          346,
+          460,
+          466,
+          467,
+          473,
+          478,
+          483,
+          485,
+          489,
+          492
+        ],
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664": [
+          126,
+          127,
+          146,
+          148,
+          159,
+          167
+        ],
+        "VIBE_CODING_WITH_GITHUB_COPILOT__MASTER_AGENTIC_MODE_A_12d65acfd9": [
+          20,
+          198,
+          199,
+          237,
+          296,
+          321,
+          351,
+          352,
+          368,
+          370,
+          374,
+          375
+        ]
+      }
+    },
+    {
+      "term": "reports",
+      "score": 1183.4705,
+      "document_frequency": 21,
+      "total_mentions": 332,
+      "domains": {
+        "full_stack_web_product_engineering": 14275,
+        "ai_assisted_devops_and_coding": 13337,
+        "ai": 11082,
+        "api_engineering": 6407,
+        "security": 5692,
+        "data": 4911,
+        "software": 4897,
+        "amd_rocm_gpu_platform_engineering": 4637,
+        "gpu_accelerated_compute_engineering": 3512,
+        "cloud": 3110,
+        "windows_internals_reverse_engineering": 2624,
+        "heterogeneous_parallel_portability_engineering": 2558,
+        "openclaw_autonomous_agent_engineering": 2518,
+        "systems": 2073,
+        "mobile_application_engineering": 2007,
+        "devops": 1748,
+        "nvidia_cuda_gpu_platform_engineering": 1333,
+        "snmp_protocol_engineering": 1063,
+        "workspace_automation": 671,
+        "product_experience": 643,
+        "embedded_edge_hardware_iot": 635,
+        "raspberry_pi_provisioning_imaging": 593,
+        "systems_memory_performance_engineering": 589,
+        "custom_linux_image_builds": 570,
+        "telemetry_capture_architecture_engineering": 538,
+        "network_monitoring": 503,
+        "linux_kernel_infrastructure": 198,
+        "vector_database_and_rag_engineering": 132,
+        "legacy_game_graphics_modernization_engineering": 38,
+        "amd_xdna_npu_endpoint_engineering": 24,
+        "low_level_game_engine_performance_architecture": 22,
+        "arm_embedded_platform_engineering": 11,
+        "dos_legacy_pc_systems_engineering": 9,
+        "windows_desktop_app_engineering": 4
+      },
+      "documents": {
+        "01-Intro-to-GPUs-and-HIP-1_d74effbd8c": [
+          32,
+          33,
+          66
+        ],
+        "ACCELERATED_COMPUTING_WITH_HIP_f345622999": [
+          7,
+          121,
+          230,
+          232,
+          238
+        ],
+        "ANDROID_APP_DEVELOPMENT_WITH_KOTLIN_JETPACK_COMPOSE__F_ce8b2043cb": [
+          30,
+          60
+        ],
+        "Coding_with_AI_For_Dummies_dac5c3f997": [
+          9,
+          209,
+          214,
+          216,
+          221,
+          233,
+          251,
+          265,
+          271,
+          284,
+          320,
+          335,
+          377,
+          378,
+          379,
+          386,
+          401,
+          404,
+          414,
+          422,
+          426,
+          427,
+          429,
+          434
+        ],
+        "GOOGLE_ANTIGRAVITY_AGENTIC_IDE_MASTERY__BUILD_AUTONOMO_198706b492": [
+          20,
+          98,
+          100,
+          101,
+          120,
+          154,
+          156,
+          167,
+          233,
+          234,
+          236,
+          243
+        ],
+        "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517": [
+          24,
+          30,
+          31,
+          68,
+          104,
+          126,
+          127,
+          166,
+          170,
+          172,
+          173,
+          183,
+          184,
+          185,
+          211,
+          213,
+          250,
+          252,
+          253,
+          255,
+          257,
+          289,
+          296,
+          301,
+          304
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          6,
+          123,
+          134,
+          152,
+          154,
+          176,
+          195,
+          291,
+          292,
+          302,
+          306,
+          307,
+          411,
+          442,
+          447,
+          450,
+          454,
+          463,
+          474,
+          476,
+          477,
+          478,
+          479,
+          480,
+          481,
+          483,
+          484,
+          485,
+          486,
+          487,
+          496,
+          499,
+          500,
+          502,
+          504,
+          505,
+          506,
+          507,
+          519,
+          526,
+          527,
+          551,
+          559,
+          560,
+          632,
+          640,
+          641
+        ],
+        "MASTERING_GOOGLE_GEMINI_IN_WORKSPACE__THE_NON-CODER_S__1d1646efa6": [
+          7,
+          71,
+          87,
+          94,
+          165
+        ],
+        "MASTERING_SSH_SFTP__A_PRACTICAL_GUIDE_TO_SECURE_REMOTE_196b3f38ee": [
+          84,
+          90,
+          108,
+          144,
+          194
+        ],
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785": [
+          45,
+          128,
+          129,
+          130,
+          135,
+          136,
+          140,
+          148,
+          154,
+          158,
+          160
+        ],
+        "NEW_Telemetry__TelemetryResources_77a2740837": [
+          8
+        ],
+        "OPENCLAW__YOUR_FIRST_AI_EMPLOYEE__BUILD_9_INCOME-GENER_b690cdc95b": [
+          4,
+          154,
+          164,
+          169,
+          172,
+          201,
+          296
+        ],
+        "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39": [
+          35,
+          96,
+          97,
+          103,
+          106,
+          149,
+          197,
+          245,
+          254
+        ],
+        "OPENCLAW_WITH_OLLAMA_LOCAL_AI__101_THINGS_TO_KNOW_-_RU_cd74f55b94": [
+          51,
+          85,
+          108,
+          166,
+          173,
+          185,
+          201,
+          204,
+          207,
+          313,
+          354,
+          355,
+          542,
+          579,
+          580,
+          583,
+          604,
+          624,
+          629
+        ],
+        "ORNL_HIP_webinar_20190606_final_d26061464a": [
+          47,
+          48,
+          63
+        ],
+        "ROCM_FOR_AMD_RADEON__AI_DEVELOPMENT_ON_CONSUMER_GPUS___253236ea13": [
+          7,
+          55,
+          100,
+          108,
+          120,
+          158,
+          187,
+          270,
+          272
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          62,
+          116,
+          138,
+          139,
+          145,
+          196,
+          204,
+          206,
+          231,
+          288,
+          292,
+          297,
+          346
+        ],
+        "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56": [
+          5,
+          21,
+          22,
+          27,
+          49,
+          117,
+          129,
+          160,
+          205,
+          223,
+          254,
+          260,
+          295,
+          328,
+          331
+        ],
+        "Writing_AI_Prompts_For_Dummies_c3cfa280e8": [
+          63,
+          88,
+          93,
+          116,
+          125,
+          179,
+          204,
+          205,
+          247,
+          303
+        ]
+      }
+    },
+    {
+      "term": "reporting",
+      "score": 684.4092,
+      "document_frequency": 12,
+      "total_mentions": 172,
+      "domains": {
+        "full_stack_web_product_engineering": 8838,
+        "security": 5490,
+        "snmp_protocol_engineering": 4282,
+        "api_engineering": 4161,
+        "cloud": 3603,
+        "software": 3464,
+        "network_monitoring": 3303,
+        "ai": 3120,
+        "ai_assisted_devops_and_coding": 2903,
+        "data": 2828,
+        "devops": 2141,
+        "windows_internals_reverse_engineering": 1333,
+        "mobile_application_engineering": 954,
+        "embedded_edge_hardware_iot": 705,
+        "nvidia_cuda_gpu_platform_engineering": 356,
+        "custom_linux_image_builds": 336,
+        "systems": 312,
+        "workspace_automation": 257,
+        "product_experience": 108,
+        "systems_memory_performance_engineering": 90,
+        "linux_kernel_infrastructure": 57,
+        "raspberry_pi_provisioning_imaging": 48,
+        "telemetry_capture_architecture_engineering": 46,
+        "legacy_game_graphics_modernization_engineering": 24,
+        "low_level_game_engine_performance_architecture": 20,
+        "openclaw_autonomous_agent_engineering": 19,
+        "vector_database_and_rag_engineering": 18,
+        "dos_legacy_pc_systems_engineering": 4,
+        "windows_desktop_app_engineering": 1,
+        "gpu_accelerated_compute_engineering": 1
+      },
+      "documents": {
+        "Coding_with_AI_For_Dummies_dac5c3f997": [
+          205,
+          208,
+          209,
+          371,
+          372,
+          387,
+          416,
+          420
+        ],
+        "DPSteele-demystifying_the_snmp_mib_64a225b638": [
+          1,
+          3,
+          5,
+          15
+        ],
+        "GOOGLE_CLOUD_PROFESSIONAL_CLOUD_ARCHITECT__COMPLETE_GU_bb7ba1f616": [
+          37,
+          123,
+          141,
+          248,
+          257,
+          410,
+          420,
+          421,
+          431,
+          641,
+          642
+        ],
+        "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517": [
+          160,
+          166,
+          168,
+          172,
+          173,
+          174,
+          289
+        ],
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1": [
+          6,
+          134,
+          227,
+          291,
+          292,
+          293,
+          302,
+          303,
+          311,
+          315,
+          379,
+          401,
+          410,
+          419,
+          441,
+          442,
+          444,
+          445,
+          446,
+          450,
+          452,
+          453,
+          454,
+          455,
+          473,
+          474,
+          486,
+          487,
+          496,
+          499,
+          500,
+          501,
+          502,
+          505,
+          507,
+          508,
+          519,
+          521,
+          525,
+          526,
+          527,
+          528,
+          531,
+          554,
+          559,
+          572,
+          579,
+          591,
+          641
+        ],
+        "Mastering_Data_Engineering_and_MLOps_Building_Sca_c32c5e8cf3": [
+          12,
+          24
+        ],
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785": [
+          6,
+          113,
+          127,
+          129,
+          135,
+          137,
+          159
+        ],
+        "Security_Automation_with_Python_Practical_Python_aa2f0887f2": [
+          62,
+          113,
+          114,
+          116,
+          145,
+          170,
+          196,
+          198,
+          200,
+          204,
+          205,
+          206,
+          225,
+          231,
+          247,
+          255,
+          288,
+          290,
+          292,
+          293,
+          297,
+          365
+        ],
+        "SNMP_Engineering__rfc3512_dfa9205bdf": [
+          9,
+          10
+        ],
+        "THE_SNMP_ESSENTIALS__COMPREHENSIVE_GUIDE_TO_NETWORK_MO_50d4ea6eee": [
+          29,
+          77,
+          109,
+          114,
+          139,
+          203,
+          210,
+          254,
+          300,
+          302,
+          309,
+          364
+        ]
+      }
+    }
+  ],
+  "book_index_entries": [
+    {
+      "document_id": "PowerShell_3_8e30413707",
+      "document_title": "PowerShell 3",
+      "source_index_page": 539,
+      "term": "accessed their mailboxes: organization mailbox statistics report, generating / Scenario",
+      "pages": [
+        12
+      ],
+      "raw": "organization mailbox statistics report, generating / Scenario 12 –"
+    },
+    {
+      "document_id": "PowerShell_3_8e30413707",
+      "document_title": "PowerShell 3",
+      "source_index_page": 539,
+      "term": "generating an organization mailbox statistics report: mailbox size report, generating / Scenario",
+      "pages": [
+        13
+      ],
+      "raw": "mailbox size report, generating / Scenario 13 – generating a mailbox"
+    },
+    {
+      "document_id": "PowerShell_3_8e30413707",
+      "document_title": "PowerShell 3",
+      "source_index_page": 554,
+      "term": "mailbox users from Global Address List (GAL): organization mailbox statistics report, generating / Scenario",
+      "pages": [
+        12
+      ],
+      "raw": "organization mailbox statistics report, generating / Scenario 12 –"
+    },
+    {
+      "document_id": "PowerShell_3_8e30413707",
+      "document_title": "PowerShell 3",
+      "source_index_page": 554,
+      "term": "mailbox size report: generating / Scenario",
+      "pages": [
+        13
+      ],
+      "raw": "generating / Scenario 13 – generating a mailbox size report"
+    },
+    {
+      "document_id": "PowerShell_3_8e30413707",
+      "document_title": "PowerShell 3",
+      "source_index_page": 586,
+      "term": "restoring / Backing up and restoring WebConfiguration: statistics report, Scenario",
+      "pages": [
+        13
+      ],
+      "raw": "statistics report, Scenario 13 – generating a mailbox size report"
+    },
+    {
+      "document_id": "ProgrammingWindows31_d21b899af8",
+      "document_title": "ProgrammingWindows31",
+      "source_index_page": 1501,
+      "term": "status cdaudio time format tmsf: status reports with the timer",
+      "pages": [
+        351
+      ],
+      "raw": "status reports with the timer, 351, 352-54,"
+    },
+    {
+      "document_id": "ProgrammingWindows31_d21b899af8",
+      "document_title": "ProgrammingWindows31",
+      "source_index_page": 1504,
+      "term": "Unicode: status reports with",
+      "pages": [
+        351
+      ],
+      "raw": "status reports with, 351, 352-54, 354-55"
+    },
+    {
+      "document_id": "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+      "document_title": "Python for Security and Networking Leverage Pytho",
+      "source_index_page": 687,
+      "term": "OpenVAS vulnerability scanner: reports, analyzing",
+      "pages": [
+        333,
+        334,
+        335,
+        336
+      ],
+      "raw": "reports, analyzing 333-336"
+    }
+  ],
+  "cross_references": [
+    {
+      "source": "reports",
+      "target": "reporting",
+      "relation": "co-occurs",
+      "strength": 11.25,
+      "shared_documents": [
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+        "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            6,
+            134,
+            291,
+            450,
+            474,
+            526,
+            559
+          ]
+        },
+        {
+          "document_id": "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+          "pages": [
+            129,
+            135
+          ]
+        },
+        {
+          "document_id": "OPENCLAW_AI_HANDBOOK_FOR_BEGINNERS__A_PRACTICAL_STEP-B_1c3ca9ed39",
+          "pages": [
+            245
+          ]
+        }
+      ]
+    },
+    {
+      "source": "reports",
+      "target": "analyzing",
+      "relation": "co-occurs",
+      "strength": 8.25,
+      "shared_documents": [
+        "ACCELERATED_COMPUTING_WITH_HIP_f345622999",
+        "AZURE_IN_ACTION__A_PROJECT-BASED_GUIDE_TO_DEPLOYING_SE_16b797ad43",
+        "Coding_with_AI_For_Dummies_dac5c3f997",
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "ACCELERATED_COMPUTING_WITH_HIP_f345622999",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_id": "AZURE_IN_ACTION__A_PROJECT-BASED_GUIDE_TO_DEPLOYING_SE_16b797ad43",
+          "pages": [
+            279
+          ]
+        },
+        {
+          "document_id": "Coding_with_AI_For_Dummies_dac5c3f997",
+          "pages": [
+            401,
+            429,
+            434
+          ]
+        },
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            485
+          ]
+        },
+        {
+          "document_id": "Python_for_Security_and_Networking_Leverage_Pytho_dda9269a37",
+          "pages": [
+            687
+          ]
+        }
+      ]
+    },
+    {
+      "source": "reports",
+      "target": "alerts",
+      "relation": "co-occurs",
+      "strength": 7.8235,
+      "shared_documents": [
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+        "OPENCLAW__YOUR_FIRST_AI_EMPLOYEE__BUILD_9_INCOME-GENER_b690cdc95b"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+          "pages": [
+            1092
+          ]
+        },
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            302,
+            306,
+            411
+          ]
+        },
+        {
+          "document_id": "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+          "pages": [
+            136,
+            148
+          ]
+        },
+        {
+          "document_id": "OPENCLAW__YOUR_FIRST_AI_EMPLOYEE__BUILD_9_INCOME-GENER_b690cdc95b",
+          "pages": [
+            169
+          ]
+        }
+      ]
+    },
+    {
+      "source": "reports",
+      "target": "emails",
+      "relation": "co-occurs",
+      "strength": 5.625,
+      "shared_documents": [
+        "CLAUDE_CODE_MASTERY__BUILD_AUTOMATE_AND_SCALE_PRODUCTI_5502505d66",
+        "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517",
+        "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "CLAUDE_CODE_MASTERY__BUILD_AUTOMATE_AND_SCALE_PRODUCTI_5502505d66",
+          "pages": [
+            237
+          ]
+        },
+        {
+          "document_id": "GOOGLE_WORKSPACE_FOR_PROFESSIONALS__MASTER_36_AI_DRIVE_91d34ce517",
+          "pages": [
+            185,
+            253,
+            296
+          ]
+        },
+        {
+          "document_id": "THE_ULTIMATE_OPENCLAW_BEGINNER_GUIDE__FROM_ZERO_TO_A_W_39d1f33c56",
+          "pages": [
+            27
+          ]
+        }
+      ]
+    },
+    {
+      "source": "reports",
+      "target": "dashboards",
+      "relation": "co-occurs",
+      "strength": 4.5333,
+      "shared_documents": [
+        "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+        "AZURE_IN_ACTION__A_PROJECT-BASED_GUIDE_TO_DEPLOYING_SE_16b797ad43",
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+        "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "AWS_CLOUD_ARCHITECTURE_PATTERNS__MASTERING_MODERN_CLOU_a7ae2fa416",
+          "pages": [
+            1092
+          ]
+        },
+        {
+          "document_id": "AZURE_IN_ACTION__A_PROJECT-BASED_GUIDE_TO_DEPLOYING_SE_16b797ad43",
+          "pages": [
+            281
+          ]
+        },
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            526
+          ]
+        },
+        {
+          "document_id": "NETWORK_MONITORING_WITH_PYTHON__STEP-BY-STEP_GUIDE_AND_7fe7429785",
+          "pages": [
+            148
+          ]
+        }
+      ]
+    },
+    {
+      "source": "reports",
+      "target": "copilot",
+      "relation": "co-occurs",
+      "strength": 4.2857,
+      "shared_documents": [
+        "Coding_with_AI_For_Dummies_dac5c3f997",
+        "VIBE_CODING_WITH_GITHUB_COPILOT__MASTER_AGENTIC_MODE_A_12d65acfd9"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "Coding_with_AI_For_Dummies_dac5c3f997",
+          "pages": [
+            379,
+            401
+          ]
+        },
+        {
+          "document_id": "VIBE_CODING_WITH_GITHUB_COPILOT__MASTER_AGENTIC_MODE_A_12d65acfd9",
+          "pages": [
+            289,
+            374
+          ]
+        }
+      ]
+    },
+    {
+      "source": "reports",
+      "target": "improvements",
+      "relation": "co-occurs",
+      "strength": 4.2424,
+      "shared_documents": [
+        "Coding_with_AI_For_Dummies_dac5c3f997",
+        "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "Coding_with_AI_For_Dummies_dac5c3f997",
+          "pages": [
+            379,
+            414,
+            422
+          ]
+        },
+        {
+          "document_id": "GENERATIVE_AI_WITH_LANGCHAIN__BUILD_PRODUCTION-READY_L_91ebb9d70c",
+          "pages": [
+            685
+          ]
+        }
+      ]
+    },
+    {
+      "source": "reports",
+      "target": "active directory",
+      "relation": "co-occurs",
+      "strength": 4.1176,
+      "shared_documents": [
+        "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "MASTERING_AZURE_ACTIVE_DIRECTORY__A_COMPREHENSIVE_GUID_4191578df1",
+          "pages": [
+            476,
+            479,
+            499,
+            560
+          ]
+        }
+      ]
+    }
+  ]
+}

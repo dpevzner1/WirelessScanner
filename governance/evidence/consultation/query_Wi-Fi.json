@@ -1,0 +1,237 @@
+{
+  "concepts": [
+    {
+      "term": "wi-fi",
+      "score": 344.8469,
+      "document_frequency": 13,
+      "total_mentions": 88,
+      "domains": {
+        "full_stack_web_product_engineering": 11456,
+        "security": 5674,
+        "ai_assisted_devops_and_coding": 5367,
+        "embedded_edge_hardware_iot": 4683,
+        "systems": 4480,
+        "software": 3634,
+        "api_engineering": 3468,
+        "ai": 3436,
+        "snmp_protocol_engineering": 3002,
+        "custom_linux_image_builds": 2814,
+        "data": 2782,
+        "mobile_application_engineering": 2425,
+        "linux_kernel_infrastructure": 2190,
+        "workspace_automation": 2186,
+        "openclaw_autonomous_agent_engineering": 1971,
+        "raspberry_pi_provisioning_imaging": 1817,
+        "windows_internals_reverse_engineering": 1668,
+        "network_monitoring": 1468,
+        "cloud": 1423,
+        "product_experience": 1127,
+        "devops": 981,
+        "arm_embedded_platform_engineering": 785,
+        "systems_memory_performance_engineering": 397,
+        "nvidia_cuda_gpu_platform_engineering": 267,
+        "vector_database_and_rag_engineering": 166,
+        "gpu_accelerated_compute_engineering": 138,
+        "telemetry_capture_architecture_engineering": 122,
+        "low_level_game_engine_performance_architecture": 115,
+        "amd_rocm_gpu_platform_engineering": 99,
+        "heterogeneous_parallel_portability_engineering": 55,
+        "amd_xdna_npu_endpoint_engineering": 32,
+        "legacy_game_graphics_modernization_engineering": 29,
+        "dos_legacy_pc_systems_engineering": 29,
+        "windows_desktop_app_engineering": 3
+      },
+      "documents": {
+        "ADVANCED_ANDROID_SOFTWARE_ENGINEERING_GUIDE__BUILDING__c777fa4a5b": [
+          93,
+          97
+        ],
+        "ANDROID_DEVELOPMENT_WITH_KOTLIN_ZERO_TO_PRO__A_PROJECT_d7f03628e8": [
+          73
+        ],
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac": [
+          85,
+          152,
+          153,
+          154,
+          155,
+          156,
+          159,
+          162,
+          163,
+          164,
+          165,
+          214,
+          216,
+          292,
+          322,
+          334,
+          335,
+          341,
+          349,
+          361,
+          369,
+          390,
+          392,
+          395,
+          404,
+          410,
+          422,
+          424,
+          426
+        ],
+        "GENERATIVE_AI_ON_RASPBERRY_PI_5__BUILD_PRIVATE_LLMS_VO_3d85f7ecf5": [
+          244,
+          246
+        ],
+        "GETTING_STARTED_WITH_OPEN_CLAW_9785190bf7": [
+          76,
+          87,
+          364,
+          366
+        ],
+        "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b": [
+          1,
+          2,
+          13,
+          48,
+          102,
+          166
+        ],
+        "OPENCLAW_WITH_OLLAMA_LOCAL_AI__101_THINGS_TO_KNOW_-_RU_cd74f55b94": [
+          115,
+          447,
+          536,
+          585
+        ],
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec": [
+          31,
+          36,
+          47,
+          75,
+          76,
+          77,
+          78,
+          103,
+          174,
+          188
+        ],
+        "SNMP_Engineering__enterprise-numbers_76050893d9": [
+          298
+        ],
+        "THE_ARM_MULTICORE_ENGINEERING_HANDBOOK__ARCHITECTING_R_c181e1f382": [
+          21
+        ],
+        "THE_SSL_TLS_HANDBOOK__ENCRYPTION_CERTIFICATES_AND_SECU_77b27cea2b": [
+          646,
+          686
+        ],
+        "UX_UI_-_USER_EXPERIENCE_AND_USER_INTERFACE_-_GUIDE_FOR_bbe337a664": [
+          165
+        ],
+        "YOCTO_PROJECT_COMPREHENSIVE_GUIDE_FOR_BUILDING_EMBEDDE_a2b3422931": [
+          202
+        ]
+      }
+    }
+  ],
+  "book_index_entries": [],
+  "cross_references": [
+    {
+      "source": "spi",
+      "target": "wi-fi",
+      "relation": "co-occurs",
+      "strength": 3.25,
+      "shared_documents": [
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac",
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac",
+          "pages": [
+            392,
+            395
+          ]
+        },
+        {
+          "document_id": "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec",
+          "pages": [
+            174
+          ]
+        }
+      ]
+    },
+    {
+      "source": "smart",
+      "target": "wi-fi",
+      "relation": "co-occurs",
+      "strength": 2.16,
+      "shared_documents": [
+        "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac",
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "EMBEDDED_HARDWARE_COMMUNICATION__A_PRACTICAL_GUIDE_TO__dad0c535ac",
+          "pages": [
+            163
+          ]
+        },
+        {
+          "document_id": "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec",
+          "pages": [
+            103
+          ]
+        }
+      ]
+    },
+    {
+      "source": "raspberry pi",
+      "target": "wi-fi",
+      "relation": "co-occurs",
+      "strength": 7.6087,
+      "shared_documents": [
+        "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b",
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "MASTERING_RASPBERRY_PI_IMAGER_V2.0.8___THE_COMPLETE_BE_b55f4bb56b",
+          "pages": [
+            2
+          ]
+        },
+        {
+          "document_id": "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec",
+          "pages": [
+            36,
+            75,
+            77,
+            78,
+            103,
+            174
+          ]
+        }
+      ]
+    },
+    {
+      "source": "headless",
+      "target": "wi-fi",
+      "relation": "co-occurs",
+      "strength": 2.087,
+      "shared_documents": [
+        "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec"
+      ],
+      "shared_pages": [
+        {
+          "document_id": "RASPBERRY_PI_5_USER_GUIDE_2026__COMPLETE_STEP-BY-STEP__4f12da8fec",
+          "pages": [
+            75,
+            78
+          ]
+        }
+      ]
+    }
+  ]
+}

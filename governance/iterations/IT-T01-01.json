@@ -1,0 +1,130 @@
+{
+  "id": "IT-T01-01",
+  "task_ids": [
+    "T01"
+  ],
+  "finding_ids": [
+    "F07"
+  ],
+  "scope": "governance",
+  "state": "completed",
+  "started_at": "2026-10-15T21:20:00+00:00",
+  "finished_at": "2026-10-15T22:06:00+00:00",
+  "hypothesis": {
+    "claim": "Vendoring the engine's v2 control, lesson standard and attestation tools verbatim lets the engine validators govern this project unmodified",
+    "disconfirming_result": "Validator rejects a correctly populated project control or requires engine-local paths",
+    "prior_lessons": [
+      "DevOpsAgent LL-2026-10-11-remediation-audit-harness (read, not re-run)"
+    ]
+  },
+  "decision": {
+    "options": [
+      "Lightweight STATUS+lessons",
+      "Full engine v2 governance (vendored)",
+      "Reference engine tools in place"
+    ],
+    "chosen": "Full engine v2 governance (vendored)",
+    "why": "Owner chose heavy and full; in-place tools resolve paths to the engine root and would breach read-only boundary",
+    "rejected": [
+      "Lightweight (owner)",
+      "In-place (path model, read-only boundary)"
+    ]
+  },
+  "reproduction": {
+    "baseline_evidence_ids": [
+      "EV-BL-AUDIT"
+    ],
+    "environment": {
+      "os": "Windows 10 Pro 10.0.19045",
+      "dotnet_sdk": "10.0.301",
+      "python": "3.13",
+      "shell": "Git Bash + PowerShell 5.1"
+    },
+    "input_sha256": null,
+    "engine_sha256": null,
+    "context_sha256": null,
+    "test_sha256": null,
+    "fingerprint": null,
+    "files": {
+      "input_sha256": "governance/evidence/baseline/BASELINE_AUDIT_2026-10-15.md",
+      "engine_sha256": "tools/validate_project_remediation_control.py",
+      "context_sha256": "governance/evidence/snapshots/SNAP-2026-10-15-DESIGN/files/docs/decisions/DR-0001-governance-adoption.md",
+      "test_sha256": "tools/validate_lessons_learned.py"
+    }
+  },
+  "change": {
+    "summary": "Vendored 15 engine artifacts; authored control (F01-F14, T01-T12), conventions, DR-0001..0005, consultation log, saturation spec, lesson record",
+    "artifact_evidence_ids": [
+      "EV-VENDOR",
+      "EV-CONVENTIONS",
+      "EV-CONSULT",
+      "EV-SPEC-SAT",
+      "EV-T01-T02-CHANGE"
+    ],
+    "scope_authority": "Owner chat 2026-10-15 ('begin, and for decisions, heavy and full')"
+  },
+  "test": {
+    "commands": [
+      "python tools/validate_project_remediation_control.py --control config/pipeline/wirelessscanner-remediation-control.json --self-test",
+      "python tools/validate_lessons_learned.py"
+    ],
+    "positive": [
+      "control_valid true",
+      "lessons passed"
+    ],
+    "negative": [
+      "12/12 self-test mutations rejected"
+    ],
+    "regression": [
+      "dotnet test 20/20 unchanged"
+    ],
+    "result_evidence_ids": [
+      "EV-T01-VALIDATE",
+      "EV-T01-LESSONS",
+      "EV-RV-BASELINE"
+    ],
+    "reviewer": "Claude Code self-check (not independent)",
+    "independent": false
+  },
+  "outcome": {
+    "verdict": "passed",
+    "what_worked": [
+      "Verbatim vendoring in same relative layout",
+      "Spec-before-code with engine UX rules"
+    ],
+    "what_failed": [
+      "Engine queries without UTF-8 (LF-02)",
+      "Attestation role naming (ATT-init-1)",
+      "Evidence on living files / outside mirrored roots (LF-05, CTRL-2)"
+    ],
+    "new_finding_ids": [],
+    "residual_risk": [
+      "No independent reviewer",
+      "Process overhead"
+    ]
+  },
+  "effort": {
+    "elapsed_seconds": null,
+    "person_seconds": null,
+    "rework_seconds": null,
+    "measurement_evidence_ids": [],
+    "unknown_reason": "Not measured with a calibrated method; only wall-clock ledger timestamps exist"
+  },
+  "reuse": {
+    "similar_iteration_ids": [],
+    "reuse_applied": "Engine templates and validators reused verbatim",
+    "rerun_justification": null
+  },
+  "lessons": {
+    "record_ids": [
+      "LL-2026-10-15-BASELINE-GOVERNANCE"
+    ],
+    "transferable_rule": "Vendor governance tooling verbatim under the same relative layout and cite living files only through immutable snapshots",
+    "applicability_limits": "Engine validator semantics as of 2026-10-15; re-vendor if the engine schema changes"
+  },
+  "next_action": {
+    "action": "Implement T03 fresh scan cycles",
+    "owner": "Claude Code (implementer)",
+    "resume_condition": "Control valid and lessons valid"
+  }
+}
